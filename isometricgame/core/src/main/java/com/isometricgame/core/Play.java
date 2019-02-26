@@ -13,7 +13,7 @@ public class Play implements Screen {
 
     private TiledMap map; 
 	private OrthogonalTiledMapRenderer renderer; 
-	private Camera camera; 
+	private OrthographicCamera camera; 
 
     @Override
 	public void render (float delta) {
@@ -24,6 +24,9 @@ public class Play implements Screen {
 
 	@Override
 	public void resize (int width, int height) {
+		camera.viewportWidth = width; 
+		camera.viewportHeight = height; 
+		camera.update();
     }
     
     @Override
