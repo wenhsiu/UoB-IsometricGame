@@ -10,7 +10,7 @@ import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 
 public class Play implements Screen {
 
-    private TiledMap map; 
+  private TiledMap map; 
 	private IsometricTiledMapRenderer renderer; 
 	private OrthographicCamera camera; 
 
@@ -38,7 +38,6 @@ public class Play implements Screen {
 
     @Override
     public void hide() {
-
 
     }
 
