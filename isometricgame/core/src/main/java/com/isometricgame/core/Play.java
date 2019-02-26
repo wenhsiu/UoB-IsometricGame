@@ -35,7 +35,7 @@ public class Play implements Screen {
     
     @Override
     public void show() {   
-		map = new TmxMapLoader().load("map.tmx");
+		map = new TmxMapLoader().load("house.tmx");
 		// TmxMapLoader loader = new TmxMapLoader();
   //       map = loader.load("map.tmx");
 		renderer = new IsometricTiledMapRenderer(map); 
