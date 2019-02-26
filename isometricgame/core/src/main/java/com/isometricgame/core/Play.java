@@ -14,12 +14,16 @@ public class Play implements Screen {
 	private IsometricTiledMapRenderer renderer; 
 	private OrthographicCamera camera; 
 
+    private Player player = new Player();
+
     @Override
 	public void render (float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 		renderer.setView(camera); 
 	 	renderer.render();
+
+	 	player.render();
 	}
 
 	@Override
@@ -31,9 +35,13 @@ public class Play implements Screen {
     
     @Override
     public void show() {   
-		map = new TmxMapLoader().load("/home/dev1/GitProjects/IsometricGame/isometricgame/core/src/main/java/com/isometricgame/core/map.tmx"); 
+		map = new TmxMapLoader().load("map.tmx");
+		// TmxMapLoader loader = new TmxMapLoader();
+  //       map = loader.load("map.tmx");
 		renderer = new IsometricTiledMapRenderer(map); 
 		camera = new OrthographicCamera(); 
+
+		player.create();
     }
 
     @Override
