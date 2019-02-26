@@ -2,13 +2,11 @@ package com.isometricgame.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class Play implements Screen {
 
@@ -40,7 +38,6 @@ public class Play implements Screen {
 
     @Override
     public void hide() {
-		dispose();
 
 
     }
@@ -55,5 +52,7 @@ public class Play implements Screen {
 
 	@Override
 	public void dispose () {
+		map.dispose(); 
+		renderer.dispose();
 	}
 }
