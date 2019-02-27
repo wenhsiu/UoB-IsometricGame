@@ -16,15 +16,15 @@ hs_err_pid*
 
 *.vscode/
 *.vscode
-vscode/
+.vscode/
 
 *.project
 
-settings/
+.settings/
 *.settings/
-*.settings
+*.settings.json
 
 *.classpath
 
 *.temp/
-temp/
+.temp/
