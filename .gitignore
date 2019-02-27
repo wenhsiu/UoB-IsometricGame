@@ -12,10 +12,19 @@
 hs_err_pid*
 
 
-.DS_Store
-.vscode
-.project
+*.DS_Store
+
+*.vscode/
+*.vscode
+vscode/
+
+*.project
+
 settings/
-.settings/
-.settings
-.classpath
+*.settings/
+*.settings
+
+*.classpath
+
+*.tmp/
+tmp/
