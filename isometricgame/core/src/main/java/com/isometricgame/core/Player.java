@@ -1,4 +1,5 @@
 package com.isometricgame.core;
+import com.isometricgame.core.GameKeys;
 
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Input.Keys;
@@ -22,6 +23,8 @@ public class Player implements ApplicationListener {
 	private Animation walkDown, walkUp, walkRight, walkLeft;
 	private TextureRegion[] framesUp, framesDown, framesRight, framesLeft;
 	private float timer;
+	
+	private int speedFactor, speedMax = 300;
 
 	int x, y;
 
@@ -36,6 +39,9 @@ public class Player implements ApplicationListener {
 
 		x = 0;
 		y = 0;
+		speedFactor = 100;
+		
+		Gdx.input.setInputProcessor(new GameInputProcessor());
 	}
 
 	@Override
@@ -44,11 +50,18 @@ public class Player implements ApplicationListener {
 
 	@Override
 	public void render () {
-		this.update(Gdx.graphics.getDeltaTime());
+		this.update(Gdx.graphics.getDeltaTime());		
 
 		batch.begin();
 		batch.draw(region, x, y);
 		batch.end();
+		
+		if(GameKeys.isDown(GameKeys.UP) || GameKeys.isDown(GameKeys.DOWN) || 
+				GameKeys.isDown(GameKeys.RIGHT) || GameKeys.isDown(GameKeys.LEFT)) {
+			speedFactor = Math.min(speedMax, speedFactor + 1);
+		}else {speedFactor = 100;}
+		
+		GameKeys.update();
 	}
 
 	@Override
@@ -64,7 +77,7 @@ public class Player implements ApplicationListener {
 	}
 
 	public void update(float dt) {
-		float speed = dt*100;
+		float speed = dt*speedFactor;
 		timer += Gdx.graphics.getDeltaTime();
 
 		if(Gdx.input.isKeyPressed(Keys.UP)) {
