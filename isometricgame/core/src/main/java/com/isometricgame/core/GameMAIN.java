@@ -68,9 +68,6 @@ public class GameMAIN extends GameState {
 		
 		cam.position.set(player.getPositionX(), player.getPositionY(), 0);
 		
-		
-		/*System.out.println((player.getPositionX()-player.getSizeX()/2) + "\t" + (player.getPositionY()-player.getSizeY()/2));*/
-		
 		if(cell!= null && cell.getTile() != null && cell.getTile().getProperties().containsKey("Blocked")){		
 			player.setSpeedFactor(-100);
 		}
@@ -164,24 +161,19 @@ public class GameMAIN extends GameState {
 		int iso_x;
 		int iso_y;
 		
-		x -= 451;
-		y -= 466;
-		
+		x -= (gm.init_x + player.getSizeX()/2);
+		y -= (gm.init_y + player.getSizeY()/2);
+	
+		//differ from Henry's machine. Need two times movement to map to tile map properly
 		x = x*2;
 		y = y*2;
-		
-		System.out.println(x + " " + y);
-		
+			
 		x /= tilewidth;
 		y = (y - tileheight) / tileheight + x;
 		x -= y - x;
 
 		iso_x = (int) x;
-		iso_y = (int) y;
-		
-		
-		
-		/**/System.out.println("x: " + iso_x + "\t" + "y: "+ iso_y);
+		iso_y = (int) y;		
 
 		return isCellBlocked(iso_x, iso_y);		
 	}

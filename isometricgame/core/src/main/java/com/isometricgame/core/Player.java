@@ -49,8 +49,8 @@ public class Player extends Actor{
 		
 		if(GameKeys.isDown(GameKeys.UP) || GameKeys.isDown(GameKeys.DOWN) || 
 				GameKeys.isDown(GameKeys.RIGHT) || GameKeys.isDown(GameKeys.LEFT)) {
-//			speedFactor = Math.min(speedLimit, speedFactor + 1);  --disable accelerate
-		}else {speedFactor = 100;}		
+				speedFactor = Math.min(100, speedFactor +10);
+		}else {speedFactor = 100;}
 		GameKeys.update();
 	}
 
