@@ -2,11 +2,16 @@ package com.isometricgame.core;
 
 import com.badlogic.gdx.Game;
 
+import gameManager.GameManager;
+
 public class IsoGame extends Game {
 
+	private GameManager gm;
+	
 	@Override
 	public void create () {
-		setScreen(new Play());
+		gm = new GameManager(this);
+		gm.setCurrGameState("MAINGAME");		
 	}
 
 	@Override
@@ -16,7 +21,7 @@ public class IsoGame extends Game {
 
 	@Override
 	public void render () {
-		super.render();
+		super.render();		
 	}
 
 	@Override

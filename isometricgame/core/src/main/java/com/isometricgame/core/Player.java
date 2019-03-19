@@ -1,46 +1,39 @@
 package com.isometricgame.core;
-import com.isometricgame.core.GameKeys;
 
-import com.badlogic.gdx.graphics.GL20;
+import customizedInputProcessor.GameInputProcessor;
+import customizedInputProcessor.GameKeys;
+import characterManager.Actor;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.*;
 
-public class Player implements ApplicationListener {
-	private Texture texture;
-	private SpriteBatch batch;
-	private Sprite sprite;
-
-	private TextureRegion region;
+public class Player extends Actor{
 
 	private Animation walkDown, walkUp, walkRight, walkLeft;
-	private TextureRegion[] framesUp, framesDown, framesRight, framesLeft;
 	private float timer;
+	private int score;
+	private int frameNumber = 1;
+	private int frameSizeX;
+	private int frameSizeY;
+
+	public Player(float x, float y) {
+		super(x, y);
+		speedFactor = 100;
+		speedLimit = 300;
+		score = 0;
+		frameSizeX = 302;
+		frameSizeY = 333;
+	}
 	
-	private int speedFactor, speedMax = 300;
-
-	int x, y;
-
+	public SpriteBatch getBatch() {return batch;}
+	
 	@Override
 	public void create () {
-		texture = new Texture(Gdx.files.internal("george.png"));
-		batch = new SpriteBatch();
-		// sprite = new Sprite(texture, 0, 0, 48, 48);
-		region = new TextureRegion(texture, 0, 0, 48, 48);
-
-		createFrames();
-
-		x = 0;
-		y = 0;
-		speedFactor = 100;
-		
+		characterInit("player_down.png", 0, 0, frameSizeX, frameSizeY);
+		animationInit();
 		Gdx.input.setInputProcessor(new GameInputProcessor());
 	}
 
@@ -50,17 +43,14 @@ public class Player implements ApplicationListener {
 
 	@Override
 	public void render () {
-		this.update(Gdx.graphics.getDeltaTime());		
 
-		batch.begin();
-		batch.draw(region, x, y);
-		batch.end();
+		characterUpdate(pos_x, pos_y);
+		animationUpdate(Gdx.graphics.getDeltaTime());
 		
 		if(GameKeys.isDown(GameKeys.UP) || GameKeys.isDown(GameKeys.DOWN) || 
 				GameKeys.isDown(GameKeys.RIGHT) || GameKeys.isDown(GameKeys.LEFT)) {
-			speedFactor = Math.min(speedMax, speedFactor + 1);
-		}else {speedFactor = 100;}
-		
+//			speedFactor = Math.min(speedLimit, speedFactor + 1);  --disable accelerate
+		}else {speedFactor = 100;}		
 		GameKeys.update();
 	}
 
@@ -74,59 +64,78 @@ public class Player implements ApplicationListener {
 
 	@Override
 	public void dispose () {
+		texture.dispose();
 	}
 
-	public void update(float dt) {
-		float speed = dt*speedFactor;
-		timer += Gdx.graphics.getDeltaTime();
-
-		if(Gdx.input.isKeyPressed(Keys.UP)) {
-			// region.setRegion(96, 0, 48, 48);
-			region = walkUp.getKeyFrame(timer,true);
-			y += speed;
-		}
-		if(Gdx.input.isKeyPressed(Keys.DOWN)) {
-			// region.setRegion(0, 0, 48, 48);
-			region = walkDown.getKeyFrame(timer,true);
-			y -= speed;
-		}
-		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
-			// region.setRegion(48, 0, 48, 48);
-			region = walkLeft.getKeyFrame(timer,true);			
-			x -= speed;
-		}
-		if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			// region.setRegion(144, 0, 48, 48);
-			region = walkRight.getKeyFrame(timer,true);
-			x += speed;
-		}
-	}
-
-	public void createFrames() {
+	@Override
+	public void animationInit() {
 		Array<TextureRegion> frames = new Array<TextureRegion>();
 
-		for(int i = 0; i < 4; i++) {
-			frames.add(new TextureRegion(texture, 0, i * 48, 48, 48));
+		for(int i = 0; i < frameNumber; i++) {
+			frames.add(initTextureReg("player_down.png", 0, 0, frameSizeX, frameSizeY));
 		}
 		walkDown = new Animation(0.1f,frames);
 		frames.clear();
 
-		for(int i = 0; i < 4; i++) {
-			frames.add(new TextureRegion(texture, 96, i * 48, 48, 48));
+		for(int i = 0; i < frameNumber; i++) {
+			frames.add(initTextureReg("player_up.png", 0, 0, frameSizeX, frameSizeY));
 		}
 		walkUp = new Animation(0.1f,frames);
 		frames.clear();
 
-		for(int i = 0; i < 4; i++) {
-			frames.add(new TextureRegion(texture, 144, i * 48, 48, 48));
+		for(int i = 0; i < frameNumber; i++) {
+			frames.add(initTextureReg("player_right.png", 0, 0, frameSizeX, frameSizeY));
 		}
 		walkRight = new Animation(0.1f,frames);
 		frames.clear();
 
-		for(int i = 0; i < 4; i++) {
-			frames.add(new TextureRegion(texture, 48, i * 48, 48, 48));
+		for(int i = 0; i < frameNumber; i++) {
+			frames.add(initTextureReg("player_left.png", 0, 0, frameSizeX, frameSizeY));
 		}
 		walkLeft = new Animation(0.1f,frames);
-		frames.clear();
+		frames.clear();		
+	}	
+
+	@Override
+	public void animationUpdate(float dt) {
+		float speed = dt*speedFactor;
+		timer += Gdx.graphics.getDeltaTime();
+
+		if(Gdx.input.isKeyPressed(Keys.UP)) {
+			region = walkUp.getKeyFrame(timer, true);
+			pos_y += speed;
+			pos_x += 2*speed;
+		}
+		if(Gdx.input.isKeyPressed(Keys.DOWN)) {
+			region = walkDown.getKeyFrame(timer, true);
+			pos_y -= speed;
+			pos_x -= 2*speed;
+		}
+		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
+			region = walkLeft.getKeyFrame(timer, true);	
+			pos_y += speed;
+			pos_x -= 2*speed;
+		}
+		if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
+			region = walkRight.getKeyFrame(timer, true);
+			pos_y -= speed;
+			pos_x += 2*speed;
+		}
+		
 	}
+
+	public void setSpeedFactor(int newSpeed){
+		speedFactor = newSpeed;
+	}
+	
+	public void setScore() {score++;}
+	
+	public int getScore() {return score;}
+
+	@Override
+	public boolean isCollision(float x, float y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

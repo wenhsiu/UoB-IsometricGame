@@ -1,4 +1,4 @@
-package com.isometricgame.core;
+package customizedInputProcessor;
 
 public class GameKeys {
 	

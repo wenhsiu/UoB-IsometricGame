@@ -11,6 +11,8 @@ public class IsoGameDesktop {
 		config.useGL30 = true; 
 		config.width = 1600; 
 		config.height = 1600; 
-		new LwjglApplication(new IsoGame(), config);
+		LwjglApplication app = new LwjglApplication(new IsoGame(), config);
 	}
 }
+
+

@@ -1,3 +1,5 @@
-com/isometricgame/core/Player.class
-com/isometricgame/core/IsoGame.class
-com/isometricgame/core/Play.class
+gameManager/GameState.class
+com/isometricgame/core/GameEND.class
+com/isometricgame/core/GameMAIN.class
+com/isometricgame/core/GameDrop.class
+gameManager/GameManager.class

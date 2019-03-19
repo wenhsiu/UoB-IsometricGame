@@ -1,7 +1,7 @@
-package com.isometricgame.core;
+package customizedInputProcessor;
+
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
-import com.isometricgame.core.GameKeys;
 
 public class GameInputProcessor extends InputAdapter{
 	
