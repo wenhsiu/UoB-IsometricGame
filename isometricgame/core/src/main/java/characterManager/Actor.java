@@ -14,10 +14,12 @@ public abstract class Actor implements ApplicationListener{
 	protected Texture texture;
 	protected SpriteBatch batch;
 	protected TextureRegion region;
+	private float scale;
 	
-	public Actor(float x, float y) {
+	public Actor(float x, float y, float scale) {
 		pos_x = x;
 		pos_y = y;
+		this.scale = scale;
 	}
 	
 	public abstract void animationInit();
@@ -35,7 +37,7 @@ public abstract class Actor implements ApplicationListener{
 	
 	public void characterUpdate(float nx, float ny) {
 		batch.begin();
-		batch.draw(region, nx, ny);
+		batch.draw(region, nx, ny, size_x*scale, size_y*scale);
 		batch.end();
 	}
 	
@@ -48,10 +50,10 @@ public abstract class Actor implements ApplicationListener{
 	public int getSizeY() {return size_y;}
 	
 	public void setBound(float top, float bottom, float right, float left) {
-		bound_top = top;
-		bound_bottom = bottom;
-		bound_right = right;
-		bound_left = left;
+		bound_top = top*scale;
+		bound_bottom = bottom*scale;
+		bound_right = right*scale;
+		bound_left = left*scale;
 	}
 	
 	public boolean containPoint(float x, float y) {

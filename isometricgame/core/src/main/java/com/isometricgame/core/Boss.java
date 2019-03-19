@@ -17,7 +17,7 @@ public class Boss extends Actor {
 	
 	
 	public Boss(float x, float y) {
-		super(x, y);
+		super(x, y,  (float)0.5);
 		frameSizeX = 302;
 		frameSizeY = 344;
 	}

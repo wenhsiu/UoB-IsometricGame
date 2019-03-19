@@ -50,7 +50,10 @@ public class GameMAIN extends GameState {
 
     @Override
 	public void render (float delta) {
-
+    	
+    	Cell cell = checkMapCollision(player.getPositionX(), player.getPositionY(), 
+				 blockedLayer.getTileWidth(), blockedLayer.getTileHeight());
+    	
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 	 	
@@ -64,11 +67,12 @@ public class GameMAIN extends GameState {
 							!gm.getGameState("MINIGAME1").getPassState()) {gm.setCurrGameState("MINIGAME1");}
 		
 		cam.position.set(player.getPositionX(), player.getPositionY(), 0);
-
-		if(checkMapCollision(player.getPositionX(), player.getPositionY(), 
-							 blockedLayer.getTileWidth(), blockedLayer.getTileHeight())){
-
-								player.setSpeedFactor(0);
+		
+		
+		/*System.out.println((player.getPositionX()-player.getSizeX()/2) + "\t" + (player.getPositionY()-player.getSizeY()/2));*/
+		
+		if(cell!= null && cell.getTile() != null && cell.getTile().getProperties().containsKey("Blocked")){		
+			player.setSpeedFactor(-100);
 		}
 
 		mapRenderer.setView(cam); 
@@ -156,22 +160,34 @@ public class GameMAIN extends GameState {
 	}
 
 
-	public Boolean checkMapCollision(float x, float y, float tilewidth, float tileheight){
+	public Cell checkMapCollision(float x, float y, float tilewidth, float tileheight){
 		int iso_x;
 		int iso_y;
-
+		
+		x -= 451;
+		y -= 466;
+		
+		x = x*2;
+		y = y*2;
+		
+		System.out.println(x + " " + y);
+		
 		x /= tilewidth;
-		y = (y - tileheight / 2) / tileheight + x;
+		y = (y - tileheight) / tileheight + x;
 		x -= y - x;
 
 		iso_x = (int) x;
 		iso_y = (int) y;
+		
+		
+		
+		/**/System.out.println("x: " + iso_x + "\t" + "y: "+ iso_y);
 
 		return isCellBlocked(iso_x, iso_y);		
 	}
 
-	private boolean isCellBlocked(int iso_x, int iso_y) {
+	private Cell isCellBlocked(int iso_x, int iso_y) {
 		Cell cell = blockedLayer.getCell(iso_x, iso_y);
-		return cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("Blocked");
+		return cell;
 	}
 }

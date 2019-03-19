@@ -22,12 +22,15 @@ public class GameManager {
 	private Game game;
 	private Player player;
 	
+	public final int init_x = 300;
+	public final int init_y = 300;
+	
 	public GameManager(Game game) {		
 		this.game = game;
 		gameStates = new HashMap<String, GameState>();
 		currentState = gameStates.get("MAINGAME");
 		
-		player = new Player(300, 300);
+		player = new Player(init_x, init_y);
 		player.create();
 		
 		initAllState();

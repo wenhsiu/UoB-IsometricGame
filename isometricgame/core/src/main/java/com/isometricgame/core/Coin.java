@@ -10,7 +10,7 @@ public class Coin extends Actor {
 	protected boolean remove;
 	
 	public Coin(float x, float y) {		
-		super(x, y);
+		super(x, y, (float)0.5);
 		org_x = x;
 		org_y = y;
 		speedFactor = 50;
