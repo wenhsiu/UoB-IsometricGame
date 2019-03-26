@@ -1,0 +1,30 @@
+[
+{
+    "itemAttributes": 6,
+    "itemUseType": 1,
+    "itemTypeID": "BLUEBOX",
+    "itemShortDescription": "What a wonderful blue box.",
+    "itemValue": 200
+},
+{
+    "itemAttributes": 6,
+    "itemUseType": 1,
+    "itemTypeID": "GREENBOX",
+    "itemShortDescription": "What a sublime green box.",
+    "itemValue": 100
+},
+{
+    "itemAttributes": 6,
+    "itemUseType": 1,
+    "itemTypeID": "BROWNBOX",
+    "itemShortDescription": "What an ordinary brown box.",
+    "itemValue": 50
+},
+{
+    "itemAttributes": 6,
+    "itemUseType": 1,
+    "itemTypeID": "REDBOX",
+    "itemShortDescription": "What a dashing red box.",
+    "itemValue": 300
+}
+]
