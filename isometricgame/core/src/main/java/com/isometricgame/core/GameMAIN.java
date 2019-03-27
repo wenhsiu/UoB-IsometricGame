@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import gameManager.GameManager;
@@ -19,12 +20,16 @@ public class GameMAIN extends GameState {
 	private GameManager gm;
 	private TiledMap map;
 	private IsometricTiledMapRenderer mapRenderer;
-	private TiledMapTileLayer blockedLayer; 
+	private TiledMapTileLayer blockedLayer;
+	private float tileEdge;
+	private float tileW;
+	private float tileH;
 
 	private Player player;
     private Boss boss;
     private ArrayList<Coin> coins;
 	private int coinNumber = 3;
+	private final double theta = Math.toDegrees(Math.atan(0.5));
     
 	public GameMAIN(GameManager gm) {
 		super();	
@@ -39,7 +44,11 @@ public class GameMAIN extends GameState {
 
 		//TODO: Check if initial start position is blocked or not. 
 		
-		boss = new Boss(800, 800);
+		tileW = blockedLayer.getTileWidth();
+		tileH = blockedLayer.getTileHeight();
+		tileEdge = (float)Math.sqrt(Math.pow(tileH/2, 2) + Math.pow(tileW/2, 2));
+		
+		boss = new Boss(500, 500);
 		initCoins();
 		
 		boss.create();
@@ -51,8 +60,10 @@ public class GameMAIN extends GameState {
     @Override
 	public void render (float delta) {
     	
-    	Cell cell = checkMapCollision(player.getPositionX(), player.getPositionY(), 
-				 blockedLayer.getTileWidth(), blockedLayer.getTileHeight());
+    	Cell cell = checkMapCollision(player.getPositionX() - player.getSizeX()/2, 
+    								  player.getPositionY() - player.getSizeY()/2, 
+    								  tileEdge, 
+    								  tileEdge);
     	
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
@@ -64,7 +75,9 @@ public class GameMAIN extends GameState {
 		if(boss.isCollision(player.getPositionX(), 
 							player.getPositionY())
 							&&
-							!gm.getGameState("MINIGAME1").getPassState()) {gm.setCurrGameState("MINIGAME1");}
+							!gm.getGameState("MINIGAME1").getPassState()) {
+			gm.setCurrGameState("MINIGAME1");
+		}
 		
 		cam.position.set(player.getPositionX(), player.getPositionY(), 0);
 		
@@ -75,7 +88,9 @@ public class GameMAIN extends GameState {
 		mapRenderer.setView(cam); 
 	 	mapRenderer.render();
 	 	
-//	 	player.getBatch().setProjectionMatrix(cam.combined); dig deep
+	 	player.getBatch().setProjectionMatrix(cam.combined);
+	 	boss.getBatch().setProjectionMatrix(cam.combined);
+	 	combineCameraCoins();
 	 	
 		cam.update();
 		
@@ -138,7 +153,15 @@ public class GameMAIN extends GameState {
     }
     
     private void createCoins() {
-    	for(int i = 0; i < coinNumber; i++) {coins.get(i).create();}
+    	for(int i = 0; i < coinNumber; i++) {
+    		coins.get(i).create();
+    	}
+    }
+    
+    private void combineCameraCoins() {
+    	for(int i = 0; i < coins.size(); i++) {
+    		coins.get(i).getBatch().setProjectionMatrix(cam.combined);	
+    	}
     }
     
     private void disposeCoins() {
@@ -160,21 +183,13 @@ public class GameMAIN extends GameState {
 	public Cell checkMapCollision(float x, float y, float tilewidth, float tileheight){
 		int iso_x;
 		int iso_y;
+		x -= player.init_x;
+		y -= player.init_y;
+		Vector2 v = rotateCoord(x, y);
+
+		iso_x = (int)(v.x / tilewidth);
+		iso_y = (int)(v.y / tileheight);
 		
-		x -= (gm.init_x + player.getSizeX()/2);
-		y -= (gm.init_y + player.getSizeY()/2);
-	
-		//differ from Henry's machine. Need two times movement to map to tile map properly
-		x = x*2;
-		y = y*2;
-			
-		x /= tilewidth;
-		y = (y - tileheight) / tileheight + x;
-		x -= y - x;
-
-		iso_x = (int) x;
-		iso_y = (int) y;		
-
 		return isCellBlocked(iso_x, iso_y);		
 	}
 
@@ -182,4 +197,19 @@ public class GameMAIN extends GameState {
 		Cell cell = blockedLayer.getCell(iso_x, iso_y);
 		return cell;
 	}
+	
+	private Vector2 rotateCoord(float x, float y) {
+		float tmp_x, tmp_y;
+		double len = Math.sqrt(x*x + y*y);
+		double alpha = Math.toDegrees(Math.atan(y/x * -1));
+		
+		Vector2 v = new Vector2();
+		tmp_x = (float)(Math.cos(Math.PI*(theta - alpha)/180) * len);
+		tmp_y = (float)(Math.cos(Math.PI*(theta + alpha)/180) * len);
+		v.x = (float) (tmp_x - len*Math.sin(Math.PI*((theta - alpha)/180)/(Math.tan(Math.PI*2*theta/180))));
+		v.y = (float) (tmp_y - len*Math.sin(Math.PI*((theta + alpha)/180)/(Math.tan(Math.PI*2*theta/180))));
+	
+		return v;
+	}
+
 }

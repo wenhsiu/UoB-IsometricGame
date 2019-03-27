@@ -1,6 +1,5 @@
 package gameManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Game;
@@ -22,17 +21,13 @@ public class GameManager {
 	private Game game;
 	private Player player;
 	
-	public final int init_x = 300;
-	public final int init_y = 300;
-	
 	public GameManager(Game game) {		
 		this.game = game;
 		gameStates = new HashMap<String, GameState>();
 		currentState = gameStates.get("MAINGAME");
 		
-		player = new Player(init_x, init_y);
+		player = new Player(0, 0);
 		player.create();
-		
 		initAllState();
 	}
 	

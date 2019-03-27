@@ -6,6 +6,7 @@ import characterManager.Actor;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.*;
@@ -20,15 +21,15 @@ public class Player extends Actor{
 	private int frameSizeY;
 
 	public Player(float x, float y) {
-		super(x, y, (float)0.25);
+		super(x, y, (float)0.5);
 		speedFactor = 100;
 		speedLimit = 300;
 		score = 0;
 		frameSizeX = 302;
 		frameSizeY = 333;
+		pos_x = getPositionX();
+		pos_y = getPositionY();
 	}
-	
-	public SpriteBatch getBatch() {return batch;}
 	
 	@Override
 	public void create () {
@@ -50,7 +51,9 @@ public class Player extends Actor{
 		if(GameKeys.isDown(GameKeys.UP) || GameKeys.isDown(GameKeys.DOWN) || 
 				GameKeys.isDown(GameKeys.RIGHT) || GameKeys.isDown(GameKeys.LEFT)) {
 				speedFactor = Math.min(100, speedFactor +10);
-		}else {speedFactor = 100;}
+		}else {
+			speedFactor = 100;
+		}
 		GameKeys.update();
 	}
 
@@ -137,5 +140,4 @@ public class Player extends Actor{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

@@ -8,7 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public abstract class Actor implements ApplicationListener{
 	protected float pos_x, pos_y;
-	protected int size_x, size_y;
+	public final float init_x, init_y;
+	protected float size_x, size_y;
 	public float bound_top, bound_bottom, bound_right, bound_left;
 	protected int speedFactor, speedLimit;	
 	protected Texture texture;
@@ -19,6 +20,8 @@ public abstract class Actor implements ApplicationListener{
 	public Actor(float x, float y, float scale) {
 		pos_x = x;
 		pos_y = y;
+		init_x = x;
+		init_y = y;
 		this.scale = scale;
 	}
 	
@@ -31,8 +34,8 @@ public abstract class Actor implements ApplicationListener{
 		texture = new Texture(Gdx.files.internal(materails));
 		batch = new SpriteBatch();
 		region = new TextureRegion(texture, sx, sy, ex, ey);
-		size_x = ex-sx;
-		size_y = ey-sy;
+		size_x = (ex-sx)*scale;
+		size_y = (ey-sy)*scale;
 	}
 	
 	public void characterUpdate(float nx, float ny) {
@@ -45,9 +48,9 @@ public abstract class Actor implements ApplicationListener{
 	
 	public float getPositionY() {return pos_y + size_y/2;}
 	
-	public int getSizeX() {return size_x;}
+	public float getSizeX() {return size_x;}
 	
-	public int getSizeY() {return size_y;}
+	public float getSizeY() {return size_y;}
 	
 	public void setBound(float top, float bottom, float right, float left) {
 		bound_top = top*scale;
@@ -55,6 +58,8 @@ public abstract class Actor implements ApplicationListener{
 		bound_right = right*scale;
 		bound_left = left*scale;
 	}
+	
+	public SpriteBatch getBatch() {return batch;}
 	
 	public boolean containPoint(float x, float y) {
 		if(x > pos_x + size_x/2 - bound_left &&
