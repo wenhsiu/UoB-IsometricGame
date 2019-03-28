@@ -6,9 +6,7 @@ import characterManager.Actor;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.*;
 
 public class Player extends Actor{
@@ -127,6 +125,14 @@ public class Player extends Actor{
 		
 	}
 
+	public int getDirection() {
+		if(Gdx.input.isKeyPressed(Keys.UP)) return Keys.UP;
+		if(Gdx.input.isKeyPressed(Keys.DOWN)) return Keys.DOWN;
+		if(Gdx.input.isKeyPressed(Keys.LEFT)) return Keys.LEFT;
+		if(Gdx.input.isKeyPressed(Keys.RIGHT)) return Keys.RIGHT;
+		return -1;
+	}
+	
 	public void setSpeedFactor(int newSpeed){
 		speedFactor = newSpeed;
 	}

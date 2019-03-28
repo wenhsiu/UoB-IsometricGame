@@ -3,6 +3,7 @@ package com.isometricgame.core;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -60,10 +61,7 @@ public class GameMAIN extends GameState {
     @Override
 	public void render (float delta) {
     	
-    	Cell cell = checkMapCollision(player.getPositionX() - player.getSizeX()/2, 
-    								  player.getPositionY() - player.getSizeY()/2, 
-    								  tileEdge, 
-    								  tileEdge);
+    	
     	
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
@@ -81,7 +79,10 @@ public class GameMAIN extends GameState {
 		
 		cam.position.set(player.getPositionX(), player.getPositionY(), 0);
 		
-		if(cell!= null && cell.getTile() != null && cell.getTile().getProperties().containsKey("Blocked")){		
+		if(checkMapCollision(player.getPositionX() - player.getSizeX()/2, 
+				  player.getPositionY() - player.getSizeY()/2, 
+				  tileEdge, 
+				  tileEdge)){		
 			player.setSpeedFactor(-100);
 		}
 
@@ -180,7 +181,7 @@ public class GameMAIN extends GameState {
 	}
 
 
-	public Cell checkMapCollision(float x, float y, float tilewidth, float tileheight){
+	public boolean checkMapCollision(float x, float y, float tilewidth, float tileheight){
 		int iso_x;
 		int iso_y;
 		x -= player.init_x;
@@ -190,12 +191,13 @@ public class GameMAIN extends GameState {
 		iso_x = (int)(v.x / tilewidth);
 		iso_y = (int)(v.y / tileheight);
 		
-		return isCellBlocked(iso_x, iso_y);		
+		return isCellBlocked(iso_x, iso_y);
 	}
 
-	private Cell isCellBlocked(int iso_x, int iso_y) {
+	private boolean isCellBlocked(int iso_x, int iso_y) {
 		Cell cell = blockedLayer.getCell(iso_x, iso_y);
-		return cell;
+		boolean blocked = (cell!= null && cell.getTile() != null && cell.getTile().getProperties().containsKey("Blocked"));
+		return blocked;
 	}
 	
 	private Vector2 rotateCoord(float x, float y) {
