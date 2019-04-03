@@ -24,13 +24,18 @@ public class GameMAIN extends GameState {
 	private TiledMapTileLayer blockedLayer;
 	private float tileEdge;
 	private float tileW;
-	private float tileH;
+	private float tileH; 
 
 	private Player player;
     private Boss boss;
     private ArrayList<Coin> coins;
 	private int coinNumber = 3;
 	private final double theta = Math.toDegrees(Math.atan(0.5));
+
+
+	//Villager creation. 
+
+	private Villager villager1; 
     
 	public GameMAIN(GameManager gm) {
 		super();	
@@ -51,6 +56,10 @@ public class GameMAIN extends GameState {
 		
 		boss = new Boss(500, 500);
 		initCoins();
+
+		//Create a villager 
+		villager1 = new Villager (3000, -1000); 
+		villager1.create();
 		
 		boss.create();
 		player = gm.getPlayer();
@@ -60,8 +69,6 @@ public class GameMAIN extends GameState {
 
     @Override
 	public void render (float delta) {
-    	
-    	
     	
 		Gdx.gl.glClearColor(0x64/255.0f, 0x95/255.0f, 0xed/255.0f,0xff/255.0f);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
@@ -76,6 +83,13 @@ public class GameMAIN extends GameState {
 							!gm.getGameState("MINIGAME1").getPassState()) {
 			gm.setCurrGameState("MINIGAME1");
 		}
+
+		if(villager1.isCollision(player.getPositionX(), 
+				player.getPositionY())
+				&&
+				!gm.getGameState("MAINGAME").getPassState()) {
+				gm.setCurrGameState("END");
+		}
 		
 		cam.position.set(player.getPositionX(), player.getPositionY(), 0);
 		
@@ -86,18 +100,36 @@ public class GameMAIN extends GameState {
 			player.setSpeedFactor(-100);
 		}
 
+		//Check the villager collisions. 
+
+		villager1.checkCollision(checkVillagerMapCollision(villager1.getPositionX() - villager1.getSizeX()/2, 
+		villager1.getPositionY() - villager1.getSizeY()/2, tileEdge, tileEdge)); 
+
+
+
+
 		mapRenderer.setView(cam); 
 	 	mapRenderer.render();
 	 	
 	 	player.getBatch().setProjectionMatrix(cam.combined);
 	 	boss.getBatch().setProjectionMatrix(cam.combined);
-	 	combineCameraCoins();
+		
+		
+		// Create the villager batches. 
+		villager1.getBatch().setProjectionMatrix(cam.combined);
+
+		
+		
+		
+		combineCameraCoins();
+		 
 	 	
 		cam.update();
 		
 		renderCoins();
 	 	player.render();
-	 	boss.render();
+		 boss.render();
+		 villager1.render();
 	}
 
 	@Override
@@ -134,6 +166,7 @@ public class GameMAIN extends GameState {
 		player.dispose();
 		boss.dispose();
 		disposeCoins();
+		villager1.dispose();
 	}
 	
 //Handle coin array
@@ -213,5 +246,25 @@ public class GameMAIN extends GameState {
 	
 		return v;
 	}
+
+
+	public Cell checkVillagerMapCollision(float x, float y, float tilewidth, float tileheight){
+		int iso_x;
+		int iso_y;
+		Vector2 v = rotateCoord(x, y);
+
+		iso_x = (int)(v.x / tilewidth);
+		iso_y = (int)(v.y / tileheight);
+
+		//Changed this from IsCellBlocked
+		return isCellBlockedForVillager(iso_x, iso_y);	
+	}
+
+	//Specifically for isCellBlocked
+	private Cell isCellBlockedForVillager(int iso_x, int iso_y) {
+		Cell cell = blockedLayer.getCell(iso_x, iso_y);
+		return cell;
+	}
+
 
 }
