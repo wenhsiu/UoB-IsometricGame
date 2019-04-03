@@ -21,13 +21,24 @@ public class GameMAIN extends GameState {
 	private GameManager gm;
 	private TiledMap map;
 	private IsometricTiledMapRenderer mapRenderer;
+	
+	//Layers
 	private TiledMapTileLayer blockedLayer;
+	private TiledMapTileLayer transparentBlockedLayer; 
+
+
 	private float tileEdge;
 	private float tileW;
 	private float tileH; 
 
 	private Player player;
-    private Boss boss;
+
+	//Original Boss. 
+	private Boss boss;
+
+	//New Boss 
+	private Boss finalBoss; 
+
     private ArrayList<Coin> coins;
 	private int coinNumber = 3;
 	private final double theta = Math.toDegrees(Math.atan(0.5));
@@ -47,6 +58,11 @@ public class GameMAIN extends GameState {
 		//Block represents the "blocked" layer. 
 		//Later put the TiledMapTileLayers into an array. 
 		blockedLayer = (TiledMapTileLayer) map.getLayers().get("Block"); 
+		//Blocked edge layer is transparent. 
+		transparentBlockedLayer = (TiledMapTileLayer) map.getLayers().get("Transparent"); 
+		// blocked layer is blocking but is not visible. 
+		transparentBlockedLayer.setVisible(false);
+		
 
 		//TODO: Check if initial start position is blocked or not. 
 		
@@ -230,6 +246,13 @@ public class GameMAIN extends GameState {
 	private boolean isCellBlocked(int iso_x, int iso_y) {
 		Cell cell = blockedLayer.getCell(iso_x, iso_y);
 		boolean blocked = (cell!= null && cell.getTile() != null && cell.getTile().getProperties().containsKey("Blocked"));
+
+		//Check the invisible layer. 
+			if(blocked == false){
+				Cell transparentCheckCell = transparentBlockedLayer.getCell(iso_x, iso_y); 
+				blocked = (transparentCheckCell!= null && transparentCheckCell.getTile() != null && transparentCheckCell.getTile().getProperties().containsKey("Blocked"));
+			}
+
 		return blocked;
 	}
 	
