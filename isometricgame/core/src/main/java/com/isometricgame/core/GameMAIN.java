@@ -35,7 +35,7 @@ public class GameMAIN extends GameState {
 	public GameMAIN(GameManager gm) {
 		super();	
 		this.gm = gm;
-		map = new TmxMapLoader().load("test_map.tmx");
+		map = new TmxMapLoader().load("./Isometria/isometria.tmx");
 		mapRenderer = new IsometricTiledMapRenderer(map);
 		mapRenderer.setView(cam);
 
