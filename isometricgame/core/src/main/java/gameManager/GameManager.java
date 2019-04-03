@@ -8,8 +8,6 @@ import com.isometricgame.core.GameEND;
 import com.isometricgame.core.GameMAIN;
 import com.isometricgame.core.Player;
 
-import clickAndDragGameManager.clickAndDragGameManager;
-import clickAndDragMiniGame.ClickDragGame;
 
 public class GameManager {
 	private HashMap<String, GameState> gameStates;
@@ -17,7 +15,7 @@ public class GameManager {
 //			"MENU",
 			"MAINGAME",
 			"MINIGAME1",
-			"MINIGAME2",
+//			"MINIGAME2",
 			"END"
 	};
 	private GameState currentState;
@@ -56,9 +54,9 @@ public class GameManager {
 				gameStates.put("END", new GameEND(this));
 			}else if(stateName[i].equals("MINIGAME1")) {
 				gameStates.put("MINIGAME1", new GameDrop(this));
-			}else if(stateName[i].equals("MINIGAME2")) {
+			}/* else if(stateName[i].equals("MINIGAME2")) {
 				gameStates.put("MINIGAME2", new clickAndDragGameManager());
-			} 
+			} */ 
 		}
 	}
 }
