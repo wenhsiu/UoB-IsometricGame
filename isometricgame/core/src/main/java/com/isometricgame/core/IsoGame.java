@@ -1,17 +1,25 @@
 package com.isometricgame.core;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 
 import gameManager.GameManager;
 
 public class IsoGame extends Game {
 
 	private GameManager gm;
+	private Music backgroundMusic; 
 	
 	@Override
 	public void create () {
 		gm = new GameManager(this);
 		gm.setCurrGameState("MAINGAME");		
+
+		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Hypnotic-Puzzle3.mp3")); 
+		backgroundMusic.setLooping(true);
+		backgroundMusic.play();
+
 	}
 
 	@Override
