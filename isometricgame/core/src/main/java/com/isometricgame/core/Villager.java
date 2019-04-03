@@ -23,7 +23,7 @@ public class Villager extends Actor {
 	
 	
 	public Villager(float x, float y) {
-		super(x, y,  (float)0.5);
+		super(x, y,  (float)0.35);
 		frameSizeX = 302;
 		frameSizeY = 344;
 		direction = 1;
