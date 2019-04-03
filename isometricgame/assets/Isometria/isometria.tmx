@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="64" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="Element_0003_64" tilewidth="64" tileheight="42" tilecount="1" columns="1">
+  <image source="Edited Assets/Element_0003_64.png" width="64" height="42"/>
+ </tileset>
+ <tileset firstgid="2" source="greentree6473.tsx"/>
+ <tileset firstgid="3" source="spikes.tsx"/>
+ <tileset firstgid="4" source="dragon.tsx"/>
+ <tileset firstgid="5" source="logs.tsx"/>
+ <tileset firstgid="6" source="robin.tsx"/>
+ <tileset firstgid="7" source="twospikebox.tsx"/>
+ <tileset firstgid="8" source="seagull.tsx"/>
+ <tileset firstgid="9" source="phonebox.tsx"/>
+ <tileset firstgid="10" source="fire.tsx"/>
+ <tileset firstgid="11" source="timber.tsx"/>
+ <tileset firstgid="12" source="beestrees.tsx"/>
+ <tileset firstgid="13" source="whitetile.tsx"/>
+ <tileset firstgid="14" source="whitetree.tsx"/>
+ <tileset firstgid="15" source="tnt.tsx"/>
+ <tileset firstgid="16" source="penguin.tsx"/>
+ <tileset firstgid="17" source="chicken.tsx"/>
+ <tileset firstgid="18" source="bees.tsx"/>
+ <tileset firstgid="19" source="whitespike.tsx"/>
+ <tileset firstgid="20" source="greengoo.tsx"/>
+ <tileset firstgid="21" source="whitebaddie.tsx"/>
+ <layer name="BaseObjects" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt09FxAyEMAFGnAPffbsYN2IAEWnS7M/z5QPCS18vs7t4blq2nB6uTHjvO6vb3oAcrPVjpwUoPVnqw0oOVHqz0uKvMOxM9iDOtzJu5lx7xeTP30iM+b+ZeesTnzdxLj/i8mXvpEZ83c68nrKz02O9RdXb1m+hx9lzy+pYeepw4d+TuxJn0YM1Eeo/q9GClBys9WOnBSg9Wetxf9p31iKUHKz1Y3ezxN7BuS4+1Rs5emUOPtfTQYyWaR2R966QHeUXeRA899NCD7DET0eOm9GClR+/0YKUHq1WPXefvWruqnFuP8/OPnn3LffRg3UcP1n30YN1HD9Z99GDd5yke1XvqwdpTD9aeerD2pBgSZpidsfI+euihhx4zM1beJ/K2K9/oocfsjJX36eIRueMO4xNVzb3ypiMeFf+LmenBSg9WesRmP7V2p4ceeozdaeQ3euxNj14eK9/osT7/r30yz7phZaaHHt1WZnrs95j5PdnjxBkdPKruqYceJz2q3/spHiNVna9H/sxVdfSgvfFM3TxutvjUyeNWi9l3ucHjVotP3TyyLU67dvIY/X7mDD1ibzXyrR41HjPfZfw2o64es3fO+G1GerA8Zuvg0Sk9WOnBiuTxD2bQd4g=
+  </data>
+ </layer>
+ <layer name="BeesandGulls" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt28sKgCAQBVCXrv3iPr1dgWQUgY/pnI0uB+Q6TVRKAAAAAAAAAAAAAADcyaMLAHghVytxlZS20TWsJjf2wEk2YtErAADm4vkM+imjC+BQqhUAAIC1mOcAAFiBb4ThGfmAfrxTgT5kDeBa9H/N3f98ETUXETgbZjBjj5ENAACAe61ZbsYZ78+cBwAAAAAQxQ6ZuwLt
+  </data>
+ </layer>
+ <layer name="Ouch" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2cGOgjAUQFGTMbId4///qxsXM7Uq+trypOckBFxgSC+1oocDAAAA3Lus3BjDWOeiRy6RHsfb/nzb/wavBfMjGz1y0SMXPXLRIxfPgtDPaesLADbld4ecfLfJq9ZGr34uxR54zecU/L/n3f/fwWcXrGNejGGcv4dW29NgvMiY65WDDmM9Gm8dAAAAAAAAAAAAAABgnGXrC4BElgfHtdcwq2fzJOonuNFWZEzLc/feaSn25XELLXu0eM/ZRcZ05h69vk/pkUtkrZ6xR21e9JgrtbX57/E7zfbcY5RnPaLvtVc9n8n1WGfU7yJ6xPR+Dlm7ftTWkRl7tNb6OZ0YPXLRI5eW64UecWWPT8/95Hzu6ZFL5H8mPdqznueiRy4t/0fXIxc9ctEDgBGuWkkFrg==
+  </data>
+ </layer>
+ <layer name="Block" width="100" height="100">
+  <properties>
+   <property name="Block" type="bool" value="true"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztnN1u4yAQRq2q2Yu26lUeeB99lVUtUWRgmB/4wN+RUBKHYHuOMXioehyErM23cyE2PGNIH3ZG+vDuizv2zxk+SBn6wII+sKAPLOgDC/rAgj6wGBkf+sAC0cdzUEEE1ccO+9Cwsg9LTOlDTpSPZ+E9Eqv4kG6Ttksfciw+pGM4fdjw6DP04cdoHx7rO5r1oN19lBxIfERAH/L2Us6YvDfq9bKzD0k9qw9vVlw/t8xtV/eBiGYe+yz8lj7saJ7zSnlC+rDj+dxNH3boAwv6wMLiQ/odfcjxWuuzrA/SBxb0gQV9YEEfWIz08dYoZLyPWbSuBZTr4k4+POtFMdvH53H8DTqE5r4t9aKY5ePPz+vH8d9JOKv4iIL9A4uVxo+HsN4MItdLUX1o6u0Amo9Hdq98fb6bj1nzfvaPdUAePwghxIPava0nXzZrTP1yLAi04mU9zhE+duIqXiudY3qsrzxJR6nmuEbkv65IfeQe3i7en3XS86n5G9U/euOH7MOrPzySkrYfyY4+JNtbn1/Qh528f0jil/cn3q/8kPYDbVxn+SitgZzbV/EhQTLenHUQfZyl1u5sH/lrKZ61+fGMeXKvDymzfbS4ijVC3nJnHwjx7aU2nvc+H2a/nUIrf6X5biTa+VVOPr7P9pHej0rjQI+fUWOJl4+zjc/k/Qy01zlKjsvTx9lOay4cSS1HdRQ+X6HpUx5k+bSe8aI4753tI7pEYsjvip5DCCbIf79+RzRzzZor+rSh9WFtm1xDH1hE+rAwch6GdN0g+xgFfbShD/l39BGH5ljoAwtUH9r/MxpxPpI5hNdz2urXU06Uj1H7pw99m1d9mD5+M6N/pHl2+vhNT75Ber+/qvORlNVAnF9ZfaTMWofSsrqP3UD0cWd28jF7rdmDnXzsAH1gQR9Y0EcsvXN2+oiFPuqMnm/d0UdPjOlDvi9trOhDhyRW2naRffQ8p9IHFqOOSRorybadiTzf3vwRfeD5WDEH6Il0vPEqZB3+AVGRQDU=
+  </data>
+ </layer>
+ <layer name="Characters" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2yEOACAMA0AUGgT//yoGiUNsZHdJfU1lWwMAgD/MEwAA3oxLACpb0QUAAAAop0cXgMTsAwAAAIAsfFgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANjucACl
+  </data>
+ </layer>
+ <layer name="TNT" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt1bEKACAIBcDmlv7/b1sKos1BkrgDF8f3EFsDAF4ZwSFXJGN95NsZ9zW3c6+PfO6jFn3U4p8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwH8mxooCCQ==
+  </data>
+ </layer>
+ <layer name="Phonebox" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt3DEKACAIBdDWbt3Raw4apEKi907wF0UELQUAAAAAAAAAALihZgcAYIs+DgAAAAD/sRcEIkbPaNkZAAAAAAAAAAAAAICz3BYAADAzI8J71C0AAAAAxPmtBgAAsNYBzqkBSQ==
+  </data>
+ </layer>
+</map>

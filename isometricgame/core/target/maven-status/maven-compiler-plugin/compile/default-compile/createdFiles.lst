@@ -1,5 +1,13 @@
+customizedInputProcessor/GameInputProcessor.class
+characterManager/Actor.class
+com/isometricgame/core/Coin.class
 gameManager/GameState.class
+com/isometricgame/core/Boss.class
 com/isometricgame/core/GameEND.class
+com/isometricgame/core/Player.class
+customizedInputProcessor/GameKeys.class
 com/isometricgame/core/GameMAIN.class
+com/isometricgame/core/IsoGame.class
 com/isometricgame/core/GameDrop.class
 gameManager/GameManager.class
+com/isometricgame/core/Play2nd.class

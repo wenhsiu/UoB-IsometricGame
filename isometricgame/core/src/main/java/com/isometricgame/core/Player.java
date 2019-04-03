@@ -19,7 +19,7 @@ public class Player extends Actor{
 	private int frameSizeY;
 
 	public Player(float x, float y) {
-		super(x, y, (float)0.5);
+		super(x, y, (float)0.3); //was 0.5
 		speedFactor = 100;
 		speedLimit = 300;
 		score = 0;
