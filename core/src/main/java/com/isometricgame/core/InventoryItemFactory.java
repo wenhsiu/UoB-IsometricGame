@@ -12,7 +12,6 @@ public class InventoryItemFactory {
 
     private Json json = new Json();
     private final String INVENTORY_ITEM = "scripts/inventory_items.json";
-    // check link works
 
     private static InventoryItemFactory instance = null;
     private Hashtable<ItemTypeID, InventoryItem> inventoryItemList;

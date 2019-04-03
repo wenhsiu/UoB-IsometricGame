@@ -1,10 +1,11 @@
-package characterManager;
+package com.isometricgame.core;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.isometricgame.core.InventoryItem.*;
 
 public abstract class Actor implements ApplicationListener{
 	protected float pos_x, pos_y;
@@ -15,11 +16,13 @@ public abstract class Actor implements ApplicationListener{
 	protected SpriteBatch batch;
 	protected TextureRegion region;
 	private float scale;
+	private ItemTypeID itemTypeID;
 	
-	public Actor(float x, float y, float scale) {
+	public Actor(float x, float y, float scale, ItemTypeID itemTypeID) {
 		pos_x = x;
 		pos_y = y;
 		this.scale = scale;
+		this.itemTypeID = itemTypeID;
 	}
 	
 	public abstract void animationInit();
@@ -67,4 +70,9 @@ public abstract class Actor implements ApplicationListener{
 	public TextureRegion initTextureReg(String matName, int startX, int startY, int stopX, int stopY) {
 		return new TextureRegion(new Texture(Gdx.files.internal(matName)), startX, startY, stopX, stopY);
 	}
+
+	public ItemTypeID getItemTypeID() {
+		return itemTypeID;
+	}
+
 }

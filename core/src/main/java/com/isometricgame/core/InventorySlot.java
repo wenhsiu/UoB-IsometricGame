@@ -228,7 +228,7 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         observers.removeValue(slotObserver, true);
     }
 
-    // @Override
+    @Override
     public void removeAllObservers() {
         for(InventorySlotObserver observer: observers) {
             observers.removeValue(observer, true);

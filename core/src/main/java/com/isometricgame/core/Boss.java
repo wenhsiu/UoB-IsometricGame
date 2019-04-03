@@ -5,7 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
-import characterManager.Actor;
+import com.isometricgame.core.Actor;
+import com.isometricgame.core.InventoryItem.*;
 
 public class Boss extends Actor {
 
@@ -17,7 +18,7 @@ public class Boss extends Actor {
 	
 	
 	public Boss(float x, float y) {
-		super(x, y,  (float)0.5);
+		super(x, y,  (float) 0.5, ItemTypeID.NONE);
 		frameSizeX = 302;
 		frameSizeY = 344;
 	}

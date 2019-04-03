@@ -14,6 +14,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import gameManager.GameManager;
 import gameManager.GameState;
 
+import com.isometricgame.core.InventoryItem.*;
+
 public class GameMAIN extends GameState {
 	
 	private GameManager gm;
@@ -37,7 +39,7 @@ public class GameMAIN extends GameState {
 		//Later put the TiledMapTileLayers into an array. 
 		blockedLayer = (TiledMapTileLayer) map.getLayers().get("Block"); 
 
-		//TODO: Check if initial start position is blocked or not. 
+		// TODO: Check if initial start position is blocked or not. 
 		
 		boss = new Boss(800, 800);
 		initCoins();
@@ -125,7 +127,7 @@ public class GameMAIN extends GameState {
     	coins = new ArrayList<Coin>();
     	for(int i = 0; i < coinNumber; i++) {
     		Coin c = new Coin(MathUtils.random(200, Gdx.graphics.getWidth()-200), 
-    				MathUtils.random(200, Gdx.graphics.getHeight()-500));
+    				MathUtils.random(200, Gdx.graphics.getHeight()-500), ItemTypeID.NONE);
     		
     		c.setBound(100, 25, 100, 100);
     		coins.add(c);
