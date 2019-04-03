@@ -7,6 +7,8 @@ statusui
   rotate: false
   xy: 0, 0
   size: 48, 48
+  split: 1, 1, 1, 1
+  pad: 0, 0, 0, 0
   orig: 48, 48
   offset: 0, 0
   index: -1
