@@ -1,9 +1,8 @@
 package com.isometricgame.core;
 
-import com.isometricgame.core.Actor;
-import com.isometricgame.core.InventoryItem.*;
-
 import com.badlogic.gdx.Gdx;
+
+import com.isometricgame.core.InventoryItem.*;
 
 public class Coin extends Actor {
 
@@ -11,13 +10,14 @@ public class Coin extends Actor {
 	private float org_x, org_y;
 	protected boolean remove;
 	private ItemTypeID itemTypeID;
-
-	public Coin(float x, float y, ItemTypeID itemTypeID) {		
-		super(x, y, (float) 0.5, ItemTypeID.NONE);
+	
+	public Coin(float x, float y) {		
+		super(x, y, (float) 0.5);
 		org_x = x;
 		org_y = y;
 		speedFactor = 50;
-		this.itemTypeID = itemTypeID;
+		itemTypeID = ItemTypeID.COIN;
+		remove = false;	
 	}
 	
 	@Override
@@ -66,7 +66,6 @@ public class Coin extends Actor {
 		return false;
 	}
 
-	@Override
 	public ItemTypeID getItemTypeID() {
 		return itemTypeID;
 	}

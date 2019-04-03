@@ -3,48 +3,86 @@ package com.isometricgame.core;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import gameManager.GameManager;
 import gameManager.GameState;
-
-import com.isometricgame.core.InventoryItem.*;
 
 public class GameMAIN extends GameState {
 	
 	private GameManager gm;
 	private TiledMap map;
 	private IsometricTiledMapRenderer mapRenderer;
-	private TiledMapTileLayer blockedLayer; 
+	
+	//Layers
+	private TiledMapTileLayer blockedLayer;
+	private TiledMapTileLayer transparentBlockedLayer; 
+
+
+	private float tileEdge;
+	private float tileW;
+	private float tileH; 
 
 	private Player player;
-    private Boss boss;
+
+	//Original Boss. 
+	private Boss boss;
+
+	//New Boss 
+	private Boss dropBoss; 
+
     private ArrayList<Coin> coins;
 	private int coinNumber = 3;
+	private final double theta = Math.toDegrees(Math.atan(0.5));
+
+
+	//Villager creation. 
+
+	private Villager villager1; 
     
 	public GameMAIN(GameManager gm) {
 		super();	
 		this.gm = gm;
-		map = new TmxMapLoader().load("test_map.tmx");
+		map = new TmxMapLoader().load("./Isometria/isometria.tmx");
 		mapRenderer = new IsometricTiledMapRenderer(map);
 		mapRenderer.setView(cam);
 
 		//Block represents the "blocked" layer. 
 		//Later put the TiledMapTileLayers into an array. 
 		blockedLayer = (TiledMapTileLayer) map.getLayers().get("Block"); 
-
-		// TODO: Check if initial start position is blocked or not. 
+		//Blocked edge layer is transparent. 
+		transparentBlockedLayer = (TiledMapTileLayer) map.getLayers().get("Transparent"); 
+		// blocked layer is blocking but is not visible. 
+		transparentBlockedLayer.setVisible(false);
 		
-		boss = new Boss(800, 800);
+
+		//TODO: Check if initial start position is blocked or not. 
+		
+		tileW = blockedLayer.getTileWidth();
+		tileH = blockedLayer.getTileHeight();
+		tileEdge = (float)Math.sqrt(Math.pow(tileH/2, 2) + Math.pow(tileW/2, 2));
+		
+		boss = new Boss(500, 500); 
+
+		//Create boss that triggers the drop game. 
+		dropBoss = new Boss(1954, -38); 
+
 		initCoins();
+
+		//Create a villager 
+		villager1 = new Villager (3000, -1000); 
+		villager1.create();
 		
 		boss.create();
+		dropBoss.create();
 		player = gm.getPlayer();
 		createCoins();
 	}
@@ -53,10 +91,7 @@ public class GameMAIN extends GameState {
     @Override
 	public void render (float delta) {
     	
-    	Cell cell = checkMapCollision(player.getPositionX(), player.getPositionY(), 
-				 blockedLayer.getTileWidth(), blockedLayer.getTileHeight());
-    	
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(0x64/255.0f, 0x95/255.0f, 0xed/255.0f,0xff/255.0f);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 	 	
 	 	//collect coin
@@ -66,24 +101,67 @@ public class GameMAIN extends GameState {
 		if(boss.isCollision(player.getPositionX(), 
 							player.getPositionY())
 							&&
-							!gm.getGameState("MINIGAME1").getPassState()) {gm.setCurrGameState("MINIGAME1");}
+							!gm.getGameState("MINIGAME1").getPassState()) {
+			gm.setCurrGameState("MINIGAME1");
+		}
+
+		//trigger fight with the new DropBoss
+		if(dropBoss.isCollision(player.getPositionX(), 
+							player.getPositionY())
+							&&
+							!gm.getGameState("MINIGAME1").getPassState()) {
+			gm.setCurrGameState("MINIGAME1");
+		}
+
+
+		if(villager1.isCollision(player.getPositionX(), 
+				player.getPositionY())
+				&&
+				!gm.getGameState("MAINGAME").getPassState()) {
+				gm.setCurrGameState("END");
+		}
 		
 		cam.position.set(player.getPositionX(), player.getPositionY(), 0);
 		
-		if(cell!= null && cell.getTile() != null && cell.getTile().getProperties().containsKey("Blocked")){		
+		if(checkMapCollision(player.getPositionX() - player.getSizeX()/2, 
+				  player.getPositionY() - player.getSizeY()/2, 
+				  tileEdge, 
+				  tileEdge)){		
 			player.setSpeedFactor(-100);
 		}
+
+		//Check the villager collisions. 
+
+		villager1.checkCollision(checkVillagerMapCollision(villager1.getPositionX() - villager1.getSizeX()/2, 
+		villager1.getPositionY() - villager1.getSizeY()/2, tileEdge, tileEdge)); 
+
+
+
 
 		mapRenderer.setView(cam); 
 	 	mapRenderer.render();
 	 	
-//	 	player.getBatch().setProjectionMatrix(cam.combined); dig deep
+	 	player.getBatch().setProjectionMatrix(cam.combined);
+		boss.getBatch().setProjectionMatrix(cam.combined);
+		dropBoss.getBatch().setProjectionMatrix(cam.combined); 
+		
+		
+		// Create the villager batches. 
+		villager1.getBatch().setProjectionMatrix(cam.combined);
+
+		
+		
+		
+		combineCameraCoins();
+		 
 	 	
 		cam.update();
 		
 		renderCoins();
 	 	player.render();
-	 	boss.render();
+		 boss.render();
+		 dropBoss.render();
+		 villager1.render();
 	}
 
 	@Override
@@ -120,6 +198,7 @@ public class GameMAIN extends GameState {
 		player.dispose();
 		boss.dispose();
 		disposeCoins();
+		villager1.dispose();
 	}
 	
 //Handle coin array
@@ -127,7 +206,7 @@ public class GameMAIN extends GameState {
     	coins = new ArrayList<Coin>();
     	for(int i = 0; i < coinNumber; i++) {
     		Coin c = new Coin(MathUtils.random(200, Gdx.graphics.getWidth()-200), 
-    				MathUtils.random(200, Gdx.graphics.getHeight()-500), ItemTypeID.NONE);
+    				MathUtils.random(200, Gdx.graphics.getHeight()-500));
     		
     		c.setBound(100, 25, 100, 100);
     		coins.add(c);
@@ -140,7 +219,15 @@ public class GameMAIN extends GameState {
     }
     
     private void createCoins() {
-    	for(int i = 0; i < coinNumber; i++) {coins.get(i).create();}
+    	for(int i = 0; i < coinNumber; i++) {
+    		coins.get(i).create();
+    	}
+    }
+    
+    private void combineCameraCoins() {
+    	for(int i = 0; i < coins.size(); i++) {
+    		coins.get(i).getBatch().setProjectionMatrix(cam.combined);	
+    	}
     }
     
     private void disposeCoins() {
@@ -159,29 +246,64 @@ public class GameMAIN extends GameState {
 	}
 
 
-	public Cell checkMapCollision(float x, float y, float tilewidth, float tileheight){
+	public boolean checkMapCollision(float x, float y, float tilewidth, float tileheight){
 		int iso_x;
 		int iso_y;
+		x -= player.init_x;
+		y -= player.init_y;
+		Vector2 v = rotateCoord(x, y);
+
+		iso_x = (int)(v.x / tilewidth);
+		iso_y = (int)(v.y / tileheight);
 		
-		x -= (gm.init_x + player.getSizeX()/2);
-		y -= (gm.init_y + player.getSizeY()/2);
-	
-		//differ from Henry's machine. Need two times movement to map to tile map properly
-		x = x*2;
-		y = y*2;
-			
-		x /= tilewidth;
-		y = (y - tileheight) / tileheight + x;
-		x -= y - x;
-
-		iso_x = (int) x;
-		iso_y = (int) y;		
-
-		return isCellBlocked(iso_x, iso_y);		
+		return isCellBlocked(iso_x, iso_y);
 	}
 
-	private Cell isCellBlocked(int iso_x, int iso_y) {
+	private boolean isCellBlocked(int iso_x, int iso_y) {
+		Cell cell = blockedLayer.getCell(iso_x, iso_y);
+		boolean blocked = (cell!= null && cell.getTile() != null && cell.getTile().getProperties().containsKey("Blocked"));
+
+		//Check the invisible layer. 
+			if(blocked == false){
+				Cell transparentCheckCell = transparentBlockedLayer.getCell(iso_x, iso_y); 
+				blocked = (transparentCheckCell!= null && transparentCheckCell.getTile() != null && transparentCheckCell.getTile().getProperties().containsKey("Blocked"));
+			}
+
+		return blocked;
+	}
+	
+	private Vector2 rotateCoord(float x, float y) {
+		float tmp_x, tmp_y;
+		double len = Math.sqrt(x*x + y*y);
+		double alpha = Math.toDegrees(Math.atan(y/x * -1));
+		
+		Vector2 v = new Vector2();
+		tmp_x = (float)(Math.cos(Math.PI*(theta - alpha)/180) * len);
+		tmp_y = (float)(Math.cos(Math.PI*(theta + alpha)/180) * len);
+		v.x = (float) (tmp_x - len*Math.sin(Math.PI*((theta - alpha)/180)/(Math.tan(Math.PI*2*theta/180))));
+		v.y = (float) (tmp_y - len*Math.sin(Math.PI*((theta + alpha)/180)/(Math.tan(Math.PI*2*theta/180))));
+	
+		return v;
+	}
+
+
+	public Cell checkVillagerMapCollision(float x, float y, float tilewidth, float tileheight){
+		int iso_x;
+		int iso_y;
+		Vector2 v = rotateCoord(x, y);
+
+		iso_x = (int)(v.x / tilewidth);
+		iso_y = (int)(v.y / tileheight);
+
+		//Changed this from IsCellBlocked
+		return isCellBlockedForVillager(iso_x, iso_y);	
+	}
+
+	//Specifically for isCellBlocked
+	private Cell isCellBlockedForVillager(int iso_x, int iso_y) {
 		Cell cell = blockedLayer.getCell(iso_x, iso_y);
 		return cell;
 	}
+
+
 }

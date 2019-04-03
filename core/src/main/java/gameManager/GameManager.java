@@ -1,6 +1,5 @@
 package gameManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Game;
@@ -9,30 +8,27 @@ import com.isometricgame.core.GameEND;
 import com.isometricgame.core.GameMAIN;
 import com.isometricgame.core.Player;
 
+
 public class GameManager {
 	private HashMap<String, GameState> gameStates;
 	private String[] stateName = {
 //			"MENU",
 			"MAINGAME",
 			"MINIGAME1",
-//			"MIMIGAME2",
+//			"MINIGAME2",
 			"END"
 	};
 	private GameState currentState;
 	private Game game;
 	private Player player;
 	
-	public final int init_x = 300;
-	public final int init_y = 300;
-	
 	public GameManager(Game game) {		
 		this.game = game;
 		gameStates = new HashMap<String, GameState>();
 		currentState = gameStates.get("MAINGAME");
 		
-		player = new Player(init_x, init_y);
+		player = new Player(0, 0);
 		player.create();
-		
 		initAllState();
 	}
 	
@@ -46,6 +42,7 @@ public class GameManager {
 			game.setScreen(currentState);
 		}
 	}
+
 	
 	public Player getPlayer() {return player;}
 	
@@ -57,7 +54,9 @@ public class GameManager {
 				gameStates.put("END", new GameEND(this));
 			}else if(stateName[i].equals("MINIGAME1")) {
 				gameStates.put("MINIGAME1", new GameDrop(this));
-			}
+			}/* else if(stateName[i].equals("MINIGAME2")) {
+				gameStates.put("MINIGAME2", new clickAndDragGameManager());
+			} */ 
 		}
 	}
 }

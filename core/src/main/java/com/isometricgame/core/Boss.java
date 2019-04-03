@@ -5,9 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
-import com.isometricgame.core.Actor;
-import com.isometricgame.core.InventoryItem.*;
-
 public class Boss extends Actor {
 
 	private Animation spin;
@@ -16,9 +13,8 @@ public class Boss extends Actor {
 	private int frameSizeX;
 	private int frameSizeY;
 	
-	
 	public Boss(float x, float y) {
-		super(x, y,  (float) 0.5, ItemTypeID.NONE);
+		super(x, y, (float) 0.5);
 		frameSizeX = 302;
 		frameSizeY = 344;
 	}
