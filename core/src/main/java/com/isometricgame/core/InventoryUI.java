@@ -176,7 +176,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
             if(!(inventorySlot == null)) {
                 int numItems = inventorySlot.getNumItems();
                 if(numItems == 0) {
-                    InventoryItem inventoryItem = InventoryItemFactory.getInventoryItem(actor.getItemTypeID());
+                    InventoryItem inventoryItem = InventoryItemFactory.getInstance().getInventoryItem(actor.getItemTypeID());
                     inventoryItem.setName(itemName);
                     inventorySlot.add(inventoryItem);
                     break;
