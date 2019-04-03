@@ -9,21 +9,25 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import clickAndDragGameManager.clickAndDragGameManager;
+import clickAndDragGameManager.clickAndDragGameState;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
 import gameManager.GameManager;
 import gameManager.GameState;
 
-public class Start1 extends GameState {
+public class Start1 extends clickAndDragGameState {
 	
-	private GameManager gm;
+	private clickAndDragGameManager gm;
 	private Texture texture;
 	private TextureRegion background;
 	private SpriteBatch batch;
 
     
-	public Start1(GameManager gm) {
+	public Start1(clickAndDragGameManager gm) {
 		super();	
 		this.gm = gm;
 	}

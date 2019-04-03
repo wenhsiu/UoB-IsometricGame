@@ -2,16 +2,17 @@ package clickAndDragMiniGame;
 
 import com.badlogic.gdx.Game;
 
+import clickAndDragGameManager.clickAndDragGameManager;
 import gameManager.GameManager;
 
 
 
 public class ClickDragGame extends Game {
-	private GameManager gm;
+	private clickAndDragGameManager gm;
 
 	@Override
 	public void create () {
-		gm = new GameManager(this);
+		gm = new clickAndDragGameManager(this);
 		gm.setCurrGameState("START1");
 	}
 

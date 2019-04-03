@@ -37,7 +37,7 @@ public class GameMAIN extends GameState {
 	private Boss boss;
 
 	//New Boss 
-	private Boss finalBoss; 
+	private Boss dropBoss; 
 
     private ArrayList<Coin> coins;
 	private int coinNumber = 3;
@@ -70,7 +70,11 @@ public class GameMAIN extends GameState {
 		tileH = blockedLayer.getTileHeight();
 		tileEdge = (float)Math.sqrt(Math.pow(tileH/2, 2) + Math.pow(tileW/2, 2));
 		
-		boss = new Boss(500, 500);
+		boss = new Boss(500, 500); 
+
+		//Create boss that triggers the drop game. 
+		dropBoss = new Boss(1954, -38); 
+
 		initCoins();
 
 		//Create a villager 
@@ -78,6 +82,7 @@ public class GameMAIN extends GameState {
 		villager1.create();
 		
 		boss.create();
+		dropBoss.create();
 		player = gm.getPlayer();
 		createCoins();
 	}
@@ -99,6 +104,15 @@ public class GameMAIN extends GameState {
 							!gm.getGameState("MINIGAME1").getPassState()) {
 			gm.setCurrGameState("MINIGAME1");
 		}
+
+		//trigger fight with the new DropBoss
+		if(dropBoss.isCollision(player.getPositionX(), 
+							player.getPositionY())
+							&&
+							!gm.getGameState("MINIGAME1").getPassState()) {
+			gm.setCurrGameState("MINIGAME1");
+		}
+
 
 		if(villager1.isCollision(player.getPositionX(), 
 				player.getPositionY())
@@ -128,7 +142,8 @@ public class GameMAIN extends GameState {
 	 	mapRenderer.render();
 	 	
 	 	player.getBatch().setProjectionMatrix(cam.combined);
-	 	boss.getBatch().setProjectionMatrix(cam.combined);
+		boss.getBatch().setProjectionMatrix(cam.combined);
+		dropBoss.getBatch().setProjectionMatrix(cam.combined); 
 		
 		
 		// Create the villager batches. 
@@ -145,6 +160,7 @@ public class GameMAIN extends GameState {
 		renderCoins();
 	 	player.render();
 		 boss.render();
+		 dropBoss.render();
 		 villager1.render();
 	}
 

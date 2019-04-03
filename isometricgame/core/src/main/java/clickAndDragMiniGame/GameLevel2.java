@@ -9,22 +9,26 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import clickAndDragGameManager.clickAndDragGameManager;
+import clickAndDragGameManager.clickAndDragGameState;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
 import gameManager.GameManager;
 import gameManager.GameState;
 
-public class GameLevel2 extends GameState {
+public class GameLevel2 extends clickAndDragGameState {
 	
-	private GameManager gm;
+	private clickAndDragGameManager gm;
 	private TextureRegion background;
 	private Texture done;
 	private SpriteBatch batch;
 	private Puzzles puzzles;
 	private boolean complete = false;
     
-	public GameLevel2(GameManager gm) {
+	public GameLevel2(clickAndDragGameManager gm) {
 		super();	
 		this.gm = gm;
 	}
