@@ -27,7 +27,7 @@ public class GameManager {
 		gameStates = new HashMap<String, GameState>();
 		currentState = gameStates.get("MAINGAME");
 		
-		player = new Player(0, 0);
+		player = new Player(300, 300);
 		player.create();
 		initAllState();
 	}
