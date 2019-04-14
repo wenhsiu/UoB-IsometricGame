@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import com.isometricgame.core.InventoryItem.*;
 
-public abstract class Actor implements ApplicationListener{
+public abstract class OurActor implements ApplicationListener{
 	protected float pos_x, pos_y;
 	public final float init_x, init_y;
 	protected float size_x, size_y;
@@ -20,7 +20,7 @@ public abstract class Actor implements ApplicationListener{
 	private float scale;
 	private ItemTypeID itemTypeID;
 	
-	public Actor(float x, float y, float scale) {
+	public OurActor(float x, float y, float scale) {
 		pos_x = x;
 		pos_y = y;
 		init_x = x;

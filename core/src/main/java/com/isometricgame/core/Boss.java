@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
-public class Boss extends Actor {
+public class Boss extends OurActor {
 
 	private Animation spin;
 	private float timer;

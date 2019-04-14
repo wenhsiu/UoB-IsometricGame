@@ -7,10 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.isometricgame.core.InventoryItem;
-import com.isometricgame.core.Actor;
+import com.isometricgame.core.OurActor;
 import com.isometricgame.core.InventoryItemFactory;
 import com.isometricgame.core.InventoryItem.ItemUseType;
 import com.isometricgame.core.InventoryItem.ItemTypeID;
@@ -168,7 +169,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         return false;
     }
 
-    public void addActorToInventory(Actor actor, String itemName) {
+    public void addActorToInventory(OurActor actor, String itemName) {
         Array<Cell> sourceCells = inventorySlotTable.getCells();
         int index = 0;
         for(; index < sourceCells.size; index++) {

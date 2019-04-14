@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
-public class Villager extends Actor {
+public class Villager extends OurActor {
 
 	private Animation spin;
 	private float timer;

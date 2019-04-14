@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 
 import com.isometricgame.core.InventoryItem.*;
 
-public class Coin extends Actor {
+public class Coin extends OurActor {
 
 	private final int range = 30;
 	private float org_x, org_y;

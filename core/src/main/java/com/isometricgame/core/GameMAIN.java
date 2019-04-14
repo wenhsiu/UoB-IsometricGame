@@ -3,7 +3,6 @@ package com.isometricgame.core;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -26,7 +25,6 @@ public class GameMAIN extends GameState {
 	private TiledMapTileLayer blockedLayer;
 	private TiledMapTileLayer transparentBlockedLayer; 
 
-
 	private float tileEdge;
 	private float tileW;
 	private float tileH; 
@@ -43,7 +41,6 @@ public class GameMAIN extends GameState {
 	private int coinNumber = 3;
 	private final double theta = Math.toDegrees(Math.atan(0.5));
 
-
 	//Villager creation. 
 
 	private Villager villager1; 
@@ -55,16 +52,16 @@ public class GameMAIN extends GameState {
 		mapRenderer = new IsometricTiledMapRenderer(map);
 		mapRenderer.setView(cam);
 
-		//Block represents the "blocked" layer. 
-		//Later put the TiledMapTileLayers into an array. 
+		// Block represents the "blocked" layer. 
+		// Later put the TiledMapTileLayers into an array. 
 		blockedLayer = (TiledMapTileLayer) map.getLayers().get("Block"); 
-		//Blocked edge layer is transparent. 
+		// Blocked edge layer is transparent. 
 		transparentBlockedLayer = (TiledMapTileLayer) map.getLayers().get("Transparent"); 
-		// blocked layer is blocking but is not visible. 
+		// Vlocked layer is blocking but is not visible
 		transparentBlockedLayer.setVisible(false);
 		
 
-		//TODO: Check if initial start position is blocked or not. 
+		// TODO: Check if initial start position is blocked or not
 		
 		tileW = blockedLayer.getTileWidth();
 		tileH = blockedLayer.getTileHeight();
@@ -72,12 +69,12 @@ public class GameMAIN extends GameState {
 		
 		boss = new Boss(500, 500); 
 
-		//Create boss that triggers the drop game. 
+		// Create boss that triggers the drop game 
 		dropBoss = new Boss(1954, -38); 
 
 		initCoins();
 
-		//Create a villager 
+		// Create a villager 
 		villager1 = new Villager (3000, -1000); 
 		villager1.create();
 		
@@ -135,9 +132,6 @@ public class GameMAIN extends GameState {
 		villager1.checkCollision(checkVillagerMapCollision(villager1.getPositionX() - villager1.getSizeX()/2, 
 		villager1.getPositionY() - villager1.getSizeY()/2, tileEdge, tileEdge)); 
 
-
-
-
 		mapRenderer.setView(cam); 
 	 	mapRenderer.render();
 	 	
@@ -145,15 +139,10 @@ public class GameMAIN extends GameState {
 		boss.getBatch().setProjectionMatrix(cam.combined);
 		dropBoss.getBatch().setProjectionMatrix(cam.combined); 
 		
-		
 		// Create the villager batches. 
 		villager1.getBatch().setProjectionMatrix(cam.combined);
 
-		
-		
-		
 		combineCameraCoins();
-		 
 	 	
 		cam.update();
 		
@@ -168,7 +157,6 @@ public class GameMAIN extends GameState {
 	public void resize (int width, int height) {
 		super.resize(width, height);
     }
-	
     
     @Override
     public void show() {   
@@ -201,7 +189,7 @@ public class GameMAIN extends GameState {
 		villager1.dispose();
 	}
 	
-//Handle coin array
+	// Handle coin array
 	private void initCoins() {
     	coins = new ArrayList<Coin>();
     	for(int i = 0; i < coinNumber; i++) {
@@ -235,7 +223,7 @@ public class GameMAIN extends GameState {
     	for(int i = 0; i < coins.size(); i++) {coins.get(i).dispose();}
     }
     
-//Handle Actors' Collisions
+	//Handle Actors' Collisions
     private void checkCollisions(Coin c) {
     	float x = player.getPositionX();
     	float y = player.getPositionY();
@@ -244,7 +232,6 @@ public class GameMAIN extends GameState {
     		player.setScore();
     	}    	
 	}
-
 
 	public boolean checkMapCollision(float x, float y, float tilewidth, float tileheight){
 		int iso_x;
@@ -286,7 +273,6 @@ public class GameMAIN extends GameState {
 		return v;
 	}
 
-
 	public Cell checkVillagerMapCollision(float x, float y, float tilewidth, float tileheight){
 		int iso_x;
 		int iso_y;
@@ -304,6 +290,5 @@ public class GameMAIN extends GameState {
 		Cell cell = blockedLayer.getCell(iso_x, iso_y);
 		return cell;
 	}
-
-
+	
 }

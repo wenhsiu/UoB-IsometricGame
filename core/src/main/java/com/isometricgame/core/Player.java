@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.utils.*;
 
-public class Player extends Actor{
+public class Player extends OurActor{
 
 	private Animation walkDown, walkUp, walkRight, walkLeft;
 	private float timer;
@@ -146,4 +146,5 @@ public class Player extends Actor{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 }
