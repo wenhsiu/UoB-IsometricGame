@@ -1,32 +1,60 @@
-boxes.png
-size: 192, 48
+inventory_items.png
+size: 384, 48
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-blue
+badge1
   rotate: false
   xy: 0, 0
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-green
+badge2
   rotate: false
   xy: 48, 0
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-normal
+badge3
   rotate: false
   xy: 96, 0
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-red
+badge4
   rotate: false
   xy: 144, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+badge5
+  rotate: false
+  xy: 192, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+badge6
+  rotate: false
+  xy: 240, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+coin
+  rotate: false
+  xy: 288, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+coin2
+  rotate: false
+  xy: 336, 0
   size: 48, 48
   orig: 48, 48
   offset: 0, 0

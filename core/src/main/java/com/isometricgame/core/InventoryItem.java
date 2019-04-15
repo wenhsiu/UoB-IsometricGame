@@ -39,7 +39,7 @@ public class InventoryItem extends Image {
     }
 
     public enum ItemTypeID {
-        COIN, NONE;
+        COIN, YELLOWCOIN, BADGE1, BADGE2, BADGE3, BADGE4, BADGE5, BADGE6, NONE;
     }
 
     private int itemAttributes;

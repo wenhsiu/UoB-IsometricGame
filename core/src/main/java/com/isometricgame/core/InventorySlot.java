@@ -98,7 +98,7 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         return 0;
     }
 
-    // private in example
+    // private in example?
     public void checkVisibilityOfItemCount() {
         if(numItemsVal < 2) {
             numItemsLabel.setVisible(false);
