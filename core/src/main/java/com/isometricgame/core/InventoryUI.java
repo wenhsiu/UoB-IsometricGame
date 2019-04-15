@@ -33,7 +33,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     private Array<InventoryObserver> observers;
 
     public InventoryUI() {
-        super("Inventory", Utility.STATUSUI_SKIN, "solidbackground");
+        super("Inventory", Utility.STATUSUI_SKIN, "default");
 
         observers = new Array<InventoryObserver>();
         inventoryActors = new Array<Actor>();
