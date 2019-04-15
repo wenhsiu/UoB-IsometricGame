@@ -28,7 +28,7 @@ public abstract class GameState implements Screen {
 		cam.update();
 		passed = false;
 
-		player = new Player(0,0);
+		player = new Player(300, 300);
 		hudcam = new OrthographicCamera();
 		hudcam.setToOrtho(false);
 
