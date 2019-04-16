@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.utils.*;
 
-public class Player extends OurActor{
+public class Player extends OurActor {
 
 	private Animation walkDown, walkUp, walkRight, walkLeft;
 	private float timer;
@@ -105,22 +105,22 @@ public class Player extends OurActor{
 		if(Gdx.input.isKeyPressed(Keys.UP)) {
 			region = walkUp.getKeyFrame(timer, true);
 			pos_y += speed;
-			pos_x += 2*speed;
+			pos_x += 2 * speed;
 		}
 		if(Gdx.input.isKeyPressed(Keys.DOWN)) {
 			region = walkDown.getKeyFrame(timer, true);
 			pos_y -= speed;
-			pos_x -= 2*speed;
+			pos_x -= 2 * speed;
 		}
 		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
 			region = walkLeft.getKeyFrame(timer, true);	
 			pos_y += speed;
-			pos_x -= 2*speed;
+			pos_x -= 2 * speed;
 		}
 		if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			region = walkRight.getKeyFrame(timer, true);
 			pos_y -= speed;
-			pos_x += 2*speed;
+			pos_x += 2 * speed;
 		}
 		
 	}

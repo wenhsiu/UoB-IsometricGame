@@ -28,6 +28,7 @@ public class PlayerHUD implements Screen, InventoryObserver {
     private Stage stage;
     private Viewport viewport;
     // private Camera camera;
+    private int initialise = 0;
 
     private InventoryUI inventoryUI;
 
@@ -46,6 +47,7 @@ public class PlayerHUD implements Screen, InventoryObserver {
         inventoryUI.setMovable(false);
 
         stage.addActor(inventoryUI);
+        System.out.println("added inventoryUI");
 
         inventoryUI.validate();
 
@@ -63,7 +65,11 @@ public class PlayerHUD implements Screen, InventoryObserver {
 
     @Override
     public void onNotify(String string, InventoryEvent event) {
-        // TODO: Implement
+        initialise++;
+        if(initialise == 1) {
+            InventoryUI.clearInventoryItems(inventoryUI.getInventorySlotTable());
+        }
+
     }
 
     @Override

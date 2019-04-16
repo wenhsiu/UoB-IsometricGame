@@ -39,13 +39,16 @@ public abstract class GameState implements Screen {
 		Gdx.input.setInputProcessor(multiplexer);
 	}
 	
-	public boolean getPassState() {return passed;}
+	public boolean getPassState() {
+		return passed;
+	}
 	
-	public void setPassState(boolean pass) {passed = pass;}
+	public void setPassState(boolean pass) {
+		passed = pass;
+	}
 	
 	@Override
 	public void render(float delta) {
-		
 	}
 
 	@Override
@@ -81,6 +84,5 @@ public abstract class GameState implements Screen {
 	@Override
 	public void dispose() {		
 	}
-
 	
 }
