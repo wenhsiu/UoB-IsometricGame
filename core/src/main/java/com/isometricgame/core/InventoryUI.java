@@ -33,14 +33,15 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     private Array<InventoryObserver> observers;
 
     public InventoryUI() {
-        super("Inventory", Utility.STATUSUI_SKIN, "default");
+        super("Inventory", Utility.STATUSUI_SKIN);
 
         observers = new Array<InventoryObserver>();
         inventoryActors = new Array<Actor>();
 
         inventorySlotTable = new Table();
         inventorySlotTable.setName("Inventory_Slot_Table");
-        inventorySlotTable.setBackground(new Image(new NinePatch(Utility.STATUSUI_TEXTUREATLAS.createPatch("dialog"))).getDrawable());
+        // TODO: MAKE NINE-PATCH WORK
+        inventorySlotTable.setBackground(new Image(new NinePatch(Utility.STATUSUI_TEXTUREATLAS.createPatch("assets/statusui.9.png"))).getDrawable());
 
         for(int i = 0; i < numSlots; i++) {
             InventorySlot inventorySlot = new InventorySlot();
