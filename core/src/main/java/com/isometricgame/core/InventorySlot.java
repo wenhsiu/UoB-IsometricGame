@@ -30,7 +30,7 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         // TODO: MAKE NINE-PATCH WORK
         Image image = new Image(new NinePatch(Utility.STATUSUI_TEXTUREATLAS.createPatch("statusui")));
 
-        numItemsLabel = new Label(String.valueOf(numItemsVal), Utility.STATUSUI_SKIN, "inventory-item-count");
+        numItemsLabel = new Label(String.valueOf(numItemsVal), Utility.STATUSUI_SKIN, "default");
         numItemsLabel.setAlignment(0); // look into
         numItemsLabel.setVisible(true);
 

@@ -2,7 +2,7 @@ package com.isometricgame.core;
 
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+// import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.isometricgame.core.InventoryItem;
 import com.isometricgame.core.OurActor;
 import com.isometricgame.core.InventoryItemFactory;
-import com.isometricgame.core.InventoryItem.ItemUseType;
+// import com.isometricgame.core.InventoryItem.ItemUseType;
 import com.isometricgame.core.InventoryItem.ItemTypeID;
 import com.isometricgame.core.InventoryItemLocation;
 import com.isometricgame.core.Utility;
@@ -41,7 +41,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         inventorySlotTable = new Table();
         inventorySlotTable.setName("Inventory_Slot_Table");
         // TODO: MAKE NINE-PATCH WORK
-        inventorySlotTable.setBackground(new Image(new NinePatch(Utility.STATUSUI_TEXTUREATLAS.createPatch("assets/statusui.9.png"))).getDrawable());
+        inventorySlotTable.setBackground(new Image(new NinePatch(Utility.STATUSUI_TEXTUREATLAS.createPatch("statusui"))).getDrawable());
 
         for(int i = 0; i < numSlots; i++) {
             InventorySlot inventorySlot = new InventorySlot();
