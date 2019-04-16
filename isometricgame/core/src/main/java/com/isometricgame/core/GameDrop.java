@@ -2,6 +2,7 @@ package com.isometricgame.core;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.Gdx;
@@ -37,7 +38,8 @@ public class GameDrop extends GameState {
    private Texture bucketImage;
    private Sound dropSound;
    private Music rainMusic;
-   private SpriteBatch batch;
+	 private SpriteBatch batch;
+	 private Sprite background; 
    private Rectangle bucket;
    private Array<Rectangle> raindrops0;
    private Array<Rectangle> raindrops1;
@@ -45,7 +47,12 @@ public class GameDrop extends GameState {
    private BitmapFont scoreFont; 
    private String target; 
    private int num;
-   private String myDropScore; 
+	 private String myDropScore; 
+	 
+	 //Background images. 
+	 public static Texture backgroundTexture;
+	 public static Sprite backgroundSprite;
+
 
    private List<Integer> Score = new ArrayList<Integer>();
 
@@ -60,11 +67,12 @@ public class GameDrop extends GameState {
 
 	  // Create font to be used for counter. 
 	  scoreFont = new BitmapFont(); 
-	  scoreFont.setColor(Color.MAROON);
-	  
+		scoreFont.setColor(Color.MAROON);
+		scoreFont.setScale(3);
+		
+		backgroundTexture = new Texture("background_0001_Vector-Smart-Object.png");
      
-      // load the images for the droplet and the bucket, 64x64 pixels each
-	  
+    // load the images for the droplet and the bucket, 64x64 pixels each
 	  
 	  dropImage0 = new Texture(Gdx.files.internal("0 (1).png")); 
 	  dropImage1 = new Texture(Gdx.files.internal("1 (1).png"));
@@ -131,18 +139,25 @@ private void spawnRaindrop() {
 	   // arguments to glClearColor are the red, green
 	   // blue and alpha component in the range [0,1]
 	   // of the color to be used to clear the screen.
-	   Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-	   Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); 
+		 
+		 Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+		 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); 
      
 	   
 	   // tell the camera to update its matrices.
 	   super.render(delta);
 	   
 	   // begin a new batch and draw the bucket and
-	   // all drops
-	   
-	   batch.begin();
-       batch.draw(bucketImage, bucket.x, bucket.y);
+		 // all drops
+		 
+		
+		 batch.begin();
+			 //batch.draw(backgroundTexture, 0, 0);
+			 
+			batch.draw(backgroundTexture, 0, 0);
+			
+
+    	batch.draw(bucketImage, bucket.x, bucket.y);
 	   
 	 
 	   scoreFont.draw(batch, myDropScore, 1100 , 700); 
@@ -286,6 +301,11 @@ private void spawnRaindrop() {
 	   dropSound.dispose();
 	   rainMusic.dispose();
 	   batch.dispose();
-	   scoreFont.dispose();
+		 scoreFont.dispose();
+		 backgroundTexture.dispose();
 	}
+
+
+
+
 }

@@ -51,7 +51,7 @@
    <property name="Block" type="bool" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt2Q1qg0AYBuEcwvuftUgpIVCN++fOu84Dgba08K1To25eL0mSpDrb7AH0wR4s9mCxB4s9WOzBYg8We7DYg8UeLPZgsQeLPVi2gpckSZK+8/5KkiRJ6st75zmOjrs95rAHiz1Y7MFiDxZ7sDyhR8n++Ow987MeCfOPRumhX/ZgsQeLPfprufYRerTej6Re48k9nqjkWIw6RvZ4sweLPVhaeqx0HSUr6aHx7MFiDxZ7sNiDxR4sve93ve9tM+J50B717MGyao/UffpVe9QgzH02Q8pnXL0Q5m6dwR592eONMPeqPVLfZ1ft8Q11bnuc/+xuI3p8+/07XjVzX/27nrPNfAYi/P/9mXV+/NdjFnvY44g9WD1msQeLPVjswWIPlh7HoNdxHPFc9wSkc0r2oLEHiz3mqd2DrGlE3ed8qu3g6yvfJ6Kv4Uk9EuZ/So/W2Ud+Dnc056o9juYuWU/t2lv6rdjjSgvqvsRqPXqcF3db9X43scWOPl+N1Ba7hBlLJLfYpcx55Mr7adIak2atkba+tHlLJK4tcearEteWOPNViWsbvR8zU9KstZLWmDRrraQ1Js1ai7bGH3VZJ00=
+   eJzt2YFKwzAUheE9xN7/WSWIDGFtkpuk95zk/2CgQ91Nf12b+noBAADEvLMHwD/00EIPLfTQQg8t9NBCDy300EIPLfTQQg8t9NBCDy3vjgcAAADquL4CAAAA5uLaOcfVcadHDnpooYeWE3o4rYUeWuih5ZQeI4+nZ7163mH+1VR64Bc9tNBDCz3mGzn3KfQYvR5RO8e3vr5yjxP1HItVx4geH/TQQg8tIz0czqM76OmB9eihhR5a6KGFHlrooWX29S7XvWNW7AfpEUcPLbv2cLxPX+zaI0Jh7rsZXP7HNYvC3KMz0GMuenwozL1rD9f32V171KjOTY/75562okft6594ROZu/b6Zs2XugRR+//5k/X1865GFHvS4Qg+tHlnooYUeWmo9Tr2+ytLSo/U4Pb1X2c3I3ujbz5nRY/a+ble1PSTy0EMLPbTQI0/0HmSkkep9zlXU1/C++LjlczcOv1On9HBoUZzQI2ufFnnd3XvcHZOe9cw6P/f0261HrYX6fYmderS0ULTj9a5ri0J5tgjnFoX6fD3cWxQOM95peT91aVG4zBnl1KJwmrWXW4vCbd4ejmtznLmV49oc9qlRTrNGOa3RadYopzU6zRqltsYfGv4qCQ==
   </data>
  </layer>
  <layer name="Characters" width="100" height="100">
@@ -64,7 +64,7 @@
    eJzt1bEKACAIBcDmlv7/b1sKos1BkrgDF8f3EFsDAF4ZwSFXJGN95NsZ9zW3c6+PfO6jFn3U4p8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwH8mxooCCQ==
   </data>
  </layer>
- <layer name="Phonebox" width="100" height="100" visible="0">
+ <layer name="Phonebox" width="100" height="100">
   <data encoding="base64" compression="zlib">
    eJzt3DEKACAIBdDWbt3Raw4apEKi907wF0UELQUAAAAAAAAAALihZgcAYIs+DgAAAAD/sRcEIkbPaNkZAAAAAAAAAAAAAICz3BYAADAzI8J71C0AAAAAxPmtBgAAsNYBzqkBSQ==
   </data>
