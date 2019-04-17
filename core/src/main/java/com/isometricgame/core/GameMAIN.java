@@ -14,17 +14,27 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.isometricgame.core.InventoryItem.ItemTypeID;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.InputMultiplexer;
 
 import gameManager.GameManager;
 import gameManager.GameState;
+
+import com.isometricgame.core.PlayerHUD;
 
 public class GameMAIN extends GameState {
 	
 	private GameManager gm;
 	private TiledMap map;
 	private IsometricTiledMapRenderer mapRenderer;
+	private InventoryUI inventoryUI = new InventoryUI();
+
+	// PlayerHUD
+	public final OrthographicCamera hudcam;
+	private InputMultiplexer multiplexer;
+	private PlayerHUD playerHUD;
 	
-	//Layers
+	// Layers
 	private TiledMapTileLayer blockedLayer;
 	private TiledMapTileLayer transparentBlockedLayer; 
 
@@ -55,6 +65,18 @@ public class GameMAIN extends GameState {
 		mapRenderer = new IsometricTiledMapRenderer(map);
 		mapRenderer.setView(cam);
 
+		// PLayerHUD
+		hudcam = new OrthographicCamera(width, height);
+		hudcam.translate(width / 2, height / 2);
+		hudcam.update();
+		hudcam.setToOrtho(false);
+
+		playerHUD = new PlayerHUD(hudcam, player);
+
+		multiplexer = new InputMultiplexer();
+		multiplexer.addProcessor(playerHUD.getStage());
+		Gdx.input.setInputProcessor(multiplexer);
+
 		// Block represents the "blocked" layer. 
 		// Later put the TiledMapTileLayers into an array. 
 		blockedLayer = (TiledMapTileLayer) map.getLayers().get("Block"); 
@@ -63,7 +85,6 @@ public class GameMAIN extends GameState {
 		// Vlocked layer is blocking but is not visible
 		transparentBlockedLayer.setVisible(false);
 		
-
 		// TODO: Check if initial start position is blocked or not
 		
 		tileW = blockedLayer.getTileWidth();
@@ -150,6 +171,7 @@ public class GameMAIN extends GameState {
 		combineCameraCoins();
 	 	
 		cam.update();
+		hudcam.update();
 		
 		renderCoins();
 	 	player.render();
@@ -161,12 +183,14 @@ public class GameMAIN extends GameState {
 	@Override
 	public void resize (int width, int height) {
 		super.resize(width, height);
+		hudcam.update();
     }
     
     @Override
     public void show() {   
     	super.show();
 		mapRenderer.setView(cam);
+		hudcam.update();
     }
 
     @Override
@@ -234,18 +258,17 @@ public class GameMAIN extends GameState {
     	float y = player.getPositionY();
     	if(c.containPoint(x, y)) {
     		coins.remove(c);
-			player.setScore();
+			// player.setScore();
 			// System.out.println("Coin picked up:" + player.getScore());
 			InventoryItemFactory factory = InventoryItemFactory.getInstance();
 			InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);
-			InventoryItem item2 = factory.getInventoryItem(ItemTypeID.YELLOWCOIN);
-			System.out.println(item.getItemShortDescription());
+			// System.out.println(item.getItemShortDescription());
 			// InventorySlot slot = new InventorySlot();
 			// slot.add(item);
 			// System.out.println(slot.getNumItems());
-			InventoryUI inventoryUI = new InventoryUI();
+			
 			inventoryUI.addItemToInventory(item, "COIN");
-			inventoryUI.addItemToInventory(item2, "YELLOWCOIN");
+
 			Table table = inventoryUI.getInventorySlotTable();
 			Array<InventoryItemLocation> stuff = InventoryUI.getInventory(table);
 			System.out.println(stuff.size);

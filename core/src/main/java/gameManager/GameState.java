@@ -1,26 +1,22 @@
 package gameManager;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
-import com.isometricgame.core.PlayerHUD;
 import com.isometricgame.core.Player;
 
 public abstract class GameState implements Screen {	
 
 	public final OrthographicCamera cam;
-	public final OrthographicCamera hudcam;
-	private int width;
-	private int height;
+	protected int width;
+	protected int height;
 	private boolean passed;
 
-	private InputMultiplexer multiplexer;
-	private PlayerHUD playerHUD;
 	private Player player;
 	
 	public GameState() {
+
 		width = Gdx.graphics.getWidth();
 		height = Gdx.graphics.getHeight();
 		
@@ -30,17 +26,6 @@ public abstract class GameState implements Screen {
 		passed = false;
 
 		player = new Player(300, 300);
-
-		hudcam = new OrthographicCamera(width, height);
-		hudcam.translate(width / 2, height / 2);
-		hudcam.update();
-		// hudcam.setToOrtho(false);
-
-		playerHUD = new PlayerHUD(hudcam, player);
-
-		multiplexer = new InputMultiplexer();
-		multiplexer.addProcessor(playerHUD.getStage());
-		Gdx.input.setInputProcessor(multiplexer);
 	}
 	
 	public boolean getPassState() {
@@ -57,14 +42,12 @@ public abstract class GameState implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		cam.update();
-		hudcam.update();		
+		cam.update();	
 	}
 
 	@Override
 	public void show() {
 		cam.update();
-		hudcam.update();
 	}
 
 	@Override

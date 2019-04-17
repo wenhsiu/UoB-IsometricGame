@@ -25,6 +25,8 @@ public class PlayerHUD implements Screen, InventoryObserver {
 
     // private static final String TAG = PlayerHUD.class.getSimpleName();
 
+    private Camera camera;
+    private Player player;
     private Stage stage;
     private Viewport viewport;
     // private Camera camera;
@@ -37,6 +39,11 @@ public class PlayerHUD implements Screen, InventoryObserver {
     // private static final String INVENTORY_FULL = "Your inventory is full.";
 
     public PlayerHUD(Camera camera, Player player) {
+        System.out.println("PlayerHUD constructor");
+
+        this.camera = camera;
+        this.player = player;
+
         viewport = new ScreenViewport(camera);
         stage = new Stage(viewport);
 
@@ -47,7 +54,7 @@ public class PlayerHUD implements Screen, InventoryObserver {
         inventoryUI.setMovable(false);
 
         stage.addActor(inventoryUI);
-        // System.out.println("added inventoryUI");
+        System.out.println("added inventoryUI");
 
         inventoryUI.validate();
 
@@ -61,6 +68,10 @@ public class PlayerHUD implements Screen, InventoryObserver {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public InventoryUI getInventoryUI() {
+        return inventoryUI;
     }
 
     @Override
