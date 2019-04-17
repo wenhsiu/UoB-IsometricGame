@@ -49,9 +49,9 @@ public class PlayerHUD implements Screen, InventoryObserver {
 
         inventoryUI = new InventoryUI();
         inventoryUI.setVisible(true);
-        inventoryUI.setPosition(0, 0);
+        inventoryUI.setPosition(300, 300);
         inventoryUI.setKeepWithinStage(false);
-        inventoryUI.setMovable(false);
+        inventoryUI.setMovable(true);
 
         stage.addActor(inventoryUI);
         System.out.println("added inventoryUI");

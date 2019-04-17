@@ -33,7 +33,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     private Array<InventoryObserver> observers;
 
     public InventoryUI() {
-        super("Inventory", Utility.STATUSUI_SKIN);
+        super("Inventory", Utility.STATUSUI_SKIN, "default");
 
         observers = new Array<InventoryObserver>();
         inventoryActors = new Array<Actor>();
@@ -41,12 +41,13 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         inventorySlotTable = new Table();
         inventorySlotTable.setName("Inventory_Slot_Table");
         inventorySlotTable.setBackground(new Image(new NinePatch(Utility.STATUSUI_TEXTUREATLAS.createPatch("statusui"))).getDrawable());
+        inventorySlotTable.debug(Table.Debug.all);
 
         for(int i = 0; i < numSlots; i++) {
             InventorySlot inventorySlot = new InventorySlot();
             inventorySlotTable.add(inventorySlot).size(slotWidth, slotHeight);
 
-            inventorySlot.addListener(new ClickListener() {
+            /* inventorySlot.addListener(new ClickListener() {
                 @Override
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                     super.touchUp(event, x, y, pointer, button);
@@ -64,14 +65,18 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
                     }   
                 }
             }
-            );
+            ); */
 
             if(i % lengthSlotRow == 0) {
                 inventorySlotTable.row();
             }
         }
+        
+        inventorySlotTable.padTop(20);
+        inventorySlotTable.padLeft(20);
+        this.add(inventorySlotTable);
+        this.pack();
 
-        this.add(inventorySlotTable).colspan(2);
     }
 
     public Table getInventorySlotTable() {

@@ -27,7 +27,7 @@ public class GameMAIN extends GameState {
 	private GameManager gm;
 	private TiledMap map;
 	private IsometricTiledMapRenderer mapRenderer;
-	private InventoryUI inventoryUI = new InventoryUI();
+	// private InventoryUI inventoryUI = new InventoryUI();
 
 	// PlayerHUD
 	public final OrthographicCamera hudcam;
@@ -73,9 +73,10 @@ public class GameMAIN extends GameState {
 
 		playerHUD = new PlayerHUD(hudcam, player);
 
-		multiplexer = new InputMultiplexer();
-		multiplexer.addProcessor(playerHUD.getStage());
-		Gdx.input.setInputProcessor(multiplexer);
+		// add back if want input event proccessing
+		// multiplexer = new InputMultiplexer();
+		// multiplexer.addProcessor(playerHUD.getStage());
+		// Gdx.input.setInputProcessor(multiplexer);
 
 		// Block represents the "blocked" layer. 
 		// Later put the TiledMapTileLayers into an array. 
@@ -266,6 +267,8 @@ public class GameMAIN extends GameState {
 			// InventorySlot slot = new InventorySlot();
 			// slot.add(item);
 			// System.out.println(slot.getNumItems());
+
+			InventoryUI inventoryUI = playerHUD.getInventoryUI();
 			
 			inventoryUI.addItemToInventory(item, "COIN");
 
