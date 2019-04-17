@@ -169,17 +169,16 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         return false;
     }
 
-    public void addActorToInventory(OurActor actor, String itemName) {
+    public void addItemToInventory(InventoryItem item, String itemName) {
         Array<Cell> sourceCells = inventorySlotTable.getCells();
-        int index = 0;
-        for(; index < sourceCells.size; index++) {
+
+        for(int index = 0; index < sourceCells.size; index++) {
             InventorySlot inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
             if(!(inventorySlot == null)) {
                 int numItems = inventorySlot.getNumItems();
                 if(numItems == 0) {
-                    InventoryItem inventoryItem = InventoryItemFactory.getInstance().getInventoryItem(actor.getItemTypeID());
-                    inventoryItem.setName(itemName);
-                    inventorySlot.add(inventoryItem);
+                    item.setName(itemName);
+                    inventorySlot.add(item);
                     break;
                 }
             }

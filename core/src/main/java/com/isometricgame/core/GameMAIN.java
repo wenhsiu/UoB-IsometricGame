@@ -6,6 +6,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -236,10 +238,17 @@ public class GameMAIN extends GameState {
 			// System.out.println("Coin picked up:" + player.getScore());
 			InventoryItemFactory factory = InventoryItemFactory.getInstance();
 			InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);
+			InventoryItem item2 = factory.getInventoryItem(ItemTypeID.YELLOWCOIN);
 			System.out.println(item.getItemShortDescription());
-			InventorySlot slot = new InventorySlot();
-			slot.add(item);
-			System.out.println(slot.getNumItems());
+			// InventorySlot slot = new InventorySlot();
+			// slot.add(item);
+			// System.out.println(slot.getNumItems());
+			InventoryUI inventoryUI = new InventoryUI();
+			inventoryUI.addItemToInventory(item, "COIN");
+			inventoryUI.addItemToInventory(item2, "YELLOWCOIN");
+			Table table = inventoryUI.getInventorySlotTable();
+			Array<InventoryItemLocation> stuff = InventoryUI.getInventory(table);
+			System.out.println(stuff.size);
 
     	}    
 	}
