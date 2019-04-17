@@ -42,7 +42,7 @@ public class Player extends OurActor {
 	@Override
 	public void render () {
 
-		System.out.println("pos x " + pos_x + "pos y " + pos_y);
+		// System.out.println("pos x " + pos_x + "pos y " + pos_y);
 		characterUpdate(pos_x, pos_y);
 		animationUpdate(Gdx.graphics.getDeltaTime());
 		

@@ -27,7 +27,6 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         defaultBackground = new Stack();
         customBackgroundDecal = new Image();
         observers = new Array<InventorySlotObserver>();
-        // TODO: MAKE NINE-PATCH WORK
         Image image = new Image(new NinePatch(Utility.STATUSUI_TEXTUREATLAS.createPatch("statusui")));
 
         numItemsLabel = new Label(String.valueOf(numItemsVal), Utility.STATUSUI_SKIN, "default");

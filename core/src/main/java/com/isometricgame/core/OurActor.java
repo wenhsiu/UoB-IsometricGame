@@ -18,7 +18,6 @@ public abstract class OurActor implements ApplicationListener{
 	protected SpriteBatch batch;
 	protected TextureRegion region;
 	private float scale;
-	private ItemTypeID itemTypeID;
 	
 	public OurActor(float x, float y, float scale) {
 		pos_x = x;
@@ -76,7 +75,4 @@ public abstract class OurActor implements ApplicationListener{
 		return new TextureRegion(new Texture(Gdx.files.internal(matName)), startX, startY, stopX, stopY);
 	}
 
-	public ItemTypeID getItemTypeID() {
-		return itemTypeID;
-	}
 }

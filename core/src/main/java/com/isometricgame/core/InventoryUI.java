@@ -40,7 +40,6 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
 
         inventorySlotTable = new Table();
         inventorySlotTable.setName("Inventory_Slot_Table");
-        // TODO: MAKE NINE-PATCH WORK
         inventorySlotTable.setBackground(new Image(new NinePatch(Utility.STATUSUI_TEXTUREATLAS.createPatch("statusui"))).getDrawable());
 
         for(int i = 0; i < numSlots; i++) {

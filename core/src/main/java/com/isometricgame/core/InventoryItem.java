@@ -39,7 +39,7 @@ public class InventoryItem extends Image {
     }
 
     public enum ItemTypeID {
-        COIN, YELLOWCOIN, BADGE1, BADGE2, BADGE3, BADGE4, BADGE5, BADGE6, NONE;
+        BADGE1, BADGE2, BADGE3, BADGE4, BADGE5, BADGE6, COIN, YELLOWCOIN, NONE;
     }
 
     private int itemAttributes;
@@ -50,15 +50,12 @@ public class InventoryItem extends Image {
     private int itemValue;
 
     public InventoryItem(TextureRegion textureRegion, int itemAttributes, 
-                        ItemTypeID itemTypeID, int itemUseType, 
-                        int itemUseTypeValue, int itemValue) {
+                        ItemTypeID itemTypeID, int itemUseType) {
         super(textureRegion);
         
         this.itemTypeID = itemTypeID;
         this.itemAttributes = itemAttributes;
         this.itemUseType = itemUseType;
-        this.itemUseTypeValue = itemUseTypeValue;
-        this.itemValue = itemValue;
 
     }
 

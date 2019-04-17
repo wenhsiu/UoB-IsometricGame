@@ -17,9 +17,10 @@ public class IsoGame extends Game {
 		gm = new GameManager(this);
 		gm.setCurrGameState("MAINGAME");		
 
-		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Hypnotic-Puzzle3.mp3")); 
-		backgroundMusic.setLooping(true);
-		backgroundMusic.play();
+		// TODO: Put annoying bg music back on
+		// backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Hypnotic-Puzzle3.mp3")); 
+		// backgroundMusic.setLooping(true);
+		// backgroundMusic.play();
 
 	}
 

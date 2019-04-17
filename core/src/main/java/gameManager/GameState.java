@@ -23,14 +23,18 @@ public abstract class GameState implements Screen {
 	public GameState() {
 		width = Gdx.graphics.getWidth();
 		height = Gdx.graphics.getHeight();
+		
 		cam = new OrthographicCamera(width, height);
 		cam.translate(width/2, height/2);
 		cam.update();
 		passed = false;
 
 		player = new Player(300, 300);
-		hudcam = new OrthographicCamera();
-		hudcam.setToOrtho(false);
+
+		hudcam = new OrthographicCamera(width, height);
+		hudcam.translate(width / 2, height / 2);
+		hudcam.update();
+		// hudcam.setToOrtho(false);
 
 		playerHUD = new PlayerHUD(hudcam, player);
 

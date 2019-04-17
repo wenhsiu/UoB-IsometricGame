@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.isometricgame.core.InventoryItem.ItemTypeID;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import gameManager.GameManager;
@@ -38,7 +39,7 @@ public class GameMAIN extends GameState {
 	private Boss dropBoss; 
 
     private ArrayList<Coin> coins;
-	private int coinNumber = 3;
+	private int coinNumber = 10;
 	private final double theta = Math.toDegrees(Math.atan(0.5));
 
 	//Villager creation. 
@@ -92,7 +93,9 @@ public class GameMAIN extends GameState {
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 	 	
 	 	//collect coin
-		for(int i = 0; i < coins.size(); i++) {checkCollisions(coins.get(i));}
+		for(int i = 0; i < coins.size(); i++) {
+			checkCollisions(coins.get(i));
+		}
 
 		//trigger a fight with the boss
 		if(boss.isCollision(player.getPositionX(), 
@@ -148,9 +151,9 @@ public class GameMAIN extends GameState {
 		
 		renderCoins();
 	 	player.render();
-		 boss.render();
-		 dropBoss.render();
-		 villager1.render();
+		boss.render();
+		dropBoss.render();
+		villager1.render();
 	}
 
 	@Override
@@ -193,8 +196,8 @@ public class GameMAIN extends GameState {
 	private void initCoins() {
     	coins = new ArrayList<Coin>();
     	for(int i = 0; i < coinNumber; i++) {
-    		Coin c = new Coin(MathUtils.random(200, Gdx.graphics.getWidth()-200), 
-    				MathUtils.random(200, Gdx.graphics.getHeight()-500));
+    		Coin c = new Coin(MathUtils.random(200, Gdx.graphics.getWidth()-100), 
+    				MathUtils.random(200, Gdx.graphics.getHeight()-100));
     		
     		c.setBound(100, 25, 100, 100);
     		coins.add(c);
@@ -229,8 +232,13 @@ public class GameMAIN extends GameState {
     	float y = player.getPositionY();
     	if(c.containPoint(x, y)) {
     		coins.remove(c);
-    		player.setScore();
-    	}    	
+			player.setScore();
+			// System.out.println("Coin picked up:" + player.getScore());
+			InventoryItemFactory factory = InventoryItemFactory.getInstance();
+			InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);
+			// System.out.println(item.getItemShortDescription());
+
+    	}    
 	}
 
 	public boolean checkMapCollision(float x, float y, float tilewidth, float tileheight){
