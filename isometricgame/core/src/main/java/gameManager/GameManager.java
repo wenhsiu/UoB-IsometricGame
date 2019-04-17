@@ -27,10 +27,12 @@ public class GameManager {
 		gameStates = new HashMap<String, GameState>();
 		currentState = gameStates.get("MAINGAME");
 		
-		player = new Player(300, 300);
+		player = new Player(0, 0);
 		player.create();
 		initAllState();
 	}
+	
+	public String[] getAllGameNames() {return stateName;}
 	
 	public GameState getGameState() {return currentState;}
 	

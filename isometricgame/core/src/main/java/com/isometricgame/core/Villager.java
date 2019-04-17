@@ -7,9 +7,9 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 
-import characterManager.Actor;
+import characterManager.People;
 
-public class Villager extends Actor {
+public class Villager extends People {
 
 	private Animation spin;
 	private float timer;
@@ -37,7 +37,7 @@ public class Villager extends Actor {
 	public void create() {
 		characterInit("boss_down.png", 0, 0, frameSizeX, frameSizeY);
 		animationInit();
-		setBound(getSizeY()/2, getSizeY()/2, getSizeX()/2, getSizeX()/2);
+		setBoundary(getSizeY()/2, getSizeY()/2, getSizeX()/2, getSizeX()/2);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class Villager extends Actor {
 
 	@Override
 	public void dispose() {
-		texture.dispose();
+		super.dispose();
 	}
 
 	@Override
@@ -87,9 +87,27 @@ public class Villager extends Actor {
 	}
 
 	@Override
-	public boolean isCollision(float x, float y) {
-		return super.containPoint(x, y);
-    }
+	public void CollisionAction(boolean fire) {
+		if(fire) {
+			randomDirection();
+			if(direction == 0){
+				move_x = 2;
+				move_y = 1;
+			}
+			else if(direction == 1){
+				move_x = 2;
+				move_y = -1;
+			}
+			else if(direction == 2){
+				move_x = -2;
+				move_y = 1;
+			}
+			else{
+				move_x = -2;
+				move_y = -1;
+			}
+		}		
+	}
     
     private void moveVillager(){
         pos_x += move_x;
@@ -106,28 +124,5 @@ public class Villager extends Actor {
     public float initial_x(){ return init_x; }
 
     public float initial_y(){ return init_y; }
-
-    public void checkCollision(Cell cell){
-		if(cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("Blocked")){
-			randomDirection();
-			if (direction == 0){
-				move_x = 2;
-				move_y = 1;
-			}
-			if (direction == 1){
-				move_x = 2;
-				move_y = -1;
-			}
-			if (direction == 2){
-				move_x = -2;
-				move_y = 1;
-			}
-			if (direction == 3){
-				move_x = -2;
-				move_y = -1;
-			}
-		}
-	}
-
 
 }

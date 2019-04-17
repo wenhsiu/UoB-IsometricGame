@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
-import characterManager.Actor;
+import characterManager.People;
 
-public class Boss extends Actor {
+public class Boss extends People {
 
 	private Animation spin;
 	private float timer;
@@ -26,7 +26,7 @@ public class Boss extends Actor {
 	public void create() {
 		characterInit("boss_down.png", 0, 0, frameSizeX, frameSizeY);
 		animationInit();
-		setBound(getSizeY()/2, getSizeY()/2, getSizeX()/2, getSizeX()/2);
+		setBoundary(getSizeY()/2, getSizeY()/2, getSizeX()/2, getSizeX()/2);
 	}
 
 	@Override
@@ -41,21 +41,16 @@ public class Boss extends Actor {
 		animationUpdate(Gdx.graphics.getDeltaTime());		
 	}
 
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void dispose() {
-		texture.dispose();
+		super.dispose();
 	}
 
 	@Override
@@ -75,8 +70,9 @@ public class Boss extends Actor {
 	}
 
 	@Override
-	public boolean isCollision(float x, float y) {
-		return super.containPoint(x, y);
-	}
+	public void CollisionAction(boolean fire) {}
+
+	@Override
+	public void pause() {}
 
 }

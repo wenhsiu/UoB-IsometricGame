@@ -6,41 +6,43 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public abstract class Actor implements ApplicationListener{
-	protected float pos_x, pos_y;
-	public final float init_x, init_y;
-	protected float size_x, size_y;
-	public float bound_top, bound_bottom, bound_right, bound_left;
+public abstract class People implements ApplicationListener{
+	protected float pos_x;
+	protected float pos_y;
+	protected float size_x;
+	protected float size_y;
+	protected float bound_top;
+	protected float bound_bottom;
+	protected float bound_right;
+	protected float bound_left;
 	protected int speedFactor, speedLimit;	
 	protected Texture texture;
 	protected SpriteBatch batch;
 	protected TextureRegion region;
 	private float scale;
 	
-	public Actor(float x, float y, float scale) {
+	public People(float x, float y, float scale) {
 		pos_x = x;
 		pos_y = y;
-		init_x = x;
-		init_y = y;
 		this.scale = scale;
 	}
 	
 	public abstract void animationInit();
-	public abstract void animationUpdate(float dt);
+	public abstract void animationUpdate(float dt);	
+	public abstract void CollisionAction(boolean fire);
 	
-	public abstract boolean isCollision(float x, float y);
-	
-	public void characterInit(String materails, int sx, int sy, int ex, int ey) {
-		texture = new Texture(Gdx.files.internal(materails));
+	public void characterInit(String materials, int sx, int sy, int ex, int ey) {
+		texture = new Texture(Gdx.files.internal(materials));
 		batch = new SpriteBatch();
 		region = new TextureRegion(texture, sx, sy, ex, ey);
 		size_x = (ex-sx)*scale;
 		size_y = (ey-sy)*scale;
+		setBoundary(size_y/2, size_y/2, size_x/2, size_x/2);
 	}
 	
 	public void characterUpdate(float nx, float ny) {
 		batch.begin();
-		batch.draw(region, nx, ny, size_x*scale, size_y*scale);
+		batch.draw(region, nx, ny, size_x, size_y);
 		batch.end();
 	}
 	
@@ -52,24 +54,28 @@ public abstract class Actor implements ApplicationListener{
 	
 	public float getSizeY() {return size_y;}
 	
-	public void setBound(float top, float bottom, float right, float left) {
-		bound_top = top*scale;
-		bound_bottom = bottom*scale;
-		bound_right = right*scale;
-		bound_left = left*scale;
+	public void setBoundary(float top, float bottom, float right, float left) {
+		bound_top = top;
+		bound_bottom = bottom;
+		bound_right = right;
+		bound_left = left;
 	}
 	
 	public SpriteBatch getBatch() {return batch;}
 	
 	public boolean containPoint(float x, float y) {
-		if(x > pos_x + size_x/2 - bound_left &&
-		   x < pos_x + size_x/2 + bound_right &&
-		   y > pos_y + size_y/2 - bound_bottom &&
-		   y < pos_y + size_y/2 + bound_top) {return true;}
+		if(x > getPositionX() - bound_left &&
+		   x < getPositionX() + bound_right &&
+		   y > getPositionY() - bound_bottom &&
+		   y < getPositionY() + bound_top) {return true;}
 		return false;
 	}
 	
 	public TextureRegion initTextureReg(String matName, int startX, int startY, int stopX, int stopY) {
 		return new TextureRegion(new Texture(Gdx.files.internal(matName)), startX, startY, stopX, stopY);
+	}
+
+	public void dispose() {
+		texture.dispose();
 	}
 }
