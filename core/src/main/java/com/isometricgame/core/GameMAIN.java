@@ -236,7 +236,10 @@ public class GameMAIN extends GameState {
 			// System.out.println("Coin picked up:" + player.getScore());
 			InventoryItemFactory factory = InventoryItemFactory.getInstance();
 			InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);
-			// System.out.println(item.getItemShortDescription());
+			System.out.println(item.getItemShortDescription());
+			InventorySlot slot = new InventorySlot();
+			slot.add(item);
+			System.out.println(slot.getNumItems());
 
     	}    
 	}
