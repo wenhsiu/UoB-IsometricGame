@@ -226,7 +226,8 @@ private void spawnRaindrop() {
 	 }
 	
 	   if(Score.size() == 4) {
-		  if(CheckScore()) {
+		  rainMusic.pause();
+		  if(CheckScore()) {			
             gm.setCurrGameState("MAINGAME");
 		   }
 	       else {
