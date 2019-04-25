@@ -12,27 +12,28 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.isometricgame.core.InventoryItem.ItemTypeID;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.InputMultiplexer;
+
+import com.isometricgame.core.InventoryItem.ItemTypeID;
+import com.isometricgame.core.PlayerHUD;
+
+// import com.badlogic.gdx.InputMultiplexer;
 
 import gameManager.GameManager;
 import gameManager.GameState;
-
-import com.isometricgame.core.PlayerHUD;
 
 public class GameMAIN extends GameState {
 	
 	private GameManager gm;
 	private TiledMap map;
 	private IsometricTiledMapRenderer mapRenderer;
-	// private InventoryUI inventoryUI = new InventoryUI();
 
 	// PlayerHUD
 	public final OrthographicCamera hudcam;
-	private InputMultiplexer multiplexer;
+	// private InputMultiplexer multiplexer;
 	private PlayerHUD playerHUD;
+	private InventoryUI inventoryUI;
 	
 	// Layers
 	private TiledMapTileLayer blockedLayer;
@@ -44,18 +45,18 @@ public class GameMAIN extends GameState {
 
 	private Player player;
 
-	//Original Boss. 
+	// Original boss 
 	private Boss boss;
 
-	//New Boss 
+	// New boss 
 	private Boss dropBoss; 
 
     private ArrayList<Coin> coins;
 	private int coinNumber = 10;
+
 	private final double theta = Math.toDegrees(Math.atan(0.5));
 
-	//Villager creation. 
-
+	// Villager creation
 	private Villager villager1; 
     
 	public GameMAIN(GameManager gm) {
@@ -65,32 +66,33 @@ public class GameMAIN extends GameState {
 		mapRenderer = new IsometricTiledMapRenderer(map);
 		mapRenderer.setView(cam);
 
-		// PLayerHUD
+		// PlayerHUD
 		hudcam = new OrthographicCamera(width, height);
 		hudcam.translate(width / 2, height / 2);
-		hudcam.update();
-		hudcam.setToOrtho(false);
+		hudcam.setToOrtho(true);
 
 		playerHUD = new PlayerHUD(hudcam, player);
+
+		inventoryUI = playerHUD.getInventoryUI();
 
 		// add back if want input event proccessing
 		// multiplexer = new InputMultiplexer();
 		// multiplexer.addProcessor(playerHUD.getStage());
 		// Gdx.input.setInputProcessor(multiplexer);
 
-		// Block represents the "blocked" layer. 
-		// Later put the TiledMapTileLayers into an array. 
-		blockedLayer = (TiledMapTileLayer) map.getLayers().get("Block"); 
-		// Blocked edge layer is transparent. 
+		// Block represents the "blocked" layer
+		// Later, put the TiledMapTileLayers into an array
+		blockedLayer = (TiledMapTileLayer) map.getLayers().get("Block");
+
+		// Blocking layer is not visible 
 		transparentBlockedLayer = (TiledMapTileLayer) map.getLayers().get("Transparent"); 
-		// Vlocked layer is blocking but is not visible
 		transparentBlockedLayer.setVisible(false);
 		
 		// TODO: Check if initial start position is blocked or not
 		
 		tileW = blockedLayer.getTileWidth();
 		tileH = blockedLayer.getTileHeight();
-		tileEdge = (float)Math.sqrt(Math.pow(tileH/2, 2) + Math.pow(tileW/2, 2));
+		tileEdge = (float) Math.sqrt(Math.pow(tileH/2, 2) + Math.pow(tileW/2, 2));
 		
 		boss = new Boss(500, 500); 
 
@@ -113,72 +115,67 @@ public class GameMAIN extends GameState {
     @Override
 	public void render (float delta) {
     	
-		Gdx.gl.glClearColor(0x64/255.0f, 0x95/255.0f, 0xed/255.0f,0xff/255.0f);
+		Gdx.gl.glClearColor(0x64/255.0f, 0x95/255.0f, 0xed/255.0f, 0x55/255.0f);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-	 	
-	 	//collect coin
-		for(int i = 0; i < coins.size(); i++) {
-			checkCollisions(coins.get(i));
-		}
 
-		//trigger a fight with the boss
-		if(boss.isCollision(player.getPositionX(), 
-							player.getPositionY())
-							&&
-							!gm.getGameState("MINIGAME1").getPassState()) {
-			gm.setCurrGameState("MINIGAME1");
-		}
-
-		//trigger fight with the new DropBoss
-		if(dropBoss.isCollision(player.getPositionX(), 
-							player.getPositionY())
-							&&
-							!gm.getGameState("MINIGAME1").getPassState()) {
-			gm.setCurrGameState("MINIGAME1");
-		}
-
-
-		if(villager1.isCollision(player.getPositionX(), 
-				player.getPositionY())
-				&&
-				!gm.getGameState("MAINGAME").getPassState()) {
-				gm.setCurrGameState("END");
-		}
-		
-		cam.position.set(player.getPositionX(), player.getPositionY(), 0);
-		
-		if(checkMapCollision(player.getPositionX() - player.getSizeX()/2, 
-				  player.getPositionY() - player.getSizeY()/2, 
-				  tileEdge, 
-				  tileEdge)){		
-			player.setSpeedFactor(-100);
-		}
-
-		//Check the villager collisions. 
-
-		villager1.checkCollision(checkVillagerMapCollision(villager1.getPositionX() - villager1.getSizeX()/2, 
-		villager1.getPositionY() - villager1.getSizeY()/2, tileEdge, tileEdge)); 
+		playerHUD.render(delta);
+		hudcam.update();
+		cam.update();
 
 		mapRenderer.setView(cam); 
-	 	mapRenderer.render();
-	 	
-	 	player.getBatch().setProjectionMatrix(cam.combined);
-		boss.getBatch().setProjectionMatrix(cam.combined);
+		mapRenderer.render();
+		
+		cam.position.set(player.getPositionX(), player.getPositionY(), 0);
+
+		player.getBatch().setProjectionMatrix(cam.combined);
+	    boss.getBatch().setProjectionMatrix(cam.combined);
 		dropBoss.getBatch().setProjectionMatrix(cam.combined); 
 		
-		// Create the villager batches. 
-		villager1.getBatch().setProjectionMatrix(cam.combined);
-
 		combineCameraCoins();
-	 	
-		cam.update();
-		hudcam.update();
 		
 		renderCoins();
 	 	player.render();
 		boss.render();
 		dropBoss.render();
 		villager1.render();
+	 	
+	 	//collect coin
+		for(int i = 0; i < coins.size(); i++) {
+			checkCollisions(coins.get(i));
+		}
+
+		// trigger a fight with the boss
+		if(boss.isCollision(player.getPositionX(), player.getPositionY())
+            && !gm.getGameState("MINIGAME1").getPassState()) {
+			gm.setCurrGameState("MINIGAME1");
+		}
+
+		// trigger fight with the new DropBoss
+		if(dropBoss.isCollision(player.getPositionX(), player.getPositionY())
+			&& !gm.getGameState("MINIGAME1").getPassState()) {
+			gm.setCurrGameState("MINIGAME1");
+		}
+
+
+		if(villager1.isCollision(player.getPositionX(), player.getPositionY())
+			&& !gm.getGameState("MAINGAME").getPassState()) {
+			gm.setCurrGameState("END");
+		}
+		
+		if(checkMapCollision(player.getPositionX() - player.getSizeX()/2, 
+			player.getPositionY() - player.getSizeY()/2, 
+			tileEdge, tileEdge)){		
+			player.setSpeedFactor(-100);
+		}
+
+		// Check the villager collisions
+		villager1.checkCollision(checkVillagerMapCollision(
+			villager1.getPositionX() - villager1.getSizeX()/2, 
+		    villager1.getPositionY() - villager1.getSizeY()/2, tileEdge, tileEdge)); 
+
+		// Create the villager batches
+		villager1.getBatch().setProjectionMatrix(cam.combined);
+
 	}
 
 	@Override
@@ -217,6 +214,7 @@ public class GameMAIN extends GameState {
 		boss.dispose();
 		disposeCoins();
 		villager1.dispose();
+		playerHUD.dispose();
 	}
 	
 	// Handle coin array
@@ -259,17 +257,8 @@ public class GameMAIN extends GameState {
     	float y = player.getPositionY();
     	if(c.containPoint(x, y)) {
     		coins.remove(c);
-			// player.setScore();
-			// System.out.println("Coin picked up:" + player.getScore());
 			InventoryItemFactory factory = InventoryItemFactory.getInstance();
-			InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);
-			// System.out.println(item.getItemShortDescription());
-			// InventorySlot slot = new InventorySlot();
-			// slot.add(item);
-			// System.out.println(slot.getNumItems());
-
-			InventoryUI inventoryUI = playerHUD.getInventoryUI();
-			
+			InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);			
 			inventoryUI.addItemToInventory(item, "COIN");
 
 			Table table = inventoryUI.getInventorySlotTable();

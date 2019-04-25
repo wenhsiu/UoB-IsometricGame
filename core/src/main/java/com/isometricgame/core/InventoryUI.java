@@ -1,22 +1,25 @@
 package com.isometricgame.core;
 
 import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+// import com.badlogic.gdx.scenes.scene2d.InputEvent;
 // import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+//import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.isometricgame.core.InventoryItem;
-import com.isometricgame.core.OurActor;
+// import com.isometricgame.core.OurActor;
 import com.isometricgame.core.InventoryItemFactory;
 // import com.isometricgame.core.InventoryItem.ItemUseType;
 import com.isometricgame.core.InventoryItem.ItemTypeID;
 import com.isometricgame.core.InventoryItemLocation;
 import com.isometricgame.core.Utility;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class InventoryUI extends Window implements InventorySubject, InventorySlotObserver {
 
@@ -26,6 +29,10 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     private int lengthSlotRow = 5;
     private Table inventorySlotTable;
     private Array<Actor> inventoryActors;
+
+    private Color debugCellColor = new Color(0.5f, 0, 0, 1);
+    private Color debugTableColor = new Color(1, 0, 0, 1);
+    private Color debugActorColor = new Color(1, 1, 0, 1);
 
     private final int slotWidth = 48;
     private final int slotHeight = 48;
@@ -38,12 +45,17 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         observers = new Array<InventoryObserver>();
         inventoryActors = new Array<Actor>();
 
-        inventorySlotTable = new Table();
-        inventorySlotTable.setName("Inventory_Slot_Table");
-        inventorySlotTable.setBackground(new Image(new NinePatch(Utility.STATUSUI_TEXTUREATLAS.createPatch("statusui"))).getDrawable());
-        inventorySlotTable.debug(Table.Debug.all);
+        inventorySlotTable = new Table(Utility.STATUSUI_SKIN);
 
-        for(int i = 0; i < numSlots; i++) {
+        inventorySlotTable.debugActor();
+        inventorySlotTable.debugCell();
+        inventorySlotTable.debugTable();
+
+        inventorySlotTable.setName("Inventory_Slot_Table");
+        // inventorySlotTable.setBackground(new Image(new NinePatch(Utility.STATUSUI_TEXTUREATLAS.createPatch("statusui"))).getDrawable());
+        inventorySlotTable.row();
+
+        for(int i = 1; i <= numSlots; i++) {
             InventorySlot inventorySlot = new InventorySlot();
             inventorySlotTable.add(inventorySlot).size(slotWidth, slotHeight);
 
@@ -67,16 +79,13 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
             }
             ); */
 
-            if(i % lengthSlotRow == 0) {
+            if(i % lengthSlotRow == 0 && i < numSlots) {
                 inventorySlotTable.row();
             }
         }
         
-        inventorySlotTable.padTop(20);
-        inventorySlotTable.padLeft(20);
         this.add(inventorySlotTable);
         this.pack();
-
     }
 
     public Table getInventorySlotTable() {

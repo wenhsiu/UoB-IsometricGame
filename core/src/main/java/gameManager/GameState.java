@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
-import com.isometricgame.core.Player;
+// import com.isometricgame.core.Player;
 
 public abstract class GameState implements Screen {	
 
@@ -13,7 +13,7 @@ public abstract class GameState implements Screen {
 	protected int height;
 	private boolean passed;
 
-	private Player player;
+	// private Player player;
 	
 	public GameState() {
 
@@ -25,7 +25,7 @@ public abstract class GameState implements Screen {
 		cam.update();
 		passed = false;
 
-		player = new Player(300, 300);
+		// player = new Player(300, 300);
 	}
 	
 	public boolean getPassState() {

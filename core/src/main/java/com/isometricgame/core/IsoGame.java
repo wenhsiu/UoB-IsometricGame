@@ -1,15 +1,15 @@
 package com.isometricgame.core;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
+// import com.badlogic.gdx.Gdx;
+// import com.badlogic.gdx.audio.Music;
 
 import gameManager.GameManager;
 
 public class IsoGame extends Game {
 
 	private GameManager gm;
-	private Music backgroundMusic; 
+	// private Music backgroundMusic; 
 	// https://soundimage.org/fantasy-2/
 	
 	@Override
