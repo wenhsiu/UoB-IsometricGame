@@ -7,8 +7,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 public abstract class GameState implements Screen {	
 
 	public final OrthographicCamera cam;
-	private int width;
-	private int height;
+	// Protected as needed for PlayerHUD camera in GameMAIN
+	protected int width;
+	protected int height;
 	private boolean passed;
 	
 	public GameState() {

@@ -1,0 +1,61 @@
+inventory_items.png
+size: 384, 48
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BADGE1
+  rotate: false
+  xy: 0, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+BADGE2
+  rotate: false
+  xy: 48, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+BADGE3
+  rotate: false
+  xy: 96, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+BADGE4
+  rotate: false
+  xy: 144, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+BADGE5
+  rotate: false
+  xy: 192, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+BADGE6
+  rotate: false
+  xy: 240, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+COIN
+  rotate: false
+  xy: 288, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+YELLOWCOIN
+  rotate: false
+  xy: 336, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1

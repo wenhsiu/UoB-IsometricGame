@@ -10,12 +10,14 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+
+import com.isometricgame.core.InventoryItem.ItemTypeID;
 
 import characterManager.People;
 import characterManager.Property;
 import characterManager.TriggerPoint;
-
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import gameManager.GameManager;
 import gameManager.GameState;
@@ -23,56 +25,47 @@ import gameManager.GameState;
 public class GameMAIN extends GameState {
 
 	private GameManager gm;
-	//map
+
+	// Map
 	private TiledMap map;
 	private IsometricTiledMapRenderer mapRenderer;
+
+	// Inventory
+	public final OrthographicCamera hudcam;
+	private PlayerHUD playerHUD;
+	private InventoryUI inventoryUI;
+
 	// Layers	
 	private TiledMapTileLayer blockedLayer;
 	private TiledMapTileLayer transparentBlockedLayer;
-	//tile
+
+	// Tiles
 	private float tileEdge;
 	private float tileW;
 	private float tileH;
-	//player
+
+	// Player
 	private Player player;
-	//characters
+
+	// Characters
 	private ArrayList<People> people;
-	private final String[] peopleName = {"Boss_org",
-										 "Boss_drop",
-										 "Villager_1"			
-										};//naming rule: <type>_<alias>
-	private final float[] pplX = {500,
-								  1954,
-								  3000,
-							   };
-	private final float[] pplY = {500,
-								  -38,
-								  -1000,
-							   };
-	//object to collect
+	// Naming rule: <type>_<alias>
+	private final String[] peopleName = {"Boss_org", "Boss_drop", "Villager_1"};
+						
+	private final float[] pplX = {500, 1954, 3000};
+	private final float[] pplY = {500, -38, -1000};
+	
+	// Object to collect
 	private ArrayList<Property> property;
-	private final int coinNumber = 3;
-	//mini game trigger point
+	private final int coinNumber = 10;
+
+	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
-	private final float[] tgpX = {1170, 
-								  //1880, 
-								  //1930, 
-								  //3030, 
-								  //2020, 
-								  //3260, 
-								  //3900
-								  };
-	private final float[] tgpY = {50, 
-								  //-10, 
-								  //840, 
-								  //390, 
-								  //-755, 
-								  //-900, 
-								  //380
-								  };
-	private final String[] allStateName = {"MINIGAME1",									
-								  };
-	//isometric parameters
+    private final float[] tgpX = {1170, /* 1880, 1930, 3030, 2020, 3260, 3900 */ };
+	private final float[] tgpY = {50, /* -10, 840, 390, -755, -900, 380 */ };
+	private final String[] allStateName = {"MINIGAME1"};
+
+	// Isometric parameters
 	private final double theta = Math.toDegrees(Math.atan(0.5));	
 
 	public GameMAIN(GameManager gm) {
@@ -80,6 +73,15 @@ public class GameMAIN extends GameState {
 		this.gm = gm;
 		
 		initMapAndLayer();
+
+		// PlayerHUD
+		hudcam = new OrthographicCamera(width, height);
+		hudcam.translate(width / 2, height / 2);
+		hudcam.setToOrtho(true);
+				
+		playerHUD = new PlayerHUD(hudcam);
+				
+		inventoryUI = playerHUD.getInventoryUI();
 		
 		initProperties();
 		initPeople();
@@ -94,32 +96,42 @@ public class GameMAIN extends GameState {
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 		
 		float x = player.getPositionX();
-		float y = player.getPositionY();		
+		float y = player.getPositionY();
 		
-		checkPropertyCollisions(x, y); // collect coin		
 		checkTriggerGame(x, y); //trigger mini games with phone boxes
-		
-		cam.position.set(x, y, 0);
-
-		if (checkMapCollision(x, y, tileEdge, tileEdge)) {player.setSpeedFactor(-50);}
-		
-		getPeopleByName("Villager_1").CollisionAction(
-				checkVillagerMapCollision(
-						getPeopleByName("Villager_1").getPositionX(),
-						getPeopleByName("Villager_1").getPositionY(),
-						tileEdge,
-						tileEdge));
 		
 		mapRenderer.setView(cam);
 		mapRenderer.render();
-		
-		player.getBatch().setProjectionMatrix(cam.combined);
-		
+
 		combineCameraPeople();
 		combineCameraProperty();
 		combineCameraTriggerPoint();
 		cam.update();
 
+		cam.position.set(x, y, 0);
+
+		playerHUD.render(delta);
+		hudcam.update();
+
+		// Add coins to inventory
+		if(checkPropertyCollisions(x, y)) {
+			InventoryItemFactory factory = InventoryItemFactory.getInstance();
+			InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);			
+			inventoryUI.addItemToInventory(item, "COIN");
+		}
+
+		if(checkMapCollision(x, y, tileEdge, tileEdge)) {
+			player.setSpeedFactor(-50);
+		}
+		
+		getPeopleByName("Villager_1").CollisionAction(
+			checkVillagerMapCollision(
+				getPeopleByName("Villager_1").getPositionX(),
+				getPeopleByName("Villager_1").getPositionY(),
+				tileEdge, tileEdge));
+		
+		player.getBatch().setProjectionMatrix(cam.combined);
+		
 		renderPeople();
 		renderProperty();
 		renderTriggerPoint();
@@ -157,6 +169,7 @@ public class GameMAIN extends GameState {
 		mapRenderer.dispose();
 		map.dispose();
 		player.dispose();
+		playerHUD.dispose();
 		
 		disposeProperty();
 		disposeTriggerPoint();
@@ -294,11 +307,15 @@ public class GameMAIN extends GameState {
 		for (Property ppt : property) {ppt.dispose();}
 	}
 
-	//collisions
-	private void checkPropertyCollisions(float x, float y) {
+	// Collisions with inventory pick-up
+	private boolean checkPropertyCollisions(float x, float y) {
 		for(int i = 0; i < property.size(); i++) {
-			if(property.get(i).containPoint(x, y)) {property.remove(i);}
+			if(property.get(i).containPoint(x, y)) {
+				property.remove(i);
+				return true;
+			}
 		}
+		return false;
 	}
 
 	public boolean checkMapCollision(float x, float y, float tilewidth, float tileheight) {

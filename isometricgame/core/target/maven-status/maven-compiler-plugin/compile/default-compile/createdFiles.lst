@@ -1,5 +1,3 @@
-characterManager/Actor.class
-com/isometricgame/core/Boss.class
 com/isometricgame/core/Player.class
+com/isometricgame/core/Boss.class
 customizedInputProcessor/GameKeys.class
-com/isometricgame/core/Play2nd.class
