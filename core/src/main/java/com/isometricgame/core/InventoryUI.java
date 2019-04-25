@@ -34,10 +34,6 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
 
         inventorySlotTable = new Table(Utility.STATUSUI_SKIN);
 
-        inventorySlotTable.debugActor();
-        inventorySlotTable.debugCell();
-        inventorySlotTable.debugTable();
-
         inventorySlotTable.setName("Inventory_Slot_Table");
         inventorySlotTable.row();
 

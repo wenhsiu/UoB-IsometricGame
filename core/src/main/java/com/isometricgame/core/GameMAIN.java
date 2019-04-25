@@ -59,6 +59,7 @@ public class GameMAIN extends GameState {
 	public GameMAIN(GameManager gm) {
 		super();	
 		this.gm = gm;
+
 		map = new TmxMapLoader().load("./Isometria/isometria.tmx");
 		mapRenderer = new IsometricTiledMapRenderer(map);
 		mapRenderer.setView(cam);
@@ -67,9 +68,9 @@ public class GameMAIN extends GameState {
 		hudcam = new OrthographicCamera(width, height);
 		hudcam.translate(width / 2, height / 2);
 		hudcam.setToOrtho(true);
-
+		
 		playerHUD = new PlayerHUD(hudcam);
-
+		
 		inventoryUI = playerHUD.getInventoryUI();
 
 		// Block represents the "blocked" layer
@@ -110,22 +111,22 @@ public class GameMAIN extends GameState {
 		Gdx.gl.glClearColor(0x64/255.0f, 0x95/255.0f, 0xed/255.0f, 0xff/255.0f);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
+		mapRenderer.setView(cam); 
+		mapRenderer.render();
+
+		combineCameraCoins();
+		renderCoins();
+
 		playerHUD.render(delta);
 		hudcam.update();
 		cam.update();
-
-		mapRenderer.setView(cam); 
-		mapRenderer.render();
 		
 		cam.position.set(player.getPositionX(), player.getPositionY(), 0);
 
 		player.getBatch().setProjectionMatrix(cam.combined);
 	    boss.getBatch().setProjectionMatrix(cam.combined);
 		dropBoss.getBatch().setProjectionMatrix(cam.combined); 
-		
-		combineCameraCoins();
-		
-		renderCoins();
+
 	 	player.render();
 		boss.render();
 		dropBoss.render();
@@ -250,11 +251,6 @@ public class GameMAIN extends GameState {
 			InventoryItemFactory factory = InventoryItemFactory.getInstance();
 			InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);			
 			inventoryUI.addItemToInventory(item, "COIN");
-
-			Table table = inventoryUI.getInventorySlotTable();
-			Array<InventoryItemLocation> stuff = InventoryUI.getInventory(table);
-			System.out.println(stuff.size);
-
     	}    
 	}
 
