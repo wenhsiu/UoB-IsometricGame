@@ -1,26 +1,24 @@
 package com.isometricgame.core;
 
 import com.badlogic.gdx.Game;
-// import com.badlogic.gdx.Gdx;
-// import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 
 import gameManager.GameManager;
 
 public class IsoGame extends Game {
 
 	private GameManager gm;
-	// private Music backgroundMusic; 
-	// https://soundimage.org/fantasy-2/
+	private Music backgroundMusic; 
 	
 	@Override
 	public void create () {
 		gm = new GameManager(this);
 		gm.setCurrGameState("MAINGAME");		
-
-		// TODO: Put annoying bg music back on
-		// backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Hypnotic-Puzzle3.mp3")); 
-		// backgroundMusic.setLooping(true);
-		// backgroundMusic.play();
+		
+		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Hypnotic-Puzzle3.mp3")); 
+		backgroundMusic.setLooping(true);
+		backgroundMusic.play();
 
 	}
 
