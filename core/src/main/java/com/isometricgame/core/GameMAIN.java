@@ -18,8 +18,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.isometricgame.core.InventoryItem.ItemTypeID;
 import com.isometricgame.core.PlayerHUD;
 
-// import com.badlogic.gdx.InputMultiplexer;
-
 import gameManager.GameManager;
 import gameManager.GameState;
 
@@ -31,7 +29,6 @@ public class GameMAIN extends GameState {
 
 	// PlayerHUD
 	public final OrthographicCamera hudcam;
-	// private InputMultiplexer multiplexer;
 	private PlayerHUD playerHUD;
 	private InventoryUI inventoryUI;
 	
@@ -71,14 +68,9 @@ public class GameMAIN extends GameState {
 		hudcam.translate(width / 2, height / 2);
 		hudcam.setToOrtho(true);
 
-		playerHUD = new PlayerHUD(hudcam, player);
+		playerHUD = new PlayerHUD(hudcam);
 
 		inventoryUI = playerHUD.getInventoryUI();
-
-		// add back if want input event proccessing
-		// multiplexer = new InputMultiplexer();
-		// multiplexer.addProcessor(playerHUD.getStage());
-		// Gdx.input.setInputProcessor(multiplexer);
 
 		// Block represents the "blocked" layer
 		// Later, put the TiledMapTileLayers into an array
@@ -115,7 +107,7 @@ public class GameMAIN extends GameState {
     @Override
 	public void render (float delta) {
     	
-		Gdx.gl.glClearColor(0x64/255.0f, 0x95/255.0f, 0xed/255.0f, 0x55/255.0f);
+		Gdx.gl.glClearColor(0x64/255.0f, 0x95/255.0f, 0xed/255.0f, 0xff/255.0f);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
 		playerHUD.render(delta);
@@ -181,14 +173,12 @@ public class GameMAIN extends GameState {
 	@Override
 	public void resize (int width, int height) {
 		super.resize(width, height);
-		hudcam.update();
     }
     
     @Override
     public void show() {   
     	super.show();
 		mapRenderer.setView(cam);
-		hudcam.update();
     }
 
     @Override
@@ -251,7 +241,7 @@ public class GameMAIN extends GameState {
     	for(int i = 0; i < coins.size(); i++) {coins.get(i).dispose();}
     }
     
-	//Handle Actors' Collisions
+	// Inventory coin pickup
     private void checkCollisions(Coin c) {
     	float x = player.getPositionX();
     	float y = player.getPositionY();
@@ -283,13 +273,15 @@ public class GameMAIN extends GameState {
 
 	private boolean isCellBlocked(int iso_x, int iso_y) {
 		Cell cell = blockedLayer.getCell(iso_x, iso_y);
-		boolean blocked = (cell!= null && cell.getTile() != null && cell.getTile().getProperties().containsKey("Blocked"));
+		boolean blocked = (cell!= null && cell.getTile() != null 
+		&& cell.getTile().getProperties().containsKey("Blocked"));
 
 		//Check the invisible layer. 
-			if(blocked == false){
-				Cell transparentCheckCell = transparentBlockedLayer.getCell(iso_x, iso_y); 
-				blocked = (transparentCheckCell!= null && transparentCheckCell.getTile() != null && transparentCheckCell.getTile().getProperties().containsKey("Blocked"));
-			}
+		if(blocked == false){
+			Cell transparentCheckCell = transparentBlockedLayer.getCell(iso_x, iso_y); 
+			blocked = (transparentCheckCell!= null && transparentCheckCell.getTile() != null 
+			&& transparentCheckCell.getTile().getProperties().containsKey("Blocked"));
+		}
 
 		return blocked;
 	}
@@ -300,10 +292,10 @@ public class GameMAIN extends GameState {
 		double alpha = Math.toDegrees(Math.atan(y/x * -1));
 		
 		Vector2 v = new Vector2();
-		tmp_x = (float)(Math.cos(Math.PI*(theta - alpha)/180) * len);
-		tmp_y = (float)(Math.cos(Math.PI*(theta + alpha)/180) * len);
-		v.x = (float) (tmp_x - len*Math.sin(Math.PI*((theta - alpha)/180)/(Math.tan(Math.PI*2*theta/180))));
-		v.y = (float) (tmp_y - len*Math.sin(Math.PI*((theta + alpha)/180)/(Math.tan(Math.PI*2*theta/180))));
+		tmp_x = (float)(Math.cos(Math.PI * (theta - alpha) / 180) * len);
+		tmp_y = (float)(Math.cos(Math.PI * (theta + alpha) / 180) * len);
+		v.x = (float) (tmp_x - len * Math.sin(Math.PI * ((theta - alpha) / 180) / (Math.tan(Math.PI * 2 * theta / 180))));
+		v.y = (float) (tmp_y - len * Math.sin(Math.PI * ((theta + alpha) / 180) / (Math.tan(Math.PI * 2 * theta / 180))));
 	
 		return v;
 	}
@@ -313,10 +305,10 @@ public class GameMAIN extends GameState {
 		int iso_y;
 		Vector2 v = rotateCoord(x, y);
 
-		iso_x = (int)(v.x / tilewidth);
-		iso_y = (int)(v.y / tileheight);
+		iso_x = (int) (v.x / tilewidth);
+		iso_y = (int) (v.y / tileheight);
 
-		//Changed this from IsCellBlocked
+		//Changed this from isCellBlocked
 		return isCellBlockedForVillager(iso_x, iso_y);	
 	}
 

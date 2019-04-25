@@ -2,47 +2,21 @@ package com.isometricgame.core;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
-// import com.badlogic.gdx.math.DelaunayTriangulator;
-// import com.badlogic.gdx.math.Vector2;
-// import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-// import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-// import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-// import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
-// import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-// import com.isometricgame.core.InventoryItem;
-// import com.isometricgame.core.InventoryItem.ItemTypeID;
-// import com.isometricgame.core.Utility;
-import com.isometricgame.core.Player;
-// import com.isometricgame.core.GameMAIN;
-
 public class PlayerHUD implements Screen, InventoryObserver {
 
-    // private static final String TAG = PlayerHUD.class.getSimpleName();
-
-    private Camera camera;
-    private Player player;
     private Stage stage;
     private Viewport viewport;
-    // private Camera camera;
     private int initialise = 0;
 
     private InventoryUI inventoryUI;
 
-    // private Json json;
-
-    // private static final String INVENTORY_FULL = "Your inventory is full.";
-
-    public PlayerHUD(Camera camera, Player player) {
-        System.out.println("PlayerHUD constructor");
-
-        this.camera = camera;
-        this.player = player;
+    public PlayerHUD(Camera camera) {
 
         viewport = new ScreenViewport(camera);
         stage = new Stage(viewport);
@@ -54,7 +28,6 @@ public class PlayerHUD implements Screen, InventoryObserver {
         inventoryUI.setMovable(true);
 
         stage.addActor(inventoryUI);
-        System.out.println("added inventoryUI");
 
         inventoryUI.validate();
 
