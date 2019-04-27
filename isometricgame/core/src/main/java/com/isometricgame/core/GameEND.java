@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import gameManager.GameManager;
-import gameManager.GameState;
+import com.isometricgame.core.gamemanager.GameManager;
+import com.isometricgame.core.gamemanager.GameState;
 
 public class GameEND extends GameState{
 	
@@ -24,7 +24,6 @@ public class GameEND extends GameState{
 		sprite = new Sprite(bkgTexture);
 		batch = new SpriteBatch();
 	}
-	
 	
 	@Override
 	public void render(float delta) {
@@ -52,19 +51,16 @@ public class GameEND extends GameState{
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

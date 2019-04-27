@@ -1,4 +1,4 @@
-package characterManager;
+package com.isometricgame.core.charactermanager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -36,8 +36,8 @@ public abstract class Property {
 		texture = new Texture(Gdx.files.internal(materials));
 		batch = new SpriteBatch();
 		region = new TextureRegion(texture, sx, sy, ex, ey);
-		sizeX = (ex-sx)*scale;
-		sizeY = (ey-sy)*scale;
+		sizeX = (ex - sx) * scale;
+		sizeY = (ey - sy) * scale;
 	}
 	
 	public void characterUpdate(float nx, float ny) {
@@ -46,28 +46,52 @@ public abstract class Property {
 		batch.end();
 	}
 	
-	public float getPositionX() {return posX + sizeX/2;}	
-	public float getPositionY() {return posY + sizeY/2;}	
-	public float getSizeX() {return sizeX;}	
-	public float getSizeY() {return sizeY;}
-	public int getSpeed() {return speed;}
-	public void setSpeed(int newSpeed) {speed = Math.min(newSpeed, speedLimit);}
-	public int getSpeedLimit() {return speedLimit;}
-	
-	public void setBoundary(float top, float bottom, float right, float left) {
-		boundTop = top*scale;
-		boundBottom = bottom*scale;
-		boundRight = right*scale;
-		boundLeft = left*scale;
+	public float getPositionX() {
+		return posX + sizeX / 2;
+	}	
+
+	public float getPositionY() {
+		return posY + sizeY / 2;
+	}
+
+	public float getSizeX() {
+		return sizeX;
+	}
+
+	public float getSizeY() {
+		return sizeY;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int newSpeed) {
+		speed = Math.min(newSpeed, speedLimit);
+	}
+
+	public int getSpeedLimit() {
+		return speedLimit;
 	}
 	
-	public SpriteBatch getBatch() {return batch;}
+	public void setBoundary(float top, float bottom, float right, float left) {
+		boundTop = top * scale;
+		boundBottom = bottom * scale;
+		boundRight = right * scale;
+		boundLeft = left * scale;
+	}
+	
+	public SpriteBatch getBatch() {
+		return batch;
+	}
 	
 	public boolean containPoint(float x, float y) {
 		if(x > getPositionX() - boundLeft &&
 		   x < getPositionX() + boundRight &&
 		   y > getPositionY() - boundBottom &&
-		   y < getPositionY() + boundTop) {return true;}
+		   y < getPositionY() + boundTop) {
+				return true;
+			}
 		return false;
 	}
 	
@@ -78,4 +102,5 @@ public abstract class Property {
 	public void dispose() {
 		texture.dispose();
 	}
+	 
 }

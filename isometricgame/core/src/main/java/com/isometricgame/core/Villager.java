@@ -4,10 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
-
-import characterManager.People;
+import com.isometricgame.core.charactermanager.People;
 
 public class Villager extends People {
 
@@ -20,10 +18,8 @@ public class Villager extends People {
 	private float init_x, init_y;
 	private int direction;
 
-	
-	
 	public Villager(float x, float y) {
-		super(x, y,  (float)0.35);
+		super(x, y, (float) 0.35);
 		frameSizeX = 302;
 		frameSizeY = 344;
 		direction = 1;
@@ -37,13 +33,12 @@ public class Villager extends People {
 	public void create() {
 		characterInit("boss_down.png", 0, 0, frameSizeX, frameSizeY);
 		animationInit();
-		setBoundary(getSizeY()/2, getSizeY()/2, getSizeX()/2, getSizeX()/2);
+		setBoundary(getSizeY() / 2, getSizeY() / 2, getSizeX() / 2, getSizeX() / 2);
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -56,13 +51,11 @@ public class Villager extends People {
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -77,52 +70,56 @@ public class Villager extends People {
 		for(int i = 0; i < frameNumber; i++) {
 			frames.add(initTextureReg(frameName[i], 0, 0, frameSizeX, frameSizeY));
 		}
-		spin = new Animation(0.1f,frames);
+		spin = new Animation(0.1f, frames);
 		frames.clear();
 	}
 
 	@Override
 	public void animationUpdate(float dt) {		
-		region = spin.getKeyFrame(timer+=dt/10, true);
+		region = spin.getKeyFrame(timer += dt / 10, true);
 	}
 
 	@Override
 	public void CollisionAction(boolean fire) {
 		if(fire) {
 			randomDirection();
-			if(direction == 0){
+			if(direction == 0) {
 				move_x = 2;
 				move_y = 1;
 			}
-			else if(direction == 1){
+			else if(direction == 1) {
 				move_x = 2;
 				move_y = -1;
 			}
-			else if(direction == 2){
+			else if(direction == 2) {
 				move_x = -2;
 				move_y = 1;
 			}
-			else{
+			else {
 				move_x = -2;
 				move_y = -1;
 			}
 		}		
 	}
     
-    private void moveVillager(){
+    private void moveVillager() {
         pos_x += move_x;
         pos_y += move_y;
     }
 
-    private void randomDirection(){
+    private void randomDirection() {
         double r = Math.random();
 		int i = (int) ((r * 3) + 1);
 		direction += i;
 		direction = direction % 4;
     }
 
-    public float initial_x(){ return init_x; }
+    public float initial_x() {
+		return init_x;
+	}
 
-    public float initial_y(){ return init_y; }
+    public float initial_y() {
+		return init_y;
+	}
 
 }

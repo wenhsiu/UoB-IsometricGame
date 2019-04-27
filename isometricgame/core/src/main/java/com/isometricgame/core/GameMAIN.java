@@ -1,7 +1,5 @@
 package com.isometricgame.core;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -13,14 +11,20 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
-import com.isometricgame.core.InventoryItem.ItemTypeID;
+import com.isometricgame.core.gamemanager.GameManager;
+import com.isometricgame.core.gamemanager.GameState;
 
-import characterManager.People;
-import characterManager.Property;
-import characterManager.TriggerPoint;
+import com.isometricgame.core.charactermanager.People;
+import com.isometricgame.core.charactermanager.Property;
+import com.isometricgame.core.charactermanager.TriggerPoint;
 
-import gameManager.GameManager;
-import gameManager.GameState;
+import com.isometricgame.core.ui.InventoryItem;
+import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
+import com.isometricgame.core.ui.InventoryItemFactory;
+import com.isometricgame.core.ui.InventoryUI;
+import com.isometricgame.core.ui.PlayerHUD;
+
+import java.util.ArrayList;
 
 public class GameMAIN extends GameState {
 
@@ -177,17 +181,20 @@ public class GameMAIN extends GameState {
 	}
 	
 	private void initMapAndLayer() {
+
 		//Map
 		map = new TmxMapLoader().load("./Isometria/isometria.tmx");
 		mapRenderer = new IsometricTiledMapRenderer(map);
 		mapRenderer.setView(cam);
+
 		// Block represents the "blocked" layer.
 		// Later put the TiledMapTileLayers into an array.
 		blockedLayer = (TiledMapTileLayer) map.getLayers().get("Block");
 
 		// Blocked edge layer is transparent.
 		transparentBlockedLayer = (TiledMapTileLayer) map.getLayers().get("Transparent");
-		// blocked layer is blocking but is not visible.
+
+		// Blocked layer is blocking but is not visible.
 		transparentBlockedLayer.setVisible(false);
 
 		// TODO: Check if initial start position is blocked or not.
@@ -211,12 +218,13 @@ public class GameMAIN extends GameState {
 			
 			if(type.equals("boss")) {
 				p = new Boss(x, y);
-			}else if(type.equals("villager")) {
+			} else if(type.equals("villager")) {
 				p = new Villager(x, y);
-
 			}			
 			p.create();			
-			if(p != null) {people.add(p);}
+			if(p != null) {
+				people.add(p);
+			}
 		}		
 	}
 	
@@ -227,7 +235,9 @@ public class GameMAIN extends GameState {
 	}
 	
 	private void renderPeople() {
-		for(People ppl : people) {ppl.render();}
+		for(People ppl : people) {
+			ppl.render();
+		}
 	}
 	
 	private People getPeopleByName(String name) {
@@ -238,7 +248,9 @@ public class GameMAIN extends GameState {
 	}
 	
 	private void disposePeople() {
-		for(People ppl : people) {ppl.dispose();}
+		for(People ppl : people) {
+			ppl.dispose();
+		}
 	}
 	
 	//Handle TriggerPoint
@@ -293,7 +305,9 @@ public class GameMAIN extends GameState {
 	}
 
 	private void renderProperty() {
-		for(Property ppt : property){ppt.render();}
+		for(Property ppt : property) {
+			ppt.render();
+		}
 	}
 	
 
@@ -304,10 +318,12 @@ public class GameMAIN extends GameState {
 	}
 
 	private void disposeProperty() {
-		for (Property ppt : property) {ppt.dispose();}
-	}
+		for (Property ppt : property) {
+			ppt.dispose();
+		}
+	} 
 
-	// Collisions with inventory pick-up
+	// Collisions with inventory, boolean for later checking
 	private boolean checkPropertyCollisions(float x, float y) {
 		for(int i = 0; i < property.size(); i++) {
 			if(property.get(i).containPoint(x, y)) {
@@ -340,23 +356,20 @@ public class GameMAIN extends GameState {
 			blocked = (transparentCheckCell != null && transparentCheckCell.getTile() != null
 					&& transparentCheckCell.getTile().getProperties().containsKey("Blocked"));
 		}
-
 		return blocked;
 	}
 
 	private Vector2 rotateCoord(float x, float y) {
 		float tmp_x, tmp_y;
 		double len = Math.sqrt(x * x + y * y);
-		double alpha = Math.toDegrees(Math.atan(y / x * -1));//map: down is positive
+		double alpha = Math.toDegrees(Math.atan(y / x * -1)); // Map: down is positive
 
 		Vector2 v = new Vector2();
 		tmp_x = (float) (Math.cos(Math.PI * (theta - alpha) / 180) * len);
 		tmp_y = (float) (Math.cos(Math.PI * (theta + alpha) / 180) * len);
-		v.x = (float) (tmp_x
-				- len * Math.sin(Math.PI * ((theta - alpha) / 180) / (Math.tan(Math.PI * 2 * theta / 180))));
-		v.y = (float) (tmp_y
-				- len * Math.sin(Math.PI * ((theta + alpha) / 180) / (Math.tan(Math.PI * 2 * theta / 180))));
-
+		v.x = (float) (tmp_x - len * Math.sin(Math.PI * ((theta - alpha) / 180) / (Math.tan(Math.PI * 2 * theta / 180))));
+		v.y = (float) (tmp_y - len * Math.sin(Math.PI * ((theta + alpha) / 180) / (Math.tan(Math.PI * 2 * theta / 180))));
+		
 		return v;
 	}
 

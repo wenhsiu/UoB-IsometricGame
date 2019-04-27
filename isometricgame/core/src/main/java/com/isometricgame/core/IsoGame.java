@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 
-import gameManager.GameManager;
+import com.isometricgame.core.gamemanager.GameManager;
 
 public class IsoGame extends Game {
 
@@ -20,7 +20,6 @@ public class IsoGame extends Game {
 		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Hypnotic-Puzzle3.mp3")); 
 		backgroundMusic.setLooping(true);
 		//backgroundMusic.play(); disable when develop
-
 	}
 
 	@Override
@@ -47,4 +46,5 @@ public class IsoGame extends Game {
 	public void dispose () {
 		super.dispose();
 	}
+	
 }

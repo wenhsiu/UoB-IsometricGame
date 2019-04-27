@@ -1,4 +1,4 @@
-package gameManager;
+package com.isometricgame.core.gamemanager;
 
 import java.util.HashMap;
 
@@ -32,11 +32,17 @@ public class GameManager {
 		initAllState();
 	}
 	
-	public String[] getAllGameNames() {return stateName;}
+	public String[] getAllGameNames() {
+		return stateName;
+	}
 	
-	public GameState getGameState() {return currentState;}
+	public GameState getGameState() {
+		return currentState;
+	}
 	
-	public GameState getGameState(String gameName) {return gameStates.get(gameName);}
+	public GameState getGameState(String gameName) {
+		return gameStates.get(gameName);
+	}
 	
 	public void setCurrGameState(String gsName) {
 		if(gameStates.get(gsName) != null) {
@@ -45,8 +51,9 @@ public class GameManager {
 		}
 	}
 
-	
-	public Player getPlayer() {return player;}
+	public Player getPlayer() {
+		return player;
+	}
 	
 	private void initAllState() {
 		for(int i = 0; i < stateName.length; i++) {
@@ -56,7 +63,7 @@ public class GameManager {
 				gameStates.put("END", new GameEND(this));
 			}else if(stateName[i].equals("MINIGAME1")) {
 				gameStates.put("MINIGAME1", new GameDrop(this));
-			}/* else if(stateName[i].equals("MINIGAME2")) {
+			} /* else if(stateName[i].equals("MINIGAME2")) {
 				gameStates.put("MINIGAME2", new clickAndDragGameManager());
 			} */ 
 		}

@@ -1,7 +1,7 @@
 package com.isometricgame.core;
 
-import characterManager.TriggerPoint;
-import gameManager.GameManager;
+import com.isometricgame.core.charactermanager.TriggerPoint;
+import com.isometricgame.core.gamemanager.GameManager;
 
 public class PhoneBox extends TriggerPoint{
 

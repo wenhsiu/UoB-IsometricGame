@@ -1,4 +1,4 @@
-package com.isometricgame.core;
+package com.isometricgame.core.ui;
 
 public interface InventorySubject {
     public void addObserver(InventoryObserver inventoryObserver);

@@ -1,11 +1,14 @@
-package com.isometricgame.core;
+package com.isometricgame.core.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Scaling;
-import com.isometricgame.core.InventoryItem.ItemTypeID;
+
+import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
+import com.isometricgame.core.Utility;
+
 import java.util.*;
 
 public class InventoryItemFactory {

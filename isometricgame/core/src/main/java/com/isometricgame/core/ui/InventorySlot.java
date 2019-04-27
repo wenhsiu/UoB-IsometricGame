@@ -1,4 +1,4 @@
-package com.isometricgame.core;
+package com.isometricgame.core.ui;
 
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
-import com.isometricgame.core.InventoryItem;
+import com.isometricgame.core.ui.InventoryItem;
 import com.isometricgame.core.Utility;
 
 public class InventorySlot extends Stack implements InventorySlotSubject {

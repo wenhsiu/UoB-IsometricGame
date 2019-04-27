@@ -1,13 +1,15 @@
 package com.isometricgame.core;
 
-import customizedInputProcessor.GameInputProcessor;
-import customizedInputProcessor.GameKeys;
-import characterManager.People;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.utils.*;
+
+import com.isometricgame.core.custominputprocessor.GameInputProcessor;
+import com.isometricgame.core.custominputprocessor.GameKeys;
+
+import com.isometricgame.core.charactermanager.People;
 
 public class Player extends People{
 
@@ -19,7 +21,7 @@ public class Player extends People{
 	private int frameSizeY;
 
 	public Player(float x, float y) {
-		super(x, y, (float)0.2); //was 0.5
+		super(x, y, (float) 0.2); // was 0.5
 		speedFactor = 100;
 		speedLimit = 300;
 		score = 0;
@@ -46,9 +48,9 @@ public class Player extends People{
 		animationUpdate(Gdx.graphics.getDeltaTime());
 		
 		if(GameKeys.isDown(GameKeys.UP) || GameKeys.isDown(GameKeys.DOWN) || 
-				GameKeys.isDown(GameKeys.RIGHT) || GameKeys.isDown(GameKeys.LEFT)) {
-				speedFactor = Math.min(100, speedFactor+10);
-		}else {
+		   GameKeys.isDown(GameKeys.RIGHT) || GameKeys.isDown(GameKeys.LEFT)) {
+			speedFactor = Math.min(100, speedFactor + 10);
+		} else {
 			speedFactor = 100;
 		}
 		GameKeys.update();
@@ -98,28 +100,28 @@ public class Player extends People{
 
 	@Override
 	public void animationUpdate(float dt) {
-		float speed = dt*speedFactor;
+		float speed = dt * speedFactor;
 		timer += Gdx.graphics.getDeltaTime();
 
 		if(Gdx.input.isKeyPressed(Keys.UP)) {
 			region = walkUp.getKeyFrame(timer, true);
 			pos_y += speed;
-			pos_x += 2*speed;
+			pos_x += 2 * speed;
 		}
 		if(Gdx.input.isKeyPressed(Keys.DOWN)) {
 			region = walkDown.getKeyFrame(timer, true);
 			pos_y -= speed;
-			pos_x -= 2*speed;
+			pos_x -= 2 * speed;
 		}
 		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
 			region = walkLeft.getKeyFrame(timer, true);	
 			pos_y += speed;
-			pos_x -= 2*speed;
+			pos_x -= 2 * speed;
 		}
 		if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			region = walkRight.getKeyFrame(timer, true);
 			pos_y -= speed;
-			pos_x += 2*speed;
+			pos_x += 2 * speed;
 		}
 		
 	}
@@ -136,12 +138,17 @@ public class Player extends People{
 		speedFactor = Math.min(speedLimit, newSpeed);
 	}
 	
-	public void setScore() {score++;}
+	public void setScore() {
+		score++;
+	}
 	
-	public int getScore() {return score;}
+	public int getScore() {
+		return score;
+	}
 
 	@Override
 	public void CollisionAction(boolean fire) {
 		// TODO Auto-generated method stub
 	}
+	
 }

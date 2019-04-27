@@ -1,4 +1,4 @@
-package customizedInputProcessor;
+package com.isometricgame.core.custominputprocessor;
 
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;

@@ -1,4 +1,4 @@
-package com.isometricgame.core;
+package com.isometricgame.core.ui;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -6,10 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 
-import com.isometricgame.core.InventoryItem;
-import com.isometricgame.core.InventoryItemFactory;
-import com.isometricgame.core.InventoryItem.ItemTypeID;
-import com.isometricgame.core.InventoryItemLocation;
+import com.isometricgame.core.ui.InventoryItem;
+import com.isometricgame.core.ui.InventoryItemFactory;
+import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
+import com.isometricgame.core.ui.InventoryItemLocation;
 import com.isometricgame.core.Utility;
 
 public class InventoryUI extends Window implements InventorySubject, InventorySlotObserver {

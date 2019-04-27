@@ -1,4 +1,4 @@
-package com.isometricgame.core;
+package com.isometricgame.core.ui;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;

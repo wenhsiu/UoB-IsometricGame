@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
-import characterManager.People;
+import com.isometricgame.core.charactermanager.People;
 
 public class Boss extends People {
 
@@ -17,7 +17,7 @@ public class Boss extends People {
 	
 	
 	public Boss(float x, float y) {
-		super(x, y,  (float)0.5);
+		super(x, y, (float) 0.5);
 		frameSizeX = 302;
 		frameSizeY = 344;
 	}
@@ -32,7 +32,6 @@ public class Boss extends People {
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -41,11 +40,8 @@ public class Boss extends People {
 		animationUpdate(Gdx.graphics.getDeltaTime());		
 	}
 
-	
-
 	@Override
 	public void resume() {
-		
 	}
 
 	@Override
@@ -60,19 +56,21 @@ public class Boss extends People {
 		for(int i = 0; i < frameNumber; i++) {
 			frames.add(initTextureReg(frameName[i], 0, 0, frameSizeX, frameSizeY));
 		}
-		spin = new Animation(0.1f,frames);
+		spin = new Animation(0.1f, frames);
 		frames.clear();
 	}
 
 	@Override
 	public void animationUpdate(float dt) {		
-		region = spin.getKeyFrame(timer+=dt/10, true);
+		region = spin.getKeyFrame(timer += dt/10, true);
 	}
 
 	@Override
-	public void CollisionAction(boolean fire) {}
+	public void CollisionAction(boolean fire) {
+	}
 
 	@Override
-	public void pause() {}
+	public void pause() {
+	}
 
 }

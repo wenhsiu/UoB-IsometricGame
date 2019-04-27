@@ -1,4 +1,4 @@
-package characterManager;
+package com.isometricgame.core.charactermanager;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -35,9 +35,9 @@ public abstract class People implements ApplicationListener{
 		texture = new Texture(Gdx.files.internal(materials));
 		batch = new SpriteBatch();
 		region = new TextureRegion(texture, sx, sy, ex, ey);
-		size_x = (ex-sx)*scale;
-		size_y = (ey-sy)*scale;
-		setBoundary(size_y/2, size_y/2, size_x/2, size_x/2);
+		size_x = (ex - sx) * scale;
+		size_y = (ey - sy) * scale;
+		setBoundary(size_y / 2, size_y / 2, size_x / 2, size_x / 2);
 	}
 	
 	public void characterUpdate(float nx, float ny) {
@@ -46,13 +46,21 @@ public abstract class People implements ApplicationListener{
 		batch.end();
 	}
 	
-	public float getPositionX() {return pos_x + size_x/2;}
+	public float getPositionX() {
+		return pos_x + size_x / 2;
+	}
 	
-	public float getPositionY() {return pos_y + size_y/2;}
+	public float getPositionY() {
+		return pos_y + size_y / 2;
+	}
 	
-	public float getSizeX() {return size_x;}
+	public float getSizeX() {
+		return size_x;
+	}
 	
-	public float getSizeY() {return size_y;}
+	public float getSizeY() {
+		return size_y;
+	}
 	
 	public void setBoundary(float top, float bottom, float right, float left) {
 		bound_top = top;
@@ -61,13 +69,17 @@ public abstract class People implements ApplicationListener{
 		bound_left = left;
 	}
 	
-	public SpriteBatch getBatch() {return batch;}
+	public SpriteBatch getBatch() {
+		return batch;
+	}
 	
 	public boolean containPoint(float x, float y) {
 		if(x > getPositionX() - bound_left &&
 		   x < getPositionX() + bound_right &&
 		   y > getPositionY() - bound_bottom &&
-		   y < getPositionY() + bound_top) {return true;}
+		   y < getPositionY() + bound_top) {
+			    return true;
+			}
 		return false;
 	}
 	
@@ -78,4 +90,5 @@ public abstract class People implements ApplicationListener{
 	public void dispose() {
 		texture.dispose();
 	}
+	
 }

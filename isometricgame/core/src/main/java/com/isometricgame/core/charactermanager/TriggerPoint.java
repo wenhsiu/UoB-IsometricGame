@@ -1,12 +1,12 @@
-package characterManager;
+package com.isometricgame.core.charactermanager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import gameManager.GameManager;
-import gameManager.GameState;
+import com.isometricgame.core.gamemanager.GameManager;
+import com.isometricgame.core.gamemanager.GameState;
 
 public class TriggerPoint {
 	
@@ -33,20 +33,20 @@ public class TriggerPoint {
 		gsName = gameName;
 	}
 	
-	public void initTriggerPoint(String materails, int sx, int sy, int ex, int ey) {
-		texture = new Texture(Gdx.files.internal(materails));
+	public void initTriggerPoint(String materials, int sx, int sy, int ex, int ey) {
+		texture = new Texture(Gdx.files.internal(materials));
 		batch = new SpriteBatch();
 		region = new TextureRegion(texture, sx, sy, ex, ey);
-		sizeX = (ex-sx)*scale;
-		sizeY = (ey-sy)*scale;
-		setBoundary(sizeY/2, sizeY/2, sizeX/2, sizeX/2);
+		sizeX = (ex - sx) * scale;
+		sizeY = (ey - sy) * scale;
+		setBoundary(sizeY / 2, sizeY / 2, sizeX / 2, sizeX / 2);
 	}
 
 	public void setBoundary(float top, float bottom, float right, float left) {
-		boundTop = top*scale;
-		boundBottom = bottom*scale;
-		boundRight = right*scale;
-		boundLeft = left*scale;
+		boundTop = top * scale;
+		boundBottom = bottom * scale;
+		boundRight = right * scale;
+		boundLeft = left * scale;
 	}
 	
 	public void updateTriggerPoint() {
@@ -55,25 +55,39 @@ public class TriggerPoint {
 		batch.end();
 	}
 	
-	public SpriteBatch getBatch() {return batch;}
+	public SpriteBatch getBatch() {
+		return batch;
+	}
 	
-	public float getPositionX() {return posX + sizeX/2;}	
-	public float getPositionY() {return posY + sizeY/2;}	
+	public float getPositionX() {
+		return posX + sizeX / 2;
+	}
+
+	public float getPositionY() {
+		return posY + sizeY / 2;
+	}
 	
 	public boolean containPoint(float x, float y) {
 		if(x > getPositionX() - boundLeft &&
 		   x < getPositionX() + boundRight &&
 		   y > getPositionY() - boundBottom &&
-		   y < getPositionY() + boundTop) {return true;}
+		   y < getPositionY() + boundTop) {
+				return true;
+			}
 		return false;
 	}
 	
 	public void triggerGame() {
-		/**/System.out.println(gsName);
+		System.out.println(gsName);
 		gm.setCurrGameState(gsName);
 	}
-	public GameState getTriggeredGame() {return gm.getGameState(gsName);}
+
+	public GameState getTriggeredGame() {
+		return gm.getGameState(gsName);
+	}
+
 	public void dispose() {
 		texture.dispose();
 	}
+	
 }

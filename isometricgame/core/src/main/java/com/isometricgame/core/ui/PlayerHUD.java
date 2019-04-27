@@ -1,4 +1,4 @@
-package com.isometricgame.core;
+package com.isometricgame.core.ui;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
