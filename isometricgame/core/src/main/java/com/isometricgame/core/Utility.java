@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.Gdx;
 
-// N.B. Utility is used for various things besides inventory.
+// N.B. Utility is used for various things.
 // Please edit me if you need to use me.
 
 public final class Utility {
@@ -16,5 +16,11 @@ public final class Utility {
     public static TextureAtlas STATUSUI_TEXTUREATLAS = new TextureAtlas(STATUSUI_TEXTURE_ATLAS_PATH);
     public static TextureAtlas ITEMS_TEXTUREATLAS = new TextureAtlas(ITEMS_TEXTURE_ATLAS_PATH);
     public static Skin STATUSUI_SKIN = new Skin(Gdx.files.internal(STATUSUI_SKIN_PATH), STATUSUI_TEXTUREATLAS);
+
+    private final static String DIALOGUI_TEXTURE_ATLAS_PATH = "skins/dialogui.atlas";
+    private final static String DIALOGUI_SKIN_PATH = "skins/dialogui.json";
+    
+    public static TextureAtlas DIALOGUI_TEXTUREATLAS = new TextureAtlas(DIALOGUI_TEXTURE_ATLAS_PATH);
+    public static Skin DIALOGUI_SKIN = new Skin(Gdx.files.internal(DIALOGUI_SKIN_PATH), DIALOGUI_TEXTUREATLAS);
 
 }

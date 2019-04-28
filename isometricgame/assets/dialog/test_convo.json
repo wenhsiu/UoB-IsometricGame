@@ -1,0 +1,34 @@
+{
+    "conversations": {
+        "1": {
+            "id": 1,
+            "dialog": "Welcome to Isometria! And just in time, because the residents of the island are in trouble… for some reason, they can’t stop speaking in 1s and 0s – nobody can understand each other!",
+            "child": 2
+        },
+        "2": {
+            "id": 2,
+            "dialog": "But this has happened before, remember? At that time, all the mayor had to do was flip the switch in <final boss location> on and off… the island was reset and everything went back to normal.",
+            "child": 3
+        },
+        "3": {
+            "id": 3,
+            "dialog": "Unfortunately, the mayor’s away on a trip... you’re our only hope!",
+            "child": 4
+        },
+        "4": {
+            "id": 4,
+            "dialog": "Hmm, but since you’re not an elected official, you’re going to need to gain special access to <final boss location>. This means you’ll need to collect <items> from certain places on the island. It’s a long shot, but go around the island and see if anyone can give you clues on where to start.",
+            "child": 5
+        },
+        "5": {
+            "id": 5,
+            "dialog": "Reach <final boss location>, flip the switch and save Isometria!",
+            "child": 6
+        },
+        "6": {
+            "id": 6,
+            "dialog": "Oh, but wait. What is binary?",
+            "child": "exit"
+        }
+    }
+}

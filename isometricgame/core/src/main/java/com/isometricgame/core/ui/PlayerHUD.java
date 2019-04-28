@@ -7,6 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+
+import com.isometricgame.core.dialog.DialogUI;
+
+import com.isometricgame.core.Utility;
 
 public class PlayerHUD implements Screen, InventoryObserver {
 
@@ -16,14 +21,23 @@ public class PlayerHUD implements Screen, InventoryObserver {
 
     private InventoryUI inventoryUI;
 
+    private DialogUI dialogUI;
+	private Dialog dialog;
+
     public PlayerHUD(Camera camera) {
 
         viewport = new ScreenViewport(camera);
         stage = new Stage(viewport);
 
+        // TODO: Make inventory resizable?
+        // TODO: Make inventory stackable
+        // TODO: Test inventory with other items
+        // TODO: Resize inventory
+        // TODO: In front of actors?
+
         inventoryUI = new InventoryUI();
         inventoryUI.setVisible(true);
-        inventoryUI.setPosition(600, 600);
+        inventoryUI.setPosition(50, 50);
         inventoryUI.setKeepWithinStage(false);
         inventoryUI.setMovable(true);
 
@@ -37,10 +51,31 @@ public class PlayerHUD implements Screen, InventoryObserver {
         }
 
         inventoryUI.addObserver(this);
+
+        dialogUI = new DialogUI(Utility.DIALOGUI_SKIN);
+        dialog = dialogUI.getDialog();
+        dialog.setVisible(false);
+        dialog.setPosition(350, 550);
+        dialog.setKeepWithinStage(false);
+        dialog.setMovable(true);
+        dialog.setSize(667, 200);
+
+        stage.addActor(dialog);
+
+        dialog.validate();
+        
     }
 
     public Stage getStage() {
         return stage;
+    }
+
+    public void DialogOn() {
+        dialog.setVisible(true);
+    }
+
+    public void DialogOff() {
+        dialog.setVisible(false);
     }
 
     public InventoryUI getInventoryUI() {

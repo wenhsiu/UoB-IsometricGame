@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+// import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
@@ -17,6 +18,8 @@ import com.isometricgame.core.gamemanager.GameState;
 import com.isometricgame.core.charactermanager.People;
 import com.isometricgame.core.charactermanager.Property;
 import com.isometricgame.core.charactermanager.TriggerPoint;
+
+// import com.isometricgame.core.dialog.DialogUI;
 
 import com.isometricgame.core.ui.InventoryItem;
 import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
@@ -54,10 +57,10 @@ public class GameMAIN extends GameState {
 	// Characters
 	private ArrayList<People> people;
 	// Naming rule: <type>_<alias>
-	private final String[] peopleName = {"Boss_org", "Boss_drop", "Villager_1"};
+	private final String[] peopleName = {"Boss_org", "Boss_drop", "Villager_1", "Villager_2"};
 						
-	private final float[] pplX = {500, 1954, 3000};
-	private final float[] pplY = {500, -38, -1000};
+	private final float[] pplX = {500, 1954, 3000, 100};
+	private final float[] pplY = {500, -38, -1000, 100};
 	
 	// Object to collect
 	private ArrayList<Property> property;
@@ -102,7 +105,8 @@ public class GameMAIN extends GameState {
 		float x = player.getPositionX();
 		float y = player.getPositionY();
 		
-		checkTriggerGame(x, y); //trigger mini games with phone boxes
+		// Trigger mini games with phone boxes
+		checkTriggerGame(x, y); 
 		
 		mapRenderer.setView(cam);
 		mapRenderer.render();
@@ -122,11 +126,14 @@ public class GameMAIN extends GameState {
 			InventoryItemFactory factory = InventoryItemFactory.getInstance();
 			InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);			
 			inventoryUI.addItemToInventory(item, "COIN");
+			// TODO: Generalise this for more than 1 item
 		}
 
 		if(checkMapCollision(x, y, tileEdge, tileEdge)) {
 			player.setSpeedFactor(-50);
 		}
+
+		checkVillagerCollisions(x, y);
 		
 		getPeopleByName("Villager_1").CollisionAction(
 			checkVillagerMapCollision(
@@ -204,8 +211,7 @@ public class GameMAIN extends GameState {
 		tileEdge = (float) Math.sqrt(Math.pow(tileH / 2, 2) + Math.pow(tileW / 2, 2));
 	}
 	
-
-	//Handle People
+	// Handle People
 	private void initPeople() {
 		people = new ArrayList<People>();
 		People p = null;
@@ -229,14 +235,14 @@ public class GameMAIN extends GameState {
 	}
 	
 	private void combineCameraPeople() {
-		for(People ppl : people) {
-			ppl.getBatch().setProjectionMatrix(cam.combined);
+		for(int i = 0; i < people.size(); i++) {
+			people.get(i).getBatch().setProjectionMatrix(cam.combined);
 		}
 	}
 	
 	private void renderPeople() {
-		for(People ppl : people) {
-			ppl.render();
+		for(int i = 0; i < people.size(); i++) {
+			people.get(i).render();
 		}
 	}
 	
@@ -248,8 +254,8 @@ public class GameMAIN extends GameState {
 	}
 	
 	private void disposePeople() {
-		for(People ppl : people) {
-			ppl.dispose();
+		for(int i = 0; i < people.size(); i++) {
+			people.get(i).dispose();
 		}
 	}
 	
@@ -268,21 +274,21 @@ public class GameMAIN extends GameState {
 	}
 	
 	private void renderTriggerPoint() {
-		for(TriggerPoint p : tgp) {
-			p.updateTriggerPoint();
+		for(int i = 0; i < tgp.size(); i++) {
+			tgp.get(i).updateTriggerPoint();
 		}
 	}
 	
 	private void disposeTriggerPoint() {
-		for(TriggerPoint p : tgp) {
-			p.dispose();
+		for(int i = 0; i < tgp.size(); i++) {
+			tgp.get(i).dispose();
 		}
 	}
 	
 	private void checkTriggerGame(float x, float y) {
-		for(TriggerPoint p : tgp) {	
-			if(p.containPoint(x, y) && p.getTriggeredGame().getPassState() == false) {
-				p.triggerGame();
+		for(int i = 0; i < tgp.size(); i++) {	
+			if(tgp.get(i).containPoint(x, y) && tgp.get(i).getTriggeredGame().getPassState() == false) {
+				tgp.get(i).triggerGame();
 			}
 		}
 	}
@@ -294,7 +300,7 @@ public class GameMAIN extends GameState {
 	}
 	
 	private void initCoins() {		
-		for (int i = 0; i < coinNumber; i++) {
+		for(int i = 0; i < coinNumber; i++) {
 			Coin c = new Coin(MathUtils.random(200, Gdx.graphics.getWidth() - 200),
 					MathUtils.random(200, Gdx.graphics.getHeight() - 500));
 
@@ -305,21 +311,20 @@ public class GameMAIN extends GameState {
 	}
 
 	private void renderProperty() {
-		for(Property ppt : property) {
-			ppt.render();
+		for(int i = 0; i < property.size(); i++) {
+			property.get(i).render();
 		}
 	}
-	
 
 	private void combineCameraProperty() {
-		for (int i = 0; i < property.size(); i++) {
+		for(int i = 0; i < property.size(); i++) {
 			property.get(i).getBatch().setProjectionMatrix(cam.combined);
 		}
 	}
 
 	private void disposeProperty() {
-		for (Property ppt : property) {
-			ppt.dispose();
+		for(int i = 0; i < property.size(); i++) {
+			property.get(i).dispose();
 		}
 	} 
 
@@ -332,6 +337,15 @@ public class GameMAIN extends GameState {
 			}
 		}
 		return false;
+	}
+
+	// Lizzie test collisions with villager
+		private void checkVillagerCollisions(float x, float y) {
+			for(int i = 0; i < people.size(); i++) {
+				if(people.get(i).containPoint(x, y)) {
+					playerHUD.DialogOn();
+				}
+			}
 	}
 
 	public boolean checkMapCollision(float x, float y, float tilewidth, float tileheight) {
@@ -351,7 +365,7 @@ public class GameMAIN extends GameState {
 		boolean blocked = (cell != null && cell.getTile() != null
 				&& cell.getTile().getProperties().containsKey("Blocked"));
 		// Check the invisible layer.
-		if (blocked == false) {
+		if(blocked == false) {
 			Cell transparentCheckCell = transparentBlockedLayer.getCell(iso_x, iso_y);
 			blocked = (transparentCheckCell != null && transparentCheckCell.getTile() != null
 					&& transparentCheckCell.getTile().getProperties().containsKey("Blocked"));

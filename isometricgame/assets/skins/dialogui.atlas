@@ -1,0 +1,14 @@
+dialogui.9.png
+size: 665, 198
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dialogui
+  rotate: false
+  xy: 0, 0
+  size: 665, 198
+  split: 20, 20, 20, 20
+  pad: 0, 0, 0, 0
+  orig: 665, 198
+  offset: 0, 0
+  index: -1
