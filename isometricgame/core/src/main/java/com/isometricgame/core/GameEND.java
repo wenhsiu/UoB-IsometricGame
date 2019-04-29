@@ -21,7 +21,7 @@ public class GameEND extends GameState{
 		super();
 		this.gm = gm;
 		bkgTexture = new Texture(Gdx.files.internal("gameOver.png"));		
-		sprite = new Sprite(bkgTexture);
+		// sprite = new Sprite(bkgTexture);
 		batch = new SpriteBatch();
 	}
 	
@@ -31,7 +31,8 @@ public class GameEND extends GameState{
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
-		sprite.draw(batch);
+		// sprite.draw(batch);
+		batch.draw(bkgTexture, 0, 0, 1200, 700);
 		batch.end();
 		
 	 	if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)){
@@ -40,8 +41,7 @@ public class GameEND extends GameState{
 	}
 
 	@Override
-	public void resize(int width, int height) {
-		super.resize(width, height);		
+	public void resize(int width, int height) {		
 	}
 
 	@Override

@@ -13,6 +13,7 @@ hs_err_pid*
 
 
 *.DS_Store
+.DS_Store
 
 *.vscode/
 *.vscode
@@ -29,3 +30,7 @@ hs_err_pid*
 *.temp/
 .temp/
 /.metadata/
+
+#compile
+inputFiles.lst
+*/inputFiles.lst
