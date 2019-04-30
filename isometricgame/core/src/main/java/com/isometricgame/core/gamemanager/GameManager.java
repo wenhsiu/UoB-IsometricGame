@@ -3,11 +3,11 @@ package com.isometricgame.core.gamemanager;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Game;
+import com.isometricgame.core.Avoid;
 import com.isometricgame.core.GameDrop;
 import com.isometricgame.core.GameEND;
 import com.isometricgame.core.GameMAIN;
 import com.isometricgame.core.Player;
-
 
 public class GameManager {
 	private HashMap<String, GameState> gameStates;
@@ -63,9 +63,12 @@ public class GameManager {
 				gameStates.put("END", new GameEND(this));
 			}else if(stateName[i].equals("MINIGAME1")) {
 				gameStates.put("MINIGAME1", new GameDrop(this));
-			} /* else if(stateName[i].equals("MINIGAME2")) {
+			}  /* else if(stateName[i].equals("MINIGAME2")) {
 				gameStates.put("MINIGAME2", new clickAndDragGameManager());
-			} */ 
+			}  */
+			else if(stateName[i].equals("MINIGAME2")) {
+				gameStates.put("MINIGAME2", new Avoid(this));
+			}
 		}
 	}
 }
