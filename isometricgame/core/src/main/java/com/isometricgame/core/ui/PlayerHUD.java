@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import com.isometricgame.core.dialog.DialogUI;
 
@@ -22,7 +23,11 @@ public class PlayerHUD implements Screen, InventoryObserver {
     private InventoryUI inventoryUI;
 
     private DialogUI dialogUI;
-	private Dialog dialog;
+    private Dialog dialog;
+    
+    private TextButton next;
+    
+    private String message = "Testing the dialog.";
 
     public PlayerHUD(Camera camera) {
 
@@ -54,11 +59,24 @@ public class PlayerHUD implements Screen, InventoryObserver {
 
         dialogUI = new DialogUI(Utility.DIALOGUI_SKIN);
         dialog = dialogUI.getDialog();
-        dialog.setVisible(false);
-        dialog.setPosition(350, 550);
+        // TODO: Set false when not debugging
+        dialog.setVisible(true);
+        dialog.setPosition(300, 500);
         dialog.setKeepWithinStage(false);
         dialog.setMovable(true);
         dialog.setSize(667, 200);
+
+        dialog.getContentTable().row().colspan(1).center();
+        dialog.getContentTable().add(message);
+        dialog.getContentTable().setVisible(true);
+        dialog.getContentTable().setPosition(50, 50);
+
+        dialog.row().colspan(1);
+
+        next = new TextButton("next", Utility.DIALOGUI_SKIN);
+        dialog.button(next);
+
+        dialog.pack();
 
         stage.addActor(dialog);
 
