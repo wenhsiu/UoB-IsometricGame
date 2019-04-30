@@ -91,6 +91,14 @@
 				<artifactId>gdx-backend-ios</artifactId>
 				<version>1.2.0</version>
 			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-freetype -->
+<!-- 			<dependency>
+			    <groupId>com.badlogicgames.gdx</groupId>
+			    <artifactId>gdx-freetype</artifactId>
+			    <version>1.9.9</version>
+			</dependency> -->
+
 		</dependencies>
 	</dependencyManagement>
 

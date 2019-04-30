@@ -2,10 +2,12 @@ package com.isometricgame.core;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -22,6 +24,8 @@ import com.isometricgame.core.gamemanager.GameState;
 import java.util.List;
 import java.util.ArrayList; 
 import java.util.Iterator;
+
+// import com.badlogic.gdx.graphics.g2d.freetype.FreeType.*;
 
 
 public class GameDrop extends GameState {
@@ -43,6 +47,10 @@ public class GameDrop extends GameState {
 	private String target; 
 	private int num;
 	private String myDropScore; 
+
+	// private FreeTypeFontGenerator generator;
+	// private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+	// private BitmapFont testFont; 
 	 
 
 	//Background images. 
@@ -57,14 +65,21 @@ public class GameDrop extends GameState {
 		// Set player score = 0
 
 		myDropScore = "Binary collected"; 
-		target = "target  " + RandNum(1,16);
+		target = "target  " + RandNum(0,15);
 
 		// Create font to be used for counter. 
 		scoreFont = new BitmapFont(); 
-		scoreFont.setColor(0,51,102,1);
-		scoreFont.setScale(3);
+		scoreFont.setColor(25/255f, 35/255f, 76/255f, 1f);
+		scoreFont.setScale(2);
 
-		backgroundTexture = new Texture("background_0000_Vector-Smart-Object.png");
+		// generator = new FreeTypeFontGenerator(Gdx.files.internal("font/slkscre.ttf"));
+		// parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		// parameter.size = 12;
+		// testFont = generator.generateFont(parameter);
+
+		// scoreFont.getData().setScale(2, 2);
+
+		backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
 
 		// load the images for the droplet and the bucket, 64x64 pixels each
 
@@ -85,7 +100,7 @@ public class GameDrop extends GameState {
 		// create a Rectangle to logically represent the bucket
 		bucket = new Rectangle();
 		// center the bucket horizontally
-		bucket.x = 800 / 2 - 64 / 2;
+		bucket.x = 1200 / 2 - 128 / 2;
 		// bottom left corner of the bucket is 20 pixels above the bottom screen edge
 		bucket.y = 20;
 		bucket.width = 128;
@@ -109,13 +124,13 @@ public class GameDrop extends GameState {
 		Rectangle raindrop0 = new Rectangle();
 		Rectangle raindrop1 = new Rectangle();
 
-		raindrop0.x = MathUtils.random(0, 800-64);
+		raindrop0.x = MathUtils.random(0, 1200-128);
 		raindrop0.y = 480;
 		raindrop0.width = 128;
 		raindrop0.height = 128;
 		raindrops0.add(raindrop0);
 
-		raindrop1.x = MathUtils.random(0, 800-64);
+		raindrop1.x = MathUtils.random(0, 1200-128);
 		raindrop1.y = 480;
 		raindrop1.width = 128;
 		raindrop1.height = 128;
@@ -172,7 +187,7 @@ public class GameDrop extends GameState {
             Vector3 touchPos = new Vector3();
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touchPos);
-            bucket.x = touchPos.x - 64 / 2;
+            bucket.x = touchPos.x - 128 / 2;
 	    }
 	    if(Gdx.input.isKeyPressed(Keys.LEFT)) bucket.x -= 200 * Gdx.graphics.getDeltaTime();
 	    if(Gdx.input.isKeyPressed(Keys.RIGHT)) bucket.x += 200 * Gdx.graphics.getDeltaTime();
@@ -182,8 +197,8 @@ public class GameDrop extends GameState {
             bucket.x = 0;
         }
 
-	    if(bucket.x > 800 - 64) {
-            bucket.x = 800 - 64;
+	    if(bucket.x > 1200 - 128) {
+            bucket.x = 1200 - 128;
         } 
 
 	    // Check if we need to create a new raindrop
@@ -197,7 +212,7 @@ public class GameDrop extends GameState {
 		for (Iterator<Rectangle> iter = raindrops0.iterator(); iter.hasNext(); ) {
 			Rectangle raindrop = iter.next();
 			raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
-			if(raindrop.y + 64 < 0) {
+			if(raindrop.y + 128 < 0) {
                 iter.remove();
             }
 
@@ -212,7 +227,7 @@ public class GameDrop extends GameState {
 		for (Iterator<Rectangle> iter = raindrops1.iterator(); iter.hasNext(); ) {
 			Rectangle raindrop = iter.next();
 			raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
-			if(raindrop.y + 64 < 0) {
+			if(raindrop.y + 128 < 0) {
                 iter.remove();
             }
 
@@ -300,5 +315,6 @@ public class GameDrop extends GameState {
 		batch.dispose();
 		scoreFont.dispose();
 		backgroundTexture.dispose();
+		// generator.dispose();
 	}
 }

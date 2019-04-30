@@ -32,7 +32,7 @@ public class GameEND extends GameState{
 		
 		batch.begin();
 		// sprite.draw(batch);
-		batch.draw(bkgTexture, 0, 0, 1200, 700);
+		batch.draw(bkgTexture, 0, 0, 1200, 750);
 		batch.end();
 		
 	 	if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)){
