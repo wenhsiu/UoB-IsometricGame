@@ -60,7 +60,7 @@ public class PlayerHUD implements Screen, InventoryObserver {
         dialogUI = new DialogUI(Utility.DIALOGUI_SKIN);
         dialog = dialogUI.getDialog();
         // TODO: Set false when not debugging
-        dialog.setVisible(true);
+        dialog.setVisible(false);
         dialog.setPosition(300, 500);
         dialog.setKeepWithinStage(false);
         dialog.setMovable(true);

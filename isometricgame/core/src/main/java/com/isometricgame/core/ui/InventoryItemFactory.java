@@ -31,8 +31,8 @@ public class InventoryItemFactory {
         ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal(INVENTORY_ITEM));
         inventoryItemList = new Hashtable<ItemTypeID, InventoryItem>();
 
-        for(JsonValue jsonVal: list) {
-            InventoryItem inventoryItem = json.readValue(InventoryItem.class, jsonVal);
+        for(int i = 0; i < list.size(); i++) {
+            InventoryItem inventoryItem = json.readValue(InventoryItem.class, list.get(i));
             inventoryItemList.put(inventoryItem.getItemTypeID(), inventoryItem);
         }
     }
