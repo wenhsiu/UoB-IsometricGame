@@ -25,7 +25,8 @@ import java.util.List;
 import java.util.ArrayList; 
 import java.util.Iterator;
 
-// import com.badlogic.gdx.graphics.g2d.freetype.FreeType.*;
+//Example text import - Jack
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 
 public class GameDrop extends GameState {
