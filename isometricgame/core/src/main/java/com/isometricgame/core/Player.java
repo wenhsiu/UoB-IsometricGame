@@ -1,8 +1,10 @@
 package com.isometricgame.core;
 
 import com.badlogic.gdx.Input.Keys;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.utils.*;
 
@@ -19,16 +21,23 @@ public class Player extends People{
 	private int frameNumber = 1;
 	private int frameSizeX;
 	private int frameSizeY;
+	private float speed;
+	private int direction = Keys.RIGHT;
+	
+	private Vector2 nextPosition;
+	private final int nextSpeedParam = 10; //used to calculation next position
+	private boolean frozen;
 
 	public Player(float x, float y) {
 		super(x, y, (float) 0.2); // was 0.5
 		speedFactor = 100;
-		speedLimit = 300;
+		speedLimit = 100;
 		score = 0;
 		frameSizeX = 302;
 		frameSizeY = 333;
-		pos_x = getPositionX();
-		pos_y = getPositionY();
+		speed = 0;
+		nextPosition = new Vector2(pos_x, pos_y);
+		frozen = false;
 	}
 	
 	@Override
@@ -43,17 +52,29 @@ public class Player extends People{
 	}
 
 	@Override
-	public void render () {
-		characterUpdate(pos_x, pos_y);
-		animationUpdate(Gdx.graphics.getDeltaTime());
-		
-		if(GameKeys.isDown(GameKeys.UP) || GameKeys.isDown(GameKeys.DOWN) || 
-		   GameKeys.isDown(GameKeys.RIGHT) || GameKeys.isDown(GameKeys.LEFT)) {
-			speedFactor = Math.min(100, speedFactor + 10);
-		} else {
-			speedFactor = 100;
-		}
+	public void render () {		
 		GameKeys.update();
+		
+		if(Gdx.input.isKeyPressed(Keys.UP)) {
+			direction = Keys.UP;
+			speedFactor = Math.min(speedLimit, speedFactor + 10);
+		}else if(Gdx.input.isKeyPressed(Keys.DOWN)) {
+			direction = Keys.DOWN;
+			speedFactor = Math.min(speedLimit, speedFactor + 10);
+		}else if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
+			direction = Keys.RIGHT;
+			speedFactor = Math.min(speedLimit, speedFactor + 10);
+		}else if(Gdx.input.isKeyPressed(Keys.LEFT)) {
+			direction = Keys.LEFT;
+			speedFactor = Math.min(speedLimit, speedFactor + 10);
+		}else {
+			speedFactor = 0;
+		}
+	
+		characterUpdate(pos_x, pos_y);
+		if(!frozen) {			
+			animationUpdate(Gdx.graphics.getDeltaTime());
+		}		
 	}
 
 	@Override
@@ -100,39 +121,56 @@ public class Player extends People{
 
 	@Override
 	public void animationUpdate(float dt) {
-		float speed = dt * speedFactor;
-		timer += Gdx.graphics.getDeltaTime();
-
-		if(Gdx.input.isKeyPressed(Keys.UP)) {
+		speed = dt * speedFactor;
+		timer += Gdx.graphics.getDeltaTime();		
+		
+		if(direction == Keys.UP) {
 			region = walkUp.getKeyFrame(timer, true);
 			pos_y += speed;
 			pos_x += 2 * speed;
 		}
-		if(Gdx.input.isKeyPressed(Keys.DOWN)) {
+		if(direction == Keys.DOWN) {
 			region = walkDown.getKeyFrame(timer, true);
 			pos_y -= speed;
 			pos_x -= 2 * speed;
 		}
-		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
+		if(direction == Keys.LEFT) {
 			region = walkLeft.getKeyFrame(timer, true);	
 			pos_y += speed;
 			pos_x -= 2 * speed;
 		}
-		if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
+		if(direction == Keys.RIGHT) {
 			region = walkRight.getKeyFrame(timer, true);
 			pos_y -= speed;
 			pos_x += 2 * speed;
 		}
 		
 	}
-
-	public int getDirection() {
-		if(Gdx.input.isKeyPressed(Keys.UP)) return Keys.UP;
-		if(Gdx.input.isKeyPressed(Keys.DOWN)) return Keys.DOWN;
-		if(Gdx.input.isKeyPressed(Keys.LEFT)) return Keys.LEFT;
-		if(Gdx.input.isKeyPressed(Keys.RIGHT)) return Keys.RIGHT;
-		return -1;
+	
+	public void setFrozen(boolean frozen) {
+		this.frozen = frozen;
 	}
+
+	public int getDirection() {return direction;}
+	
+	public Vector2 getNextPosition() {
+		speed  = Gdx.graphics.getDeltaTime() * speedFactor * nextSpeedParam;
+		
+		if(direction == Keys.UP) {
+			nextPosition.x = (pos_x + 2 * speed); 
+			nextPosition.y = (pos_y + speed);
+		}else if(direction == Keys.DOWN) {
+			nextPosition.x = (pos_x - 2 * speed); 
+			nextPosition.y = (pos_y - speed);
+		}else if(direction == Keys.LEFT) {
+			nextPosition.x = (pos_x - 2 * speed); 
+			nextPosition.y = (pos_y + speed);
+		}else if(direction == Keys.RIGHT) {
+			nextPosition.x = (pos_x + 2 * speed); 
+			nextPosition.y = (pos_y - speed);
+		}
+		return nextPosition;
+	} 
 	
 	public void setSpeedFactor(int newSpeed){
 		speedFactor = Math.min(speedLimit, newSpeed);

@@ -43,13 +43,14 @@ public class GameMAIN extends GameState {
 	private InventoryUI inventoryUI;
 
 	// Layers	
-	private TiledMapTileLayer blockedLayer;
+//	private TiledMapTileLayer blockedLayer;
 	private TiledMapTileLayer transparentBlockedLayer;
+	private TiledMapTileLayer baseObjLayer;
 
-	// Tiles
-	private float tileEdge;
-	private float tileW;
-	private float tileH;
+	// Tiles -- transparent
+	private float TileEdge;
+	private float TileW;
+	private float TileH;	
 
 	// Player
 	private Player player;
@@ -70,11 +71,11 @@ public class GameMAIN extends GameState {
 	private ArrayList<TriggerPoint> tgp;
     private final float[] tgpX = {1170, /* 1880, 1930, 3030, 2020, 3260, 3900 */ };
 	private final float[] tgpY = {50, /* -10, 840, 390, -755, -900, 380 */ };
-	private final String[] allStateName = {"MINIGAME1"};
+	private final String[] allStateName = {"MINIGAME1",};
 
 	// Isometric parameters
-	private final double theta = Math.toDegrees(Math.atan(0.5));	
-
+	private final double theta = Math.toDegrees(Math.atan(0.5));
+	
 	public GameMAIN(GameManager gm) {
 		super();
 		this.gm = gm;
@@ -99,54 +100,60 @@ public class GameMAIN extends GameState {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f, 0xed / 255.0f, 0xff / 255.0f);
+		//Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f, 0xed / 255.0f, 0xff / 255.0f);
+		Gdx.gl.glClearColor(173/255f, 216/255f, 255/255f, 0xff/255.0f);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+		
+		mapRenderer.setView(cam);
+		mapRenderer.render();		
 		
 		float x = player.getPositionX();
 		float y = player.getPositionY();
+		Vector2 playerNextPosition = player.getNextPosition();
 		
 		// Trigger mini games with phone boxes
-		checkTriggerGame(x, y); 
-		
-		mapRenderer.setView(cam);
-		mapRenderer.render();
+		//checkTriggerGame(x, y); 		
 
 		combineCameraPeople();
 		combineCameraProperty();
-		combineCameraTriggerPoint();
-		cam.update();
+		combineCameraTriggerPoint();		
 
 		cam.position.set(x, y, 0);
 
 		playerHUD.render(delta);
-		hudcam.update();
-
+		hudcam.update();	
+		
 		// Add coins to inventory
 		if(checkPropertyCollisions(x, y)) {
 			InventoryItemFactory factory = InventoryItemFactory.getInstance();
 			InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);			
 			inventoryUI.addItemToInventory(item, "COIN");
 			// TODO: Generalise this for more than 1 item
-		}
-
-		if(checkMapCollision(x, y, tileEdge, tileEdge)) {
-			player.setSpeedFactor(-50);
-		}
+		}		
 
 		checkVillagerCollisions(x, y);
+		
+		if(!isOnTheGround(playerNextPosition.x, playerNextPosition.y)) {			
+			player.setFrozen(true);
+		}else if(checkMapCollision(playerNextPosition.x, playerNextPosition.y)) {
+			player.setSpeedFactor(-75);
+		}		
 		
 		getPeopleByName("Villager_1").CollisionAction(
 			checkVillagerMapCollision(
 				getPeopleByName("Villager_1").getPositionX(),
 				getPeopleByName("Villager_1").getPositionY(),
-				tileEdge, tileEdge));
+				TileEdge, TileEdge));
 		
 		player.getBatch().setProjectionMatrix(cam.combined);
 		
 		renderPeople();
 		renderProperty();
-		renderTriggerPoint();
+		renderTriggerPoint();					
 		player.render();
+		
+		cam.update();
+		player.setFrozen(false);
 	}
 
 	@Override
@@ -194,21 +201,19 @@ public class GameMAIN extends GameState {
 		mapRenderer = new IsometricTiledMapRenderer(map);
 		mapRenderer.setView(cam);
 
-		// Block represents the "blocked" layer.
-		// Later put the TiledMapTileLayers into an array.
-		blockedLayer = (TiledMapTileLayer) map.getLayers().get("Block");
-
 		// Blocked edge layer is transparent.
 		transparentBlockedLayer = (TiledMapTileLayer) map.getLayers().get("Transparent");
 
 		// Blocked layer is blocking but is not visible.
 		transparentBlockedLayer.setVisible(false);
 
+		//BaseObjects
+		baseObjLayer = (TiledMapTileLayer)map.getLayers().get("BaseObjects");
 		// TODO: Check if initial start position is blocked or not.
 
-		tileW = blockedLayer.getTileWidth();
-		tileH = blockedLayer.getTileHeight();
-		tileEdge = (float) Math.sqrt(Math.pow(tileH / 2, 2) + Math.pow(tileW / 2, 2));
+		TileW = transparentBlockedLayer.getTileWidth();
+		TileH = transparentBlockedLayer.getTileHeight();
+		TileEdge = (float) Math.sqrt(Math.pow(TileH / 2, 2) + Math.pow(TileW / 2, 2));			
 	}
 	
 	// Handle People
@@ -234,6 +239,17 @@ public class GameMAIN extends GameState {
 		}		
 	}
 	
+	private void playerBounce(Player player) {
+		player.setSpeedFactor(-50);
+		Vector2 nextPos = player.getNextPosition();
+		if(!checkMapCollision(nextPos.x, nextPos.y) && isOnTheGround(nextPos.x, nextPos.y) ) {
+			player.animationUpdate(Gdx.graphics.getDeltaTime());
+			return;
+		}else {
+			playerBounce(player);
+		}
+	}
+		
 	private void combineCameraPeople() {
 		for(int i = 0; i < people.size(); i++) {
 			people.get(i).getBatch().setProjectionMatrix(cam.combined);
@@ -348,30 +364,28 @@ public class GameMAIN extends GameState {
 			}
 	}
 
-	public boolean checkMapCollision(float x, float y, float tilewidth, float tileheight) {
-		int iso_x;
-		int iso_y;
-
+	public boolean checkMapCollision(float x, float y) {
+		/**/y -= 10; //the thickness of the tile
+		
 		Vector2 v = rotateCoord(x, y);
+		int iso_x = (int) (v.x / TileEdge);
+		int iso_y = (int) (v.y / TileEdge);
 
-		iso_x = (int) (v.x / tilewidth);
-		iso_y = (int) (v.y / tileheight);		
-
-		return isCellBlocked(iso_x, iso_y);
+		Cell blockedCell = transparentBlockedLayer.getCell(iso_x, iso_y);		 
+		return (blockedCell != null && blockedCell.getTile() != null);
 	}
-
-	private boolean isCellBlocked(int iso_x, int iso_y) {
-		Cell cell = blockedLayer.getCell(iso_x, iso_y);
-		boolean blocked = (cell != null && cell.getTile() != null
-				&& cell.getTile().getProperties().containsKey("Blocked"));
-		// Check the invisible layer.
-		if(blocked == false) {
-			Cell transparentCheckCell = transparentBlockedLayer.getCell(iso_x, iso_y);
-			blocked = (transparentCheckCell != null && transparentCheckCell.getTile() != null
-					&& transparentCheckCell.getTile().getProperties().containsKey("Blocked"));
+	
+	//check if on the BaseObjectives layer
+		private boolean isOnTheGround(float x, float y) {
+			if(x < 0) return true;
+			
+			Vector2 v = rotateCoord(x, y);
+			int iso_x = (int)(v.x/ TileEdge);
+			int iso_y = (int)(v.y/ TileEdge);
+			
+			Cell c = baseObjLayer.getCell(iso_x, iso_y);
+			return (c != null && c.getTile() != null);
 		}
-		return blocked;
-	}
 
 	private Vector2 rotateCoord(float x, float y) {
 		float tmp_x, tmp_y;
@@ -394,14 +408,14 @@ public class GameMAIN extends GameState {
 
 		iso_x = (int) (v.x / tilewidth);
 		iso_y = (int) (v.y / tileheight);
+		
 		// Changed this from IsCellBlocked
 		return isCellBlockedForVillager(iso_x, iso_y);
 	}
 
 	// Specifically for isCellBlocked
 	private boolean isCellBlockedForVillager(int iso_x, int iso_y) {
-		Cell cell = blockedLayer.getCell(iso_x, iso_y);		
-		return (cell != null && cell.getTile().getProperties().containsKey("Blocked"));
+		Cell cell = transparentBlockedLayer.getCell(iso_x, iso_y);		
+		return (cell != null && cell.getTile() != null);
 	}
-
 }

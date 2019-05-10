@@ -1,5 +1,7 @@
 package com.isometricgame.core.charactermanager;
 
+import java.util.Map;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,6 +27,9 @@ public class TriggerPoint {
 	private GameManager gm;
 	private String gsName;
 	
+	private boolean reset; //if this mini game should be reset every time when triggered
+	private Map<String, Integer> cost; //the properties player has to collect to trigger this game
+	
 	public TriggerPoint(float x, float y, float scale, GameManager gm, String gameName) {
 		posX = x;
 		posY = y;
@@ -33,13 +38,14 @@ public class TriggerPoint {
 		gsName = gameName;
 	}
 	
-	public void initTriggerPoint(String materials, int sx, int sy, int ex, int ey) {
+	public void initTriggerPoint(String materials, int sx, int sy, int ex, int ey, boolean reset) {
 		texture = new Texture(Gdx.files.internal(materials));
 		batch = new SpriteBatch();
 		region = new TextureRegion(texture, sx, sy, ex, ey);
 		sizeX = (ex - sx) * scale;
 		sizeY = (ey - sy) * scale;
 		setBoundary(sizeY / 2, sizeY / 2, sizeX / 2, sizeX / 2);
+		this.reset = reset;
 	}
 
 	public void setBoundary(float top, float bottom, float right, float left) {
@@ -78,8 +84,11 @@ public class TriggerPoint {
 	}
 	
 	public void triggerGame() {
-		System.out.println(gsName);
-		gm.setCurrGameState(gsName);
+		if(reset) {
+			gm.initSingleState(gsName);
+		}else {
+			gm.setCurrGameState(gsName);
+		}
 	}
 
 	public GameState getTriggeredGame() {

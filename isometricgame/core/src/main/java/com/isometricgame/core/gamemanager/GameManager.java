@@ -27,7 +27,7 @@ public class GameManager {
 		gameStates = new HashMap<String, GameState>();
 		currentState = gameStates.get("MAINGAME");
 		
-		player = new Player(0, 0);
+		player = new Player(200, -50);
 		player.create();
 		initAllState();
 	}
@@ -55,6 +55,20 @@ public class GameManager {
 		return player;
 	}
 	
+	public void initSingleState(String stateName) {
+		GameState newGS = null;
+		if(stateName.equals("MINIGAME1")) {
+			newGS = new GameDrop(this);
+			
+		}else {
+			
+		}
+		
+		if(newGS != null) {
+			game.setScreen(newGS);			
+		}
+	}
+	
 	private void initAllState() {
 		for(int i = 0; i < stateName.length; i++) {
 			if(stateName[i].equals("MAINGAME")) {
@@ -63,10 +77,9 @@ public class GameManager {
 				gameStates.put("END", new GameEND(this));
 			}else if(stateName[i].equals("MINIGAME1")) {
 				gameStates.put("MINIGAME1", new GameDrop(this));
-			}  /* else if(stateName[i].equals("MINIGAME2")) {
+			}/*else if(stateName[i].equals("MINIGAME2")) {
 				gameStates.put("MINIGAME2", new clickAndDragGameManager());
-			}  */
-			else if(stateName[i].equals("MINIGAME2")) {
+			}*/else if(stateName[i].equals("MINIGAME2")) {
 				gameStates.put("MINIGAME2", new Avoid(this));
 			}
 		}
