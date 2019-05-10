@@ -9,6 +9,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.graphics.Color;
 
 import com.isometricgame.core.dialog.DialogUI;
 
@@ -26,6 +30,13 @@ public class PlayerHUD implements Screen, InventoryObserver {
     private Dialog dialog;
     
     private TextButton next;
+
+    private Label labeltest;
+    private BitmapFont myFont;
+
+    private LabelStyle labelstyle;
+
+    private Color black;
     
     private String message = "Testing the dialog.";
 
@@ -59,6 +70,18 @@ public class PlayerHUD implements Screen, InventoryObserver {
 
         dialogUI = new DialogUI(Utility.DIALOGUI_SKIN);
         dialog = dialogUI.getDialog();
+
+        // myFont = dialogUI.getBitmapFont();
+
+        // black = new Color(0, 0, 0, 1);
+
+        // labelstyle = new LabelStyle(myFont, black);
+
+        // labeltest = new Label("Hi please work", labelstyle);
+        // labeltest.setPosition(300, 50);
+
+
+
         // TODO: Set false when not debugging
         dialog.setVisible(false);
         dialog.setPosition(300, 500);
