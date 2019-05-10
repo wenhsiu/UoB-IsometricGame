@@ -15,7 +15,7 @@ public class IsoGame extends Game {
 	@Override
 	public void create () {
 		gm = new GameManager(this);
-		gm.setCurrGameState("MAINGAME");		
+		gm.setCurrGameState("MENU");		
 
 		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Hypnotic-Puzzle3.mp3")); 
 		backgroundMusic.setLooping(true);

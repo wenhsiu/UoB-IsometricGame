@@ -11,7 +11,7 @@ public class Coin extends Property {
 	protected boolean remove;
 	
 	public Coin(float x, float y) {		
-		super(x, y, (float)0.5);
+		super(x, y, (float)0.2);
 		orgY = y;
 		speed = 50;
 		remove = false;	

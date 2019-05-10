@@ -8,11 +8,12 @@ import com.isometricgame.core.GameDrop;
 import com.isometricgame.core.GameEND;
 import com.isometricgame.core.GameMAIN;
 import com.isometricgame.core.Player;
+import com.isometricgame.core.mainmenu.MainMenuScreen;
 
 public class GameManager {
 	private HashMap<String, GameState> gameStates;
 	private String[] stateName = {
-//			"MENU",
+			"MENU",
 			"MAINGAME",
 			"MINIGAME1",
 //			"MINIGAME2",
@@ -71,7 +72,9 @@ public class GameManager {
 	
 	private void initAllState() {
 		for(int i = 0; i < stateName.length; i++) {
-			if(stateName[i].equals("MAINGAME")) {
+			if(stateName[i].equals("MENU")) {
+				gameStates.put("MENU", new MainMenuScreen(this));
+			}else if(stateName[i].equals("MAINGAME")) {
 				gameStates.put("MAINGAME", new GameMAIN(this));
 			}else if(stateName[i].equals("END")) {
 				gameStates.put("END", new GameEND(this));

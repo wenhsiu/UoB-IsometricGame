@@ -65,7 +65,7 @@ public class GameMAIN extends GameState {
 	
 	// Object to collect
 	private ArrayList<Property> property;
-	private final int coinNumber = 10;
+	private final int coinNumber = 20;
 
 	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
@@ -315,10 +315,18 @@ public class GameMAIN extends GameState {
 		initCoins();
 	}
 	
-	private void initCoins() {		
+	private void initCoins() {
+		float x;
+		float y;
+		
 		for(int i = 0; i < coinNumber; i++) {
-			Coin c = new Coin(MathUtils.random(200, Gdx.graphics.getWidth() - 200),
-					MathUtils.random(200, Gdx.graphics.getHeight() - 500));
+			//Ensure coins will be on the base layer
+			do{
+				x = MathUtils.random(0, baseObjLayer.getWidth()*TileW);
+				y = MathUtils.random(0, baseObjLayer.getHeight()*TileH);
+			}while(!isOnTheGround(x, y) || checkMapCollision(x, y));			
+			
+			Coin c = new Coin(x, y);
 
 			c.setBoundary(100, 25, 100, 100);
 			property.add(c);
@@ -377,7 +385,7 @@ public class GameMAIN extends GameState {
 	
 	//check if on the BaseObjectives layer
 		private boolean isOnTheGround(float x, float y) {
-			if(x < 0) return true;
+			if(x < 0) return false;
 			
 			Vector2 v = rotateCoord(x, y);
 			int iso_x = (int)(v.x/ TileEdge);
