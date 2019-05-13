@@ -157,17 +157,17 @@ public class Player extends People{
 		speed  = Gdx.graphics.getDeltaTime() * speedFactor * nextSpeedParam;
 		
 		if(direction == Keys.UP) {
-			nextPosition.x = (pos_x + 2 * speed); 
-			nextPosition.y = (pos_y + speed);
+			nextPosition.x = (getPositionX() + 2*speed); 
+			nextPosition.y = (getPositionY() + speed);
 		}else if(direction == Keys.DOWN) {
-			nextPosition.x = (pos_x - 2 * speed); 
-			nextPosition.y = (pos_y - speed);
+			nextPosition.x = (getPositionX() - 2*speed); 
+			nextPosition.y = (getPositionY() - speed);
 		}else if(direction == Keys.LEFT) {
-			nextPosition.x = (pos_x - 2 * speed); 
-			nextPosition.y = (pos_y + speed);
+			nextPosition.x = (getPositionX() - 2*speed); 
+			nextPosition.y = (getPositionY() + speed);
 		}else if(direction == Keys.RIGHT) {
-			nextPosition.x = (pos_x + 2 * speed); 
-			nextPosition.y = (pos_y - speed);
+			nextPosition.x = (getPositionX() + 2*speed); 
+			nextPosition.y = (getPositionY() - speed);
 		}
 		return nextPosition;
 	} 

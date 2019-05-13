@@ -112,7 +112,7 @@ public class GameMAIN extends GameState {
 		Vector2 playerNextPosition = player.getNextPosition();
 		
 		// Trigger mini games with phone boxes
-		//checkTriggerGame(x, y); 		
+		checkTriggerGame(x, y); 		
 
 		combineCameraPeople();
 		combineCameraProperty();
@@ -328,8 +328,8 @@ public class GameMAIN extends GameState {
 			
 			Coin c = new Coin(x, y);
 
-			c.setBoundary(100, 25, 100, 100);
-			property.add(c);
+			c.setBoundary(100, 100, 100, 100); //extend the bottom so that George can collect them easily
+			property.add(c); 
 			c.create();
 		}
 	}
@@ -372,14 +372,12 @@ public class GameMAIN extends GameState {
 			}
 	}
 
-	public boolean checkMapCollision(float x, float y) {
-		/**/y -= 10; //the thickness of the tile
-		
+	public boolean checkMapCollision(float x, float y) {		
 		Vector2 v = rotateCoord(x, y);
 		int iso_x = (int) (v.x / TileEdge);
 		int iso_y = (int) (v.y / TileEdge);
 
-		Cell blockedCell = transparentBlockedLayer.getCell(iso_x, iso_y);		 
+		Cell blockedCell = transparentBlockedLayer.getCell(iso_x, iso_y);	
 		return (blockedCell != null && blockedCell.getTile() != null);
 	}
 	
@@ -390,21 +388,31 @@ public class GameMAIN extends GameState {
 			Vector2 v = rotateCoord(x, y);
 			int iso_x = (int)(v.x/ TileEdge);
 			int iso_y = (int)(v.y/ TileEdge);
-			
+
 			Cell c = baseObjLayer.getCell(iso_x, iso_y);
 			return (c != null && c.getTile() != null);
 		}
 
 	private Vector2 rotateCoord(float x, float y) {
-		float tmp_x, tmp_y;
+		float tmp_x ;
+		float tmp_y;
+		float dx;
+		float dy;
+		
 		double len = Math.sqrt(x * x + y * y);
-		double alpha = Math.toDegrees(Math.atan(y / x * -1)); // Map: down is positive
-
+		double alpha = Math.toDegrees(Math.atan(Math.abs(y) / x)); // Map: down is positive
+		if(y > 0) {alpha *= -1;}
+		double beta = 90 - 2*theta;
+		
 		Vector2 v = new Vector2();
 		tmp_x = (float) (Math.cos(Math.PI * (theta - alpha) / 180) * len);
 		tmp_y = (float) (Math.cos(Math.PI * (theta + alpha) / 180) * len);
-		v.x = (float) (tmp_x - len * Math.sin(Math.PI * ((theta - alpha) / 180) / (Math.tan(Math.PI * 2 * theta / 180))));
-		v.y = (float) (tmp_y - len * Math.sin(Math.PI * ((theta + alpha) / 180) / (Math.tan(Math.PI * 2 * theta / 180))));
+		
+		dx = (float)(len*Math.sin(Math.PI*(theta-alpha)/180)*Math.tan(Math.PI*beta/180));
+		dy = (float)(len*Math.sin(Math.PI*(theta+alpha)/180)*Math.tan(Math.PI*beta/180));
+		
+		v.x = tmp_x-dx;
+		v.y = tmp_y-dy;
 		
 		return v;
 	}
