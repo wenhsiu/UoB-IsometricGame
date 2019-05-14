@@ -29,13 +29,15 @@ public class TriggerPoint {
 	
 	private boolean reset; //if this mini game should be reset every time when triggered
 	private Map<String, Integer> cost; //the properties player has to collect to trigger this game
+	private String triggerText;
 	
-	public TriggerPoint(float x, float y, float scale, GameManager gm, String gameName) {
+	public TriggerPoint(float x, float y, float scale, GameManager gm, String gameName, String triggerText) {
 		posX = x;
 		posY = y;
 		this.scale = scale;
 		this.gm = gm;
 		gsName = gameName;
+		this.triggerText = triggerText; 
 	}
 	
 	public void initTriggerPoint(String materials, int sx, int sy, int ex, int ey, boolean reset) {

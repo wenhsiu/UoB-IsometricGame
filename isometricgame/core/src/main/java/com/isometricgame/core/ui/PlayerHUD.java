@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.graphics.Color;
@@ -23,6 +24,10 @@ public class PlayerHUD implements Screen, InventoryObserver {
     private Stage stage;
     private Viewport viewport;
     private int initialise = 0;
+
+    private SpriteBatch batch;
+
+    private BitmapFont bmfont;
 
     private InventoryUI inventoryUI;
 
@@ -71,17 +76,6 @@ public class PlayerHUD implements Screen, InventoryObserver {
         dialogUI = new DialogUI(Utility.DIALOGUI_SKIN);
         dialog = dialogUI.getDialog();
 
-        // myFont = dialogUI.getBitmapFont();
-
-        // black = new Color(0, 0, 0, 1);
-
-        // labelstyle = new LabelStyle(myFont, black);
-
-        // labeltest = new Label("Hi please work", labelstyle);
-        // labeltest.setPosition(300, 50);
-
-
-
         // TODO: Set false when not debugging
         dialog.setVisible(false);
         dialog.setPosition(300, 500);
@@ -89,15 +83,15 @@ public class PlayerHUD implements Screen, InventoryObserver {
         dialog.setMovable(true);
         dialog.setSize(667, 200);
 
-        dialog.getContentTable().row().colspan(1).center();
-        dialog.getContentTable().add(message);
-        dialog.getContentTable().setVisible(true);
-        dialog.getContentTable().setPosition(50, 50);
+        //dialog.getContentTable().row().colspan(1).center();
+        //dialog.getContentTable().add(message);
+        //dialog.getContentTable().setVisible(true);
+        //dialog.getContentTable().setPosition(50, 50);
 
-        dialog.row().colspan(1);
+        //dialog.row().colspan(1);
 
-        next = new TextButton("next", Utility.DIALOGUI_SKIN);
-        dialog.button(next);
+        //next = new TextButton("next", Utility.DIALOGUI_SKIN);
+        //dialog.button(next);
 
         dialog.pack();
 
