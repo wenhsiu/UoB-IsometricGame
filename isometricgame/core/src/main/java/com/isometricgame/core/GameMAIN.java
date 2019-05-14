@@ -9,6 +9,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 // import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -82,6 +84,8 @@ public class GameMAIN extends GameState {
 	private BitmapFont bfont;
 	private static String message = "Welcome to Isometria!";
 	private SpriteBatch testbatch;
+	private Label labeltest;
+	private LabelStyle labelstyle;
 	
 	public GameMAIN(GameManager gm) {
 		super();
@@ -110,10 +114,10 @@ public class GameMAIN extends GameState {
 
 		testbatch = new SpriteBatch();
 
-		// labelstyle = new LabelStyle(bmfont, Color.BLACK);
+		labelstyle = new LabelStyle(bfont, Color.BLACK);
 
-        // labeltest = new Label("Hi please work", labelstyle);
-        // labeltest.setPosition(300, 50);
+        labeltest = new Label("Hi please work", labelstyle);
+        labeltest.setPosition(300, 50);
 		
 	}
 
@@ -173,7 +177,9 @@ public class GameMAIN extends GameState {
 
 		testbatch.begin();
 		bfont.draw(testbatch, message, 300, 300);
+		labeltest.draw(testbatch, 100);
 		testbatch.end();
+
 
 		
 		cam.update();
