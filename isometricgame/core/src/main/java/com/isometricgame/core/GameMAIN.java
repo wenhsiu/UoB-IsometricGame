@@ -69,9 +69,9 @@ public class GameMAIN extends GameState {
 
 	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
-    private final float[] tgpX = {1170, /* 1880, 1930, 3030, 2020, 3260, 3900 */ };
-	private final float[] tgpY = {50, /* -10, 840, 390, -755, -900, 380 */ };
-	private final String[] allStateName = {"MINIGAME1",};
+    private final float[] tgpX = {1170,  1880/*, 1930, 3030, 2020, 3260, 3900*/  };
+	private final float[] tgpY = {50,  -10/*, 840, 390, -755, -900, 380  */};
+	private final String[] allStateName = {"MINIGAME1", "MINIGAME2"};
 
 	// Isometric parameters
 	private final double theta = Math.toDegrees(Math.atan(0.5));
@@ -305,6 +305,7 @@ public class GameMAIN extends GameState {
 		for(int i = 0; i < tgp.size(); i++) {	
 			if(tgp.get(i).containPoint(x, y) && tgp.get(i).getTriggeredGame().getPassState() == false) {
 				tgp.get(i).triggerGame();
+				/**/System.out.println("Collision happen");
 			}
 		}
 	}

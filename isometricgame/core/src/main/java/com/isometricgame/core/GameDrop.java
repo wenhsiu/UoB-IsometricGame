@@ -173,7 +173,7 @@ public class GameDrop extends GameState {
 
 		scoreFont.draw(batch, myDropScore, 600, 700); 
 		scoreFont.draw(batch, target, 0, 700);
-	 //   	testFont.setColor(25/255f, 35/255f, 76/255f, 1f);
+	   	// testFont.setColor(25/255f, 35/255f, 76/255f, 1f);
 		// testFont.draw(batch, myDropScore, 600, 700);
 		// testFont.draw(batch, target, 0, 700);
 
