@@ -6,6 +6,7 @@ import com.isometricgame.core.gamemanager.GameState;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -35,6 +36,10 @@ public class Complete extends GameState {
 		batch.begin();
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.end();
+
+		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+			gm.setCurrGameState("MAINGAME");
+		}
 	}
 
 	@Override
@@ -46,7 +51,7 @@ public class Complete extends GameState {
     @Override
     public void show() {   
     	// super.show();
-		background = new TextureRegion(new Texture("clickanddrag/complete.png"), 0, 0, 652, 759);
+		background = new TextureRegion(new Texture("clickanddrag/complete.png"));
 		batch = new SpriteBatch();
     }
 

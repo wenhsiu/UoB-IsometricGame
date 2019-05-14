@@ -75,7 +75,8 @@ public class GameManager {
 		if(stateName.equals("MINIGAME1")) {
 			newGS = new GameDrop(this);
 			
-		} else {
+		} else if(stateName.equals("MINIGAME2")) {
+			newGS = new Start1(this);
 			
 		}
 		
