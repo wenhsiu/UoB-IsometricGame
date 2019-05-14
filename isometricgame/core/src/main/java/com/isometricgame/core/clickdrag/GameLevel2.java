@@ -67,7 +67,7 @@ public class GameLevel2 extends GameState {
     @Override
     public void show() {   
     	// super.show();
-		background = new TextureRegion(new Texture("clickanddrag/background.png"), 0, 0, 652, 759);
+		background = new TextureRegion(new Texture("clickanddrag/background.png"));
 		batch = new SpriteBatch();
 		puzzles = new Puzzles();
 		puzzles.create();

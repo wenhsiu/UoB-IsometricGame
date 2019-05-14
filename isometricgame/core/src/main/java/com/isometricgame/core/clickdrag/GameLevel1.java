@@ -45,7 +45,7 @@ public class GameLevel1 extends GameState {
 			batch.begin();
 			batch.draw(done, 50, 600, 100, 100);
 
-			batch.draw(next, 0, 0, 652, 759);
+			// batch.draw(next);
 
 			batch.end();
 

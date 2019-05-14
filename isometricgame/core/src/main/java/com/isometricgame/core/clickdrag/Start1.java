@@ -25,7 +25,7 @@ public class Start1 extends GameState {
 	public Start1(GameManager gm) {
 		super();	
 		this.gm = gm;
-		background = new TextureRegion(new Texture("clickanddrag/Level1.png"), 0, 0, 652, 759);
+		background = new TextureRegion(new Texture("clickanddrag/Level1.png"));
 		batch = new SpriteBatch();
 	}
        

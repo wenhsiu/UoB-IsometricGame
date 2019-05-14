@@ -52,7 +52,7 @@ public class Start2 extends GameState {
     @Override
     public void show() {   
     	// super.show();
-		background = new TextureRegion(new Texture("clickanddrag/Level2.png"), 0, 0, 652, 759);
+		background = new TextureRegion(new Texture("clickanddrag/Level2.png"));
 		batch = new SpriteBatch();
     }
 
