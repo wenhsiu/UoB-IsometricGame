@@ -1,5 +1,6 @@
 package com.isometricgame.core;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
@@ -15,12 +16,16 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
 
 import com.isometricgame.core.charactermanager.People;
 import com.isometricgame.core.charactermanager.Property;
 import com.isometricgame.core.charactermanager.TriggerPoint;
+import com.isometricgame.core.dialogue.GameDialogue;
+import com.isometricgame.core.dialogue.DialogUI;
+import com.isometricgame.core.dialogue.GameDialogue;
 
 import com.isometricgame.core.ui.InventoryItem;
 import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
@@ -29,6 +34,7 @@ import com.isometricgame.core.ui.InventoryUI;
 import com.isometricgame.core.ui.PlayerHUD;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameMAIN extends GameState {
 
@@ -68,9 +74,9 @@ public class GameMAIN extends GameState {
 
 	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
-    private final float[] tgpX = {1170,  1880/*, 1930, 3030, 2020, 3260, 3900*/  };
-	private final float[] tgpY = {50,  -10/*, 840, 390, -755, -900, 380  */};
-	private final String[] allStateName = {"MINIGAME1", "MINIGAME2"};
+    private final float[] tgpX = {1170, /* 1880, 1930, 3030, 2020, 3260, 3900 */ };
+	private final float[] tgpY = {50,/* -10, 840, 390, -755, -900, 380 */ };
+	private final String[] allStateName = {"MINIGAME1"/* , "MINIGAME1" */};
 
 	// Isometric parameters
 	private final double theta = Math.toDegrees(Math.atan(0.5));
@@ -78,11 +84,16 @@ public class GameMAIN extends GameState {
 	// Testing fonts
 	private BitmapFont bfont;
 	private static String message = "Welcome to Isometria!";
-	private SpriteBatch testbatch;
+	private SpriteBatch textbatch;
 	private Label labeltest;
 	private LabelStyle labelstyle;
 
 	private String triggerText;
+
+	public List<GameDialogue> dialogueList = new ArrayList<>();
+
+	private ShapeRenderer shapeRenderer;
+  
 	
 	public GameMAIN(GameManager gm) {
 		super();
@@ -102,14 +113,15 @@ public class GameMAIN extends GameState {
 		initProperties();
 		initPeople();
 		initTriggerPoint();
+		initDialogueArray();
 		
 		player = gm.getPlayer();
 
 		bfont = new BitmapFont();
         bfont.setColor(Color.BLACK);
-		bfont.setScale(3, 3);
+		bfont.setScale(1, 1);
 
-		testbatch = new SpriteBatch();
+		textbatch = new SpriteBatch();
 
 		labelstyle = new LabelStyle(bfont, Color.BLACK);
 
@@ -132,6 +144,10 @@ public class GameMAIN extends GameState {
 		
 		// Trigger mini games with phone boxes
 		checkTriggerGame(x, y); 		
+		//show the trigger text if there is any to show. 
+		/* showTriggerText(x, y); */
+
+		System.out.println("Values of X and Y = " + x + "  " + y);
 
 		combineCameraPeople();
 		combineCameraProperty();
@@ -168,13 +184,41 @@ public class GameMAIN extends GameState {
 		
 		renderPeople();
 		renderProperty();
-		renderTriggerPoint();					
+		renderTriggerPoint();	
+		
+
 		player.render();
 
-		testbatch.begin();
-		bfont.draw(testbatch, message, 300, 300);
-		labeltest.draw(testbatch, 100);
-		testbatch.end();
+		//Repeat this infront of all of the objects. 
+		/* if(x < 230 && x > 228 && y < -35){
+			testbatch.begin();
+			bfont.draw(testbatch, message, 300, 300);
+			labeltest.draw(testbatch, 100);
+			testbatch.end();
+		} */
+
+		shapeRenderer = new ShapeRenderer(); 
+
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		for (int i = 0; i < dialogueList.size(); i++) {
+			if(dialogueTriggerCheck(x, y, i) == true){
+				shapeRenderer.setColor(Color.DARK_GRAY);
+				shapeRenderer.rect(100, 110, 570, 70);
+				shapeRenderer.setColor(Color.LIGHT_GRAY);
+				shapeRenderer.rect(110, 120, 550, 50);
+			}
+		}
+        shapeRenderer.end();
+
+		textbatch.begin();
+			//dialogueTriggerCheck(testbatch, x, y);
+			for (int i = 0; i < dialogueList.size(); i++) {
+				if(dialogueTriggerCheck(x, y, i) == true){
+					bfont.draw(textbatch, dialogueList.get(i).getTextmessage(), 150, 150); 
+				}
+			}
+		textbatch.end();
+
 
 
 		
@@ -339,6 +383,51 @@ public class GameMAIN extends GameState {
 			}
 		}
 	}
+
+	private void showTriggerText(float x, float y){
+		for (int i = 0; i < tgp.size(); i++) {
+			if(tgp.get(i).containPoint(x, y)){
+				SpriteBatch textBatch; 
+				BitmapFont screenText; 
+				screenText = new BitmapFont(); 
+				textBatch = new SpriteBatch(); 
+
+				screenText.setColor(Color.BLACK);
+				screenText.setScale(2, 2);
+
+				textBatch.begin(); 
+				screenText.draw(textBatch, tgp.get(i).getTriggerText(), x, y); 
+				textBatch.end();
+
+				
+			}
+		}
+	}
+
+	private void addDialogue(double maxx, double maxy, double minx, double miny, String message){
+		GameDialogue newdialogue = new GameDialogue(maxx, maxy, minx, miny, message);
+		dialogueList.add(newdialogue); 
+	}
+
+	private void initDialogueArray(){
+		//add dialogue into the array through this function. 
+		addDialogue(400, 400, -400 , -400, "Welcome to Isometria!!");
+		addDialogue(1260, 25, 1000, -108, "He-Ling Smells. ");
+		//addDialogue(400, 400, -400 , -400, "Welcome to Isometria!!");
+		System.out.println("Hello init dialogue array.");
+	}
+
+	private Boolean dialogueTriggerCheck(double currentX, double currentY, int i){
+
+			//System.out.println("HELLO TRIGGER CHECK " + dialogueList.get(i).getMinx());
+
+			if(dialogueList.get(i).getMinx() < currentX  && dialogueList.get(i).getMiny() < currentY && dialogueList.get(i).getMaxx() > currentX && dialogueList.get(i).getMaxy() > currentY){
+				//System.out.println("true"); 
+				return true; 
+			}
+			return false; 
+	}
+
 
 	//Handle Property
 	private void initProperties() {

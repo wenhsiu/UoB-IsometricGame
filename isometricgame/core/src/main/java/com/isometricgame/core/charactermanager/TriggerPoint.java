@@ -103,6 +103,20 @@ public class TriggerPoint {
 	public void dispose() {
 		texture.dispose();
 	}
+
+	/**
+	 * @return the triggerText
+	 */
+	public String getTriggerText() {
+		return triggerText;
+	}
+
+	/**
+	 * @param triggerText the triggerText to set
+	 */
+	public void setTriggerText(String triggerText) {
+		this.triggerText = triggerText;
+	}
 	
 	public void setTriggerred(boolean triggerred) {
 		this.triggerred = triggerred;

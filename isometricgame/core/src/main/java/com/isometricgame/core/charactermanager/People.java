@@ -90,5 +90,12 @@ public abstract class People implements ApplicationListener{
 	public void dispose() {
 		texture.dispose();
 	}
-	
+
+	public void setPositionX(int x){
+		pos_x = x + size_x/2; 
+	}
+
+	public void setPositionY(int y){
+		pos_y = y + size_y/2; 
+	}	
 }
