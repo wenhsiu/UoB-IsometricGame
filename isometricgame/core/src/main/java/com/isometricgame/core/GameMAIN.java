@@ -86,6 +86,8 @@ public class GameMAIN extends GameState {
 	private SpriteBatch testbatch;
 	private Label labeltest;
 	private LabelStyle labelstyle;
+
+	private String triggerText;
 	
 	public GameMAIN(GameManager gm) {
 		super();
@@ -309,7 +311,7 @@ public class GameMAIN extends GameState {
 	private void initTriggerPoint() {
 		tgp = new ArrayList<TriggerPoint>();
 		for(int i = 0; i < tgpX.length; i++) {
-			tgp.add(new PhoneBox(tgpX[i], tgpY[i], 1, gm, allStateName[i]));
+			tgp.add(new PhoneBox(tgpX[i], tgpY[i], 1, gm, allStateName[i], triggerText));
 		}
 	}
 	
