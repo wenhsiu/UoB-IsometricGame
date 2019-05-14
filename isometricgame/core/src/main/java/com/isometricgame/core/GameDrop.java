@@ -51,7 +51,7 @@ public class GameDrop extends GameState {
 
 	// private FreeTypeFontGenerator generator;
 	// private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-	// private BitmapFont testFont; 
+	private BitmapFont testFont; 
 	 
 
 	//Background images. 
@@ -76,6 +76,7 @@ public class GameDrop extends GameState {
 		// generator = new FreeTypeFontGenerator(Gdx.files.internal("font/slkscre.ttf"));
 		// parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		// parameter.size = 12;
+		// parameter.characters = "Binary collected";
 		// testFont = generator.generateFont(parameter);
 
 		// scoreFont.getData().setScale(2, 2);
@@ -172,7 +173,11 @@ public class GameDrop extends GameState {
 
 		scoreFont.draw(batch, myDropScore, 600, 700); 
 		scoreFont.draw(batch, target, 0, 700);
-	   
+	   	// testFont.setColor(25/255f, 35/255f, 76/255f, 1f);
+		// testFont.draw(batch, myDropScore, 600, 700);
+		// testFont.draw(batch, target, 0, 700);
+
+
 	    for(Rectangle raindrop0: raindrops0) {
 			batch.draw(dropImage0, raindrop0.x, raindrop0.y);
 		}
