@@ -15,7 +15,7 @@ public class GameManager {
 	private String[] stateName = {
 			"MENU",
 			"MAINGAME",
-//			"MINIGAME1",
+			"MINIGAME1",
 //			"MINIGAME2",
 			"END"
 	};
