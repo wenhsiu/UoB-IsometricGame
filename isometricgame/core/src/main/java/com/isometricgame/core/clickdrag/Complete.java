@@ -36,9 +36,10 @@ public class Complete extends GameState {
 		batch.begin();
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.end();
-
+		
 		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-			gm.setCurrGameState("MAINGAME");
+			passed = true; //set passed to true
+			gm.setCurrGameState("GAMEMAIN");//go back to GAMEMAIN
 		}
 	}
 

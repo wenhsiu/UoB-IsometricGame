@@ -39,7 +39,7 @@ public class Start1 extends GameState {
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.end();
 
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){			
 			gm.setCurrGameState("GAMELEVEL1");
 		}
 	}
