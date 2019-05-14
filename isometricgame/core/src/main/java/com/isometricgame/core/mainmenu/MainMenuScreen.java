@@ -16,30 +16,39 @@ public class MainMenuScreen extends GameState {
 			EXIT,
 			PLAY
 	};
-	
-    private final int EXIT_BUTTON_WIDTH = 100;
-    private final int EXIT_BUTTON_HEIGHT = 115;
+    
+    private final int GAME_TITLE_WIDTH = 754;
+    private final int GAME_TITLE_HEIGHT = 200;
+    private final int GAME_TITLE_X;
+    private final int GAME_TITLE_Y = 400;
+
+    private final int EXIT_BUTTON_WIDTH = 245;
+    private final int EXIT_BUTTON_HEIGHT = 100;
     private final int EXIT_BUTTON_X;
     private final int EXIT_BUTTON_Y = 100;
     
-    private final int PLAY_BUTTON_WIDTH = 200;
-    private final int PLAY_BUTTON_HEIGHT = 388;
+    private final int PLAY_BUTTON_WIDTH = 245;
+    private final int PLAY_BUTTON_HEIGHT = 100;
     private final int PLAY_BUTTON_X;
-    private final int PLAY_BUTTON_Y = 300;
+    private final int PLAY_BUTTON_Y = 200;
     
     private GameManager gm;
     private SpriteBatch batch;
 
+    Texture gameTitle;
     Texture exitButtonActive;
     Texture exitButtonInactive;
     Texture playButtonActive;
     Texture playButtonInactive;
 
     public MainMenuScreen (GameManager gm) {
-	    this.gm = gm;
-	    
-	    playButtonActive = new Texture("play_button_active.png");
-	    playButtonInactive = new Texture("play_button_inactive.png");
+        this.gm = gm;
+
+        gameTitle = new Texture("gamename.png");
+        GAME_TITLE_X =  Gdx.graphics.getWidth()/2 - GAME_TITLE_WIDTH/2;
+
+	    playButtonActive = new Texture("start_button_active.png");
+	    playButtonInactive = new Texture("start_button_inactive.png");
 	    PLAY_BUTTON_X = Gdx.graphics.getWidth()/2 - PLAY_BUTTON_WIDTH/2;
 	    
 	    exitButtonActive = new Texture("exit_button_active.png");
@@ -51,16 +60,18 @@ public class MainMenuScreen extends GameState {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(211/255f, 238/255f, 255/255f, 1);
+        Gdx.gl.glClearColor(240/255f, 255/255f, 255/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         //original point is from topleft corner
         int x = Gdx.input.getX();
         int y = Gdx.graphics.getHeight() - Gdx.input.getY();
 
         //Start drawing...
         batch.begin();
-        
+
+        batch.draw(gameTitle, GAME_TITLE_X,GAME_TITLE_Y, GAME_TITLE_WIDTH, GAME_TITLE_HEIGHT);
+
         if (mouseHovering(bType.EXIT, x, y)) {
             batch.draw(exitButtonActive, EXIT_BUTTON_X, EXIT_BUTTON_Y, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {Gdx.app.exit();}
