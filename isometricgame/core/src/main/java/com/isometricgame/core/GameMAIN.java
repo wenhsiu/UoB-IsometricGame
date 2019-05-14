@@ -341,6 +341,7 @@ public class GameMAIN extends GameState {
 		for(int i = 0; i < tgp.size(); i++) {	
 			if(tgp.get(i).containPoint(x, y) && tgp.get(i).getTriggeredGame().getPassState() == false) {
 				tgp.get(i).triggerGame();
+				/**/System.out.println("Collision happen");
 			}
 		}
 	}
