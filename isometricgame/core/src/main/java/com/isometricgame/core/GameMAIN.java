@@ -43,7 +43,6 @@ public class GameMAIN extends GameState {
 	private InventoryUI inventoryUI;
 
 	// Layers	
-//	private TiledMapTileLayer blockedLayer;
 	private TiledMapTileLayer transparentBlockedLayer;
 	private TiledMapTileLayer baseObjLayer;
 
@@ -58,10 +57,9 @@ public class GameMAIN extends GameState {
 	// Characters
 	private ArrayList<People> people;
 	// Naming rule: <type>_<alias>
-	private final String[] peopleName = {"Boss_org", "Boss_drop", "Villager_1", "Villager_2"};
-						
-	private final float[] pplX = {500, 1954, 3000, 100};
-	private final float[] pplY = {500, -38, -1000, 100};
+	private final String[] peopleName = {"Boss_org", "Boss_drop", "Villager_1", "Villager_2", "Dog_1"};						
+	private final float[] pplX = {500, 1954, 3000, 100, 1080};
+	private final float[] pplY = {500, -38, -1000, 100, 20};
 	
 	// Object to collect
 	private ArrayList<Property> property;
@@ -100,7 +98,6 @@ public class GameMAIN extends GameState {
 
 	@Override
 	public void render(float delta) {
-		//Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f, 0xed / 255.0f, 0xff / 255.0f);
 		Gdx.gl.glClearColor(173/255f, 216/255f, 255/255f, 0xff/255.0f);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 		
@@ -209,7 +206,6 @@ public class GameMAIN extends GameState {
 
 		//BaseObjects
 		baseObjLayer = (TiledMapTileLayer)map.getLayers().get("BaseObjects");
-		// TODO: Check if initial start position is blocked or not.
 
 		TileW = transparentBlockedLayer.getTileWidth();
 		TileH = transparentBlockedLayer.getTileHeight();
@@ -231,7 +227,9 @@ public class GameMAIN extends GameState {
 				p = new Boss(x, y);
 			} else if(type.equals("villager")) {
 				p = new Villager(x, y);
-			}			
+			} else if(type.equals("dog")) {
+				p = new Dog(x, y);
+			}		
 			p.create();			
 			if(p != null) {
 				people.add(p);
@@ -328,7 +326,7 @@ public class GameMAIN extends GameState {
 			
 			Coin c = new Coin(x, y);
 
-			c.setBoundary(100, 100, 100, 100); //extend the bottom so that George can collect them easily
+			c.setBoundary(150, 150, 150, 150); //extend the bottom so that George can collect them easily
 			property.add(c); 
 			c.create();
 		}
