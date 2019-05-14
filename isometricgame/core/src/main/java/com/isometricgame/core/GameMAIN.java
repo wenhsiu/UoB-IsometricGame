@@ -1,6 +1,7 @@
 package com.isometricgame.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -11,7 +12,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 // import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
 
@@ -75,6 +77,11 @@ public class GameMAIN extends GameState {
 
 	// Isometric parameters
 	private final double theta = Math.toDegrees(Math.atan(0.5));
+
+	// Testing fonts
+	private BitmapFont bfont;
+	private static String message = "Welcome to Isometria!";
+	private SpriteBatch testbatch;
 	
 	public GameMAIN(GameManager gm) {
 		super();
@@ -96,6 +103,18 @@ public class GameMAIN extends GameState {
 		initTriggerPoint();
 		
 		player = gm.getPlayer();
+
+		bfont = new BitmapFont();
+        bfont.setColor(Color.BLACK);
+		bfont.setScale(3, 3);
+
+		testbatch = new SpriteBatch();
+
+		// labelstyle = new LabelStyle(bmfont, Color.BLACK);
+
+        // labeltest = new Label("Hi please work", labelstyle);
+        // labeltest.setPosition(300, 50);
+		
 	}
 
 	@Override
@@ -151,6 +170,11 @@ public class GameMAIN extends GameState {
 		renderProperty();
 		renderTriggerPoint();					
 		player.render();
+
+		testbatch.begin();
+		bfont.draw(testbatch, message, 300, 300);
+		testbatch.end();
+
 		
 		cam.update();
 		player.setFrozen(false);

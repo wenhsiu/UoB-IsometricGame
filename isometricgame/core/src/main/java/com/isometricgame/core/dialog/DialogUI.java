@@ -23,12 +23,12 @@ public class DialogUI extends Window {
         dialog = new Dialog("Dialog", skin);
         part = 1;
 
-        /* FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/PressStart2P.ttf"));
-        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 8;
-        parameter.color = new Color(0, 0, 0, 1);
-        myFont = generator.generateFont(parameter);
-        generator.dispose(); */
+        // FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/PressStart2P.ttf"));
+        // FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+        // parameter.size = 8;
+        // parameter.color = new Color(0, 0, 0, 1);
+        // myFont = generator.generateFont(parameter);
+        // generator.dispose();
     }
 
     public int getPart() {
