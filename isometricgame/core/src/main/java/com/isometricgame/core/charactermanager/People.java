@@ -47,11 +47,11 @@ public abstract class People implements ApplicationListener{
 	}
 	
 	public float getPositionX() {
-		return pos_x + size_x / 2;
+		return pos_x + size_x/2;
 	}
 	
 	public float getPositionY() {
-		return pos_y + size_y / 2;
+		return (float)(pos_y + size_x/2 * Math.atan(0.5));
 	}
 	
 	public float getSizeX() {
