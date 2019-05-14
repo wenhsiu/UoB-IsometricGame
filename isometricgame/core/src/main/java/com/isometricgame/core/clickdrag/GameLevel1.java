@@ -59,8 +59,7 @@ public class GameLevel1 extends GameState {
 			// 	gm.setCurrGameState("START2");
 			// }
 
-			if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-				passed = true;
+			if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {				
 				gm.setCurrGameState("GAMELEVEL2");
 			}
 

@@ -64,7 +64,7 @@ public class GameMAIN extends GameState {
 	// Characters
 	private ArrayList<People> people;
 	// Naming rule: <type>_<alias>
-	private final String[] peopleName = {"Boss_org", "Boss_drop", "Villager_1", "Villager_2", "Dog_1"};						
+	private final String[] peopleName = {"Boss_org", "Boss_drop", "Villager_1", "Villager_2"};						
 	private final float[] pplX = {500, 1954, 3000, 100, 1080};
 	private final float[] pplY = {500, -38, -1000, 100, 20};
 	
@@ -74,9 +74,9 @@ public class GameMAIN extends GameState {
 
 	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
-    private final float[] tgpX = {1170, /* 1880, 1930, 3030, 2020, 3260, 3900 */ };
-	private final float[] tgpY = {50,/* -10, 840, 390, -755, -900, 380 */ };
-	private final String[] allStateName = {"MINIGAME1"/* , "MINIGAME1" */};
+    private final float[] tgpX = {1170, 1880, /*1930, 3030, 2020, 3260, 3900 */ };
+	private final float[] tgpY = {50, -10, /*840, 390, -755, -900, 380 */ };
+	private final String[] allStateName = {"MINIGAME1", "MINIGAME2"};
 
 	// Isometric parameters
 	private final double theta = Math.toDegrees(Math.atan(0.5));
@@ -90,7 +90,7 @@ public class GameMAIN extends GameState {
 
 	private String triggerText;
 
-	public List<GameDialogue> dialogueList = new ArrayList<>();
+	public List<GameDialogue> dialogueList;
 
 	private ShapeRenderer shapeRenderer;
   
@@ -98,6 +98,7 @@ public class GameMAIN extends GameState {
 	public GameMAIN(GameManager gm) {
 		super();
 		this.gm = gm;
+		dialogueList = new ArrayList<GameDialogue>();
 		
 		initMapAndLayer();
 
@@ -147,7 +148,7 @@ public class GameMAIN extends GameState {
 		//show the trigger text if there is any to show. 
 		/* showTriggerText(x, y); */
 
-		System.out.println("Values of X and Y = " + x + "  " + y);
+//		System.out.println("Values of X and Y = " + x + "  " + y);
 
 		combineCameraPeople();
 		combineCameraProperty();
@@ -300,9 +301,8 @@ public class GameMAIN extends GameState {
 				p = new Boss(x, y);
 			} else if(type.equals("villager")) {
 				p = new Villager(x, y);
-			} else if(type.equals("dog")) {
-				p = new Dog(x, y);
-			}		
+			}
+			
 			p.create();			
 			if(p != null) {
 				people.add(p);

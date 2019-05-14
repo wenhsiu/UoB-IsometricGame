@@ -38,7 +38,7 @@ public class Complete extends GameState {
 		batch.end();
 		
 		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-			passed = true;
+			passed = true; //set passed to true
 			gm.setCurrGameState("GAMEMAIN");//go back to GAMEMAIN
 		}
 	}

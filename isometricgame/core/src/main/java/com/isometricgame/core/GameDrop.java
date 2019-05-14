@@ -274,20 +274,18 @@ public class GameDrop extends GameState {
 
 			Score.clear();
 			target = "target  " + RandNum(0, 15);
-			change = true;
-
-						
+			change = true;						
 		}
 
 		if (right == 3) {
-			player.setPositionX((int) oldx - 100); // will need to change these when moving post box around
-			player.setPositionY((int) oldy - 50);
+//			player.setPositionX((int) oldx - 100); // will need to change these when moving post box around
+//			player.setPositionY((int) oldy - 50);
 			gm.setCurrGameState("MAINGAME");
 		}
 
 		if (Wrong == 3) {
-			player.setPositionX((int)oldx-100); // will need to change these when moving post box around
-			player.setPositionY((int)oldy-50);
+//			player.setPositionX((int)oldx-100); // will need to change these when moving post box around
+//			player.setPositionY((int)oldy-50);
 			gm.setCurrGameState("MAINGAME");
 		}
 
@@ -323,9 +321,11 @@ public class GameDrop extends GameState {
 		}
 
 		if(Total == num) {
+			passed = true;
 			return true;
 		}
-
+		
+		passed = false;
 		return false;
 	}
 	
@@ -339,8 +339,11 @@ public class GameDrop extends GameState {
 
 	@Override
 	public void show() {
+		//put the reset functions here.
 		Score.removeAll(Score);
 		myDropScore = "";
+		right = 0;
+		Wrong = 0;
 		rainMusic.play();		
 	}
 
