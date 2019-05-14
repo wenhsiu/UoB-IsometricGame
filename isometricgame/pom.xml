@@ -26,7 +26,6 @@
 				<artifactId>gdx-freetype</artifactId>
 				<version>1.9.9</version>
 			</dependency>
-			</dependency>
 			<!-- android-specific dependencies -->
 			<dependency>
 				<groupId>com.badlogicgames.gdx</groupId>
