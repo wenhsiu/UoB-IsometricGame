@@ -184,6 +184,7 @@ public class Player extends People{
 		return score;
 	}
 
+
 	@Override
 	public void CollisionAction(boolean fire) {
 		// TODO Auto-generated method stub

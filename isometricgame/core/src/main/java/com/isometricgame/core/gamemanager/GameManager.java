@@ -84,7 +84,7 @@ public class GameManager {
 				gameStates.put("MINIGAME2", new clickAndDragGameManager());
 			}*/else if(stateName[i].equals("MINIGAME2")) {
 				gameStates.put("MINIGAME2", new Avoid(this));
-			}
+			} 
 		}
 	}
 }

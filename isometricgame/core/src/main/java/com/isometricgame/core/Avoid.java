@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 
 
 public class Avoid extends GameState {
@@ -24,29 +26,40 @@ public class Avoid extends GameState {
    private ShapeRenderer shapeRenderer;
    private Player player;
    private int elapsedSeconds = 0;
+   private int timeremaining = 0;
    private int pos1;
    private int times = 0;
    private int cnt = 0;
    private Music backgroundMusic; 
    long startTime = 0;
    int scorearray[] = new int[3];
+   int pos = 0;
+   double oldx, oldy;
+   long time= 0;
+   
+
+   public static Texture backgroundTexture;
 
 
    public Avoid(GameManager gm){
        
-	  super();
+	    super();
       this.gm = gm;
       
-	  startTime = System.currentTimeMillis();
+      startTime = System.currentTimeMillis();
+      time = System.currentTimeMillis();
       
       scoreFont = new BitmapFont(); 
-      scoreFont.setColor(Color.GREEN);
-      scoreFont.setScale(2,2);
+      scoreFont.setColor(25/255f, 35/255f, 76/255f, 1f);
+		  scoreFont.setScale(2,2);
+      
 
       timer = new BitmapFont(); 
-      timer.setColor(Color.GREEN);
+      timer.setColor(25/255f, 35/255f, 76/255f, 1f);
       timer.setScale(4,4);
     
+      backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
+
       target =generatebinarynumber();
       targetstring = "What is " + target;
       generatetargets();
@@ -59,8 +72,15 @@ public class Avoid extends GameState {
       
 	@Override
 	public void render(float delta) {
+    
+       if(pos == 0) {
+          oldx = player.getPositionX();
+          oldy = player.getPositionY();
+        }
+        pos++;
         times++;
         long elapsedTime = System.currentTimeMillis() - startTime; //creating a time that counts down
+        long timeleft = System.currentTimeMillis() - time;
         
         if(times == 1) {
           backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("10secondcountdown.mp3")); 
@@ -74,18 +94,22 @@ public class Avoid extends GameState {
               }
               else {
                 cnt = 0;
-              } 
-          
-          
-          
-          
+              }          
           target = "";
           target =generatebinarynumber();
           targetstring = "What is " + target;
           generatetargets();
           startTime = System.currentTimeMillis();
+          
         }
+       settimeremaining(timeleft);
         
+        if (timeremaining == 0) {
+            backgroundMusic.stop();
+            player.setPositionX((int)oldx-200); // will need to change these when moving post box around
+            player.setPositionY((int)oldy-50);
+            gm.setCurrGameState("MAINGAME");
+        }
 
 	   Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 	   Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); 
@@ -95,43 +119,56 @@ public class Avoid extends GameState {
 	   // begin a new batch and draw the bucket and
 	   // all drops
        
-       drawRectangles();
-      
+     ; 
        batch.begin();
-             
+
+       batch.draw(backgroundTexture, 0, 0, 1200, 750);
+       batch.end();  
+       drawRectangles();
        setTimer(elapsedTime); 
        
-       timer.draw(batch,String.valueOf(elapsedSeconds), 600 , 500);
        
-       scoreFont.draw(batch,targetstring, 520 , 400);
-       scoreFont.draw(batch,"current score  " + String.valueOf(cnt),950 , 660);
+
+       batch.begin();
+       timer.draw(batch,String.valueOf(elapsedSeconds), 600 , 600);
        
-       scoreFont.draw(batch,String.valueOf(scorearray[0]), 260 , 260); 
-       scoreFont.draw(batch,String.valueOf(scorearray[1]), 610 , 260); 
-       scoreFont.draw(batch,String.valueOf(scorearray[2]), 960 , 260);
+       scoreFont.draw(batch,targetstring, 520 , 500);
+       scoreFont.draw(batch,"current score  " + String.valueOf(cnt),950 , 700);
+       scoreFont.draw(batch,"time remaining  " + String.valueOf(timeremaining),50 , 700);
+       scoreFont.draw(batch,String.valueOf(scorearray[0]), 260 , 360); 
+       scoreFont.draw(batch,String.valueOf(scorearray[1]), 610 , 360); 
+       scoreFont.draw(batch,String.valueOf(scorearray[2]), 960 , 360);
        batch.end();
+      
+      
+
+       
 
        player.render(); 
 
          if(cnt == 3) {
             backgroundMusic.stop();
+            player.setPositionX((int)oldx-200); // will need to change these when moving post box around
+            player.setPositionY((int)oldy-50);
             gm.setCurrGameState("MAINGAME");
          }
   
+     //  System.out.println("X"+player.getPositionX());
+     //  System.out.println("Y"+player.getPositionY());
      }
      
      private void drawRectangles() {
         shapeRenderer.begin(ShapeType.Filled);
-        shapeRenderer.setColor(Color.BLUE);
-        shapeRenderer.rect(110, 160, 300, 200);
-        shapeRenderer.rect(460, 160, 300, 200);
-        shapeRenderer.rect(810, 160, 300, 200);
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.rect(110, 260, 300, 200);
+        shapeRenderer.rect(460, 260, 300, 200);
+        shapeRenderer.rect(810, 260, 300, 200);
         shapeRenderer.end(); 
      }
      
      // setting timer reducing time as the players score increases making it harder.
      private void setTimer(long elapsedTime) {
-        if ( cnt == 0) {
+        if (cnt == 0) {
             elapsedSeconds = 10 - (int)elapsedTime / 1000; 
             }
          else if ( cnt == 1) {
@@ -141,30 +178,33 @@ public class Avoid extends GameState {
             elapsedSeconds = 5 - (int)elapsedTime / 1000; 
             } 
      }
-   
+
+     private void settimeremaining(long elapsedTime) {
+       timeremaining = 60 - (int)elapsedTime / 1000;
+     }   
      //checking to see if the player is in the correct position when the timer reaches zero
      private boolean correctposition() {
         System.out.println(player.getPositionX());
         System.out.println(player.getPositionY());
 
         if(pos1 == 0) {
-         if( 676 <= player.getPositionX() && player.getPositionX() <= 976) {
-           if( -156 <= player.getPositionY() && player.getPositionY() <= 27) {
+         if( 165 <= player.getPositionX() && player.getPositionX() <= 464) {
+           if( -56 <= player.getPositionY() && player.getPositionY() <= 127) {
                return true;
                 }
               }
             }
     
         else if(pos1 == 1) {
-               if( 1030 <= player.getPositionX() && player.getPositionX() <= 1327) {
-                 if( -156 <= player.getPositionY() && player.getPositionY() <= 27) {
+               if( 513 <= player.getPositionX() && player.getPositionX() <= 811) {
+                 if( -56 <= player.getPositionY() && player.getPositionY() <= 127) {
                   return true;
                     }
                   }
                 }
         else if(pos1 == 2) {
-               if(1395 <= player.getPositionX() && player.getPositionX() <= 1677) {
-                 if( -156 <= player.getPositionY() && player.getPositionY() <= 27) {
+               if(864 <= player.getPositionX() && player.getPositionX() <= 1164) {
+                 if( -56 <= player.getPositionY() && player.getPositionY() <= 127) {
                    return true;
                    }
                   }
@@ -260,10 +300,11 @@ public class Avoid extends GameState {
 	@Override
 	public void dispose() {
 	   // dispose of all the native resources
-	   batch.dispose();
+	     batch.dispose();
        scoreFont.dispose();
        timer.dispose();
        shapeRenderer.dispose();
+       backgroundTexture.dispose();
 	}
 }
 

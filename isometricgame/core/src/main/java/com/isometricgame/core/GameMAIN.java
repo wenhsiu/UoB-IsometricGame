@@ -73,9 +73,9 @@ public class GameMAIN extends GameState {
 
 	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
-    private final float[] tgpX = {1170, /* 1880, 1930, 3030, 2020, 3260, 3900 */ };
-	private final float[] tgpY = {50, /* -10, 840, 390, -755, -900, 380 */ };
-	private final String[] allStateName = {"MINIGAME1",};
+    private final float[] tgpX = {1170, /* 231,  */ /* 1880, 1930, 3030, 2020, 3260, 3900 */ };
+	private final float[] tgpY = {50, /* -18,   *//* -10, 840, 390, -755, -900, 380 */ };
+	private final String[] allStateName = {"MINIGAME1"/* , "MINIGAME1" */};
 
 	// Isometric parameters
 	private final double theta = Math.toDegrees(Math.atan(0.5));
@@ -138,6 +138,10 @@ public class GameMAIN extends GameState {
 		
 		// Trigger mini games with phone boxes
 		checkTriggerGame(x, y); 		
+		//show the trigger text if there is any to show. 
+		/* showTriggerText(x, y); */
+
+		System.out.println("Values of X and Y = " + x + "  " + y);
 
 		combineCameraPeople();
 		combineCameraProperty();
@@ -174,15 +178,15 @@ public class GameMAIN extends GameState {
 		
 		renderPeople();
 		renderProperty();
-		renderTriggerPoint();					
+		renderTriggerPoint();	
+		
+
 		player.render();
 
 		testbatch.begin();
 		bfont.draw(testbatch, message, 300, 300);
 		labeltest.draw(testbatch, 100);
 		testbatch.end();
-
-
 		
 		cam.update();
 		player.setFrozen(false);
@@ -337,6 +341,24 @@ public class GameMAIN extends GameState {
 		for(int i = 0; i < tgp.size(); i++) {	
 			if(tgp.get(i).containPoint(x, y) && tgp.get(i).getTriggeredGame().getPassState() == false) {
 				tgp.get(i).triggerGame();
+			}
+		}
+	}
+
+	private void showTriggerText(float x, float y){
+		for (int i = 0; i < tgp.size(); i++) {
+			if(tgp.get(i).containPoint(x, y)){
+				SpriteBatch textBatch; 
+				BitmapFont screenText; 
+				screenText = new BitmapFont(); 
+				textBatch = new SpriteBatch(); 
+
+				screenText.setColor(Color.BLACK);
+				screenText.setScale(2, 2);
+
+				textBatch.begin(); 
+				screenText.draw(textBatch, tgp.get(i).getTriggerText(), x, y); 
+				textBatch.end();
 			}
 		}
 	}
