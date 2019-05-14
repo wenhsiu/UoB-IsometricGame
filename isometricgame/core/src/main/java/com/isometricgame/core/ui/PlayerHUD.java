@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.graphics.Color;
 
-import com.isometricgame.core.dialog.DialogUI;
+import com.isometricgame.core.dialogue.DialogUI;
 
 import com.isometricgame.core.Utility;
 
