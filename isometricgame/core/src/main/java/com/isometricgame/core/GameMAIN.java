@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-// import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.isometricgame.core.gamemanager.GameManager;
@@ -22,8 +21,6 @@ import com.isometricgame.core.gamemanager.GameState;
 import com.isometricgame.core.charactermanager.People;
 import com.isometricgame.core.charactermanager.Property;
 import com.isometricgame.core.charactermanager.TriggerPoint;
-
-// import com.isometricgame.core.dialog.DialogUI;
 
 import com.isometricgame.core.ui.InventoryItem;
 import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
@@ -333,9 +330,12 @@ public class GameMAIN extends GameState {
 	
 	private void checkTriggerGame(float x, float y) {
 		for(int i = 0; i < tgp.size(); i++) {	
-			if(tgp.get(i).containPoint(x, y) && tgp.get(i).getTriggeredGame().getPassState() == false) {
-				tgp.get(i).triggerGame();
-				/**/System.out.println("Collision happen");
+			if(tgp.get(i).containPoint(x, y)) {
+				if(tgp.get(i).getTriggeredGame().getPassState() == false && !tgp.get(i).getTriggerred()) {
+					tgp.get(i).triggerGame();
+				}
+			}else {
+				tgp.get(i).setTriggerred(false);
 			}
 		}
 	}

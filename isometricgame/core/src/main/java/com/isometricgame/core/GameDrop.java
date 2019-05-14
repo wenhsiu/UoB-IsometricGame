@@ -247,10 +247,11 @@ public class GameDrop extends GameState {
 
 		if(Score.size() == 4) {
 			rainMusic.pause();
-			if(CheckScore()) {			
+			if(CheckScore()) {
+				passed = true;
 				gm.setCurrGameState("MAINGAME");
-			}
-			else {
+			}else {
+				passed = false;
 				gm.setCurrGameState("END");
 			}
 		}
@@ -293,22 +294,25 @@ public class GameDrop extends GameState {
 
 	@Override
 	public void show() {
-		rainMusic.play();
-		setPassState(true);
+		Score.removeAll(Score);
+		myDropScore = "";
+		rainMusic.play();		
 	}
 
 
 	@Override
 	public void hide() {  
+		rainMusic.pause();
 	}
 
 	@Override
 	public void pause () {
+		rainMusic.pause();
 	}
 
 	@Override
 	public void resume () {
-			rainMusic.play();
+		rainMusic.play();
 	}
 
 	@Override

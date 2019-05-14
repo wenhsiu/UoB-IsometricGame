@@ -25,7 +25,6 @@ public class GameManager {
 			"MINIGAME1",
 			"MINIGAME2",
 			"END",
-
 			"GAMELEVEL1",
 			"START2",
 			"GAMELEVEL2",
@@ -39,6 +38,7 @@ public class GameManager {
 	
 	public GameManager(Game game) {		
 		this.game = game;
+		
 		gameStates = new HashMap<String, GameState>();
 		currentState = gameStates.get("MAINGAME");
 		
@@ -69,21 +69,7 @@ public class GameManager {
 	public Player getPlayer() {
 		return player;
 	}
-	
-	public void initSingleState(String stateName) {
-		GameState newGS = null;
-		if(stateName.equals("MINIGAME1")) {
-			newGS = new GameDrop(this);
-			
-		} else {
-			
-		}
-		
-		if(newGS != null) {
-			game.setScreen(newGS);			
-		}
-	}
-	
+
 	private void initAllState() {
 		for(int i = 0; i < stateName.length; i++) {
 			if(stateName[i].equals("MENU")) {
@@ -94,19 +80,17 @@ public class GameManager {
 				gameStates.put("END", new GameEND(this));
 			} else if(stateName[i].equals("MINIGAME1")) {
 				gameStates.put("MINIGAME1", new GameDrop(this));
-			} else if(stateName[i].equals("MINIGAME2")) {
+			} else if(stateName[i].equals("MINIGAME2")){
 				gameStates.put("MINIGAME2", new Start1(this));
-			} 
-
-			else if(stateName[i].equals("GAMELEVEL1")) {
-				gameStates.put("GAMELEVEL1", new GameLevel1(this));
 			} else if(stateName[i].equals("START2")) {
 				gameStates.put("START2", new Start2(this));
 			} else if(stateName[i].equals("START3")) {
 				gameStates.put("START3", new Start3(this));
 			} else if(stateName[i].equals("COMPLETE")) {
 				gameStates.put("COMPLETE", new Complete(this));
-			}else if(stateName[i].equals("GAMELEVEL2")) {
+			} else if(stateName[i].equals("GAMELEVEL1")) {
+				gameStates.put("GAMELEVEL1", new GameLevel1(this));
+			} else if(stateName[i].equals("GAMELEVEL2")) {
 				gameStates.put("GAMELEVEL2", new GameLevel2(this));
 			} else if(stateName[i].equals("GAMELEVEL3")) {
 				gameStates.put("GAMELEVEL3", new GameLevel3(this));

@@ -27,27 +27,29 @@ public class TriggerPoint {
 	private GameManager gm;
 	private String gsName;
 	
-	private boolean reset; //if this mini game should be reset every time when triggered
+	private boolean triggerred;
+	//private boolean passed;
+	
 	private Map<String, Integer> cost; //the properties player has to collect to trigger this game
 	private String triggerText;
 	
 	public TriggerPoint(float x, float y, float scale, GameManager gm, String gameName, String triggerText) {
 		posX = x;
 		posY = y;
+		triggerred = false;
 		this.scale = scale;
 		this.gm = gm;
 		gsName = gameName;
-		this.triggerText = triggerText; 
+		this.triggerText = triggerText;
 	}
 	
-	public void initTriggerPoint(String materials, int sx, int sy, int ex, int ey, boolean reset) {
+	public void initTriggerPoint(String materials, int sx, int sy, int ex, int ey) {
 		texture = new Texture(Gdx.files.internal(materials));
 		batch = new SpriteBatch();
 		region = new TextureRegion(texture, sx, sy, ex, ey);
 		sizeX = (ex - sx) * scale;
 		sizeY = (ey - sy) * scale;
 		setBoundary(sizeY / 2, sizeY / 2, sizeX / 2, sizeX / 2);
-		this.reset = reset;
 	}
 
 	public void setBoundary(float top, float bottom, float right, float left) {
@@ -86,19 +88,24 @@ public class TriggerPoint {
 	}
 	
 	public void triggerGame() {
-		if(reset) {
-			gm.initSingleState(gsName);
-		}else {
-			gm.setCurrGameState(gsName);
-		}
+		gm.setCurrGameState(gsName);
+		triggerred = true;	
 	}
 
+	public boolean getTriggerred() {
+		return triggerred;
+	}
+	
 	public GameState getTriggeredGame() {
 		return gm.getGameState(gsName);
 	}
 
 	public void dispose() {
 		texture.dispose();
+	}
+	
+	public void setTriggerred(boolean triggerred) {
+		this.triggerred = triggerred;
 	}
 	
 }

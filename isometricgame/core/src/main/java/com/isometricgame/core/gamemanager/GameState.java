@@ -10,7 +10,7 @@ public abstract class GameState implements Screen {
 	// Protected as needed for PlayerHUD camera in GameMAIN
 	protected int width;
 	protected int height;
-	private boolean passed;
+	protected boolean passed;
 	
 	public GameState() {
 		width = Gdx.graphics.getWidth();
