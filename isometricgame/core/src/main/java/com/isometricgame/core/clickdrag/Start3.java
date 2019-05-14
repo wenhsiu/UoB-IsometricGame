@@ -37,9 +37,9 @@ public class Start3 extends GameState {
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.end();
 
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-			passed = true;
-			gm.setCurrGameState("GAMELEVEL3");
+		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){			
+			gm.newGameStateByName("GAMELEVEL3");
+			gm.setCurrGameState("GAMELEVEL3");	
 		}
 	}
 

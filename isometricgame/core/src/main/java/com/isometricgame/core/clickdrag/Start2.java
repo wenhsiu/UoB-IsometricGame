@@ -38,7 +38,8 @@ public class Start2 extends GameState {
 		batch.end();
 
 		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){			
-			gm.setCurrGameState("GAMELEVEL2");
+			gm.newGameStateByName("GAMELEVEL2");
+			gm.setCurrGameState("GAMELEVEL2");	
 		}
 	}
 

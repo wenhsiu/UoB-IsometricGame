@@ -50,7 +50,8 @@ public class GameLevel3 extends GameState {
 			// }
 
 			if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {				
-				gm.setCurrGameState("COMPLETE");
+				gm.newGameStateByName("COMPLETE");
+				gm.setCurrGameState("COMPLETE");	
 			}
 			
 		}

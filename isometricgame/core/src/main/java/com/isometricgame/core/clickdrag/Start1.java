@@ -39,8 +39,10 @@ public class Start1 extends GameState {
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.end();
 
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){			
-			gm.setCurrGameState("GAMELEVEL1");
+		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+			//If Start1 can be trigger, the following states has to be created no matter they are existing or not.
+			gm.newGameStateByName("GAMELEVEL1");
+			gm.setCurrGameState("GAMELEVEL1");			
 		}
 	}
 

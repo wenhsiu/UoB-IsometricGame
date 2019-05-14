@@ -375,9 +375,10 @@ public class GameMAIN extends GameState {
 	private void checkTriggerGame(float x, float y) {
 		for(int i = 0; i < tgp.size(); i++) {	
 			if(tgp.get(i).containPoint(x, y)) {
-				if(tgp.get(i).getTriggeredGame().getPassState() == false && !tgp.get(i).getTriggerred()) {
+				if(/*tgp.get(i).getTriggeredGame().getPassState() == false && */!tgp.get(i).getTriggerred()) {
 					tgp.get(i).triggerGame();
 				}
+				
 			}else {
 				tgp.get(i).setTriggerred(false);
 			}

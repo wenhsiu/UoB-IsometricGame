@@ -88,8 +88,13 @@ public class TriggerPoint {
 	}
 	
 	public void triggerGame() {
-		gm.setCurrGameState(gsName);
-		triggerred = true;	
+		if(gm.getGameState(gsName) != null && gm.getGameState(gsName).getPassState()) {
+			//if this gameState has been created and passed, do not trigger
+		}else {
+			gm.newGameStateByName(gsName);
+			gm.setCurrGameState(gsName);
+			triggerred = true;
+		}				
 	}
 
 	public boolean getTriggerred() {

@@ -38,7 +38,8 @@ public class Complete extends GameState {
 		batch.end();
 		
 		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-			passed = true; //set passed to true
+			GameState gs = gm.getGameState("MINIGAME2");
+			gs.setPassState(true); //set the first game state passed to true so that the trigger point can detect correctly
 			gm.setCurrGameState("GAMEMAIN");//go back to GAMEMAIN
 		}
 	}

@@ -22,15 +22,15 @@ public class GameManager {
 	private String[] stateName = {
 			"MENU",
 			"MAINGAME",
-			"MINIGAME1",
-			"MINIGAME2",
+//			"MINIGAME1",
+//			"MINIGAME2",
 			"END",
-			"GAMELEVEL1",
-			"START2",
-			"GAMELEVEL2",
-			"START3",
-			"GAMELEVEL3",
-			"COMPLETE",
+//			"GAMELEVEL1",
+//			"START2",
+//			"GAMELEVEL2",
+//			"START3",
+//			"GAMELEVEL3",
+//			"COMPLETE",
 	};
 	private GameState currentState;
 	private Game game;
@@ -69,6 +69,33 @@ public class GameManager {
 	public Player getPlayer() {
 		return player;
 	}
+	
+	public void newGameStateByName(String gsName) {
+		GameState newGS = null;
+		
+		//Added new gameState or replaced the failed state with a newly-created one
+		if(gsName.equals("MINIGAME1")) {
+			newGS = new GameDrop(this);
+		}else if(gsName.equals("MINIGAME2")) {
+			newGS = new Start1(this);
+		}else if(gsName.equals("START2")) {
+			newGS = new Start2(this);
+		}else if(gsName.equals("START3")) {
+			newGS = new Start3(this);
+		}else if(gsName.equals("COMPLETE")) {
+			newGS = new Complete(this);
+		}else if(gsName.equals("GAMELEVEL1")) {
+			newGS = new GameLevel1(this);
+		}else if(gsName.equals("GAMELEVEL2")) {
+			newGS = new GameLevel2(this);
+		}else if(gsName.equals("GAMELEVEL3")) {
+			newGS = new GameLevel3(this);
+		}
+		
+		if(newGS != null) {
+			gameStates.put(gsName, newGS);
+		}
+	}
 
 	private void initAllState() {
 		for(int i = 0; i < stateName.length; i++) {
@@ -78,7 +105,7 @@ public class GameManager {
 				gameStates.put("MAINGAME", new GameMAIN(this));
 			} else if(stateName[i].equals("END")) {
 				gameStates.put("END", new GameEND(this));
-			} else if(stateName[i].equals("MINIGAME1")) {
+			} /*else if(stateName[i].equals("MINIGAME1")) {
 				gameStates.put("MINIGAME1", new GameDrop(this));
 			} else if(stateName[i].equals("MINIGAME2")){
 				gameStates.put("MINIGAME2", new Start1(this));
@@ -94,7 +121,7 @@ public class GameManager {
 				gameStates.put("GAMELEVEL2", new GameLevel2(this));
 			} else if(stateName[i].equals("GAMELEVEL3")) {
 				gameStates.put("GAMELEVEL3", new GameLevel3(this));
-			}
+			}*/
 		}
 	}
 }

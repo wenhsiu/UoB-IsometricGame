@@ -338,12 +338,7 @@ public class GameDrop extends GameState {
 	}
 
 	@Override
-	public void show() {
-		//put the reset functions here.
-		Score.removeAll(Score);
-		myDropScore = "";
-		right = 0;
-		Wrong = 0;
+	public void show() {		
 		rainMusic.play();		
 	}
 
