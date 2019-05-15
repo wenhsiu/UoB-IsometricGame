@@ -22,7 +22,7 @@ import java.util.List;
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
 
-public class GameDrop extends GameState {
+public class Maze extends GameState {
 
 	private GameManager gm; 
 
@@ -57,7 +57,7 @@ public class GameDrop extends GameState {
 	private int timeReamining = 0;
 
 
-	public GameDrop(GameManager gm){
+	public Maze(GameManager gm){
 		super();
 		this.gm = gm;
 
