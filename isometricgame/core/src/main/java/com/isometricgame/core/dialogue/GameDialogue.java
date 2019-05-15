@@ -25,15 +25,12 @@ public class GameDialogue {
         this.textmessage = textmessage; 
     }
 
-    /**
-     * @return the textmessage
-     */
     public String getTextmessage() {
         return textmessage;
     }
 
     /**
-     * @param textmessage the textmessage to set
+     * @param textmessa    private String textmessage2;ge the textmessage to set
      */
     public void setTextmessage(String textmessage) {
         this.textmessage = textmessage;
@@ -46,9 +43,6 @@ public class GameDialogue {
         return minx;
     }
 
-    /**
-     * @param minx the minx to set
-     */
     public void setMinx(double minx) {
         this.minx = minx;
     }

@@ -98,7 +98,7 @@ public class GameMAIN extends GameState {
 	public GameMAIN(GameManager gm) {
 		super();
 		this.gm = gm;
-		dialogueList = new ArrayList<GameDialogue>();
+		dialogueList = (List<GameDialogue>) new ArrayList<GameDialogue>();
 		
 		initMapAndLayer();
 
@@ -148,7 +148,7 @@ public class GameMAIN extends GameState {
 		//show the trigger text if there is any to show. 
 		/* showTriggerText(x, y); */
 
-//		System.out.println("Values of X and Y = " + x + "  " + y);
+		System.out.println("Values of X and Y = " + x + "  " + y);
 
 		combineCameraPeople();
 		combineCameraProperty();
