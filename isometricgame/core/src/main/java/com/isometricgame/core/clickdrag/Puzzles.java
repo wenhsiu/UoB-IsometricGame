@@ -28,7 +28,7 @@ import com.badlogic.gdx.ApplicationListener;
 public class Puzzles implements ApplicationListener {
 	private Stage stage;
 	private Image line, addition;
-	private Image image =  new Image(new Texture("clickanddrag/reset2.png"));
+	private Image reset =  new Image(new Texture("clickanddrag/reset_button.png"));
 	private Texture Qzero = new Texture("clickanddrag/q0.png");
 	private Texture Qone = new Texture("clickanddrag/q1.png");
 	private Texture Azero = new Texture("clickanddrag/0.png");
@@ -49,8 +49,6 @@ public class Puzzles implements ApplicationListener {
 
 	@Override
 	public void create () {
-		// camera = new OrthographicCamera(); 
-
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 		
@@ -101,7 +99,7 @@ public class Puzzles implements ApplicationListener {
 		
 		ans = String.join("", targetAnswer);
 		
-		System.out.println("!!!!!!!!" + ans);
+		// /**/System.out.println("!!!!!!!!" + ans);
 		if(ans.equals(bineryAnswer)) {
 			return true;
 		}
@@ -110,11 +108,6 @@ public class Puzzles implements ApplicationListener {
 	}
 
 	private void setSourceImages() {
-		// TODO: need to fix the problem -> reset doesn't reset the attribute
-
-		// puzzles.clear();
-		// puzzles = new ArrayList<Piece>();
-
 		for(int i = 0; i < 8; i++) {
 			if(i < 4) {
 				puzzles.add(new Piece(new Image(Azero), "0"));
@@ -229,10 +222,10 @@ public class Puzzles implements ApplicationListener {
 	}
 
 	public void setReset() {
-		image.setBounds(1000, 200, 100, 100);
-		stage.addActor(image);
+		reset.setBounds(930, 200, 210, 100);
+		stage.addActor(reset);
 
-		image.addListener(new ClickListener(){
+		reset.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				for(Piece p: puzzles) {

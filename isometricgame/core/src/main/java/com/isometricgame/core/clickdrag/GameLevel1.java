@@ -16,10 +16,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Timer;
 
 public class GameLevel1 extends GameState {
+
+	private final int NEXT_WIDTH = 210;
+	private final int NEXT_HEIGHT = 100;
+	private final int NEXT_X = 930;
+	private final int NEXT_Y = 300;
 	
 	private GameManager gm;
 	private TextureRegion background;
-	private Texture done, next;
+	private Texture next, nextActive;
 	private SpriteBatch batch;
 	private Puzzles puzzles;
 	private boolean complete = false;
@@ -35,6 +40,9 @@ public class GameLevel1 extends GameState {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		int x = Gdx.input.getX();
+        int y = Gdx.graphics.getHeight() - Gdx.input.getY();
+
 		batch.begin();
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.end();
@@ -43,16 +51,27 @@ public class GameLevel1 extends GameState {
 
 		if(puzzles.checkTagetAnswer()){
 			batch.begin();
-			batch.draw(done, 50, 600, 100, 100);
-
-			batch.end();
-
-			if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {				
-				gm.newGameStateByName("START2");
-				gm.setCurrGameState("START2");	
-			}
+			if (mouseHovering(x, y)) {
+	            batch.draw(nextActive, NEXT_X, NEXT_Y, NEXT_WIDTH, NEXT_HEIGHT);
+	            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {                
+	                gm.newGameStateByName("START2");
+	                gm.setCurrGameState("START2");;
+	            }
+	        } else {
+	            batch.draw(next, NEXT_X, NEXT_Y, NEXT_WIDTH, NEXT_HEIGHT);
+	        }
+			batch.end();			
 		}
 	}
+
+	private boolean mouseHovering(int x, int y) {
+		if(x > NEXT_X && 
+		   x < NEXT_X + NEXT_WIDTH &&
+		   y > NEXT_Y &&
+		   y < NEXT_Y + NEXT_HEIGHT) {
+			return true;
+		} else {return false;}
+    }
 
 	@Override
 	public void resize (int width, int height) {
@@ -67,8 +86,8 @@ public class GameLevel1 extends GameState {
 		batch = new SpriteBatch();
 		puzzles = new Puzzles();
 		puzzles.create();
-
-		done = new Texture("clickanddrag/check.png");
+		next = new Texture("clickanddrag/continue_button.png");
+		nextActive = new Texture("clickanddrag/continue_button2.png");
     }
 
     @Override
@@ -89,6 +108,8 @@ public class GameLevel1 extends GameState {
 	@Override
 	public void dispose () {
 		puzzles.dispose();
+		next.dispose();
+		nextActive.dispose();
 	}
 
 }

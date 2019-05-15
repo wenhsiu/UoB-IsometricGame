@@ -16,7 +16,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Start3 extends GameState {
 
-	private final int LEVEL_WIDTH = 600;
+	private final int LEVEL_WIDTH = 800;
 	private final int LEVEL_HEIGHT = 220;
 	private final int LEVEL_X;
 	private final int LEVEL_Y = 300;
