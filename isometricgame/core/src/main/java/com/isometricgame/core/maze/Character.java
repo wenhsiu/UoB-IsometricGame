@@ -1,4 +1,4 @@
-package com.isometricgame.core;
+package com.isometricgame.core.maze;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
