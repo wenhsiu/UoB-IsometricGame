@@ -45,16 +45,10 @@ public class GameLevel2 extends GameState {
 			batch.draw(done, 50, 600, 100, 100);
 			batch.end();
 
-			// if(!gm.getGameState("START3").getPassState()) {
-			// 	gm.setCurrGameState("START3");
-			// }
-
-			if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {				
+			if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {				
 				gm.newGameStateByName("START3");
 				gm.setCurrGameState("START3");	
 			}
-
-			
 		}
 	}
 

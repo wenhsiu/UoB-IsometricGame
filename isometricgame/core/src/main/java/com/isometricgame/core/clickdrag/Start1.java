@@ -15,40 +15,61 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Start1 extends GameState {
+
+	private final int LEVEL_WIDTH = 600;
+	private final int LEVEL_HEIGHT = 220;
+	private final int LEVEL_X;
+	private final int LEVEL_Y = 300;
 	
 	private GameManager gm;
-	private Texture texture;
-	private TextureRegion background;
+	private Texture level, levelActive;
 	private SpriteBatch batch;
 
     
 	public Start1(GameManager gm) {
 		super();	
 		this.gm = gm;
-		background = new TextureRegion(new Texture("clickanddrag/Level1.png"));
+		level = new Texture("clickanddrag/level1_button.png");
+		levelActive = new Texture("clickanddrag/level1_button2.png");
+		LEVEL_X = Gdx.graphics.getWidth()/2 - LEVEL_WIDTH/2;
 		batch = new SpriteBatch();
 	}
-       
 
     @Override
 	public void render (float delta) {    	
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(255/255f, 234/255f, 188/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		batch.begin();
-		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		batch.end();
+        //original point is from topleft corner
+        int x = Gdx.input.getX();
+        int y = Gdx.graphics.getHeight() - Gdx.input.getY();
 
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-			//If Start1 can be trigger, the following states has to be created no matter they are existing or not.
-			gm.newGameStateByName("GAMELEVEL1");
-			gm.setCurrGameState("GAMELEVEL1");			
-		}
+		batch.begin();
+
+        if (mouseHovering(x, y)) {
+            batch.draw(levelActive, LEVEL_X, LEVEL_Y, LEVEL_WIDTH, LEVEL_HEIGHT);
+            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {                
+                gm.newGameStateByName("GAMELEVEL1");
+                gm.setCurrGameState("GAMELEVEL1");;
+            }
+        } else {
+            batch.draw(level, LEVEL_X, LEVEL_Y, LEVEL_WIDTH, LEVEL_HEIGHT);
+        }
+
+		batch.end();
 	}
+
+	private boolean mouseHovering(int x, int y) {
+		if(x > LEVEL_X && 
+		   x < LEVEL_X + LEVEL_WIDTH &&
+		   y > LEVEL_Y &&
+		   y < LEVEL_Y + LEVEL_HEIGHT) {
+			return true;
+		} else {return false;}
+    }
 
 	@Override
 	public void resize (int width, int height) {
-		super.resize(width, height);
     }
 	
     
@@ -74,7 +95,8 @@ public class Start1 extends GameState {
 
 	@Override
 	public void dispose () {
-		// background.disxose();
+		levelActive.dispose();
+    	level.dispose();
+    	batch.dispose();
 	}
-
 }

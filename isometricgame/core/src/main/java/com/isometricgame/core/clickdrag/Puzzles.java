@@ -47,12 +47,6 @@ public class Puzzles implements ApplicationListener {
 
 	private String ans = "";
 
-	// private OrthographicCamera camera; 
-
-	// public Puzzles(){
-	// 	ans = "";
-	// }
-
 	@Override
 	public void create () {
 		// camera = new OrthographicCamera(); 
@@ -107,7 +101,7 @@ public class Puzzles implements ApplicationListener {
 		
 		ans = String.join("", targetAnswer);
 		
-		// System.out.println("!!!!!!!!" + ans);
+		System.out.println("!!!!!!!!" + ans);
 		if(ans.equals(bineryAnswer)) {
 			return true;
 		}
@@ -118,7 +112,7 @@ public class Puzzles implements ApplicationListener {
 	private void setSourceImages() {
 		// TODO: need to fix the problem -> reset doesn't reset the attribute
 
-		// puzzles.removeAll(puzzles);
+		// puzzles.clear();
 		// puzzles = new ArrayList<Piece>();
 
 		for(int i = 0; i < 8; i++) {
@@ -127,11 +121,11 @@ public class Puzzles implements ApplicationListener {
 			} else {
 				puzzles.add(new Piece(new Image(Aone), "1"));
 			}
-			puzzles.get(i).setBounds((float) Math.random() * 500, 50, 100, 100);
+			puzzles.get(i).setBounds(180 + i * 110, 50, 100, 100);
 			puzzles.get(i).setActor(stage);
 			puzzles.get(i).setDragSource();
 			for(int j = 0 ; j < 5; j++) {
-				puzzles.get(i).setDragTarget(targets.get(j).getImage(), 40 + j * 110);
+				puzzles.get(i).setDragTarget(targets.get(j).getImage(), 290 + j * 110);
 			}
 			
 		}
@@ -143,18 +137,18 @@ public class Puzzles implements ApplicationListener {
 
 		for(int i = 0; i < 5; i++) {
 			targets.add(new Piece(new Image(answer), Character.toString(temp[i])));
-			targets.get(i).setBounds(40 + i * 110, 300, 100, 100);
+			targets.get(i).setBounds(290 + i * 110, 300, 100, 100);
 			targets.get(i).setActor(stage);
 		}
 	}
 
 	private void setQuestionImages() {
 		line = new Image(new Texture("clickanddrag/line.png"));
-		line.setBounds(30, 410, 560, 6);
+		line.setBounds(280, 410, 560, 6);
 		stage.addActor(line);
 
 		addition = new Image(new Texture("clickanddrag/addition.png"));
-		addition.setBounds(40, 420, 100, 100);
+		addition.setBounds(290, 420, 100, 100);
 		stage.addActor(addition);
 
 		// for line one
@@ -165,7 +159,7 @@ public class Puzzles implements ApplicationListener {
 				quesOne.add(new Piece(new Image(Qone), "1"));
 			}
 
-			quesOne.get(i).setBounds(150 + i * 110, 530, 100, 100);
+			quesOne.get(i).setBounds(400 + i * 110, 530, 100, 100);
 			quesOne.get(i).setActor(stage);
 			bineryOne += quesOne.get(i).getProperty();
 		}
@@ -178,7 +172,7 @@ public class Puzzles implements ApplicationListener {
 				quesTwo.add(new Piece(new Image(Qone), "1"));
 			}
 
-			quesTwo.get(i).setBounds(150 + i * 110, 420, 100, 100);
+			quesTwo.get(i).setBounds(400 + i * 110, 420, 100, 100);
 			quesTwo.get(i).setActor(stage);
 			bineryTwo += quesTwo.get(i).getProperty();
 		}
@@ -219,15 +213,15 @@ public class Puzzles implements ApplicationListener {
 
 	private int index(float x) {
 		switch((int) x) {
-			case 40:
+			case 290:
 				return 0;
-			case 150:
+			case 400:
 				return 1;
-			case 260:
+			case 510:
 				return 2;
-			case 370:
+			case 620:
 				return 3;
-			case 480:
+			case 730:
 				return 4;
 		}
 
@@ -235,16 +229,18 @@ public class Puzzles implements ApplicationListener {
 	}
 
 	public void setReset() {
-		image.setBounds(540, 200, 100, 100);
+		image.setBounds(1000, 200, 100, 100);
 		stage.addActor(image);
 
 		image.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				System.out.println("You clicked an image...");
+				for(Piece p: puzzles) {
+					p.removeFromTarget();
+				}
 				setSourceImages();
 				targetAnswer = new String[5];
-				/**/System.out.println("reset: " + String.join(",", targetAnswer));	
+				// /**/System.out.println("reset: " + String.join(",", targetAnswer));	
 
 			}
 		});

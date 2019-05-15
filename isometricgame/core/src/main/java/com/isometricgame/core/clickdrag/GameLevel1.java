@@ -45,26 +45,12 @@ public class GameLevel1 extends GameState {
 			batch.begin();
 			batch.draw(done, 50, 600, 100, 100);
 
-			// batch.draw(next);
-
 			batch.end();
 
-			// if(!gm.getGameState("START2").getPassState()) {
-			// 	gm.setCurrGameState("START2");
-			// }
-			// if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-			//if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
-
-			// if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-			// 	gm.setCurrGameState("START2");
-			// }
-
-			if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {				
+			if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {				
 				gm.newGameStateByName("START2");
 				gm.setCurrGameState("START2");	
 			}
-
-			
 		}
 	}
 
@@ -83,7 +69,6 @@ public class GameLevel1 extends GameState {
 		puzzles.create();
 
 		done = new Texture("clickanddrag/check.png");
-		next = new Texture("clickanddrag/Level2.png");
     }
 
     @Override
