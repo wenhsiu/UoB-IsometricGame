@@ -100,7 +100,7 @@ public class GameMAIN extends GameState {
 	public GameMAIN(GameManager gm) {
 		super();
 		this.gm = gm;
-		dialogueList = (List<GameDialogue>) new ArrayList<GameDialogue>();
+		dialogueList = new ArrayList<>();
 		
 		initMapAndLayer();
 
