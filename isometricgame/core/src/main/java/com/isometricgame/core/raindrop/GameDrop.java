@@ -80,12 +80,12 @@ public class GameDrop extends GameState{
 		
 		target = MathUtils.random(0, 15);
 		info = "TARGET: " + Integer.toString(target);
-		score = "SCORE: ";
+		score = "COLLECTED: ";
 		
 		//set Font
 		scoreFont = new BitmapFont();
 		scoreFont.setColor(25 / 255f, 35 / 255f, 76 / 255f, 1f);
-		scoreFont.setScale(3);
+		scoreFont.setScale(2);
 	}
 	
 	private void generateRainDrop() {

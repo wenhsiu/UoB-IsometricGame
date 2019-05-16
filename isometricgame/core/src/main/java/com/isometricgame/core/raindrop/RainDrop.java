@@ -9,7 +9,7 @@ public class RainDrop extends Property{
 	private final int dropW = 256;
 	private final int dropH = 256;
 	
-	private int speed = 50;
+	private int speed = 100;
 	
 	public RainDrop(float x, float y, int digit) {
 		super(x, y, 0.5f);
