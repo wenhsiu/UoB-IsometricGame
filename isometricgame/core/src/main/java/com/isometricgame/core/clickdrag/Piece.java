@@ -50,6 +50,10 @@ public class Piece /*extends Actor */{
 		stage.addActor(image);
 	}
 
+	public void removeFromTarget() {
+		located = false;
+	}
+
 	public String getProperty() {
 		return property;
 	}

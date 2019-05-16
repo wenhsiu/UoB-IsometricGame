@@ -15,45 +15,67 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Start2 extends GameState {
+
+	private final int LEVEL_WIDTH = 600;
+	private final int LEVEL_HEIGHT = 220;
+	private final int LEVEL_X;
+	private final int LEVEL_Y = 300;
 	
 	private GameManager gm;
-	private Texture texture;
-	private TextureRegion background;
+	private Texture level, levelActive;
 	private SpriteBatch batch;
 
     
 	public Start2(GameManager gm) {
 		super();	
 		this.gm = gm;
+		level = new Texture("clickanddrag/level2_button.png");
+		levelActive = new Texture("clickanddrag/level2_button2.png");
+		LEVEL_X = Gdx.graphics.getWidth()/2 - LEVEL_WIDTH/2;
+		batch = new SpriteBatch();
 	}
-       
 
     @Override
 	public void render (float delta) {    	
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(255/255f, 234/255f, 188/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		batch.begin();
-		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		batch.end();
+        //original point is from topleft corner
+        int x = Gdx.input.getX();
+        int y = Gdx.graphics.getHeight() - Gdx.input.getY();
 
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){			
-			gm.newGameStateByName("GAMELEVEL2");
-			gm.setCurrGameState("GAMELEVEL2");	
-		}
+		batch.begin();
+
+        if (mouseHovering(x, y)) {
+            batch.draw(levelActive, LEVEL_X, LEVEL_Y, LEVEL_WIDTH, LEVEL_HEIGHT);
+            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {                
+                gm.newGameStateByName("GAMELEVEL2");
+                gm.setCurrGameState("GAMELEVEL2");;
+            }
+        } else {
+            batch.draw(level, LEVEL_X, LEVEL_Y, LEVEL_WIDTH, LEVEL_HEIGHT);
+        }
+
+		batch.end();
 	}
+
+	private boolean mouseHovering(int x, int y) {
+		if(x > LEVEL_X && 
+		   x < LEVEL_X + LEVEL_WIDTH &&
+		   y > LEVEL_Y &&
+		   y < LEVEL_Y + LEVEL_HEIGHT) {
+			return true;
+		} else {return false;}
+    }
 
 	@Override
 	public void resize (int width, int height) {
-		super.resize(width, height);
     }
 	
     
     @Override
     public void show() {   
     	// super.show();
-		background = new TextureRegion(new Texture("clickanddrag/Level2.png"));
-		batch = new SpriteBatch();
     }
 
     @Override
@@ -73,6 +95,8 @@ public class Start2 extends GameState {
 
 	@Override
 	public void dispose () {
+		levelActive.dispose();
+    	level.dispose();
+    	batch.dispose();
 	}
-
 }

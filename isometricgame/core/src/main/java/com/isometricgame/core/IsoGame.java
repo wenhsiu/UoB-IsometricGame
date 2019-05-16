@@ -18,7 +18,7 @@ public class IsoGame extends Game {
 
 		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Hypnotic-Puzzle3.mp3")); 
 		backgroundMusic.setLooping(true);
-		//backgroundMusic.play(); disable when develop
+		backgroundMusic.play(); 
 	}
 
 	@Override

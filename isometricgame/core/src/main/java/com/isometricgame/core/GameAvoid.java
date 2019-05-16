@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 
 
-public class Avoid extends GameState {
+public class GameAvoid extends GameState {
 
    private GameManager gm; 
    private SpriteBatch batch;
@@ -41,7 +41,7 @@ public class Avoid extends GameState {
    public static Texture backgroundTexture;
 
 
-   public Avoid(GameManager gm){
+   public GameAvoid(GameManager gm){
        
 	    super();
       this.gm = gm;
@@ -90,13 +90,14 @@ public class Avoid extends GameState {
        
         if(times == 1 || elapsedSeconds == 0) {
             if(correctposition() && times != 0) {
-                cnt++;        
+                cnt++;
+                /**/System.out.println("conut: " + cnt);       
               }
               else {
                 cnt = 0;
               }          
           target = "";
-          target =generatebinarynumber();
+          target = generatebinarynumber();
           targetstring = "What is " + target;
           generatetargets();
           startTime = System.currentTimeMillis();
@@ -106,8 +107,8 @@ public class Avoid extends GameState {
         
         if (timeremaining == 0) {
             backgroundMusic.stop();
-            player.setPositionX((int)oldx-200); // will need to change these when moving post box around
-            player.setPositionY((int)oldy-50);
+            player.setPositionX((int)oldx);
+            player.setPositionY((int)oldy);
             gm.setCurrGameState("MAINGAME");
         }
 
@@ -119,7 +120,6 @@ public class Avoid extends GameState {
 	   // begin a new batch and draw the bucket and
 	   // all drops
        
-     ; 
        batch.begin();
 
        batch.draw(backgroundTexture, 0, 0, 1200, 750);
@@ -139,17 +139,16 @@ public class Avoid extends GameState {
        scoreFont.draw(batch,String.valueOf(scorearray[1]), 610 , 360); 
        scoreFont.draw(batch,String.valueOf(scorearray[2]), 960 , 360);
        batch.end();
-      
-      
-
-       
 
        player.render(); 
 
          if(cnt == 3) {
             backgroundMusic.stop();
-            player.setPositionX((int)oldx-200); // will need to change these when moving post box around
-            player.setPositionY((int)oldy-50);
+            player.setPositionX((int)oldx);
+            player.setPositionY((int)oldy);
+            //set the first game state passed to true so that the trigger point can detect correctly
+            passed = true;
+            // back to main game
             gm.setCurrGameState("MAINGAME");
          }
   
@@ -184,27 +183,27 @@ public class Avoid extends GameState {
      }   
      //checking to see if the player is in the correct position when the timer reaches zero
      private boolean correctposition() {
-        System.out.println(player.getPositionX());
-        System.out.println(player.getPositionY());
+        /**/System.out.println(player.getPositionX());
+        /**/System.out.println(player.getPositionY());
 
         if(pos1 == 0) {
-         if( 165 <= player.getPositionX() && player.getPositionX() <= 464) {
-           if( -56 <= player.getPositionY() && player.getPositionY() <= 127) {
+         if( 1477 <= player.getPositionX() && player.getPositionX() <= 1741) {
+           if( 779 <= player.getPositionY() && player.getPositionY() <= 966) {
                return true;
                 }
               }
             }
     
         else if(pos1 == 1) {
-               if( 513 <= player.getPositionX() && player.getPositionX() <= 811) {
-                 if( -56 <= player.getPositionY() && player.getPositionY() <= 127) {
+               if( 1864 <= player.getPositionX() && player.getPositionX() <= 2143) {
+                 if( 779 <= player.getPositionY() && player.getPositionY() <= 966) {
                   return true;
                     }
                   }
                 }
         else if(pos1 == 2) {
-               if(864 <= player.getPositionX() && player.getPositionX() <= 1164) {
-                 if( -56 <= player.getPositionY() && player.getPositionY() <= 127) {
+               if(2220 <= player.getPositionX() && player.getPositionX() <= 2500) {
+                 if( 779 <= player.getPositionY() && player.getPositionY() <= 966) {
                    return true;
                    }
                   }
@@ -307,9 +306,3 @@ public class Avoid extends GameState {
        backgroundTexture.dispose();
 	}
 }
-
-
-
-
-
-
