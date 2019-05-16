@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Game;
 import com.isometricgame.core.Avoid;
-import com.isometricgame.core.GameDrop;
+import com.isometricgame.core.raindrop.GameDrop;
 import com.isometricgame.core.GameEND;
 import com.isometricgame.core.GameMAIN;
 import com.isometricgame.core.Player;

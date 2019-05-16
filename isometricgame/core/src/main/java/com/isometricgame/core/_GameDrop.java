@@ -29,18 +29,25 @@ import java.util.Iterator;
 //Example text import - Jack
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
-public class GameDrop extends GameState {
+public class _GameDrop extends GameState {
 
 	private GameManager gm;
 
+	private final int bucketW = 128;
+	private final int bucketH = 128;
+	
+	private float bucketX;
+	private float bucketY;
+	
 	private Texture dropImage0;
 	private Texture dropImage1;
 	private Texture bucketImage;
+	private Texture cloud;
+	
 	private Sound dropSound;
 	private Music rainMusic;
 	private SpriteBatch batch;
 	private Sprite background;
-	private Rectangle bucket;
 	private Array<Rectangle> raindrops0;
 	private Array<Rectangle> raindrops1;
 	private long lastDropTime;
@@ -52,24 +59,18 @@ public class GameDrop extends GameState {
 	private int pos = 0;
 	private double oldx, oldy;
 	private int right = 0;
-	private int Wrong = 0;
+	private int wrong = 0;
 	private boolean change = true;
-
-	// private FreeTypeFontGenerator generator;
-	// private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-	// private BitmapFont testFont;
 
 	// Background images.
 	public static Texture backgroundTexture;
 	public static Sprite backgroundSprite;
 	private List<Integer> Score = new ArrayList<Integer>();
 
-	public GameDrop(GameManager gm) {
+	public _GameDrop(GameManager gm) {
 		super();
 		this.gm = gm;
 		player = gm.getPlayer();
-
-		// Set player score = 0
 
 		myDropScore = "Binary collected";
 		target = "Target  " + RandNum(0, 15);
@@ -79,16 +80,9 @@ public class GameDrop extends GameState {
 		scoreFont.setColor(25 / 255f, 35 / 255f, 76 / 255f, 1f);
 		scoreFont.setScale(2);
 
-		// generator = new
-		// FreeTypeFontGenerator(Gdx.files.internal("font/slkscre.ttf"));
-		// parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		// parameter.size = 12;
-		// testFont = generator.generateFont(parameter);
-
-		// scoreFont.getData().setScale(2, 2);
-
-		backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
-
+		//backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
+		backgroundTexture = new Texture(Gdx.files.internal("background_pink.png"));
+		cloud = new Texture(Gdx.files.internal("re_cloud.png"));
 		// load the images for the droplet and the bucket, 64x64 pixels each
 
 		dropImage0 = new Texture(Gdx.files.internal("drop0.png"));
@@ -97,23 +91,15 @@ public class GameDrop extends GameState {
 
 		// load the drop sound effect and the rain background "music"
 		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
-		rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
-
-		// start the playback of the background music immediately
+		rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));		
 		rainMusic.setLooping(true);
 
 		// create the SpriteBatch
 		batch = new SpriteBatch();
 
 		// create a Rectangle to logically represent the bucket
-		bucket = new Rectangle();
-		// center the bucket horizontally
-		bucket.x = 1200 / 2 - 128 / 2;
-		// bottom left corner of the bucket is 20 pixels above the bottom screen edge
-		bucket.y = 20;
-		bucket.width = 128;
-		bucket.height = 128;
-
+		bucketX = Gdx.graphics.getWidth()/2 - bucketX/2;
+		bucketY = 20;
 		// create the raindrops array and spawn the first raindrop
 		raindrops0 = new Array<Rectangle>();
 		raindrops1 = new Array<Rectangle>();
@@ -165,11 +151,6 @@ public class GameDrop extends GameState {
 		}
 		pos++;
 
-		// clear the screen with a dark blue color. The
-		// arguments to glClearColor are the red, green
-		// blue and alpha component in the range [0,1]
-		// of the color to be used to clear the screen.
-
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -185,13 +166,13 @@ public class GameDrop extends GameState {
 		// batch.draw(backgroundTexture, 0, 0);
 		batch.draw(backgroundTexture, 0, 0, 1200, 750);
 
-		batch.draw(bucketImage, bucket.x, bucket.y);
+		batch.draw(bucketImage, bucketX, bucketY);
 
 		scoreFont.draw(batch, myDropScore, 200, 700);
 		scoreFont.draw(batch, target, 0, 700);
 
 		scoreFont.draw(batch, "number correct  " + String.valueOf(right), 650, 700);
-		scoreFont.draw(batch, "number incorrect  " + String.valueOf(Wrong), 950, 700);
+		scoreFont.draw(batch, "number incorrect  " + String.valueOf(wrong), 950, 700);
 
 		
 
@@ -210,21 +191,16 @@ public class GameDrop extends GameState {
 			Vector3 touchPos = new Vector3();
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			cam.unproject(touchPos);
-			bucket.x = touchPos.x - 128 / 2;
+			bucketX = touchPos.x - 128 / 2;
 		}
 		if (Gdx.input.isKeyPressed(Keys.LEFT))
-			bucket.x -= 200 * Gdx.graphics.getDeltaTime();
+			bucketX -= 200 * Gdx.graphics.getDeltaTime();
 		if (Gdx.input.isKeyPressed(Keys.RIGHT))
-			bucket.x += 200 * Gdx.graphics.getDeltaTime();
+			bucketX += 200 * Gdx.graphics.getDeltaTime();
 
 		// Ensure the bucket stays within the screen bounds
-		if (bucket.x < 0) {
-			bucket.x = 0;
-		}
-
-		if (bucket.x > 1200 - 128) {
-			bucket.x = 1200 - 128;
-		}
+		bucketX = Math.max(0, bucketX);
+		bucketX = Math.min(bucketX, Gdx.graphics.getWidth());
 
 		// Check if we need to create a new raindrop
 		if (TimeUtils.nanoTime() - lastDropTime > 100000000 * 100000) {
@@ -234,7 +210,7 @@ public class GameDrop extends GameState {
 		// move the raindrops, remove any that are beneath the bottom edge of
 		// the screen or that hit the bucket. In the latter case we play back
 		// a sound effect as well.
-		for (Iterator<Rectangle> iter = raindrops0.iterator(); iter.hasNext();) {
+/*		for (Iterator<Rectangle> iter = raindrops0.iterator(); iter.hasNext();) {
 			Rectangle raindrop = iter.next();
 			raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
 			if (raindrop.y + 128 < 0) {
@@ -263,13 +239,13 @@ public class GameDrop extends GameState {
 				iter.remove();
 			}
 		}
-
-		if (Score.size() == 4) {
+*/
+		if (Score.size() >= 4) {
 			rainMusic.pause();
 			if (CheckScore()) {
 				right++;
 			} else {
-				Wrong++;
+				wrong++;
 			}
 
 			Score.clear();
@@ -278,26 +254,15 @@ public class GameDrop extends GameState {
 		}
 
 		if (right == 3) {
-//			player.setPositionX((int) oldx - 100); // will need to change these when moving post box around
-//			player.setPositionY((int) oldy - 50);
 			gm.setCurrGameState("MAINGAME");
 		}
 
-		if (Wrong == 3) {
-//			player.setPositionX((int)oldx-100); // will need to change these when moving post box around
-//			player.setPositionY((int)oldy-50);
+		if (wrong == 3) {
 			gm.setCurrGameState("MAINGAME");
 		}
 
-	/*	if(change) {
-			try {
-				Thread.sleep((long) 10000);
-				} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} */
-        change = false;
+//TODO: To add delay to allows player start later. 
+		change = false;
 	}
     
     // Checks to see if user input matches the target
@@ -368,6 +333,5 @@ public class GameDrop extends GameState {
 		batch.dispose();
 		scoreFont.dispose();
 		backgroundTexture.dispose();
-		// generator.dispose();
 	}
 }
