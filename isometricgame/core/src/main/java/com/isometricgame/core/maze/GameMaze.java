@@ -61,8 +61,6 @@ public class GameMaze extends GameState {
 		super();
 		this.gm = gm;
 
-		/**/System.out.println(Gdx.files.internal("./maze.tmx"));
-
 		map = new TmxMapLoader().load("./maze.tmx");
 		//renderer = new IsometricTiledMapRenderer(map);
 		renderer = new OrthogonalTiledMapRenderer(map);
@@ -92,10 +90,11 @@ public class GameMaze extends GameState {
 
 
 		//camera = new OrthographicCamera();
-		player = new Character(new Sprite(new Texture("0 (1).png")), (TiledMapTileLayer) map.getLayers().get("Walls"));
+		player = new Character(new Sprite(new Texture("reddot.png")), (TiledMapTileLayer) map.getLayers().get("Walls"));
 		 //maybe change cordinates as they may start from diff origin
 		player.setPosition(275, 60);
-		player.setScale((float)0.3, (float)0.3);
+		player.setScale((float)0.3);
+		// player.setSize(8, 8);
 
 
 	}
@@ -168,7 +167,7 @@ public class GameMaze extends GameState {
 		}
 
 		if(timeReamining == 0){
-			gm.setCurrGameState("MAINGAME");
+       		gm.setCurrGameState("MAINGAME");
 		}
 
 
@@ -323,6 +322,8 @@ public class GameMaze extends GameState {
 		if((player.getX() >= 890) && (player.getX() < 890 + 50)){
 			if((player.getY() >= 650) && (player.getY() < 650 + 50)){
 				if(checkScore()){
+					//set the first game state passed to true so that the trigger point can detect correctly
+            		passed = true;
 					gm.setCurrGameState("MAINGAME");
 				}
 			}

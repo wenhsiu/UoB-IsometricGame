@@ -139,10 +139,6 @@ public class GameAvoid extends GameState {
        scoreFont.draw(batch,String.valueOf(scorearray[1]), 610 , 360); 
        scoreFont.draw(batch,String.valueOf(scorearray[2]), 960 , 360);
        batch.end();
-      
-      
-
-       
 
        player.render(); 
 
@@ -150,6 +146,9 @@ public class GameAvoid extends GameState {
             backgroundMusic.stop();
             player.setPositionX((int)oldx);
             player.setPositionY((int)oldy);
+            //set the first game state passed to true so that the trigger point can detect correctly
+            passed = true;
+            // back to main game
             gm.setCurrGameState("MAINGAME");
          }
   
@@ -307,9 +306,3 @@ public class GameAvoid extends GameState {
        backgroundTexture.dispose();
 	}
 }
-
-
-
-
-
-
