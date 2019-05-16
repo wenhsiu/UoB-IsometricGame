@@ -17,6 +17,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
 
@@ -414,7 +416,51 @@ public class GameMAIN extends GameState {
 		//add dialogue into the array through this function. 
 		addDialogue(400, 400, -400 , -400, "Welcome to Isometria!!");
 		addDialogue(1260, 25, 1000, -108, "He-Ling Smells. ");
-		//addDialogue(400, 400, -400 , -400, "Welcome to Isometria!!");
+
+		// Deters player from final boss if not enough badges are collected
+		// TODO: only add dialogue if badge count is < 3
+		addDialogue(3860, 870, 3430 , 655, "I think we need to collect more badges first...");
+		
+		// NPC #1
+		// Unpassed
+		//addDialogue(maxx, maxy, minx, miny, "Groundskeeper Nystrom… 0011 0101… tile puzzle…1111 1101… anyone’s solved it yet… 1010… reward… 0101 0010… Wilhelm Place.");
+		// Passed
+		//addDialogue(maxx, maxy, minx, miny, "1100 1010! 0000 0010 1010 1101!");
+
+		// Pre-Mini Game #1 Dialogue (should appear once the player has triggered NPC #1 dialogue)
+		// addDialogue(maxx, maxy, minx, miny, "All right, so it looks like you have to solve tile puzzles at Wilhelm Place. The groundskeeper, Mr. Nystrom, has been known to quiz people for entrance to the grounds. Now that everyone’s speaking in binary, maybe his infamous tile puzzles will be easier to solve… All you have to do is drag the tiles to the correct boxes that form the solution to the puzzles. There are three questions, so take your time and try to answer them correctly on the first go. Give it a go!");
+
+		// NPC #2
+		// Unpassed
+		//addDialogue(maxx, maxy, minx, miny, "1101 0101 1011 1111… special items at Gottfried Gardens… 0000 1011 1010 1011… keep an eye out for rain drops…");
+		// Passed
+		//addDialogue(maxx, maxy, minx, miny, "0010 1010 0100 0000! 1111 0100 0101 0100!");
+
+		// Pre-Mini Game #2 Dialogue (should appear once the player has triggered NPC #2 dialogue)
+		// addDialogue(maxx, maxy, minx, miny, "Hmm, so this one might be a little trickier… I think we need collect raindrops that represent the chosen binary number. Then we… water the plants? I’m not really a gardener so I don’t fully understand it, but let’s try it out. Be careful, though, it looks like there’s a certain time limit for how long it rains. Try not to make too many mistakes, three strikes and you’re out!");
+
+		// NPC #3
+		// Unpassed
+		//addDialogue(maxx, maxy, minx, miny, "1111 0011 1100… watch out for the guards… 1110 1011… save the chickens… 0101 0001 1000... Leibniz Square.");
+		// Passed
+		//addDialogue(maxx, maxy, minx, miny, "0001 0000 0001!");
+
+		// Pre-Mini Game #3 Dialogue (should appear once the player has triggered NPC #3 dialogue)
+		// addDialogue(maxx, maxy, minx, miny, "Oh no, it’s getting worse… people are becoming more and more incomprehensible! We have to hurry to Leibniz Square. Okay, so there are guards we need to watch out for… and a treasure… It’s risky, but let’s just try avoiding the guards for now and see if we can find this so-called treasure. It also looks like there’s a certain time limit for how long the guards patrol a certain aisle. I’ll keep a look-out and let you know which aisle they’ll check next, so just avoid that aisle so they can’t see you.");
+
+		// Post-Mini Game #3 Dialogue (should appear once the player has successfully finished Mini Game #3 and returned to the map)
+		// addDialogue(maxx, maxy, minx, miny, "Amazing! We’ve collected all the Binary Badges we need. Now we can go to the Town Square and flip the switch. Let’s go!");
+
+		// Pre-Final Boss Dialogue #1 (should appear once the player hits the bounds of the entrance of the last area)
+		// addDialogue(maxx, maxy, minx, miny, "The mayor’s here! But why hasn’t he flipped the switch? I think you should go up and speak to him…");
+
+		// Boss
+		//addDialogue(maxx, maxy, minx, miny, "0001! 1101 0101 1011 1111? 1010 1111 1110 0011…");
+
+		// Pre-Final Boss Battle Dialogue #2 (should appear after the Boss dialogue)
+		// TODO: Decide if we want this to be in a dialogue box or a separate screen that ties up the story - either works
+		// addDialogue(maxx, maxy, minx, miny, "Oh no, I think the mayor’s forgotten how to access the switch! It’s okay, you’ve done something similar before. Find your way through the maze and collect the numbers that represent the binary number. Try to do this quickly, we don’t have much time!");
+
 		System.out.println("Hello init dialogue array.");
 	}
 
