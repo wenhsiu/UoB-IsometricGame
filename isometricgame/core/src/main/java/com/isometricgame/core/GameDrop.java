@@ -55,6 +55,8 @@ public class GameDrop extends GameState {
 	private int Wrong = 0;
 	private boolean change = true;
 
+	private boolean medal;
+
 	// private FreeTypeFontGenerator generator;
 	// private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
 	// private BitmapFont testFont;
@@ -70,6 +72,8 @@ public class GameDrop extends GameState {
 		player = gm.getPlayer();
 
 		// Set player score = 0
+
+		medal = true;
 
 		myDropScore = "Binary collected";
 		target = "Target  " + RandNum(0, 15);
@@ -277,13 +281,14 @@ public class GameDrop extends GameState {
 			change = true;						
 		}
 
-		if (right == 3) {
+		if (right == 1) {
 //			player.setPositionX((int) oldx - 100); // will need to change these when moving post box around
 //			player.setPositionY((int) oldy - 50);
 			gm.setCurrGameState("MAINGAME");
+			medal = true;
 		}
 
-		if (Wrong == 3) {
+		if (Wrong == 1) {
 //			player.setPositionX((int)oldx-100); // will need to change these when moving post box around
 //			player.setPositionY((int)oldy-50);
 			gm.setCurrGameState("MAINGAME");
@@ -369,5 +374,13 @@ public class GameDrop extends GameState {
 		scoreFont.dispose();
 		backgroundTexture.dispose();
 		// generator.dispose();
+	}
+
+	public boolean getMedal() {
+		return medal;
+	}
+
+	public void setMedal(boolean medal) {
+		this.medal = medal;
 	}
 }

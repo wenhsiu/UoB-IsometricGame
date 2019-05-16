@@ -40,6 +40,8 @@ public class GameMAIN extends GameState {
 
 	private GameManager gm;
 
+	private int testmedal;
+
 	// Map
 	private TiledMap map;
 	private IsometricTiledMapRenderer mapRenderer;
@@ -98,7 +100,7 @@ public class GameMAIN extends GameState {
 	public GameMAIN(GameManager gm) {
 		super();
 		this.gm = gm;
-		dialogueList = (List<GameDialogue>) new ArrayList<GameDialogue>();
+		dialogueList =  new ArrayList<>();
 		
 		initMapAndLayer();
 
@@ -137,7 +139,9 @@ public class GameMAIN extends GameState {
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 		
 		mapRenderer.setView(cam);
-		mapRenderer.render();		
+		mapRenderer.render();	
+		
+		GameDrop testdrop = new GameDrop(gm);
 		
 		float x = player.getPositionX();
 		float y = player.getPositionY();
@@ -148,7 +152,7 @@ public class GameMAIN extends GameState {
 		//show the trigger text if there is any to show. 
 		/* showTriggerText(x, y); */
 
-		System.out.println("Values of X and Y = " + x + "  " + y);
+		//System.out.println("Values of X and Y = " + x + "  " + y);
 
 		combineCameraPeople();
 		combineCameraProperty();
@@ -164,8 +168,17 @@ public class GameMAIN extends GameState {
 			InventoryItemFactory factory = InventoryItemFactory.getInstance();
 			InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);			
 			inventoryUI.addItemToInventory(item, "COIN");
-			// TODO: Generalise this for more than 1 item
 		}		
+
+		// Add medals to inventory
+		if(testdrop.getMedal()) {
+			System.out.println("Is this triggered?");
+			if(testmedal == 0) {
+				System.out.println("Something is happening");
+				putMedalInInventory();
+				testmedal++;
+			}
+		}
 
 		checkVillagerCollisions(x, y);
 		
@@ -185,8 +198,7 @@ public class GameMAIN extends GameState {
 		
 		renderPeople();
 		renderProperty();
-		renderTriggerPoint();	
-		
+		renderTriggerPoint();
 
 		player.render();
 
@@ -219,9 +231,6 @@ public class GameMAIN extends GameState {
 				}
 			}
 		textbatch.end();
-
-
-
 		
 		cam.update();
 		player.setFrozen(false);
@@ -555,4 +564,22 @@ public class GameMAIN extends GameState {
 		Cell cell = transparentBlockedLayer.getCell(iso_x, iso_y);		
 		return (cell != null && cell.getTile() != null);
 	}
+
+	public void putMedalInInventory() {
+		InventoryItemFactory factory = InventoryItemFactory.getInstance();
+		InventoryItem item = factory.getInventoryItem(ItemTypeID.MEDAL);			
+		inventoryUI.addItemToInventory(item, "MEDAL");
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+

@@ -1,58 +1,8 @@
 [
-{
-    "itemAttributes": 6,
-    "itemUseType": 1,
-    "itemTypeID": "BADGE1",
-    "itemShortDescription": "The first badge.",
-    "itemValue": 1000
-},
-{
-    "itemAttributes": 6,
-    "itemUseType": 1,
-    "itemTypeID": "BADGE2",
-    "itemShortDescription": "The second badge.",
-    "itemValue": 1000
-},
-{
-    "itemAttributes": 6,
-    "itemUseType": 1,
-    "itemTypeID": "BADGE3",
-    "itemShortDescription": "The third badge.",
-    "itemValue": 1000
-},
-{
-    "itemAttributes": 6,
-    "itemUseType": 1,
-    "itemTypeID": "BADGE4",
-    "itemShortDescription": "The fourth badge.",
-    "itemValue": 1000
-},
-{
-    "itemAttributes": 6,
-    "itemUseType": 1,
-    "itemTypeID": "BADGE5",
-    "itemShortDescription": "The fifth badge.",
-    "itemValue": 1000
-},
-{
-    "itemAttributes": 6,
-    "itemUseType": 1,
-    "itemTypeID": "BADGE6",
-    "itemShortDescription": "The sixth badge.",
-    "itemValue": 1000
-},
-{
-    "itemAttributes": 6,
-    "itemUseType": 1,
-    "itemTypeID": "COIN",
-    "itemShortDescription": "it is a coin.",
-    "itemValue": 100
-},
-{
-    "itemAttributes": 6,
-    "itemUseType": 1,
-    "itemTypeID": "YELLOWCOIN",
-    "itemShortDescription": "A rare coin!",
-    "itemValue": 500
-}
-]
+    {
+        "itemTypeID": "COIN"
+    },
+    {
+        "itemTypeID": "MEDAL"
+    }
+    ]
