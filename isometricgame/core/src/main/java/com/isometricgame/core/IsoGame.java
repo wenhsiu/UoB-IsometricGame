@@ -9,8 +9,7 @@ import com.isometricgame.core.gamemanager.GameManager;
 public class IsoGame extends Game {
 
 	private GameManager gm;
-	private Music backgroundMusic; 
-	// https://soundimage.org/fantasy-2/
+	private Music backgroundMusic;	
 	
 	@Override
 	public void create () {
