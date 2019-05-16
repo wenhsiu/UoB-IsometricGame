@@ -49,10 +49,9 @@ public class Complete extends GameState {
         if (mouseHovering(x, y)) {
             batch.draw(levelActive, LEVEL_X, LEVEL_Y, LEVEL_WIDTH, LEVEL_HEIGHT);
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-				GameState gs = gm.getGameState("MINIGAME2");
-				//set the first game state passed to true so that the trigger point can detect correctly
-				gs.setPassState(true);
-				//go back to GAMEMAIN
+				// set the first game state passed to true so that the trigger point can detect correctly
+				passed = true;
+				// go back to GAMEMAIN
 				gm.setCurrGameState("MAINGAME");
 			}
         } else {
