@@ -74,9 +74,9 @@ public class GameMAIN extends GameState {
 
 	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
-    private final float[] tgpX = {1170, 1880, /*1930, 3030, 2020, 3260, 3900 */ };
-	private final float[] tgpY = {50, -10, /*840, 390, -755, -900, 380 */ };
-	private final String[] allStateName = {"MINIGAME1", "MINIGAME2"};
+    private final float[] tgpX = {1170, 1880, 1930/*, 3030, 2020, 3260, 3900 */ };
+	private final float[] tgpY = {50, -10, 840/*, 390, -755, -900, 380 */ };
+	private final String[] allStateName = {"MINIGAME1", "MINIGAME2", "MINIGAME3"};
 
 	// Isometric parameters
 	private final double theta = Math.toDegrees(Math.atan(0.5));

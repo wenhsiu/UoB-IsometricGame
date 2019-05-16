@@ -3,7 +3,6 @@ package com.isometricgame.core.gamemanager;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Game;
-import com.isometricgame.core.Avoid;
 import com.isometricgame.core.GameDrop;
 import com.isometricgame.core.GameEND;
 import com.isometricgame.core.GameMAIN;
@@ -16,6 +15,7 @@ import com.isometricgame.core.clickdrag.GameLevel1;
 import com.isometricgame.core.clickdrag.GameLevel2;
 import com.isometricgame.core.clickdrag.GameLevel3;
 import com.isometricgame.core.clickdrag.Complete;
+import com.isometricgame.core.GameAvoid;
 
 public class GameManager {
 	private HashMap<String, GameState> gameStates;
@@ -90,6 +90,8 @@ public class GameManager {
 			newGS = new GameLevel2(this);
 		}else if(gsName.equals("GAMELEVEL3")) {
 			newGS = new GameLevel3(this);
+		}else if(gsName.equals("MINIGAME3")) {
+			newGS = new GameAvoid(this);
 		}
 		
 		if(newGS != null) {
