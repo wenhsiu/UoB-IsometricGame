@@ -66,9 +66,9 @@ public class GameMAIN extends GameState {
 	// Characters
 	private ArrayList<People> people;
 	// Naming rule: <type>_<alias>
-	private final String[] peopleName = {"Boss_org", "Boss_drop", "Villager_1", "Villager_2", "Villager_1", "Villager_1"};						
-	private final float[] pplX = {500, 1954, 3000, 100, 1080, 50 };
-	private final float[] pplY = {500, -38, -1000, 100, 20, 50};
+	private final String[] peopleName = {"Boss_org", "Boss_drop", "Villager_1", "Villager_2", "Villager_3", "Villager_4", "Villager_5", "Villager_6"};						
+	private final float[] pplX = {500, 1954, 3000, 4000, 4065, 4517, 5065, 5398 }; 
+	private final float[] pplY = {500, -38, -1000, -1500, -1514, 1821, -2095, -2329}; 
 	
 	// Object to collect
 	private ArrayList<Property> property;
@@ -177,12 +177,45 @@ public class GameMAIN extends GameState {
 			player.setSpeedFactor(-75);
 		}		
 		
+
+		//Probably should iterate through this. 
 		getPeopleByName("Villager_1").CollisionAction(
 			checkVillagerMapCollision(
 				getPeopleByName("Villager_1").getPositionX(),
-				getPeopleByName("Villager_1").getPositionY(),
+				getPeopleByName("Villager_1").getPositionY(), 
 				TileEdge, TileEdge));
 		
+		getPeopleByName("Villager_2").CollisionAction(
+			checkVillagerMapCollision(
+				getPeopleByName("Villager_2").getPositionX(),
+				getPeopleByName("Villager_2").getPositionY(), 
+				TileEdge, TileEdge));
+
+		getPeopleByName("Villager_3").CollisionAction(
+			checkVillagerMapCollision(
+				getPeopleByName("Villager_3").getPositionX(),
+				getPeopleByName("Villager_3").getPositionY(), 
+				TileEdge, TileEdge));
+
+		getPeopleByName("Villager_4").CollisionAction(
+			checkVillagerMapCollision(
+				getPeopleByName("Villager_4").getPositionX(),
+				getPeopleByName("Villager_4").getPositionY(), 
+				TileEdge, TileEdge));
+
+		getPeopleByName("Villager_5").CollisionAction(
+			checkVillagerMapCollision(
+				getPeopleByName("Villager_5").getPositionX(),
+				getPeopleByName("Villager_5").getPositionY(), 
+				TileEdge, TileEdge));
+
+		getPeopleByName("Villager_6").CollisionAction(
+			checkVillagerMapCollision(
+				getPeopleByName("Villager_6").getPositionX(),
+				getPeopleByName("Villager_6").getPositionY(), 
+				TileEdge, TileEdge));
+
+
 		player.getBatch().setProjectionMatrix(cam.combined);
 		
 		renderPeople();
@@ -206,9 +239,9 @@ public class GameMAIN extends GameState {
 		for (int i = 0; i < dialogueList.size(); i++) {
 			if(dialogueTriggerCheck(x, y, i) == true){
 				shapeRenderer.setColor(Color.DARK_GRAY);
-				shapeRenderer.rect(100, 110, 570, 70);
+				shapeRenderer.rect(100, 110, 970, 70);
 				shapeRenderer.setColor(Color.LIGHT_GRAY);
-				shapeRenderer.rect(110, 120, 550, 50);
+				shapeRenderer.rect(110, 120, 950, 50);
 			}
 		}
         shapeRenderer.end();
@@ -414,8 +447,18 @@ public class GameMAIN extends GameState {
 
 	private void initDialogueArray(){
 		//add dialogue into the array through this function. 
-		addDialogue(400, 400, -400 , -400, "Welcome to Isometria!!");
-		addDialogue(1260, 25, 1000, -108, "He-Ling Smells. ");
+		addDialogue(300, 300, -300 , -300, "Narrator: Welcome to Isometria!!");
+
+		//Entrance Dragon
+		addDialogue(469, 0, 347, -50, "Dragon: You've arrived! Thanks goodness.. 100010001001001, Something is wrong with the people of Isometria...");
+
+		//Entrance Robin
+		addDialogue(700, -16, 539, -77, "Robins: 100011000, Tweet tweet! Solve the puzzles, save the our friends!");
+		
+		//Triple dragons Entrance. 
+
+		addDialogue(892, -3, 705, -92, "Dragons: Use the phoneboxes, solve the puzzles, 100100100101 avoid the penguins... ");
+
 
 		// Deters player from final boss if not enough badges are collected
 		// TODO: only add dialogue if badge count is < 3
