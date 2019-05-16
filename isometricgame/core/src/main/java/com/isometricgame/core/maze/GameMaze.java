@@ -22,7 +22,7 @@ import java.util.List;
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
 
-public class Maze extends GameState {
+public class GameMaze extends GameState {
 
 	private GameManager gm; 
 
@@ -57,11 +57,13 @@ public class Maze extends GameState {
 	private int timeReamining = 0;
 
 
-	public Maze(GameManager gm){
+	public GameMaze(GameManager gm){
 		super();
 		this.gm = gm;
 
-		map = new TmxMapLoader().load("./Isometria/maze.tmx");
+		/**/System.out.println(Gdx.files.internal("./maze.tmx"));
+
+		map = new TmxMapLoader().load("./maze.tmx");
 		//renderer = new IsometricTiledMapRenderer(map);
 		renderer = new OrthogonalTiledMapRenderer(map);
 		renderer.setView(cam);

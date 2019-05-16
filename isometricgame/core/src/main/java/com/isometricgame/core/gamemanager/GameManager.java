@@ -16,6 +16,7 @@ import com.isometricgame.core.clickdrag.GameLevel2;
 import com.isometricgame.core.clickdrag.GameLevel3;
 import com.isometricgame.core.clickdrag.Complete;
 import com.isometricgame.core.GameAvoid;
+import com.isometricgame.core.maze.GameMaze;
 
 public class GameManager {
 	private HashMap<String, GameState> gameStates;
@@ -92,6 +93,8 @@ public class GameManager {
 			newGS = new GameLevel3(this);
 		}else if(gsName.equals("MINIGAME3")) {
 			newGS = new GameAvoid(this);
+		}else if(gsName.equals("FINALGAME")) {
+			newGS = new GameMaze(this);
 		}
 		
 		if(newGS != null) {
