@@ -66,9 +66,9 @@ public class GameMAIN extends GameState {
 	// Characters
 	private ArrayList<People> people;
 	// Naming rule: <type>_<alias>
-	private final String[] peopleName = {"Boss_org", "Boss_drop", "Villager_1", "Villager_2"};						
-	private final float[] pplX = {500, 1954, 3000, 100, 1080};
-	private final float[] pplY = {500, -38, -1000, 100, 20};
+	private final String[] peopleName = {"Boss_org", "Boss_drop", "Villager_1", "Villager_2", "Villager_1", "Villager_1"};						
+	private final float[] pplX = {500, 1954, 3000, 100, 1080, 50 };
+	private final float[] pplY = {500, -38, -1000, 100, 20, 50};
 	
 	// Object to collect
 	private ArrayList<Property> property;
@@ -76,9 +76,9 @@ public class GameMAIN extends GameState {
 
 	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
-    private final float[] tgpX = {1170, 1880, 1930, 3030/*, 2020, 3260, 3900 */};
-	private final float[] tgpY = {50, -10, 840, 390/*, -755, -900, 380 */};
-	private final String[] allStateName = {"MINIGAME1", "MINIGAME2", "MINIGAME3", "FINALGAME"};
+    private final float[] tgpX = {1170, 1880, 1930, 3030, 5463, 6291, 8183};
+	private final float[] tgpY = {50, -10, 840, 390, -22, -660, -1887};
+	private final String[] allStateName = {"MINIGAME1", "MINIGAME2", "MINIGAME3", "FINALGAME", "MINIGAME2", "MINIGAME1", "MINIGAME3" };
 
 	// Isometric parameters
 	private final double theta = Math.toDegrees(Math.atan(0.5));
