@@ -16,6 +16,11 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.audio.Music;
+
+
+
 
 
 public class Presentation extends GameState{
@@ -25,9 +30,11 @@ public class Presentation extends GameState{
    private BitmapFont scoreFont; 
    private int cnt = 0;
    private Texture slide;
+   private Music slide1;
 
 
    private Texture[] slides = new Texture[24];
+   private Music[] talking = new Music[24];
 
    public static Texture backgroundTexture;
    public static Texture background1Texture;
@@ -48,12 +55,16 @@ public class Presentation extends GameState{
       for(int i =0; i < 24; i++) {
           int m = i + 1;
           slides[i] = new Texture(Gdx.files.internal("slide" + m + "-min.png"));
+          talking[i] = Gdx.audio.newMusic(Gdx.files.internal("slide" + m + "-sound.mp3"));
       } 
+
+
+    
 
       
     //  slide = new Texture(Gdx.files.internal("slide1.png"));
  
-      
+    //  slide1 = Gdx.audio.newMusic(Gdx.files.internal("slide1-sins.mp3"));
       scoreFont = new BitmapFont(); 
       scoreFont.setColor(25/255f, 35/255f, 76/255f, 1f);
 		  scoreFont.setScale(2,2);
@@ -64,6 +75,7 @@ public class Presentation extends GameState{
       background3Texture = new Texture("slide4-min.png");
       background4Texture = new Texture("slide5-min.png");
       background5Texture = new Texture("slide6-min.png");*/
+
           
       batch = new SpriteBatch();
 
@@ -95,6 +107,7 @@ public class Presentation extends GameState{
 
         if(sPrev == true && sPressed == false){
             cnt++;
+            show();
         }
 
         if(Gdx.input.isKeyPressed(Keys.B)) {
@@ -106,10 +119,15 @@ public class Presentation extends GameState{
 
         if(bPrev == true && bPressed == false){
             cnt--;
+            show();
         }
 
         if(cnt < 0){
             cnt = 0;
+        }
+
+        if(cnt == 24){
+            gm.setCurrGameState("MENU");
         }
 
       
@@ -136,9 +154,7 @@ public class Presentation extends GameState{
        
        batch.end();  
 
-       if(cnt == 24){
-        gm.setCurrGameState("MAINGAME");
-       }
+    
       
    
 
@@ -148,7 +164,23 @@ public class Presentation extends GameState{
      }
      
   
+    @Override
+    public void show() {
+        if(cnt > 23 || cnt < 0){
+            talking[23].stop();
+            talking[0].stop();
+            return;
+        }
+            talking[cnt].play();
+            if(cnt < 23){
+                talking[cnt+1].stop();
 
+            }
+            if(cnt > 0){
+                talking[cnt-1].stop();
+            }  
+        }
+    
 
 	@Override
 	public void dispose() {

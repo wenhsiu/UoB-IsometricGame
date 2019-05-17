@@ -78,7 +78,7 @@ public class GameMAIN extends GameState {
 	private ArrayList<TriggerPoint> tgp;
     private final float[] tgpX = {1170, 1880, 1930, 3030, 5463, 6291, 8183};
 	private final float[] tgpY = {50, -10, 840, 390, -22, -660, -1887};
-	private final String[] allStateName = {"MINIGAME1", "MINIGAME2", "MINIGAME3", "FINALGAME", "MINIGAME2", "MINIGAME1", "MINIGAME3" };
+	private final String[] allStateName = {"MINIGAME3", "MINIGAME2", "MINIGAME3", "FINALGAME", "MINIGAME2", "MINIGAME1", "MINIGAME3" };
 
 	// Isometric parameters
 	private final double theta = Math.toDegrees(Math.atan(0.5));
@@ -458,6 +458,13 @@ public class GameMAIN extends GameState {
 		//Triple dragons Entrance. 
 
 		addDialogue(892, -3, 705, -92, "Dragons: Use the phoneboxes, solve the puzzles, 100100100101 avoid the penguins... ");
+
+
+		//Triple Chickens before Forest 
+
+		addDialogue(2773, -478, 2372, -680 , "Chickens: Squawk, squawk! 100010100100101 Be careful! The forest is dark... And full of terrors.");
+
+		
 
 
 		// Deters player from final boss if not enough badges are collected

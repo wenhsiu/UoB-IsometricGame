@@ -7,6 +7,7 @@ import com.isometricgame.core.raindrop.GameDrop;
 import com.isometricgame.core.GameEND;
 import com.isometricgame.core.GameMAIN;
 import com.isometricgame.core.Player;
+import com.isometricgame.core.Presentation;
 import com.isometricgame.core.mainmenu.MainMenuScreen;
 import com.isometricgame.core.clickdrag.Start1;
 import com.isometricgame.core.clickdrag.Start2;
@@ -26,6 +27,7 @@ public class GameManager {
 //			"MINIGAME1",
 //			"MINIGAME2",
 			"END",
+			"PRESENTATION", 
 //			"GAMELEVEL1",
 //			"START2",
 //			"GAMELEVEL2",
@@ -95,7 +97,9 @@ public class GameManager {
 			newGS = new GameAvoid(this);
 		}else if(gsName.equals("FINALGAME")) {
 			newGS = new GameMaze(this);
-		}
+		} else if(gsName.equals("PRESENTATION")) {
+			newGS = new Presentation(this);
+		};  
 		
 		if(newGS != null) {
 			gameStates.put(gsName, newGS);
@@ -110,6 +114,8 @@ public class GameManager {
 				gameStates.put("MAINGAME", new GameMAIN(this));
 			} else if(stateName[i].equals("END")) {
 				gameStates.put("END", new GameEND(this));
+			} else if(stateName[i].equals("PRESENTATION")) {
+				gameStates.put("PRESENTATION", new Presentation(this));
 			} /*else if(stateName[i].equals("MINIGAME1")) {
 				gameStates.put("MINIGAME1", new GameDrop(this));
 			} else if(stateName[i].equals("MINIGAME2")){

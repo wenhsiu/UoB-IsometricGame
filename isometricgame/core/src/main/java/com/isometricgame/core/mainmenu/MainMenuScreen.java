@@ -91,7 +91,7 @@ public class MainMenuScreen extends GameState {
         if (mouseHovering(bType.TUTORIAL, x, y)) {
             batch.draw(tutorialButtonActive, TUTORIAL_BUTTON_X, TUTORIAL_BUTTON_Y, TUTORIAL_BUTTON_WIDTH, TUTORIAL_BUTTON_HEIGHT);
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                gm.setCurrGameState("MAINGAME");
+                gm.setCurrGameState("PRESENTATION");
             }
         } else {
             batch.draw(tutorialButtonInactive, TUTORIAL_BUTTON_X, TUTORIAL_BUTTON_Y, TUTORIAL_BUTTON_WIDTH, TUTORIAL_BUTTON_HEIGHT);
