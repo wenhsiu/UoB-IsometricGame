@@ -24,10 +24,9 @@ public class GameLevel1 extends GameState {
 	
 	private GameManager gm;
 	private TextureRegion background;
-	private Texture next, nextActive;
+	private Texture complete, completeActive;
 	private SpriteBatch batch;
 	private Puzzles puzzles;
-	private boolean complete = false;
     
 	public GameLevel1(GameManager gm) {
 		super();	
@@ -52,13 +51,15 @@ public class GameLevel1 extends GameState {
 		if(puzzles.checkTagetAnswer()){
 			batch.begin();
 			if (mouseHovering(x, y)) {
-	            batch.draw(nextActive, NEXT_X, NEXT_Y, NEXT_WIDTH, NEXT_HEIGHT);
-	            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {                
-	                gm.newGameStateByName("START2");
-	                gm.setCurrGameState("START2");;
+	            batch.draw(completeActive, NEXT_X, NEXT_Y, NEXT_WIDTH, NEXT_HEIGHT);
+	            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+	            	// set the first game state passed to true so that the trigger point can detect correctly
+					passed = true;               
+	                // go back to GAMEMAIN
+					gm.setCurrGameState("MAINGAME");
 	            }
 	        } else {
-	            batch.draw(next, NEXT_X, NEXT_Y, NEXT_WIDTH, NEXT_HEIGHT);
+	            batch.draw(complete, NEXT_X, NEXT_Y, NEXT_WIDTH, NEXT_HEIGHT);
 	        }
 			batch.end();			
 		}
@@ -86,8 +87,8 @@ public class GameLevel1 extends GameState {
 		batch = new SpriteBatch();
 		puzzles = new Puzzles();
 		puzzles.create();
-		next = new Texture("clickanddrag/continue_button.png");
-		nextActive = new Texture("clickanddrag/continue_button2.png");
+		complete = new Texture("clickanddrag/continue_button.png");
+		completeActive = new Texture("clickanddrag/continue_button2.png");
     }
 
     @Override
@@ -108,8 +109,8 @@ public class GameLevel1 extends GameState {
 	@Override
 	public void dispose () {
 		puzzles.dispose();
-		next.dispose();
-		nextActive.dispose();
+		complete.dispose();
+		completeActive.dispose();
 	}
 
 }
