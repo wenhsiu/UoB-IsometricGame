@@ -21,10 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 import com.badlogic.gdx.ApplicationListener;
 
 
-
-// import com.badlogic.gdx.graphics.OrthographicCamera;
-
-
 public class Puzzles implements ApplicationListener {
 	private Stage stage;
 	private Image line, addition;
@@ -39,7 +35,6 @@ public class Puzzles implements ApplicationListener {
 	private List<Piece> quesTwo = new ArrayList<Piece>();
 	private List<Piece> puzzles = new ArrayList<Piece>();
 	private List<Piece> targets = new ArrayList<Piece>();
-	// private List<Drag_drop> drags = new ArrayList<Drag_drop>();
 
 	private String bineryOne = "", bineryTwo = "", bineryAnswer = "";
 	private Image testImage;
