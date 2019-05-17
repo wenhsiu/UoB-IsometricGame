@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class InventoryItem extends Image {
 
+    // TAKE OUT WHAT ISN'T BEING USED AND/OR REFACTOR
+
     public enum ItemAttribute {
         CONSUMABLE(1),
         EQUIPPABLE(2),
@@ -39,7 +41,7 @@ public class InventoryItem extends Image {
     }
 
     public enum ItemTypeID {
-        BADGE1, BADGE2, BADGE3, BADGE4, BADGE5, BADGE6, COIN, YELLOWCOIN, NONE;
+        COIN, MEDAL, NONE;
     }
 
     private int itemAttributes;

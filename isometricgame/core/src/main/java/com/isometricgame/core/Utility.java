@@ -4,9 +4,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.Gdx;
 
-// N.B. Utility is used for various things.
-// Please edit me if you need to use me.
-
 public final class Utility {
 
     private final static String STATUSUI_TEXTURE_ATLAS_PATH = "skins/statusui.atlas";
