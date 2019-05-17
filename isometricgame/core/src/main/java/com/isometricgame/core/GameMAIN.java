@@ -143,7 +143,7 @@ public class GameMAIN extends GameState {
 		mapRenderer.setView(cam);
 		mapRenderer.render();	
 		
-		GameDrop testdrop = new GameDrop(gm);
+		//GameDrop testdrop = new GameDrop(gm);
 		
 		float x = player.getPositionX();
 		float y = player.getPositionY();
@@ -173,14 +173,14 @@ public class GameMAIN extends GameState {
 		}		
 
 		// Add medals to inventory
-		if(testdrop.getMedal()) {
-			System.out.println("Is this triggered?");
+		/* if(testdrop.getMedal()) {
+			//System.out.println("Is this triggered?");
 			if(testmedal == 0) {
 				System.out.println("Something is happening");
 				putMedalInInventory();
 				testmedal++;
 			}
-		}
+		} */
 
 		checkVillagerCollisions(x, y);
 		
