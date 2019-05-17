@@ -85,9 +85,17 @@ public class GameMAIN extends GameState {
 
 	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
-    private final float[] tgpX = {1170, /*1880,*/ 1930, 3030, 5463, 6291, 8183};
-	private final float[] tgpY = {50, /*-10,*/ 840, 390, -22, -660, -1887};
-	private final String[] allStateName = {"DRAGGAME1",/* "",*/ "DRAGGAME2", "DROPGAME1", "DRAGGAME3", "AVOIDGAME", "FINALGAME" };
+    private final float[] tgpX = {1170, /*1880,*/ 1930, 3030, 5463, 
+    							  6291, /*8183*/
+    							  3000};
+	private final float[] tgpY = {50, /*-10,*/ 840, 390, -22, 
+								  -660, /*-1887*/
+								  1100};
+	// Naming rule: <type>_<GAMENAME>
+	//pb: PhoneBox, fb: FinalBoss
+	private final String[] allStateName = {"pb_DRAGGAME1",/* "",*/ "pb_DRAGGAME2", "pb_DROPGAME1", "pb_DRAGGAME3", 
+										   "pb_AVOIDGAME", /*"pb_FINALGAME"*/
+										   "fb_FINALGAME"};
 
 	// Isometric parameters
 	private final double theta = Math.toDegrees(Math.atan(0.5));
@@ -150,13 +158,9 @@ public class GameMAIN extends GameState {
 		mapRenderer.setView(cam);
 		mapRenderer.render();	
 		
-//		GameDrop testdrop = new GameDrop(gm);
-		
 		float x = player.getPositionX();
 		float y = player.getPositionY();
 		Vector2 playerNextPosition = player.getNextPosition();
-
-/**/System.out.println(x + "  " + y);		
 		
 		// Trigger mini games with phone boxes
 		checkTriggerGame(x, y); 		
@@ -401,11 +405,18 @@ public class GameMAIN extends GameState {
 		}
 	}
 	
+	
 	//Handle TriggerPoint
 	private void initTriggerPoint() {
 		tgp = new ArrayList<TriggerPoint>();
 		for(int i = 0; i < tgpX.length; i++) {
-			tgp.add(new PhoneBox(tgpX[i], tgpY[i], 1, gm, allStateName[i], triggerText));
+			String type = allStateName[i].split("_")[0].toLowerCase();
+			String name = allStateName[i].split("_")[1];
+			if(type.equals("pb")) {
+				tgp.add(new PhoneBox(tgpX[i], tgpY[i], 1, gm, name, triggerText));
+			}else if(type.equals("fb")) {
+				tgp.add(new FinalBoss(tgpX[i], tgpY[i], 1, gm, name, triggerText));
+			}
 		}
 	}
 	

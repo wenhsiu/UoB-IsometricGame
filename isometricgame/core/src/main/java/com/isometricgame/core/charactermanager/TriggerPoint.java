@@ -28,7 +28,6 @@ public class TriggerPoint {
 	private String gsName;
 	
 	private boolean triggerred;
-	//private boolean passed;
 	
 	private Map<String, Integer> cost; //the properties player has to collect to trigger this game
 	private String triggerText;
