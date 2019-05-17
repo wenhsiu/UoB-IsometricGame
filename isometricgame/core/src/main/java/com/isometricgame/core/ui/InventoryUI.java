@@ -24,6 +24,9 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     private final int slotWidth = 48;
     private final int slotHeight = 48;
 
+    private int noCoins;
+    private int noMedals;
+
     private Array<InventoryObserver> observers;
 
     public InventoryUI() {
@@ -148,16 +151,34 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     public void addItemToInventory(InventoryItem item, String itemName) {
         Array<Cell> sourceCells = inventorySlotTable.getCells();
 
-        for(int index = 0; index < sourceCells.size; index++) {
-            InventorySlot inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
-            if(!(inventorySlot == null)) {
-                int numItems = inventorySlot.getNumItems();
-                if(numItems == 0) {
-                    item.setName(itemName);
-                    inventorySlot.add(item);
-                    break;
+        if(itemName.equals("COIN") && noCoins == 0 || itemName.equals("MEDAL") && noMedals == 0) {
+            for(int index = 0; index < sourceCells.size; index++) {
+                InventorySlot inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
+                if(!(inventorySlot == null)) {
+                    int numItems = inventorySlot.getNumItems();
+                    if(numItems == 0) {
+                        item.setName(itemName);
+                        inventorySlot.add(item);
+                        if(itemName.equals("COIN")) {
+                            noCoins++;
+                            System.out.println("Number of coins is " + noCoins);
+                        }
+                        else {
+                            noMedals++;
+                            System.out.println("Number of medals is " + noMedals);
+                        }
+                        break;
+                    }
                 }
             }
+        }
+        else if(itemName.equals("COIN") && noCoins > 0) {
+            noCoins++;
+            System.out.println("Number of coins is " + noCoins);
+        }
+        else if(itemName.equals("MEDAL") && noMedals > 0) {
+            noCoins++;
+            System.out.println("Number of medals is " + noMedals);
         }
     }
 

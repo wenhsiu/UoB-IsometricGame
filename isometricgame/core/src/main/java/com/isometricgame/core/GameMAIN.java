@@ -85,9 +85,9 @@ public class GameMAIN extends GameState {
 
 	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
-    private final float[] tgpX = {1170, 1880, 1930, 3030, 5463, 6291, 8183};
-	private final float[] tgpY = {50, -10, 840, 390, -22, -660, -1887};
-	private final String[] allStateName = {"MINIGAME3", "MINIGAME2", "MINIGAME3", "FINALGAME", "MINIGAME2", "MINIGAME1", "MINIGAME3" };
+    private final float[] tgpX = {1170, /*1880,*/ 1930, 3030, 5463, 6291, 8183};
+	private final float[] tgpY = {50, /*-10,*/ 840, 390, -22, -660, -1887};
+	private final String[] allStateName = {"DRAGGAME1",/* "",*/ "DRAGGAME2", "DROPGAME1", "DRAGGAME3", "AVOIDGAME", "FINALGAME" };
 
 	// Isometric parameters
 	private final double theta = Math.toDegrees(Math.atan(0.5));
@@ -163,7 +163,7 @@ public class GameMAIN extends GameState {
 		//show the trigger text if there is any to show. 
 		/* showTriggerText(x, y); */
 
-		//System.out.println("Values of X and Y = " + x + "  " + y);
+		// System.out.println("Values of X and Y = " + x + "  " + y);
 
 		combineCameraPeople();
 		combineCameraProperty();
@@ -484,12 +484,10 @@ public class GameMAIN extends GameState {
 
 		addDialogue(2773, -478, 2372, -680 , "Chickens: Squawk, squawk! 100010100100101 Be careful! The forest is dark... And full of terrors.");
 
-		
-
 
 		// Deters player from final boss if not enough badges are collected
 		// TODO: only add dialogue if badge count is < 3
-		addDialogue(3860, 870, 3430 , 655, "I think we need to collect more badges first...");
+		addDialogue(3860, 870, 3430 , 655, "Narrator: The boss ahead is hard... Make sure you're prepared!!! ");
 		
 		// NPC #1
 		// Unpassed
@@ -552,22 +550,17 @@ public class GameMAIN extends GameState {
 		initCoins();
 	}
 	
-	private void initCoins() {
-		float x;
-		float y;
+	private void initCoins(){
 		
-		for(int i = 0; i < coinNumber; i++) {
-			//Ensure coins will be on the base layer
-			do{
-				x = MathUtils.random(0, baseObjLayer.getWidth()*TileW);
-				y = MathUtils.random(0, baseObjLayer.getHeight()*TileH);
-			}while(!isOnTheGround(x, y) || checkMapCollision(x, y));			
-			
-			Coin c = new Coin(x, y);
+		//Add the X and Y Coordinates to the following arrays. The coin will then be created. 
+		int[] xCoordCoins = new int[]{813, 1337, 1702, 2250, 2582, 2630, 2822, 2664, 2988, 3012, 3760, 4497, 5251, 5579, 3836, 4311, 3977, 4750, 5699}; 
+		int[] yCooordCoins = new int[]{-94, -152, -335, -356, -130, 87, 294, -667, -881, -1245, -1619, -1769, -1832, -2239, 421, 600, 15, -344, -596}; 
 
-			c.setBoundary(150, 150, 150, 150); //extend the bottom so that George can collect them easily
-			property.add(c); 
-			c.create();
+		for (int i = 0; i < xCoordCoins.length; i++) {
+			Coin coin = new Coin(xCoordCoins[i], yCooordCoins[i]); 
+			coin.setBoundary(150, 150, 150, 150);
+			property.add(coin); 
+			coin.create();
 		}
 	}
 
@@ -600,11 +593,13 @@ public class GameMAIN extends GameState {
 		return false;
 	}
 
-	// Lizzie test collisions with villager
+	//Remove the coins if the villagers are collided with. 
 		private void checkVillagerCollisions(float x, float y) {
 			for(int i = 0; i < people.size(); i++) {
 				if(people.get(i).containPoint(x, y)) {
-					playerHUD.DialogOn();
+
+					//Comment out the trigger 
+					//playerHUD.DialogOn();
 				}
 			}
 	}

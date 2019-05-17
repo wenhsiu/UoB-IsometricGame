@@ -16,6 +16,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 
 public class GameAvoid extends GameState {
 
+   private final int BOX1_LEFT = 5865;
+   private final int BOX1_TOP = -451;
+   private final int BOX1_RIGHT = 6349;
+   private final int BOX1_BOTTOM = -539;
+
+   private final int BOX2_LEFT = 6217;
+   private final int BOX2_TOP = -610;
+   private final int BOX2_RIGHT = 6313;
+   private final int BOX2_BOTTOM = -752;
+
+   private final int BOX3_LEFT = 6568;
+   private final int BOX3_TOP = -775;
+   private final int BOX3_RIGHT = 6920;
+   private final int BOX3_BOTTOM = -657;
+
+
    private GameManager gm; 
    private SpriteBatch batch;
    private BitmapFont scoreFont; 
@@ -187,23 +203,23 @@ public class GameAvoid extends GameState {
         /**/System.out.println(player.getPositionY());
 
         if(pos1 == 0) {
-         if( 1477 <= player.getPositionX() && player.getPositionX() <= 1741) {
-           if( 779 <= player.getPositionY() && player.getPositionY() <= 966) {
+         if( BOX1_LEFT <= player.getPositionX() && player.getPositionX() <= BOX1_RIGHT) {
+           if( BOX1_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX1_TOP) {
                return true;
                 }
               }
             }
     
         else if(pos1 == 1) {
-               if( 1864 <= player.getPositionX() && player.getPositionX() <= 2143) {
-                 if( 779 <= player.getPositionY() && player.getPositionY() <= 966) {
+               if( BOX2_LEFT <= player.getPositionX() && player.getPositionX() <= BOX2_RIGHT) {
+                 if( BOX2_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX2_TOP) {
                   return true;
                     }
                   }
                 }
         else if(pos1 == 2) {
-               if(2220 <= player.getPositionX() && player.getPositionX() <= 2500) {
-                 if( 779 <= player.getPositionY() && player.getPositionY() <= 966) {
+               if(BOX3_LEFT <= player.getPositionX() && player.getPositionX() <= BOX3_RIGHT) {
+                 if( BOX3_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX3_TOP) {
                    return true;
                    }
                   }
