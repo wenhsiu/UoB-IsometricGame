@@ -76,6 +76,7 @@ public class Puzzles implements ApplicationListener {
 		int x = Gdx.input.getX();
         int y = Gdx.graphics.getHeight() - Gdx.input.getY();
 
+        // reset button
 		batch.begin();
 		if (mouseHovering(x, y)) {
             batch.draw(tryAgainActive, TRYAGAIN_X, TRYAGAIN_Y, TRYAGAIN_WIDTH, TRYAGAIN_HEIGHT);
@@ -84,7 +85,7 @@ public class Puzzles implements ApplicationListener {
 					// LibGDX is funny about iterators - hence refactoring
 					puzzles.get(i).removeFromTarget();
 				}
-				setSourceImages();
+				resetSource();
 				targetAnswer = new String[5];
             }
         } else {
@@ -104,6 +105,7 @@ public class Puzzles implements ApplicationListener {
 	@Override
 	public void dispose () {
 		stage.dispose();
+		batch.dispose();
 	}
 
 	public boolean checkTagetAnswer() {
@@ -134,6 +136,18 @@ public class Puzzles implements ApplicationListener {
 			} else {
 				puzzles.add(new Piece(new Image(Aone), "1"));
 			}
+			puzzles.get(i).setBounds(180 + i * 110, 50, 100, 100);
+			puzzles.get(i).setActor(stage);
+			puzzles.get(i).setDragSource();
+			for(int j = 0 ; j < 5; j++) {
+				puzzles.get(i).setDragTarget(targets.get(j).getImage(), 290 + j * 110);
+			}
+			
+		}
+	}
+
+	private void resetSource() {
+		for(int i = 0; i < 8; i++) {
 			puzzles.get(i).setBounds(180 + i * 110, 50, 100, 100);
 			puzzles.get(i).setActor(stage);
 			puzzles.get(i).setDragSource();
