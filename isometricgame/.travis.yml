@@ -1,6 +1,2 @@
 language: java
-script: mvn integration-test -Pdesktop
-matrix:
-  include:
-  - jdk: openjdk8
-    os: linux
+jdk: oraclejdk8
