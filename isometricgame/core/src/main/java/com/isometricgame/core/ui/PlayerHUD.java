@@ -8,53 +8,20 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.graphics.Color;
 
-import com.isometricgame.core.dialogue.DialogUI;
-
-import com.isometricgame.core.Utility;
-
-public class PlayerHUD implements Screen, InventoryObserver {
+public class PlayerHUD implements Screen {
 
     private Stage stage;
     private Viewport viewport;
-    private int initialise = 0;
-
-    private SpriteBatch batch;
-
-    private BitmapFont bmfont;
 
     private InventoryUI inventoryUI;
 
-    private DialogUI dialogUI;
     private Dialog dialog;
-    
-    private TextButton next;
-
-    private Label labeltest;
-    private BitmapFont myFont;
-
-    private LabelStyle labelstyle;
-
-    private Color black;
-    
-    private String message = "Testing the dialog.";
 
     public PlayerHUD(Camera camera) {
 
         viewport = new ScreenViewport(camera);
         stage = new Stage(viewport);
-
-        // TODO: Make inventory resizable?
-        // TODO: Make inventory stackable
-        // TODO: Test inventory with other items
-        // TODO: Resize inventory
-        // TODO: In front of actors?
 
         inventoryUI = new InventoryUI();
         inventoryUI.setVisible(true);
@@ -71,17 +38,14 @@ public class PlayerHUD implements Screen, InventoryObserver {
             stage.addActor(actor);
         }
 
-        inventoryUI.addObserver(this);
+        //dialogUI = new DialogUI(Utility.DIALOGUI_SKIN);
+        //dialog = dialogUI.getDialog();
 
-        dialogUI = new DialogUI(Utility.DIALOGUI_SKIN);
-        dialog = dialogUI.getDialog();
-
-        // TODO: Set false when not debugging
-        dialog.setVisible(false);
-        dialog.setPosition(300, 500);
-        dialog.setKeepWithinStage(false);
-        dialog.setMovable(true);
-        dialog.setSize(667, 200);
+        //dialog.setVisible(false);
+        //dialog.setPosition(300, 500);
+        //dialog.setKeepWithinStage(false);
+        // dialog.setMovable(true);
+        // dialog.setSize(667, 200);
 
         //dialog.getContentTable().row().colspan(1).center();
         //dialog.getContentTable().add(message);
@@ -93,11 +57,11 @@ public class PlayerHUD implements Screen, InventoryObserver {
         //next = new TextButton("next", Utility.DIALOGUI_SKIN);
         //dialog.button(next);
 
-        dialog.pack();
+        // dialog.pack();
 
-        stage.addActor(dialog);
+        // stage.addActor(dialog);
 
-        dialog.validate();
+        // dialog.validate();
         
     }
 
@@ -118,17 +82,7 @@ public class PlayerHUD implements Screen, InventoryObserver {
     }
 
     @Override
-    public void onNotify(String string, InventoryEvent event) {
-        initialise++;
-        if(initialise == 1) {
-            InventoryUI.clearInventoryItems(inventoryUI.getInventorySlotTable());
-        }
-
-    }
-
-    @Override
     public void show() {
-
     }
 
     @Override
