@@ -16,8 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-// this extends is from libgdx
-public class Piece /*extends Actor */{
+
+public class Piece {
 	private String property;
 	private Image image;
 	private Stage stage;
@@ -39,10 +39,6 @@ public class Piece /*extends Actor */{
 		this.posY = posY;
 		this.width = width;
 		this.height = height;
-		// boundry_top = posY;
-		// boundry_buttom = posY + height;
-		// boundry_left = posX;
-		// boundry_right = posX + width;
 	}
 
 	public void setActor(Stage stage) {
