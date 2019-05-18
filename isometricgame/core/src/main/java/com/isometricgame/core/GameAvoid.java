@@ -132,8 +132,7 @@ public class GameAvoid extends GameState {
      
 	   super.render(delta);
 	   
-	   // begin a new batch and draw the bucket and
-	   // all drops
+	   // begin a new batch and draw the background and box
        
        batch.begin();
        batch.draw(backgroundTexture, 0, 0, 1200, 750);
