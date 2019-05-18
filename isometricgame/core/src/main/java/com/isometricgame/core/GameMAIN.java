@@ -27,9 +27,6 @@ import com.isometricgame.core.charactermanager.TriggerPoint;
 
 import com.isometricgame.core.dialogue.GameDialogue;
 
-import com.isometricgame.core.gamemanager.GameManager;
-import com.isometricgame.core.gamemanager.GameState;
-
 import com.isometricgame.core.ui.InventoryItem;
 import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
 import com.isometricgame.core.ui.InventoryItemFactory;
@@ -72,15 +69,15 @@ public class GameMAIN extends GameState {
 	private final String[] peopleName = {"Boss_org", "Boss_drop", 
 										 "Villager_1", "Villager_2", "Villager_3", "Villager_4", "Villager_5", "Villager_6",
 										 /*"Penguin_1", "Penguin_2", "Penguin_3",*/
-										 "Penguin_4", "Penguin_5", "Penguin_6", "Penguin_7", "Penguin_8"};						
+										 /*"Penguin_4", "Penguin_5", "Penguin_6", "Penguin_7", "Penguin_8"*/};						
 	private final float[] pplX = {500, 1954, 
 								  3000, 4000, 4065, 4517, 5065, 5398,
 								  /*5680, 5620, 5560,*/
-								  6630, 6570, 6510, 6450, 6390}; 
+								  /*6630, 6570, 6510, 6450, 6390*/}; 
 	private final float[] pplY = {500, -38, 
 								  -1000, -1500, -1514, 1821, -2095, -2329,
 								  /*-20, 0, 20,*/
-								  -690, -670, -650, -630, -610}; 
+								  /*-690, -670, -650, -630, -610*/}; 
 	
 	// Object to collect
 	private ArrayList<Property> property;
@@ -94,12 +91,21 @@ public class GameMAIN extends GameState {
 								  -25, -2065,
 								  1100};
 	// Naming rule: <type>_<GAMENAME>
-	//pb: PhoneBox, fb: FinalBoss
-
+	// pb: PhoneBox, fb: FinalBoss
 	private final String[] allStateName = {"pb_DRAGGAME1", "pb_DRAGGAME2", "pb_DRAGGAME3", "pb_DROPGAME1", 
 										   "pb_AVOIDGAME", "pb_DROPGAME2",
 										   "fb_FINALGAME"};
-
+	//Define characters for each trigger point
+	private final String[] guards = {"", "", "","",
+									 "Penguin_1/Penguin_2/Penguin_3", "Penguin_4/Penguin_5/Penguin_6/Penguin_7/Penguin_8",
+									 ""			
+	};
+	private final String[] grdX = {"", "", "", "",
+								   "5680/5620/5560", "6630/6570/6510/6450/6390",								   
+								   ""};
+	private final String[] grdY = {"", "", "", "",
+								   "-20/0/20", "-690/-670/-650/-630/-610",								   
+								   ""};
 	// Isometric parameters
 	private final double theta = Math.toDegrees(Math.atan(0.5));
 
@@ -124,7 +130,7 @@ public class GameMAIN extends GameState {
 	public GameMAIN(GameManager gm) {
 		super();
 		this.gm = gm;
-		dialogueList =  new ArrayList<>();
+		dialogueList =  new ArrayList<GameDialogue>();
 		
 		initMapAndLayer();
 
@@ -175,10 +181,6 @@ public class GameMAIN extends GameState {
 
 		System.out.println("Values of X and Y = " + x + " , " + y);
 
-		combineCameraPeople();
-		combineCameraProperty();
-		combineCameraTriggerPoint();		
-
 		cam.position.set(x, y, 0);
 
 		playerHUD.render(delta);
@@ -192,16 +194,6 @@ public class GameMAIN extends GameState {
 			System.out.println("Got here COIN.");
 		}		
 
-		// Add medals to inventory
-/*		if(testdrop.getMedal()) {
-			System.out.println("Is this triggered?");
-			if(testmedal == 0) {
-				System.out.println("Something is happening");
-				putMedalInInventory();
-				testmedal++;
-			}
-		}
-*/
 		checkVillagerCollisions(x, y);
 		
 		if(!isOnTheGround(playerNextPosition.x, playerNextPosition.y)) {			
@@ -290,10 +282,8 @@ public class GameMAIN extends GameState {
 		cam.update();
 		player.setFrozen(false);
 
-
 		// Check the passed state of everything in the game state manager, if its true, add a coin.
 		gm.checkPassedState(inventoryUI);
-
 	}
 
 	@Override
@@ -391,16 +381,11 @@ public class GameMAIN extends GameState {
 			playerBounce(player);
 		}
 	}
-		
-	private void combineCameraPeople() {
-		for(int i = 0; i < people.size(); i++) {
-			people.get(i).getBatch().setProjectionMatrix(cam.combined);
-		}
-	}
-	
+			
 	private void renderPeople() {
 		for(int i = 0; i < people.size(); i++) {
 			people.get(i).render();
+			people.get(i).getBatch().setProjectionMatrix(cam.combined);
 		}
 	}
 	
@@ -430,24 +415,42 @@ public class GameMAIN extends GameState {
 		tgp = new ArrayList<TriggerPoint>();
 		for(int i = 0; i < tgpX.length; i++) {
 			String type = allStateName[i].split("_")[0].toLowerCase();
-			String name = allStateName[i].split("_")[1];
-			if(type.equals("pb")) {
-				tgp.add(new PhoneBox(tgpX[i], tgpY[i], 1, gm, name, triggerText));
-			}else if(type.equals("fb")) {
-				tgp.add(new FinalBoss(tgpX[i], tgpY[i], 1, gm, name, triggerText));
+			String name = allStateName[i].split("_")[1];			
+			String[] grds = null;
+			String[] x = null;
+			String[] y = null;
+			int grdNumber = 0;
+			
+			if(!guards[i].isEmpty() && !grdX[i].isEmpty() && !grdY[i].isEmpty()) {
+				grds = guards[i].split("/");
+				x = grdX[i].split("/");
+				y = grdY[i].split("/");			
+				grdNumber = Math.min(grds.length, Math.min(x.length, y.length));
 			}
-		}
-	}
-	
-	private void combineCameraTriggerPoint() {
-		for(int i = 0; i < tgp.size(); i++) {
-			tgp.get(i).getBatch().setProjectionMatrix(cam.combined);
+			
+			if(type.equals("pb")) {
+				PhoneBox pb = new PhoneBox(tgpX[i], tgpY[i], 1, gm, name, triggerText);
+				for(int j = 0; j < grdNumber; j++) {
+					pb.initGuards(grds[j].trim(), Float.parseFloat(x[j].trim()), Float.parseFloat(y[j].trim()));
+				}
+				tgp.add(pb);
+			}else if(type.equals("fb")) {
+				FinalBoss fb = new FinalBoss(tgpX[i], tgpY[i], 1, gm, name, triggerText);
+				for(int j = 0; j < grdNumber; j++) {
+					fb.initGuards(grds[j].trim(), Float.parseFloat(x[j].trim()), Float.parseFloat(y[j].trim()));
+				}				
+				tgp.add(fb);
+			}
 		}
 	}
 	
 	private void renderTriggerPoint() {
 		for(int i = 0; i < tgp.size(); i++) {
 			tgp.get(i).updateTriggerPoint();
+			tgp.get(i).getBatch().setProjectionMatrix(cam.combined);
+			if(tgp.get(i).getTriggeredGame() == null || !tgp.get(i).getTriggeredGame().getPassState()) {
+				renderTGPGuards(i);//Don't render guards if player passed this game
+			}
 		}
 	}
 	
@@ -457,10 +460,20 @@ public class GameMAIN extends GameState {
 		}
 	}
 	
+	private void renderTGPGuards(int index) {
+		if(!guards[index].isEmpty()) {
+			String[] gdNames = guards[index].split("/");
+			for(int i = 0; i < gdNames.length; i++) {
+				tgp.get(index).getGuardByName(gdNames[i]).render();
+				tgp.get(index).getGuardByName(gdNames[i]).getBatch().setProjectionMatrix(cam.combined);
+			}
+		}
+	}
+	
 	private void checkTriggerGame(float x, float y) {
 		for(int i = 0; i < tgp.size(); i++) {	
 			if(tgp.get(i).containPoint(x, y)) {
-				if(/*tgp.get(i).getTriggeredGame().getPassState() == false && */!tgp.get(i).getTriggerred()) {
+				if(!tgp.get(i).getTriggerred()) {
 					tgp.get(i).triggerGame();
 				}
 			} else {
@@ -594,11 +607,6 @@ public class GameMAIN extends GameState {
 	private void renderProperty() {
 		for(int i = 0; i < property.size(); i++) {
 			property.get(i).render();
-		}
-	}
-
-	private void combineCameraProperty() {
-		for(int i = 0; i < property.size(); i++) {
 			property.get(i).getBatch().setProjectionMatrix(cam.combined);
 		}
 	}

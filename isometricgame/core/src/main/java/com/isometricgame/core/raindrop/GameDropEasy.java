@@ -234,6 +234,7 @@ public class GameDropEasy extends GameState{
 
 	@Override
 	public void dispose() {
+		super.dispose();
 		bkgTexture.dispose();
 		scoreFont.dispose();
 	}
