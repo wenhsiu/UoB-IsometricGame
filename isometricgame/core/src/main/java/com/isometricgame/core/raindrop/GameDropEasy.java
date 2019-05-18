@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
 
-public class GameDrop extends GameState{
+public class GameDropEasy extends GameState{
 	
 	private GameManager gm;
 	
@@ -47,7 +47,7 @@ public class GameDrop extends GameState{
 	private String info;
 	private String score;
 
-	public GameDrop(GameManager gm) {
+	public GameDropEasy(GameManager gm) {
 		this.gm = gm;
 		
 		windowW = Gdx.graphics.getWidth();

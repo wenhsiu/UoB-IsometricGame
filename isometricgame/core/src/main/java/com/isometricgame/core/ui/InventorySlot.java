@@ -10,27 +10,24 @@ import com.badlogic.gdx.utils.SnapshotArray;
 import com.isometricgame.core.ui.InventoryItem;
 import com.isometricgame.core.Utility;
 
-public class InventorySlot extends Stack implements InventorySlotSubject {
+public class InventorySlot extends Stack {
 
     // default image
     private Stack defaultBackground;
     private Image customBackgroundDecal;
     private Label numItemsLabel;
     private int numItemsVal = 0;
-    private int filterItemType;
-
-    private Array<InventorySlotObserver> observers;
 
     public InventorySlot() {
 
-        filterItemType = 0;
         defaultBackground = new Stack();
         customBackgroundDecal = new Image();
-        observers = new Array<InventorySlotObserver>();
+
         Image image = new Image(new NinePatch(Utility.STATUSUI_TEXTUREATLAS.createPatch("statusui")));
 
+        // TODO: USE THIS TO DISPLAY NUM OF ITEMS GOT FROM INVENTORYUI???
         numItemsLabel = new Label(String.valueOf(numItemsVal), Utility.STATUSUI_SKIN, "default");
-        numItemsLabel.setAlignment(0); // look into
+        numItemsLabel.setAlignment(0); 
         numItemsLabel.setVisible(true);
 
         defaultBackground.add(image);
@@ -48,10 +45,6 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         if(defaultBackground.getChildren().size == 1) {
             defaultBackground.add(customBackgroundDecal);
         }
-        if(sendRemoveNotification) {
-            notify(this, InventorySlotObserver.SlotEvent.REMOVED_ITEM);
-        }
-
     }
 
     public void incrementItemCount(boolean sendAddNotification) {
@@ -60,10 +53,6 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         if(defaultBackground.getChildren().size > 1) {
             defaultBackground.getChildren().pop();
         }
-        if(sendAddNotification) {
-            notify(this, InventorySlotObserver.SlotEvent.ADDED_ITEM);
-        }
-
     }
 
     public boolean hasItem() {
@@ -98,22 +87,12 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         return 0;
     }
 
-    // private in example?
     public void checkVisibilityOfItemCount() {
         if(numItemsVal < 2) {
             numItemsLabel.setVisible(false);
         }
         else {
             numItemsLabel.setVisible(true);
-        }
-    }
-
-    public boolean doesAcceptItemUseType(int itemUseType) {
-        if(filterItemType == 0) {
-            return true;
-        }
-        else {
-            return ((filterItemType & itemUseType) == itemUseType);
         }
     }
 
@@ -153,7 +132,6 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
            !actor.equals(numItemsLabel)) {
                decrementItemCount(true);
            }
-
     }
 
     public void Add(Array<Actor> array) {
@@ -184,16 +162,6 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         return items;
     }
 
-    public void updateAllInventoryItemNames(String name) {
-        if(hasItem()) {
-            SnapshotArray<Actor> arrayChildren = this.getChildren();
-            // skip first two elements
-            for(int i = arrayChildren.size - 1; i > 1; i--) {
-                arrayChildren.get(i).setName(name);
-            }
-        }
-    }
-
     public void removeAllInventoryItemsWithName(String name) {
         if(hasItem()) {
             SnapshotArray<Actor> arrayChildren = this.getChildren();
@@ -215,30 +183,6 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
                 decrementItemCount(sendRemoveNotifications);
                 arrayChildren.pop();
             }
-        }
-    }
-
-    @Override
-    public void addObserver(InventorySlotObserver slotObserver) {
-        observers.add(slotObserver);
-    }
-
-    @Override
-    public void removeObserver(InventorySlotObserver slotObserver) {
-        observers.removeValue(slotObserver, true);
-    }
-
-    @Override
-    public void removeAllObservers() {
-        for(InventorySlotObserver observer: observers) {
-            observers.removeValue(observer, true);
-        }
-    }
-
-    @Override
-    public void notify(final InventorySlot slot, InventorySlotObserver.SlotEvent event) {
-        for(InventorySlotObserver observer: observers) {
-            observer.onNotify(slot, event);
         }
     }
 

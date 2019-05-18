@@ -1,6 +1,7 @@
 package com.isometricgame.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,7 +24,11 @@ import com.isometricgame.core.gamemanager.GameState;
 import com.isometricgame.core.charactermanager.People;
 import com.isometricgame.core.charactermanager.Property;
 import com.isometricgame.core.charactermanager.TriggerPoint;
+
 import com.isometricgame.core.dialogue.GameDialogue;
+
+import com.isometricgame.core.gamemanager.GameManager;
+import com.isometricgame.core.gamemanager.GameState;
 
 import com.isometricgame.core.ui.InventoryItem;
 import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
@@ -37,7 +43,7 @@ public class GameMAIN extends GameState {
 
 	private GameManager gm;
 
-	private int testmedal;
+	// private int testmedal;
 
 	// Map
 	private TiledMap map;
@@ -78,20 +84,20 @@ public class GameMAIN extends GameState {
 	
 	// Object to collect
 	private ArrayList<Property> property;
-	private final int coinNumber = 20;
 
 	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
-    private final float[] tgpX = {1170, /*1880,*/ 1930, 3030, 5463, 
-    							  6291, /*8183*/
+    private final float[] tgpX = {1170, 5162, 6292, 3030, 
+    							  5433, 7971,
     							  3000};
-	private final float[] tgpY = {50, /*-10,*/ 840, 390, -22, 
-								  -660, /*-1887*/
+	private final float[] tgpY = {50, -1012, -649, 390,
+								  -25, -2065,
 								  1100};
 	// Naming rule: <type>_<GAMENAME>
 	//pb: PhoneBox, fb: FinalBoss
-	private final String[] allStateName = {"pb_DRAGGAME1",/* "",*/ "pb_DRAGGAME2", "pb_DROPGAME1", "pb_DRAGGAME3", 
-										   "pb_AVOIDGAME", /*"pb_FINALGAME"*/
+
+	private final String[] allStateName = {"pb_DRAGGAME1", "pb_DRAGGAME2", "pb_DRAGGAME3", "pb_DROPGAME1", 
+										   "pb_AVOIDGAME", "pb_DROPGAME2",
 										   "fb_FINALGAME"};
 
 	// Isometric parameters
@@ -99,7 +105,6 @@ public class GameMAIN extends GameState {
 
 	// Testing fonts
 	private BitmapFont bfont;
-	private static String message = "Welcome to Isometria!";
 	private SpriteBatch textbatch;
 	private Label labeltest;
 	private LabelStyle labelstyle;
@@ -109,11 +114,17 @@ public class GameMAIN extends GameState {
 	public List<GameDialogue> dialogueList;
 
 	private ShapeRenderer shapeRenderer;
-  	
+
+	//Sound Effects 
+	private Music coinSound; 
+	private Music thud; 
+	private Music scream; 
+
+	
 	public GameMAIN(GameManager gm) {
 		super();
 		this.gm = gm;
-		dialogueList =  new ArrayList<GameDialogue>();
+		dialogueList =  new ArrayList<>();
 		
 		initMapAndLayer();
 
@@ -121,9 +132,9 @@ public class GameMAIN extends GameState {
 		hudcam = new OrthographicCamera(width, height);
 		hudcam.translate(width / 2, height / 2);
 		hudcam.setToOrtho(true);
-				
 		playerHUD = new PlayerHUD(hudcam);
-				
+		
+		// Import inventory
 		inventoryUI = playerHUD.getInventoryUI();
 		
 		initProperties();
@@ -134,16 +145,15 @@ public class GameMAIN extends GameState {
 		player = gm.getPlayer();
 
 		bfont = new BitmapFont();
-        bfont.setColor(Color.BLACK);
 		bfont.setScale(1, 1);
+		bfont.setColor(Color.BLACK);
 
-		textbatch = new SpriteBatch();
+		textbatch = new SpriteBatch(); 
 
-		labelstyle = new LabelStyle(bfont, Color.BLACK);
+		coinSound = Gdx.audio.newMusic(Gdx.files.internal("coinSound.mp3")); 
+		thud = Gdx.audio.newMusic(Gdx.files.internal("thud.mp3")); 
+		scream = Gdx.audio.newMusic(Gdx.files.internal("scream1.mp3")); 
 
-        labeltest = new Label("Hi please work", labelstyle);
-        labeltest.setPosition(300, 50);
-		
 	}
 
 	@Override
@@ -163,7 +173,7 @@ public class GameMAIN extends GameState {
 		//show the trigger text if there is any to show. 
 		/* showTriggerText(x, y); */
 
-		// System.out.println("Values of X and Y = " + x + "  " + y);
+		System.out.println("Values of X and Y = " + x + " , " + y);
 
 		combineCameraPeople();
 		combineCameraProperty();
@@ -179,6 +189,7 @@ public class GameMAIN extends GameState {
 			InventoryItemFactory factory = InventoryItemFactory.getInstance();
 			InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);			
 			inventoryUI.addItemToInventory(item, "COIN");
+			System.out.println("Got here COIN.");
 		}		
 
 		// Add medals to inventory
@@ -197,8 +208,8 @@ public class GameMAIN extends GameState {
 			player.setFrozen(true);
 		}else if(checkMapCollision(playerNextPosition.x, playerNextPosition.y)) {
 			player.setSpeedFactor(-75);
+			thud.play();
 		}		
-		
 
 		//Probably should iterate through this. 
 		getPeopleByName("Villager_1").CollisionAction(
@@ -268,7 +279,7 @@ public class GameMAIN extends GameState {
         shapeRenderer.end();
 
 		textbatch.begin();
-			//dialogueTriggerCheck(testbatch, x, y);
+			// dialogueTriggerCheck(testbatch, x, y);
 			for (int i = 0; i < dialogueList.size(); i++) {
 				if(dialogueTriggerCheck(x, y, i) == true){
 					bfont.draw(textbatch, dialogueList.get(i).getTextmessage(), 150, 150); 
@@ -278,6 +289,11 @@ public class GameMAIN extends GameState {
 		
 		cam.update();
 		player.setFrozen(false);
+
+
+		// Check the passed state of everything in the game state manager, if its true, add a coin.
+		gm.checkPassedState(inventoryUI);
+
 	}
 
 	@Override
@@ -320,18 +336,18 @@ public class GameMAIN extends GameState {
 	
 	private void initMapAndLayer() {
 
-		//Map
+		// Map
 		map = new TmxMapLoader().load("./Isometria/isometria.tmx");
 		mapRenderer = new IsometricTiledMapRenderer(map);
 		mapRenderer.setView(cam);
 
-		// Blocked edge layer is transparent.
+		// Transparent edge blocking layer
 		transparentBlockedLayer = (TiledMapTileLayer) map.getLayers().get("Transparent");
 
-		// Blocked layer is blocking but is not visible.
+		// Edge blocking later is not visible
 		transparentBlockedLayer.setVisible(false);
 
-		//BaseObjects
+		// BaseObjects
 		baseObjLayer = (TiledMapTileLayer)map.getLayers().get("BaseObjects");
 
 		TileW = transparentBlockedLayer.getTileWidth();
@@ -409,7 +425,6 @@ public class GameMAIN extends GameState {
 		}
 	}
 	
-	
 	//Handle TriggerPoint
 	private void initTriggerPoint() {
 		tgp = new ArrayList<TriggerPoint>();
@@ -448,8 +463,7 @@ public class GameMAIN extends GameState {
 				if(/*tgp.get(i).getTriggeredGame().getPassState() == false && */!tgp.get(i).getTriggerred()) {
 					tgp.get(i).triggerGame();
 				}
-				
-			}else {
+			} else {
 				tgp.get(i).setTriggerred(false);
 			}
 		}
@@ -469,8 +483,6 @@ public class GameMAIN extends GameState {
 				textBatch.begin(); 
 				screenText.draw(textBatch, tgp.get(i).getTriggerText(), x, y); 
 				textBatch.end();
-
-				
 			}
 		}
 	}
@@ -481,7 +493,7 @@ public class GameMAIN extends GameState {
 	}
 
 	private void initDialogueArray(){
-		//add dialogue into the array through this function. 
+		// Add dialogue into the array through this function. 
 		addDialogue(300, 300, -300 , -300, "Narrator: Welcome to Isometria!!");
 
 		//Entrance Dragon
@@ -490,18 +502,20 @@ public class GameMAIN extends GameState {
 		//Entrance Robin
 		addDialogue(700, -16, 539, -77, "Robins: 100011000, Tweet tweet! Solve the puzzles, save the our friends!");
 		
-		//Triple dragons Entrance. 
+		// Triple Dragons Entrance. 
 
 		addDialogue(892, -3, 705, -92, "Dragons: Use the phoneboxes, solve the puzzles, 100100100101 avoid the penguins... ");
-
 
 		//Triple Chickens before Forest 
 
 		addDialogue(2773, -478, 2372, -680 , "Chickens: Squawk, squawk! 100010100100101 Be careful! The forest is dark... And full of terrors.");
 
 
+		addDialogue(2041, -461, -1826, -616, "HELLO WORLD");
+
 		// Deters player from final boss if not enough badges are collected
 		// TODO: only add dialogue if badge count is < 3
+		// TODO: Lizzie will do this
 		addDialogue(3860, 870, 3430 , 655, "Narrator: The boss ahead is hard... Make sure you're prepared!!! ");
 		
 		// NPC #1
@@ -542,22 +556,20 @@ public class GameMAIN extends GameState {
 
 		// Pre-Final Boss Battle Dialogue #2 (should appear after the Boss dialogue)
 		// TODO: Decide if we want this to be in a dialogue box or a separate screen that ties up the story - either works
-		// addDialogue(maxx, maxy, minx, miny, "Oh no, I think the mayor� forgotten how to access the switch! It� okay, you�e done something similar before. Find your way through the maze and collect the numbers that represent the binary number. Try to do this quickly, we don� have much time!");
+		// addDialogue(maxx,maxx maxy, minx, miny, "Oh no, I think the mayor� forgotten how to access the switch! It� okay, you�e done something similar before. Find your way through the maze and collect the numbers that represent the binary number. Try to do this quickly, we don� have much time!");
 
-		System.out.println("Hello init dialogue array.");
 	}
 
-	private Boolean dialogueTriggerCheck(double currentX, double currentY, int i){
+	private Boolean dialogueTriggerCheck(double currentX, double currentY, int i) {
 
-			//System.out.println("HELLO TRIGGER CHECK " + dialogueList.get(i).getMinx());
+			// System.out.println("HELLO TRIGGER CHECK " + dialogueList.get(i).getMinx());
 
 			if(dialogueList.get(i).getMinx() < currentX  && dialogueList.get(i).getMiny() < currentY && dialogueList.get(i).getMaxx() > currentX && dialogueList.get(i).getMaxy() > currentY){
-				//System.out.println("true"); 
+				// System.out.println("true"); 
 				return true; 
 			}
 			return false; 
 	}
-
 
 	//Handle Property
 	private void initProperties() {
@@ -567,9 +579,9 @@ public class GameMAIN extends GameState {
 	
 	private void initCoins(){
 		
-		//Add the X and Y Coordinates to the following arrays. The coin will then be created. 
-		int[] xCoordCoins = new int[]{813, 1337, 1702, 2250, 2582, 2630, 2822, 2664, 2988, 3012, 3760, 4497, 5251, 5579, 3836, 4311, 3977, 4750, 5699}; 
-		int[] yCooordCoins = new int[]{-94, -152, -335, -356, -130, 87, 294, -667, -881, -1245, -1619, -1769, -1832, -2239, 421, 600, 15, -344, -596}; 
+		// Add the X and Y Coordinates to the following arrays. The coin will then be created. 
+		int[] xCoordCoins = new int[]{813, 1337, 1702, 2250, 2582, 2630, 2822, 2664, 2988, 3012, 3760, 4497, 5251, 5579, 3836, 4311, 3977, 4750, 5699, 6232, 6401, 7031, 6647, 5781, 5514, 7449, 8209, 8699, 7849, 7868, 5334, 4943, 5082}; 
+		int[] yCooordCoins = new int[]{-94, -152, -335, -356, -130, 87, 294, -667, -881, -1245, -1619, -1769, -1832, -2239, 421, 600, 15, -344, -596, -2531, -2615, -2300, -1887, -1454, -917, -1445, -1418, -1846, -1681, -1975, -481, 0, 568}; 
 
 		for (int i = 0; i < xCoordCoins.length; i++) {
 			Coin coin = new Coin(xCoordCoins[i], yCooordCoins[i]); 
@@ -602,21 +614,23 @@ public class GameMAIN extends GameState {
 		for(int i = 0; i < property.size(); i++) {
 			if(property.get(i).containPoint(x, y)) {
 				property.remove(i);
+				coinSound.play();
 				return true;
 			}
 		}
 		return false;
 	}
 
-	//Remove the coins if the villagers are collided with. 
-		private void checkVillagerCollisions(float x, float y) {
-			for(int i = 0; i < people.size(); i++) {
-				if(people.get(i).containPoint(x, y)) {
-
-					//Comment out the trigger 
-					//playerHUD.DialogOn();
-				}
+	// Remove the coins if the villagers are collided with. 
+	// TODO: Ask what this means???
+	private void checkVillagerCollisions(float x, float y) {
+		for(int i = 0; i < people.size(); i++) {
+			if(people.get(i).containPoint(x, y)) {
+				scream.play();
+				scream.setVolume(50);
+				removeItemInInventory();
 			}
+		}
 	}
 
 	public boolean checkMapCollision(float x, float y) {		
@@ -628,7 +642,7 @@ public class GameMAIN extends GameState {
 		return (blockedCell != null && blockedCell.getTile() != null);
 	}
 	
-	//check if on the BaseObjectives layer
+	//check if on the BaseObjects layer
 		private boolean isOnTheGround(float x, float y) {
 			if(x < 0) return false;
 			
@@ -658,8 +672,8 @@ public class GameMAIN extends GameState {
 		dx = (float)(len*Math.sin(Math.PI*(theta-alpha)/180)*Math.tan(Math.PI*beta/180));
 		dy = (float)(len*Math.sin(Math.PI*(theta+alpha)/180)*Math.tan(Math.PI*beta/180));
 		
-		v.x = tmp_x-dx;
-		v.y = tmp_y-dy;
+		v.x = tmp_x - dx;
+		v.y = tmp_y - dy;
 		
 		return v;
 	}
@@ -686,6 +700,16 @@ public class GameMAIN extends GameState {
 		InventoryItemFactory factory = InventoryItemFactory.getInstance();
 		InventoryItem item = factory.getInventoryItem(ItemTypeID.MEDAL);			
 		inventoryUI.addItemToInventory(item, "MEDAL");
+	}
+
+	// TODO: Lizzie look at this
+	public void removeItemInInventory(){
+
+		//InventoryItemFactory factory = InventoryItemFactory.getInstance();
+
+		Table inventoryTable  =  inventoryUI.getInventorySlotTable(); 
+		inventoryUI.removeInventoryItems("COIN", inventoryTable); 
+
 	}
 
 }
