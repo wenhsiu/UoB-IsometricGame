@@ -12,6 +12,7 @@ import com.isometricgame.core.gamemanager.GameState;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 
 public class GameAvoid extends GameState {
@@ -27,8 +28,6 @@ public class GameAvoid extends GameState {
 
    private final int BOX3_LEFT = 5752;
    private final int BOX3_RIGHT = 6053;
-
-
 
    private GameManager gm; 
    private SpriteBatch batch;
@@ -52,7 +51,9 @@ public class GameAvoid extends GameState {
    long time= 0;
    
 
-   public static Texture backgroundTexture;
+   // public static Texture backgroundTexture;
+   private Texture backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
+   private Texture box = new Texture("avoid_button.png");
 
 
    public GameAvoid(GameManager gm){
@@ -72,7 +73,7 @@ public class GameAvoid extends GameState {
       timer.setColor(25/255f, 35/255f, 76/255f, 1f);
       timer.setScale(4,4);
     
-      backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
+      // backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
 
       target =generatebinarynumber();
       targetstring = "What is " + target;
@@ -135,10 +136,12 @@ public class GameAvoid extends GameState {
 	   // all drops
        
        batch.begin();
-
        batch.draw(backgroundTexture, 0, 0, 1200, 750);
+       batch.draw(box, 110, 260, 300, 200);
+       batch.draw(box, 460, 260, 300, 200);
+       batch.draw(box, 810, 260, 300, 200);
        batch.end();  
-       drawRectangles();
+       // drawRectangles();
        setTimer(elapsedTime); 
        
        
@@ -149,9 +152,9 @@ public class GameAvoid extends GameState {
        scoreFont.draw(batch,targetstring, 520 , 500);
        scoreFont.draw(batch,"current score  " + String.valueOf(cnt),950 , 700);
        scoreFont.draw(batch,"time remaining  " + String.valueOf(timeremaining),50 , 700);
-       scoreFont.draw(batch,String.valueOf(scorearray[0]), 260 , 360); 
-       scoreFont.draw(batch,String.valueOf(scorearray[1]), 610 , 360); 
-       scoreFont.draw(batch,String.valueOf(scorearray[2]), 960 , 360);
+       scoreFont.draw(batch,String.valueOf(scorearray[0]), 260 , 400/*360*/); 
+       scoreFont.draw(batch,String.valueOf(scorearray[1]), 610 , 400/*360*/); 
+       scoreFont.draw(batch,String.valueOf(scorearray[2]), 960 , 400/*360*/);
        batch.end();
 
        player.render(); 
