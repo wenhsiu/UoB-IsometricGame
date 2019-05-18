@@ -1,6 +1,7 @@
 package com.isometricgame.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -110,6 +111,12 @@ public class GameMAIN extends GameState {
 	public List<GameDialogue> dialogueList;
 
 	private ShapeRenderer shapeRenderer;
+
+	//Sound Effects 
+	private Music coinSound; 
+	private Music thud; 
+	private Music scream; 
+
 	
 	public GameMAIN(GameManager gm) {
 		super();
@@ -138,7 +145,12 @@ public class GameMAIN extends GameState {
 		bfont.setScale(1, 1);
 		bfont.setColor(Color.BLACK);
 
-		textbatch = new SpriteBatch();
+		textbatch = new SpriteBatch(); 
+
+		coinSound = Gdx.audio.newMusic(Gdx.files.internal("coinSound.mp3")); 
+		thud = Gdx.audio.newMusic(Gdx.files.internal("thud.mp3")); 
+		scream = Gdx.audio.newMusic(Gdx.files.internal("scream1.mp3")); 
+
 	}
 
 	@Override
@@ -193,6 +205,7 @@ public class GameMAIN extends GameState {
 			player.setFrozen(true);
 		}else if(checkMapCollision(playerNextPosition.x, playerNextPosition.y)) {
 			player.setSpeedFactor(-75);
+			thud.play();
 		}		
 
 		//Probably should iterate through this. 
@@ -486,6 +499,9 @@ public class GameMAIN extends GameState {
 
 		addDialogue(2773, -478, 2372, -680 , "Chickens: Squawk, squawk! 100010100100101 Be careful! The forest is dark... And full of terrors.");
 
+
+		addDialogue(2041, -461, -1826, -616, "HELLO WORLD");
+
 		// Deters player from final boss if not enough badges are collected
 		// TODO: only add dialogue if badge count is < 3
 		// TODO: Lizzie will do this
@@ -529,7 +545,7 @@ public class GameMAIN extends GameState {
 
 		// Pre-Final Boss Battle Dialogue #2 (should appear after the Boss dialogue)
 		// TODO: Decide if we want this to be in a dialogue box or a separate screen that ties up the story - either works
-		// addDialogue(maxx, maxy, minx, miny, "Oh no, I think the mayor� forgotten how to access the switch! It� okay, you�e done something similar before. Find your way through the maze and collect the numbers that represent the binary number. Try to do this quickly, we don� have much time!");
+		// addDialogue(maxx,maxx maxy, minx, miny, "Oh no, I think the mayor� forgotten how to access the switch! It� okay, you�e done something similar before. Find your way through the maze and collect the numbers that represent the binary number. Try to do this quickly, we don� have much time!");
 
 	}
 
@@ -553,8 +569,8 @@ public class GameMAIN extends GameState {
 	private void initCoins(){
 		
 		// Add the X and Y Coordinates to the following arrays. The coin will then be created. 
-		int[] xCoordCoins = new int[]{813, 1337, 1702, 2250, 2582, 2630, 2822, 2664, 2988, 3012, 3760, 4497, 5251, 5579, 3836, 4311, 3977, 4750, 5699}; 
-		int[] yCooordCoins = new int[]{-94, -152, -335, -356, -130, 87, 294, -667, -881, -1245, -1619, -1769, -1832, -2239, 421, 600, 15, -344, -596}; 
+		int[] xCoordCoins = new int[]{813, 1337, 1702, 2250, 2582, 2630, 2822, 2664, 2988, 3012, 3760, 4497, 5251, 5579, 3836, 4311, 3977, 4750, 5699, 6232, 6401, 7031, 6647, 5781, 5514, 7449, 8209, 8699, 7849, 7868, 5334, 4943, 5082}; 
+		int[] yCooordCoins = new int[]{-94, -152, -335, -356, -130, 87, 294, -667, -881, -1245, -1619, -1769, -1832, -2239, 421, 600, 15, -344, -596, -2531, -2615, -2300, -1887, -1454, -917, -1445, -1418, -1846, -1681, -1975, -481, 0, 568}; 
 
 		for (int i = 0; i < xCoordCoins.length; i++) {
 			Coin coin = new Coin(xCoordCoins[i], yCooordCoins[i]); 
@@ -587,6 +603,7 @@ public class GameMAIN extends GameState {
 		for(int i = 0; i < property.size(); i++) {
 			if(property.get(i).containPoint(x, y)) {
 				property.remove(i);
+				coinSound.play();
 				return true;
 			}
 		}
@@ -598,9 +615,8 @@ public class GameMAIN extends GameState {
 	private void checkVillagerCollisions(float x, float y) {
 		for(int i = 0; i < people.size(); i++) {
 			if(people.get(i).containPoint(x, y)) {
-
-				// Comment out the trigger 
-				// playerHUD.DialogOn();
+				scream.play();
+				scream.setVolume(50);
 				removeItemInInventory();
 			}
 		}
