@@ -12,7 +12,7 @@ import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
 import com.isometricgame.core.ui.InventoryItemLocation;
 import com.isometricgame.core.Utility;
 
-public class InventoryUI extends Window implements InventorySubject, InventorySlotObserver {
+public class InventoryUI extends Window {
 
     public final static int numSlots = 10;
     public static final String PLAYER_INVENTORY = "Player_Inventory";
@@ -24,12 +24,12 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     private final int slotWidth = 48;
     private final int slotHeight = 48;
 
-    private Array<InventoryObserver> observers;
+    private int noCoins;
+    private int noMedals;
 
     public InventoryUI() {
         super("Inventory", Utility.STATUSUI_SKIN, "default");
 
-        observers = new Array<InventoryObserver>();
         inventoryActors = new Array<Actor>();
 
         inventorySlotTable = new Table(Utility.STATUSUI_SKIN);
@@ -117,16 +117,6 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         return items;
     }
 
-    public static void setInventoryItemNames(Table targetTable, String name) {
-        Array<Cell> cells = targetTable.getCells();
-        for(int i = 0; i < cells.size; i++) {
-            InventorySlot inventorySlot = (InventorySlot) cells.get(i).getActor();
-            if(!(inventorySlot == null)) {
-                inventorySlot.updateAllInventoryItemNames(name);
-            }
-        }
-    }
-
     public boolean doesInventoryHaveSpace() {
         Array<Cell> sourceCells = inventorySlotTable.getCells();
         int index = 0;
@@ -148,49 +138,38 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     public void addItemToInventory(InventoryItem item, String itemName) {
         Array<Cell> sourceCells = inventorySlotTable.getCells();
 
-        for(int index = 0; index < sourceCells.size; index++) {
-            InventorySlot inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
-            if(!(inventorySlot == null)) {
-                int numItems = inventorySlot.getNumItems();
-                if(numItems == 0) {
-                    item.setName(itemName);
-                    inventorySlot.add(item);
-                    break;
+        if(itemName.equals("COIN") && noCoins == 0 || itemName.equals("MEDAL") && noMedals == 0) {
+            for(int index = 0; index < sourceCells.size; index++) {
+                InventorySlot inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
+                if(!(inventorySlot == null)) {
+                    int numItems = inventorySlot.getNumItems();
+                    if(numItems == 0) {
+                        item.setName(itemName);
+                        inventorySlot.add(item);
+                        if(itemName.equals("COIN")) {
+                            noCoins++;
+                            System.out.println("Number of coins is " + noCoins);
+                        }
+                        else {
+                            noMedals++;
+                            System.out.println("Number of medals is " + noMedals);
+                        }
+                        break;
+                    }
                 }
             }
+        }
+        else if(itemName.equals("COIN") && noCoins > 0) {
+            noCoins++;
+            System.out.println("Number of coins is " + noCoins);
+        }
+        else if(itemName.equals("MEDAL") && noMedals > 0) {
+            noCoins++;
+            System.out.println("Number of medals is " + noMedals);
         }
     }
 
     public Array<Actor> getInventoryActors() {
         return inventoryActors;
     }
-
-    @Override
-    public void onNotify(InventorySlot slot, SlotEvent event) {
-    }
-
-    @Override
-    public void addObserver(InventoryObserver inventoryObserver) {
-        observers.add(inventoryObserver);
-    }
-
-    @Override
-    public void removeObserver(InventoryObserver inventoryObserver) {
-        observers.removeValue(inventoryObserver, true);
-    }
-
-    @Override
-    public void removeAllObservers() {
-        for(InventoryObserver observer: observers) {
-            observers.removeValue(observer, true);
-        }
-    }
-
-    @Override
-    public void notify(String value, InventoryObserver.InventoryEvent event) {
-        for(InventoryObserver observer: observers) {
-            observer.onNotify(value, event);
-        }
-    }
-
 }
