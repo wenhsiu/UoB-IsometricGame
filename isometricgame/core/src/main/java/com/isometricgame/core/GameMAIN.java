@@ -18,7 +18,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
 
@@ -44,48 +43,48 @@ public class GameMAIN extends GameState {
 
 	private int testmedal;
 
-	// Map
+	//-------- Map --------
 	private TiledMap map;
 	private IsometricTiledMapRenderer mapRenderer;
 
-	// Inventory
+	//-------- Inventory --------
 	public final OrthographicCamera hudcam;
 	private PlayerHUD playerHUD;
 	private InventoryUI inventoryUI;
 
-	// Layers	
+	//-------- Layers --------
 	private TiledMapTileLayer transparentBlockedLayer;
 	private TiledMapTileLayer baseObjLayer;
 
-	// Tiles -- transparent
+	//-------- Tiles (transparent) --------
 	private float TileEdge;
 	private float TileW;
 	private float TileH;	
 
-	// Player
+	//-------- Player --------
 	private Player player;
 
-	// Characters
+	//-------- Characters --------
 	private ArrayList<People> people;
 	// Naming rule: <type>_<alias>
 	private final String[] peopleName = {"Boss_org", "Boss_drop", "Villager_1", "Villager_2", "Villager_3", "Villager_4", "Villager_5", "Villager_6"};						
 	private final float[] pplX = {500, 1954, 3000, 4000, 4065, 4517, 5065, 5398 }; 
 	private final float[] pplY = {500, -38, -1000, -1500, -1514, 1821, -2095, -2329}; 
 	
-	// Object to collect
+	//-------- Objects-to-collect --------
 	private ArrayList<Property> property;
 	private final int coinNumber = 20;
 
-	// Mini-game trigger points
+	//-------- Mini-game Trigger Points --------
 	private ArrayList<TriggerPoint> tgp;
     private final float[] tgpX = {1170, 1880, 1930, 3030, 5463, 6291, 8183};
 	private final float[] tgpY = {50, -10, 840, 390, -22, -660, -1887};
 	private final String[] allStateName = {"MINIGAME3", "MINIGAME2", "MINIGAME3", "FINALGAME", "MINIGAME2", "MINIGAME1", "MINIGAME3" };
 
-	// Isometric parameters
+	//-------- Isometric Parameters --------
 	private final double theta = Math.toDegrees(Math.atan(0.5));
 
-	// Testing fonts
+	//-------- Testing Fonts --------
 	private BitmapFont bfont;
 	private static String message = "Welcome to Isometria!";
 	private SpriteBatch textbatch;
@@ -97,7 +96,7 @@ public class GameMAIN extends GameState {
 	public List<GameDialogue> dialogueList;
 
 	private ShapeRenderer shapeRenderer;
-  
+	private ShapeRenderer helpRenderer;
 	
 	public GameMAIN(GameManager gm) {
 		super();
@@ -132,7 +131,7 @@ public class GameMAIN extends GameState {
 
         labeltest = new Label("Hi please work", labelstyle);
         labeltest.setPosition(300, 50);
-		
+
 	}
 
 	@Override
@@ -245,7 +244,7 @@ public class GameMAIN extends GameState {
 			testbatch.end();
 		} */
 
-		shapeRenderer = new ShapeRenderer(); 
+		shapeRenderer = new ShapeRenderer();
 
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		for (int i = 0; i < dialogueList.size(); i++) {
