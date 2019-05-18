@@ -14,6 +14,7 @@ import com.isometricgame.core.GameMAIN;
 import com.isometricgame.core.Player;
 import com.isometricgame.core.Presentation;
 import com.isometricgame.core.mainmenu.MainMenuScreen;
+import com.isometricgame.core.GameDrop;
 import com.isometricgame.core.raindrop.GameDropEasy;
 import com.isometricgame.core.clickdrag.GameLevel1;
 import com.isometricgame.core.clickdrag.GameLevel2;
@@ -93,6 +94,8 @@ public class GameManager {
 		//Added new gameState or replaced the failed state with a newly-created one
 		if(gsName.equals("DROPGAME1")) {
 			newGS = new GameDropEasy(this);
+		}else if(gsName.equals("DROPGAME2")) {
+			newGS = new GameDrop(this);
 		}else if(gsName.equals("DRAGGAME1")) {
 			newGS = new GameLevel1(this);
 		}else if(gsName.equals("DRAGGAME2")) {
