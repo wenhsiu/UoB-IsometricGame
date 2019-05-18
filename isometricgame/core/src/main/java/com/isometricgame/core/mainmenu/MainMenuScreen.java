@@ -15,8 +15,7 @@ public class MainMenuScreen extends GameState {
 	private enum bType{
 			EXIT,
             PLAY,
-            TUTORIAL,
-            GUIDE
+            TUTORIAL
 	};
     
     private final int GAME_TITLE_WIDTH = 754;
@@ -24,23 +23,18 @@ public class MainMenuScreen extends GameState {
     private final int GAME_TITLE_X;
     private final int GAME_TITLE_Y = 475;
 
-    private final int PLAY_BUTTON_WIDTH = 150;
-    private final int PLAY_BUTTON_HEIGHT = 50;
+    private final int PLAY_BUTTON_WIDTH = 300;
+    private final int PLAY_BUTTON_HEIGHT = 100;
     private final int PLAY_BUTTON_X;
-    private final int PLAY_BUTTON_Y = 225;
+    private final int PLAY_BUTTON_Y = 275;
 
-    private final int TUTORIAL_BUTTON_WIDTH = 175;
-    private final int TUTORIAL_BUTTON_HEIGHT = 50;
+    private final int TUTORIAL_BUTTON_WIDTH = 350;
+    private final int TUTORIAL_BUTTON_HEIGHT = 100;
     private final int TUTORIAL_BUTTON_X;
     private final int TUTORIAL_BUTTON_Y = 175;
 
-    private final int GUIDE_BUTTON_WIDTH = 123;
-    private final int GUIDE_BUTTON_HEIGHT = 50;
-    private final int GUIDE_BUTTON_X;
-    private final int GUIDE_BUTTON_Y = 125;
-
-    private final int EXIT_BUTTON_WIDTH = 123;
-    private final int EXIT_BUTTON_HEIGHT = 50;
+    private final int EXIT_BUTTON_WIDTH = 245;
+    private final int EXIT_BUTTON_HEIGHT = 100;
     private final int EXIT_BUTTON_X;
     private final int EXIT_BUTTON_Y = 75;
     
@@ -49,43 +43,32 @@ public class MainMenuScreen extends GameState {
 
     Texture menuBackground;
     Texture gameTitle;
-    Texture playButtonActive;
-    Texture playButtonInactive;
     Texture tutorialButtonActive;
     Texture tutorialButtonInactive;
-    Texture guideButtonActive;
-    Texture guideButtonInactive;
     Texture exitButtonActive;
     Texture exitButtonInactive;
+    Texture playButtonActive;
+    Texture playButtonInactive;
 
     public MainMenuScreen (GameManager gm) {
         this.gm = gm;
 
         menuBackground = new Texture("menuBackground3.png");
 
-        //------- Game Title -------
         gameTitle = new Texture("gamename.png");
         GAME_TITLE_X =  Gdx.graphics.getWidth()/2 - GAME_TITLE_WIDTH/2;
 
-        //------- Play -------
 	    playButtonActive = new Texture("start_button_active.png");
 	    playButtonInactive = new Texture("start_button_inactive.png");
 	    PLAY_BUTTON_X = Gdx.graphics.getWidth()/2 - PLAY_BUTTON_WIDTH/2;
-        
-        //------- Tutorial -------
-        tutorialButtonActive = new Texture("tutorial_button_active.png");
-	    tutorialButtonInactive = new Texture("tutorial_button_inactive.png");
-        TUTORIAL_BUTTON_X = Gdx.graphics.getWidth()/2 - TUTORIAL_BUTTON_WIDTH/2;
-        
-        //------- Map Guide -------
-        guideButtonActive = new Texture("guide_button_active.png");
-	    guideButtonInactive = new Texture("guide_button_inactive.png");
-        GUIDE_BUTTON_X = Gdx.graphics.getWidth()/2 - GUIDE_BUTTON_WIDTH/2;
-
-        //------- Exit -------
-        exitButtonActive = new Texture("exit_button_active.png");
+	    
+	    exitButtonActive = new Texture("exit_button_active.png");
 	    exitButtonInactive = new Texture("exit_button_inactive.png");
         EXIT_BUTTON_X = Gdx.graphics.getWidth()/2 - EXIT_BUTTON_WIDTH/2;
+        
+        tutorialButtonActive = new Texture("tutorial_button_active.png");
+	    tutorialButtonInactive = new Texture("tutorial_button_inactive.png");
+	    TUTORIAL_BUTTON_X = Gdx.graphics.getWidth()/2 - TUTORIAL_BUTTON_WIDTH/2;
 	    
 	    batch = new SpriteBatch();	    
     }
@@ -95,28 +78,16 @@ public class MainMenuScreen extends GameState {
         Gdx.gl.glClearColor(240/255f, 255/255f, 255/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //------- Original point is from top-left corner -------
+        //original point is from topleft corner
         int x = Gdx.input.getX();
         int y = Gdx.graphics.getHeight() - Gdx.input.getY();
 
-        //------- Start drawing... -------
+        //Start drawing...
         batch.begin();
         batch.draw(menuBackground, 0 , 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        //------- Game Title -------
         batch.draw(gameTitle, GAME_TITLE_X, GAME_TITLE_Y, GAME_TITLE_WIDTH, GAME_TITLE_HEIGHT);
 
-        //------- Play Button -------
-        if (mouseHovering(bType.PLAY, x, y)) {
-            batch.draw(playButtonActive, PLAY_BUTTON_X, PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
-            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {                
-                gm.setCurrGameState("MAINGAME");
-            }
-        } else {
-            batch.draw(playButtonInactive, PLAY_BUTTON_X, PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
-        }
-
-        //------- Tutorial Button -------
         if (mouseHovering(bType.TUTORIAL, x, y)) {
             batch.draw(tutorialButtonActive, TUTORIAL_BUTTON_X, TUTORIAL_BUTTON_Y, TUTORIAL_BUTTON_WIDTH, TUTORIAL_BUTTON_HEIGHT);
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
@@ -126,55 +97,45 @@ public class MainMenuScreen extends GameState {
             batch.draw(tutorialButtonInactive, TUTORIAL_BUTTON_X, TUTORIAL_BUTTON_Y, TUTORIAL_BUTTON_WIDTH, TUTORIAL_BUTTON_HEIGHT);
         }
 
-        //------- Guide Button -------
-        if (mouseHovering(bType.GUIDE, x, y)) {
-            batch.draw(guideButtonActive, GUIDE_BUTTON_X, GUIDE_BUTTON_Y, GUIDE_BUTTON_WIDTH, GUIDE_BUTTON_HEIGHT);
-            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                gm.setCurrGameState("GUIDE");
-            }
-        } else {
-            batch.draw(guideButtonInactive, GUIDE_BUTTON_X, GUIDE_BUTTON_Y, GUIDE_BUTTON_WIDTH, GUIDE_BUTTON_HEIGHT);
-        }
-
-        //------- Exit Button -------
         if (mouseHovering(bType.EXIT, x, y)) {
             batch.draw(exitButtonActive, EXIT_BUTTON_X, EXIT_BUTTON_Y, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {Gdx.app.exit();}
         } else {
             batch.draw(exitButtonInactive, EXIT_BUTTON_X, EXIT_BUTTON_Y, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
         }
+
+        if (mouseHovering(bType.PLAY, x, y)) {
+            batch.draw(playButtonActive, PLAY_BUTTON_X, PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
+            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {                
+                gm.setCurrGameState("MAINGAME");
+            }
+        } else {
+            batch.draw(playButtonInactive, PLAY_BUTTON_X, PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
+        }
         
 		batch.end();
     }
 
-    //------- Mouse Hover Check -------
     private boolean mouseHovering(bType button, int x, int y) {
         if (button == bType.EXIT) {
             if (x > EXIT_BUTTON_X && 
-    		    x < EXIT_BUTTON_X + EXIT_BUTTON_WIDTH &&
-    		    y > EXIT_BUTTON_Y &&
-    		    y < EXIT_BUTTON_Y + EXIT_BUTTON_HEIGHT) {
+    		   x < EXIT_BUTTON_X + EXIT_BUTTON_WIDTH &&
+    		   y > EXIT_BUTTON_Y &&
+    		   y < EXIT_BUTTON_Y + EXIT_BUTTON_HEIGHT) {
                    return true;
                 } else {return false;}
             } else if (button == bType.PLAY) {
-                if (x > PLAY_BUTTON_X && 
-                    x < PLAY_BUTTON_X + PLAY_BUTTON_WIDTH &&
-                    y > PLAY_BUTTON_Y &&
-                    y < PLAY_BUTTON_Y + PLAY_BUTTON_HEIGHT) {
+                if(x > PLAY_BUTTON_X && 
+                x < PLAY_BUTTON_X + PLAY_BUTTON_WIDTH &&
+                y > PLAY_BUTTON_Y &&
+                y < PLAY_BUTTON_Y + PLAY_BUTTON_HEIGHT) {
                     return true;
                  } else {return false;}
-            } else if (button == bType.GUIDE) {
-                if (x > GUIDE_BUTTON_X && 
-                    x < GUIDE_BUTTON_X + GUIDE_BUTTON_WIDTH &&
-                    y > GUIDE_BUTTON_Y &&
-                    y < GUIDE_BUTTON_Y + GUIDE_BUTTON_HEIGHT) {
-                        return true;
-                    } else {return false;}
             } else {
                 if (x > TUTORIAL_BUTTON_X && 
-                    x < TUTORIAL_BUTTON_X + TUTORIAL_BUTTON_WIDTH &&
-                    y > TUTORIAL_BUTTON_Y &&
-                    y < TUTORIAL_BUTTON_Y + TUTORIAL_BUTTON_HEIGHT) {
+                x < TUTORIAL_BUTTON_X + TUTORIAL_BUTTON_WIDTH &&
+                y > TUTORIAL_BUTTON_Y &&
+                y < TUTORIAL_BUTTON_Y + TUTORIAL_BUTTON_HEIGHT) {
     			return true;
             } else {return false;}
     	}
@@ -210,11 +171,7 @@ public class MainMenuScreen extends GameState {
     	exitButtonActive.dispose();
     	exitButtonInactive.dispose();
     	playButtonActive.dispose();
-        playButtonInactive.dispose();
-        tutorialButtonActive.dispose();
-        tutorialButtonInactive.dispose();
-        guideButtonActive.dispose();
-        guideButtonInactive.dispose();
+    	playButtonInactive.dispose();
     	batch.dispose();
     }
 }
