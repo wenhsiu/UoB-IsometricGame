@@ -1,6 +1,5 @@
 package com.isometricgame.core;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
@@ -8,7 +7,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -17,7 +15,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
@@ -68,15 +65,15 @@ public class GameMAIN extends GameState {
 	// Naming rule: <type>_<alias>
 	private final String[] peopleName = {"Boss_org", "Boss_drop", 
 										 "Villager_1", "Villager_2", "Villager_3", "Villager_4", "Villager_5", "Villager_6",
-										 "Penguin_1", "Penguin_2", "Penguin_3",
+										 /*"Penguin_1", "Penguin_2", "Penguin_3",*/
 										 "Penguin_4", "Penguin_5", "Penguin_6", "Penguin_7", "Penguin_8"};						
 	private final float[] pplX = {500, 1954, 
 								  3000, 4000, 4065, 4517, 5065, 5398,
-								  5680, 5620, 5560,
+								  /*5680, 5620, 5560,*/
 								  6630, 6570, 6510, 6450, 6390}; 
 	private final float[] pplY = {500, -38, 
 								  -1000, -1500, -1514, 1821, -2095, -2329,
-								  -20, 0, 20,
+								  /*-20, 0, 20,*/
 								  -690, -670, -650, -630, -610}; 
 	
 	// Object to collect
@@ -112,8 +109,7 @@ public class GameMAIN extends GameState {
 	public List<GameDialogue> dialogueList;
 
 	private ShapeRenderer shapeRenderer;
-  
-	
+  	
 	public GameMAIN(GameManager gm) {
 		super();
 		this.gm = gm;
@@ -393,10 +389,18 @@ public class GameMAIN extends GameState {
 	}
 	
 	private People getPeopleByName(String name) {
-		for(int i = 0; i < peopleName.length; i++) {
+		for(int i = 0; i < people.size(); i++) {
 			if(peopleName[i].equals(name)) {return people.get(i);}
 		}
 		return null;
+	}
+	
+	private void removePeopleByName(String name) {
+		for(int i = 0; i < people.size(); i++) {
+			if(peopleName[i].equals(name)) {
+				people.remove(i);				
+			}
+		}
 	}
 	
 	private void disposePeople() {

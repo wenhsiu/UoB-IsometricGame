@@ -1,12 +1,16 @@
 package com.isometricgame.core.charactermanager;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
+import com.isometricgame.core.Boss;
+import com.isometricgame.core.Penguin;
+import com.isometricgame.core.Villager;
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
 
