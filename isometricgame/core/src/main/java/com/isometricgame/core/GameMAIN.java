@@ -83,17 +83,17 @@ public class GameMAIN extends GameState {
 
 	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
-    private final float[] tgpX = {1170, 5160, 6292, 3030, 
-    							  5433, 8021,
+    private final float[] tgpX = {1170, 5349, 1930, 3030, 
+    							  5433, /*8183*/
     							  3000};
-	private final float[] tgpY = {50, -1012, -649, 390,
-								  -25, -2052,
+	private final float[] tgpY = {50, -914, 840, 390,
+								  -25, /*-1887*/
 								  1100};
 	// Naming rule: <type>_<GAMENAME>
 	//pb: PhoneBox, fb: FinalBoss
 
 	private final String[] allStateName = {"pb_DRAGGAME1", "pb_DRAGGAME2", "pb_DRAGGAME3", "pb_DROPGAME1", 
-										   "pb_AVOIDGAME", "pb_DROPGAME2",
+										   "pb_AVOIDGAME", /*"pb_DROPGAME2"*/
 										   "fb_FINALGAME"};
 
 	// Isometric parameters
@@ -276,9 +276,7 @@ public class GameMAIN extends GameState {
 
 
 		// Check the passed state of everything in the game state manager, if its true, add a coin.
-
-		InventoryItemFactory factory = InventoryItemFactory.getInstance();
-		gm.checkPassedState(factory, inventoryUI);
+		gm.checkPassedState(inventoryUI);
 
 	}
 

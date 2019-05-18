@@ -14,8 +14,7 @@ import com.isometricgame.core.GameMAIN;
 import com.isometricgame.core.Player;
 import com.isometricgame.core.Presentation;
 import com.isometricgame.core.mainmenu.MainMenuScreen;
-import com.isometricgame.core.GameDrop;
-import com.isometricgame.core.raindrop.GameDropEasy;
+import com.isometricgame.core.raindrop.GameDrop;
 import com.isometricgame.core.clickdrag.GameLevel1;
 import com.isometricgame.core.clickdrag.GameLevel2;
 import com.isometricgame.core.clickdrag.GameLevel3;
@@ -27,8 +26,16 @@ public class GameManager {
 	private String[] stateName = {
 			"MENU",
 			"MAINGAME",
+//			"MINIGAME1",
+//			"MINIGAME2",
 			"END",
 			"PRESENTATION", 
+//			"GAMELEVEL1",
+//			"START2",
+//			"GAMELEVEL2",
+//			"START3",
+//			"GAMELEVEL3",
+//			"COMPLETE",
 	};
 	private GameState currentState;
 	private Game game;
@@ -65,7 +72,7 @@ public class GameManager {
 	}
 
 	//Pass in the game inventory. 
-	public void checkPassedState(InventoryItemFactory factory, InventoryUI currentInventory){
+	public void checkPassedState(InventoryUI currentInventory){
 		for(String key: gameStates.keySet()){
 			System.out.println("Key == " + key);
 			System.out.println("Passed? == " + gameStates.get(key).passed);
@@ -77,6 +84,7 @@ public class GameManager {
 				System.out.println("HELLO WORLD"); 
 				System.out.println("HELLO WORLD"); 
 				System.out.println("HELLO WORLD"); 
+				InventoryItemFactory factory = InventoryItemFactory.getInstance();
 				InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);	
 				currentInventory.addItemToInventory(item, "COIN");
 			}
@@ -93,8 +101,6 @@ public class GameManager {
 		
 		//Added new gameState or replaced the failed state with a newly-created one
 		if(gsName.equals("DROPGAME1")) {
-			newGS = new GameDropEasy(this);
-		}else if(gsName.equals("DROPGAME2")) {
 			newGS = new GameDrop(this);
 		}else if(gsName.equals("DRAGGAME1")) {
 			newGS = new GameLevel1(this);
