@@ -16,20 +16,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 
 public class GameAvoid extends GameState {
 
-   private final int BOX1_LEFT = 5865;
-   private final int BOX1_TOP = -451;
-   private final int BOX1_RIGHT = 6349;
-   private final int BOX1_BOTTOM = -539;
+   private final int BOX_TOP = 97;
+   private final int BOX_BOTTOM = -94;
 
-   private final int BOX2_LEFT = 6217;
-   private final int BOX2_TOP = -610;
-   private final int BOX2_RIGHT = 6313;
-   private final int BOX2_BOTTOM = -752;
+   private final int BOX1_LEFT = 5014;
+   private final int BOX1_RIGHT = 5301;
+   
+   private final int BOX2_LEFT = 5359;
+   private final int BOX2_RIGHT = 5696;
 
-   private final int BOX3_LEFT = 6568;
-   private final int BOX3_TOP = -775;
-   private final int BOX3_RIGHT = 6920;
-   private final int BOX3_BOTTOM = -657;
+   private final int BOX3_LEFT = 5752;
+   private final int BOX3_RIGHT = 6053;
+
 
 
    private GameManager gm; 
@@ -168,8 +166,8 @@ public class GameAvoid extends GameState {
             gm.setCurrGameState("MAINGAME");
          }
   
-     //  System.out.println("X"+player.getPositionX());
-     //  System.out.println("Y"+player.getPositionY());
+      // System.out.println("X"+player.getPositionX());
+      // System.out.println("Y"+player.getPositionY());
      }
      
      private void drawRectangles() {
@@ -199,12 +197,12 @@ public class GameAvoid extends GameState {
      }   
      //checking to see if the player is in the correct position when the timer reaches zero
      private boolean correctposition() {
-        /**/System.out.println(player.getPositionX());
-        /**/System.out.println(player.getPositionY());
+        // /**/System.out.println(player.getPositionX());
+        // /**/System.out.println(player.getPositionY());
 
         if(pos1 == 0) {
          if( BOX1_LEFT <= player.getPositionX() && player.getPositionX() <= BOX1_RIGHT) {
-           if( BOX1_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX1_TOP) {
+           if( BOX_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX_TOP) {
                return true;
                 }
               }
@@ -212,14 +210,14 @@ public class GameAvoid extends GameState {
     
         else if(pos1 == 1) {
                if( BOX2_LEFT <= player.getPositionX() && player.getPositionX() <= BOX2_RIGHT) {
-                 if( BOX2_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX2_TOP) {
+                 if( BOX_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX_TOP) {
                   return true;
                     }
                   }
                 }
         else if(pos1 == 2) {
                if(BOX3_LEFT <= player.getPositionX() && player.getPositionX() <= BOX3_RIGHT) {
-                 if( BOX3_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX3_TOP) {
+                 if( BOX_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX_TOP) {
                    return true;
                    }
                   }

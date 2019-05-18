@@ -86,16 +86,16 @@ public class GameMAIN extends GameState {
 
 	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
-    private final float[] tgpX = {1170, /*1880,*/ 1930, 3030, 5463, 
-    							  6291, /*8183*/
+    private final float[] tgpX = {1170, 5349, 1930, 3030, 
+    							  5433, /*8183*/
     							  3000};
-	private final float[] tgpY = {50, /*-10,*/ 840, 390, -22, 
-								  -660, /*-1887*/
+	private final float[] tgpY = {50, -914, 840, 390,
+								  -25, /*-1887*/
 								  1100};
 	// Naming rule: <type>_<GAMENAME>
 	//pb: PhoneBox, fb: FinalBoss
-	private final String[] allStateName = {"pb_DRAGGAME1",/* "",*/ "pb_DRAGGAME2", "pb_DROPGAME1", "pb_DRAGGAME3", 
-										   "pb_AVOIDGAME", /*"pb_FINALGAME"*/
+	private final String[] allStateName = {"pb_DRAGGAME1", "pb_DRAGGAME2", "pb_DRAGGAME3", "pb_DROPGAME1", 
+										   "pb_AVOIDGAME", /*"pb_DROPGAME2"*/
 										   "fb_FINALGAME"};
 
 	// Isometric parameters
@@ -168,7 +168,7 @@ public class GameMAIN extends GameState {
 		//show the trigger text if there is any to show. 
 		/* showTriggerText(x, y); */
 
-		// System.out.println("Values of X and Y = " + x + "  " + y);
+		System.out.println("Values of X and Y = " + x + " , " + y);
 
 		combineCameraPeople();
 		combineCameraProperty();
