@@ -78,6 +78,7 @@ public class GameManager {
 				System.out.println("HELLO WORLD"); 
 				System.out.println("HELLO WORLD"); 
 				System.out.println("HELLO WORLD"); 
+				*/ 
 				InventoryItemFactory factory = InventoryItemFactory.getInstance();
 				InventoryItem item = factory.getInventoryItem(ItemTypeID.MEDAL);	
 				currentInventory.addItemToInventory(item, "MEDAL");

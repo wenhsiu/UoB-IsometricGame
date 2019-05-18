@@ -545,7 +545,7 @@ public class GameMAIN extends GameState {
 
 		// Pre-Final Boss Battle Dialogue #2 (should appear after the Boss dialogue)
 		// TODO: Decide if we want this to be in a dialogue box or a separate screen that ties up the story - either works
-		// addDialogue(maxx, maxy, minx, miny, "Oh no, I think the mayor� forgotten how to access the switch! It� okay, you�e done something similar before. Find your way through the maze and collect the numbers that represent the binary number. Try to do this quickly, we don� have much time!");
+		// addDialogue(maxx,maxx maxy, minx, miny, "Oh no, I think the mayor� forgotten how to access the switch! It� okay, you�e done something similar before. Find your way through the maze and collect the numbers that represent the binary number. Try to do this quickly, we don� have much time!");
 
 	}
 
