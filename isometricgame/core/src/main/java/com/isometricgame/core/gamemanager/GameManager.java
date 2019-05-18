@@ -67,16 +67,16 @@ public class GameManager {
 	//Pass in the game inventory. 
 	public void checkPassedState(InventoryItemFactory factory, InventoryUI currentInventory){
 		for(String key: gameStates.keySet()){
-			System.out.println("Key == " + key);
-			System.out.println("Passed? == " + gameStates.get(key).passed);
+			//System.out.println("Key == " + key);
+			//System.out.println("Passed? == " + gameStates.get(key).passed);
 
 			if(gameStates.get(key).passed == true){
+				/* System.out.println("HELLO WORLD"); 
 				System.out.println("HELLO WORLD"); 
 				System.out.println("HELLO WORLD"); 
 				System.out.println("HELLO WORLD"); 
 				System.out.println("HELLO WORLD"); 
-				System.out.println("HELLO WORLD"); 
-				System.out.println("HELLO WORLD"); 
+				System.out.println("HELLO WORLD");  */
 				InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);	
 				currentInventory.addItemToInventory(item, "COIN");
 			}
