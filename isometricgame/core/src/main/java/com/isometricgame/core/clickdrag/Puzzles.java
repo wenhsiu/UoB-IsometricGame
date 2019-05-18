@@ -18,17 +18,25 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Source;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 
 
 public class Puzzles implements ApplicationListener {
+	private final int TRYAGAIN_WIDTH = 210;
+	private final int TRYAGAIN_HEIGHT = 100;
+	private final int TRYAGAIN_X = 930;
+	private final int TRYAGAIN_Y = 200;
+
 	private Stage stage;
 	private Image line, addition;
-	private Image reset =  new Image(new Texture("clickanddrag/reset_button.png"));
 	private Texture Qzero = new Texture("clickanddrag/q0.png");
 	private Texture Qone = new Texture("clickanddrag/q1.png");
 	private Texture Azero = new Texture("clickanddrag/0.png");
 	private Texture Aone = new Texture("clickanddrag/1.png");
 	private Texture answer = new Texture("clickanddrag/answer.png");
+	private Texture tryAgain = new Texture("clickanddrag/reset_button.png");
+	private Texture tryAgainActive = new Texture("clickanddrag/reset_button2.png");
 
 	private List<Piece> quesOne = new ArrayList<Piece>();
 	private List<Piece> quesTwo = new ArrayList<Piece>();
@@ -41,18 +49,20 @@ public class Puzzles implements ApplicationListener {
 
 	private String ans = "";
 
+	private SpriteBatch batch;
+
 	@Override
 	public void create () {
 		stage = new Stage();
+		batch = new SpriteBatch();
+
 		Gdx.input.setInputProcessor(stage);
 		
 		setQuestionImages();
 		setTargetImages();
 		setSourceImages();
 
-		ans = "";
-		setReset();
-		
+		ans = "";	
 	}
 
 	@Override
@@ -63,6 +73,24 @@ public class Puzzles implements ApplicationListener {
 	public void render () {
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
+
+		int x = Gdx.input.getX();
+        int y = Gdx.graphics.getHeight() - Gdx.input.getY();
+
+		batch.begin();
+		if (mouseHovering(x, y)) {
+            batch.draw(tryAgainActive, TRYAGAIN_X, TRYAGAIN_Y, TRYAGAIN_WIDTH, TRYAGAIN_HEIGHT);
+            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {                
+                for(Piece p: puzzles) {
+					p.removeFromTarget();
+				}
+				setSourceImages();
+				targetAnswer = new String[5];
+            }
+        } else {
+            batch.draw(tryAgain, TRYAGAIN_X, TRYAGAIN_Y, TRYAGAIN_WIDTH, TRYAGAIN_HEIGHT);
+        }
+		batch.end();
 	}
 
 	@Override
@@ -213,27 +241,13 @@ public class Puzzles implements ApplicationListener {
 		return -1;
 	}
 
-	public void setReset() {
-		reset.setBounds(930, 200, 210, 100);
-		stage.addActor(reset);
-
-		reset.addListener(new ClickListener(){
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				for(Piece p: puzzles) {
-					p.removeFromTarget();
-				}
-				setSourceImages();
-				targetAnswer = new String[5];
-				// /**/System.out.println("reset: " + String.join(",", targetAnswer));	
-
-			}
-		});
-	}
-
-	public void clearStage() {
-		stage.clear();
-	}
-	
+	private boolean mouseHovering(int x, int y) {
+		if(x > TRYAGAIN_X && 
+		   x < TRYAGAIN_X + TRYAGAIN_WIDTH &&
+		   y > TRYAGAIN_Y &&
+		   y < TRYAGAIN_Y + TRYAGAIN_HEIGHT) {
+			return true;
+		} else {return false;}
+    }
 }
 
