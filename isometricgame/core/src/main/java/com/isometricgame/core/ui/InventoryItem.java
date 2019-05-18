@@ -8,38 +8,6 @@ public class InventoryItem extends Image {
 
     // TAKE OUT WHAT ISN'T BEING USED AND/OR REFACTOR
 
-    public enum ItemAttribute {
-        CONSUMABLE(1),
-        EQUIPPABLE(2),
-        STACKABLE(4);
-
-        private int attribute;
-
-        ItemAttribute(int attribute) {
-            this.attribute = attribute;
-        }
-
-        public int getValue() {
-            return attribute;
-        }
-
-    }
-
-    public enum ItemUseType {
-        STANDARD(1);
-
-        private int itemUseType;
-
-        ItemUseType(int itemUseType) {
-            this.itemUseType = itemUseType;
-        }
-
-        public int getValue() {
-            return itemUseType;
-        }
-
-    }
-
     public enum ItemTypeID {
         COIN, MEDAL, NONE;
     }
@@ -122,30 +90,6 @@ public class InventoryItem extends Image {
 
     public void setItemShortDescription(String itemShortDescription) {
         this.itemShortDescription = itemShortDescription;
-    }
-
-    public boolean isConsumable() {
-        // uses powers of 2 to check whether the consumable
-        // bit (1) is present in the item attributes
-
-        return ((itemAttributes & ItemAttribute.CONSUMABLE.getValue())
-                == ItemAttribute.CONSUMABLE.getValue());
-    }
-
-    public boolean isEquippable() {
-        // uses powers of 2 to check whether the equippable
-        // bit (1x) is present in the item attributes
-
-        return ((itemAttributes & ItemAttribute.EQUIPPABLE.getValue())
-                == ItemAttribute.EQUIPPABLE.getValue());
-    }
-
-    public boolean isStackable() {
-        // uses powers of 2 to check whether the stackable
-        // bit (1xx) is present in the item attributes
-
-        return ((itemAttributes & ItemAttribute.STACKABLE.getValue())
-                == ItemAttribute.STACKABLE.getValue());
     }
 
     public boolean isSameItemType(InventoryItem possibleInventoryItem) {

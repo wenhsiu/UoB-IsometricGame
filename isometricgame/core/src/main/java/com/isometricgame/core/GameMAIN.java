@@ -27,8 +27,6 @@ import com.isometricgame.core.charactermanager.People;
 import com.isometricgame.core.charactermanager.Property;
 import com.isometricgame.core.charactermanager.TriggerPoint;
 import com.isometricgame.core.dialogue.GameDialogue;
-import com.isometricgame.core.dialogue.DialogUI;
-import com.isometricgame.core.dialogue.GameDialogue;
 
 import com.isometricgame.core.ui.InventoryItem;
 import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
@@ -69,9 +67,18 @@ public class GameMAIN extends GameState {
 	// Characters
 	private ArrayList<People> people;
 	// Naming rule: <type>_<alias>
-	private final String[] peopleName = {"Boss_org", "Boss_drop", "Villager_1", "Villager_2", "Villager_3", "Villager_4", "Villager_5", "Villager_6"};						
-	private final float[] pplX = {500, 1954, 3000, 4000, 4065, 4517, 5065, 5398 }; 
-	private final float[] pplY = {500, -38, -1000, -1500, -1514, 1821, -2095, -2329}; 
+	private final String[] peopleName = {"Boss_org", "Boss_drop", 
+										 "Villager_1", "Villager_2", "Villager_3", "Villager_4", "Villager_5", "Villager_6",
+										 "Penguin_1", "Penguin_2", "Penguin_3",
+										 "Penguin_4", "Penguin_5", "Penguin_6", "Penguin_7", "Penguin_8"};						
+	private final float[] pplX = {500, 1954, 
+								  3000, 4000, 4065, 4517, 5065, 5398,
+								  5680, 5620, 5560,
+								  6630, 6570, 6510, 6450, 6390}; 
+	private final float[] pplY = {500, -38, 
+								  -1000, -1500, -1514, 1821, -2095, -2329,
+								  -20, 0, 20,
+								  -690, -670, -650, -630, -610}; 
 	
 	// Object to collect
 	private ArrayList<Property> property;
@@ -79,9 +86,17 @@ public class GameMAIN extends GameState {
 
 	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
-    private final float[] tgpX = {1170, 1880, 1930, 3030, 5463, 6291, 8183};
-	private final float[] tgpY = {50, -10, 840, 390, -22, -660, -1887};
-	private final String[] allStateName = {"MINIGAME3", "MINIGAME2", "MINIGAME3", "FINALGAME", "MINIGAME2", "MINIGAME1", "MINIGAME3" };
+    private final float[] tgpX = {1170, /*1880,*/ 1930, 3030, 5463, 
+    							  6291, /*8183*/
+    							  3000};
+	private final float[] tgpY = {50, /*-10,*/ 840, 390, -22, 
+								  -660, /*-1887*/
+								  1100};
+	// Naming rule: <type>_<GAMENAME>
+	//pb: PhoneBox, fb: FinalBoss
+	private final String[] allStateName = {"pb_DRAGGAME1",/* "",*/ "pb_DRAGGAME2", "pb_DROPGAME1", "pb_DRAGGAME3", 
+										   "pb_AVOIDGAME", /*"pb_FINALGAME"*/
+										   "fb_FINALGAME"};
 
 	// Isometric parameters
 	private final double theta = Math.toDegrees(Math.atan(0.5));
@@ -103,7 +118,7 @@ public class GameMAIN extends GameState {
 	public GameMAIN(GameManager gm) {
 		super();
 		this.gm = gm;
-		dialogueList =  new ArrayList<>();
+		dialogueList =  new ArrayList<GameDialogue>();
 		
 		initMapAndLayer();
 
@@ -144,8 +159,6 @@ public class GameMAIN extends GameState {
 		mapRenderer.setView(cam);
 		mapRenderer.render();	
 		
-		//GameDrop testdrop = new GameDrop(gm);
-		
 		float x = player.getPositionX();
 		float y = player.getPositionY();
 		Vector2 playerNextPosition = player.getNextPosition();
@@ -155,7 +168,7 @@ public class GameMAIN extends GameState {
 		//show the trigger text if there is any to show. 
 		/* showTriggerText(x, y); */
 
-		System.out.println("Values of X and Y = " + x + "  " + y);
+		// System.out.println("Values of X and Y = " + x + "  " + y);
 
 		combineCameraPeople();
 		combineCameraProperty();
@@ -174,15 +187,15 @@ public class GameMAIN extends GameState {
 		}		
 
 		// Add medals to inventory
-		/* if(testdrop.getMedal()) {
-			//System.out.println("Is this triggered?");
+/*		if(testdrop.getMedal()) {
+			System.out.println("Is this triggered?");
 			if(testmedal == 0) {
 				System.out.println("Something is happening");
 				putMedalInInventory();
 				testmedal++;
 			}
-		} */
-
+		}
+*/
 		checkVillagerCollisions(x, y);
 		
 		if(!isOnTheGround(playerNextPosition.x, playerNextPosition.y)) {			
@@ -346,6 +359,8 @@ public class GameMAIN extends GameState {
 				p = new Boss(x, y);
 			} else if(type.equals("villager")) {
 				p = new Villager(x, y);
+			} else if(type.equals("penguin")) {
+				p = new Penguin(x, y);
 			}
 			
 			p.create();			
@@ -391,11 +406,18 @@ public class GameMAIN extends GameState {
 		}
 	}
 	
+	
 	//Handle TriggerPoint
 	private void initTriggerPoint() {
 		tgp = new ArrayList<TriggerPoint>();
 		for(int i = 0; i < tgpX.length; i++) {
-			tgp.add(new PhoneBox(tgpX[i], tgpY[i], 1, gm, allStateName[i], triggerText));
+			String type = allStateName[i].split("_")[0].toLowerCase();
+			String name = allStateName[i].split("_")[1];
+			if(type.equals("pb")) {
+				tgp.add(new PhoneBox(tgpX[i], tgpY[i], 1, gm, name, triggerText));
+			}else if(type.equals("fb")) {
+				tgp.add(new FinalBoss(tgpX[i], tgpY[i], 1, gm, name, triggerText));
+			}
 		}
 	}
 	

@@ -77,15 +77,15 @@ public class GameManager {
 		GameState newGS = null;
 		
 		//Added new gameState or replaced the failed state with a newly-created one
-		if(gsName.equals("MINIGAME1")) {
+		if(gsName.equals("DROPGAME1")) {
 			newGS = new GameDrop(this);
-		}else if(gsName.equals("MINIGAME2")) {
-			newGS = new Start1(this);
-		}else if(gsName.equals("START2")) {
-			newGS = new Start2(this);
-		}else if(gsName.equals("START3")) {
-			newGS = new Start3(this);
-		}else if(gsName.equals("COMPLETE")) {
+		}else if(gsName.equals("DRAGGAME1")) {
+			newGS = new GameLevel1(this);
+		}else if(gsName.equals("DRAGGAME2")) {
+			newGS = new GameLevel2(this);
+		}else if(gsName.equals("DRAGGAME3")) {
+			newGS = new GameLevel3(this);
+		}/*else if(gsName.equals("COMPLETE")) {
 			newGS = new Complete(this);
 		}else if(gsName.equals("GAMELEVEL1")) {
 			newGS = new GameLevel1(this);
@@ -93,7 +93,7 @@ public class GameManager {
 			newGS = new GameLevel2(this);
 		}else if(gsName.equals("GAMELEVEL3")) {
 			newGS = new GameLevel3(this);
-		}else if(gsName.equals("MINIGAME3")) {
+		}*/else if(gsName.equals("AVOIDGAME")) {
 			newGS = new GameAvoid(this);
 		}else if(gsName.equals("FINALGAME")) {
 			newGS = new GameMaze(this);
