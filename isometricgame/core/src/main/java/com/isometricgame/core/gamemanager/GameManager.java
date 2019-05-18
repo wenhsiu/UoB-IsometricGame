@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.badlogic.gdx.Game;
-import com.isometricgame.core.raindrop.GameDrop;
 import com.isometricgame.core.ui.InventoryItem;
 import com.isometricgame.core.ui.InventoryItemFactory;
 import com.isometricgame.core.ui.InventoryUI;
@@ -15,13 +14,10 @@ import com.isometricgame.core.GameMAIN;
 import com.isometricgame.core.Player;
 import com.isometricgame.core.Presentation;
 import com.isometricgame.core.mainmenu.MainMenuScreen;
-import com.isometricgame.core.clickdrag.Start1;
-import com.isometricgame.core.clickdrag.Start2;
-import com.isometricgame.core.clickdrag.Start3;
+import com.isometricgame.core.raindrop.GameDrop;
 import com.isometricgame.core.clickdrag.GameLevel1;
 import com.isometricgame.core.clickdrag.GameLevel2;
 import com.isometricgame.core.clickdrag.GameLevel3;
-import com.isometricgame.core.clickdrag.Complete;
 import com.isometricgame.core.GameAvoid;
 import com.isometricgame.core.maze.GameMaze;
 
@@ -111,15 +107,7 @@ public class GameManager {
 			newGS = new GameLevel2(this);
 		}else if(gsName.equals("DRAGGAME3")) {
 			newGS = new GameLevel3(this);
-		}/*else if(gsName.equals("COMPLETE")) {
-			newGS = new Complete(this);
-		}else if(gsName.equals("GAMELEVEL1")) {
-			newGS = new GameLevel1(this);
-		}else if(gsName.equals("GAMELEVEL2")) {
-			newGS = new GameLevel2(this);
-		}else if(gsName.equals("GAMELEVEL3")) {
-			newGS = new GameLevel3(this);
-		}*/else if(gsName.equals("AVOIDGAME")) {
+		}else if(gsName.equals("AVOIDGAME")) {
 			newGS = new GameAvoid(this);
 		}else if(gsName.equals("FINALGAME")) {
 			newGS = new GameMaze(this);
@@ -142,23 +130,7 @@ public class GameManager {
 				gameStates.put("END", new GameEND(this));
 			} else if(stateName[i].equals("PRESENTATION")) {
 				gameStates.put("PRESENTATION", new Presentation(this));
-			} /*else if(stateName[i].equals("MINIGAME1")) {
-				gameStates.put("MINIGAME1", new GameDrop(this));
-			} else if(stateName[i].equals("MINIGAME2")){
-				gameStates.put("MINIGAME2", new Start1(this));
-			} else if(stateName[i].equals("START2")) {
-				gameStates.put("START2", new Start2(this));
-			} else if(stateName[i].equals("START3")) {
-				gameStates.put("START3", new Start3(this));
-			} else if(stateName[i].equals("COMPLETE")) {
-				gameStates.put("COMPLETE", new Complete(this));
-			} else if(stateName[i].equals("GAMELEVEL1")) {
-				gameStates.put("GAMELEVEL1", new GameLevel1(this));
-			} else if(stateName[i].equals("GAMELEVEL2")) {
-				gameStates.put("GAMELEVEL2", new GameLevel2(this));
-			} else if(stateName[i].equals("GAMELEVEL3")) {
-				gameStates.put("GAMELEVEL3", new GameLevel3(this));
-			}*/
+			}
 		}
 	}
 }

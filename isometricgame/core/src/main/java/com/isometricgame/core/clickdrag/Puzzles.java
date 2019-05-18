@@ -29,6 +29,7 @@ public class Puzzles implements ApplicationListener {
 	private final int TRYAGAIN_Y = 200;
 
 	private Stage stage;
+	private SpriteBatch batch;
 	private Image line, addition;
 	private Texture Qzero = new Texture("clickanddrag/q0.png");
 	private Texture Qone = new Texture("clickanddrag/q1.png");
@@ -48,8 +49,6 @@ public class Puzzles implements ApplicationListener {
 	private String[] targetAnswer = new String[5];
 
 	private String ans = "";
-
-	private SpriteBatch batch;
 
 	@Override
 	public void create () {
