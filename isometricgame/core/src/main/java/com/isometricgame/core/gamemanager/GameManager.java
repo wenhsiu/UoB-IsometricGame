@@ -14,12 +14,12 @@ import com.isometricgame.core.GameMAIN;
 import com.isometricgame.core.Player;
 import com.isometricgame.core.Presentation;
 import com.isometricgame.core.mainmenu.MainMenuScreen;
-import com.isometricgame.core.GameDrop;
 import com.isometricgame.core.raindrop.GameDropEasy;
 import com.isometricgame.core.clickdrag.GameLevel1;
 import com.isometricgame.core.clickdrag.GameLevel2;
 import com.isometricgame.core.clickdrag.GameLevel3;
 import com.isometricgame.core.GameAvoid;
+import com.isometricgame.core.GameDrop;
 import com.isometricgame.core.maze.GameMaze;
 
 public class GameManager {
@@ -65,7 +65,7 @@ public class GameManager {
 	}
 
 	//Pass in the game inventory. 
-	public void checkPassedState(InventoryItemFactory factory, InventoryUI currentInventory){
+	public void checkPassedState(InventoryUI currentInventory){
 		for(String key: gameStates.keySet()){
 			//System.out.println("Key == " + key);
 			//System.out.println("Passed? == " + gameStates.get(key).passed);
@@ -76,9 +76,11 @@ public class GameManager {
 				System.out.println("HELLO WORLD"); 
 				System.out.println("HELLO WORLD"); 
 				System.out.println("HELLO WORLD"); 
-				System.out.println("HELLO WORLD");  */
-				InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);	
-				currentInventory.addItemToInventory(item, "COIN");
+				System.out.println("HELLO WORLD"); 
+				System.out.println("HELLO WORLD"); 
+				InventoryItemFactory factory = InventoryItemFactory.getInstance();
+				InventoryItem item = factory.getInventoryItem(ItemTypeID.MEDAL);	
+				currentInventory.addItemToInventory(item, "MEDAL");
 			}
 		}
 	}

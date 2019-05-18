@@ -84,11 +84,11 @@ public class GameMAIN extends GameState {
 
 	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
-    private final float[] tgpX = {1170, 5160, 6292, 3030, 
-    							  5433, 8021,
+    private final float[] tgpX = {1170, 5162, 6292, 3030, 
+    							  5433, 7971,
     							  3000};
 	private final float[] tgpY = {50, -1012, -649, 390,
-								  -25, -2052,
+								  -25, -2065,
 								  1100};
 	// Naming rule: <type>_<GAMENAME>
 	//pb: PhoneBox, fb: FinalBoss
@@ -289,9 +289,7 @@ public class GameMAIN extends GameState {
 
 
 		// Check the passed state of everything in the game state manager, if its true, add a coin.
-
-		InventoryItemFactory factory = InventoryItemFactory.getInstance();
-		gm.checkPassedState(factory, inventoryUI);
+		gm.checkPassedState(inventoryUI);
 
 	}
 

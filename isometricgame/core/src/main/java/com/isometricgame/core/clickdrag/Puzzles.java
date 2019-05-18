@@ -80,8 +80,9 @@ public class Puzzles implements ApplicationListener {
 		if (mouseHovering(x, y)) {
             batch.draw(tryAgainActive, TRYAGAIN_X, TRYAGAIN_Y, TRYAGAIN_WIDTH, TRYAGAIN_HEIGHT);
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {                
-                for(Piece p: puzzles) {
-					p.removeFromTarget();
+                for(int i = 0; i < puzzles.size(); i++) {
+					// LibGDX is funny about iterators - hence refactoring
+					puzzles.get(i).removeFromTarget();
 				}
 				setSourceImages();
 				targetAnswer = new String[5];
