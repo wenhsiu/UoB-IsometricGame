@@ -18,12 +18,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-<<<<<<< HEAD
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
 
-=======
->>>>>>> b78fdd332e304cb621bfebfb582ee8868f68fbf6
+
 import com.isometricgame.core.charactermanager.People;
 import com.isometricgame.core.charactermanager.Property;
 import com.isometricgame.core.charactermanager.TriggerPoint;
@@ -117,16 +115,12 @@ public class GameMAIN extends GameState {
 	public List<GameDialogue> dialogueList;
 
 	private ShapeRenderer shapeRenderer;
-<<<<<<< HEAD
 	private ShapeRenderer helpRenderer;
-=======
 
 	//Sound Effects 
 	private Music coinSound; 
 	private Music thud; 
 	private Music scream; 
-
->>>>>>> b78fdd332e304cb621bfebfb582ee8868f68fbf6
 	
 	public GameMAIN(GameManager gm) {
 		super();
@@ -161,12 +155,6 @@ public class GameMAIN extends GameState {
 		thud = Gdx.audio.newMusic(Gdx.files.internal("thud.mp3")); 
 		scream = Gdx.audio.newMusic(Gdx.files.internal("scream1.mp3")); 
 
-<<<<<<< HEAD
-        labeltest = new Label("Hi please work", labelstyle);
-        labeltest.setPosition(300, 50);
-
-=======
->>>>>>> b78fdd332e304cb621bfebfb582ee8868f68fbf6
 	}
 
 	@Override
