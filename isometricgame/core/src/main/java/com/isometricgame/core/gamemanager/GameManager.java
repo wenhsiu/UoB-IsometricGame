@@ -6,6 +6,7 @@ import com.badlogic.gdx.Game;
 import com.isometricgame.core.raindrop.GameDrop;
 import com.isometricgame.core.GameEND;
 import com.isometricgame.core.GameMAIN;
+import com.isometricgame.core.GameGUIDE;
 import com.isometricgame.core.Player;
 import com.isometricgame.core.Presentation;
 import com.isometricgame.core.mainmenu.MainMenuScreen;
@@ -27,7 +28,8 @@ public class GameManager {
 //			"MINIGAME1",
 //			"MINIGAME2",
 			"END",
-			"PRESENTATION", 
+			"PRESENTATION",
+			"GUIDE",
 //			"GAMELEVEL1",
 //			"START2",
 //			"GAMELEVEL2",
@@ -116,7 +118,10 @@ public class GameManager {
 				gameStates.put("END", new GameEND(this));
 			} else if(stateName[i].equals("PRESENTATION")) {
 				gameStates.put("PRESENTATION", new Presentation(this));
-			} /*else if(stateName[i].equals("MINIGAME1")) {
+			} else if(stateName[i].equals("GUIDE")) {
+				gameStates.put("GUIDE", new GameGUIDE(this));
+			}
+			 /*else if(stateName[i].equals("MINIGAME1")) {
 				gameStates.put("MINIGAME1", new GameDrop(this));
 			} else if(stateName[i].equals("MINIGAME2")){
 				gameStates.put("MINIGAME2", new Start1(this));
