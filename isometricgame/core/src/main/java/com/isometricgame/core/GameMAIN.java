@@ -118,7 +118,7 @@ public class GameMAIN extends GameState {
 	public GameMAIN(GameManager gm) {
 		super();
 		this.gm = gm;
-		dialogueList =  new ArrayList<GameDialogue>();
+		dialogueList =  new ArrayList<>();
 		
 		initMapAndLayer();
 
@@ -283,6 +283,14 @@ public class GameMAIN extends GameState {
 		
 		cam.update();
 		player.setFrozen(false);
+
+
+		//Check the passed state of everything in the game state manager, if its true, add a coin. 
+
+		InventoryItemFactory factory = InventoryItemFactory.getInstance();
+				
+		gm.checkPassedState(factory, inventoryUI);
+
 	}
 
 	@Override

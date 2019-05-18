@@ -1,9 +1,15 @@
 package com.isometricgame.core.gamemanager;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import com.badlogic.gdx.Game;
 import com.isometricgame.core.raindrop.GameDrop;
+import com.isometricgame.core.ui.InventoryItem;
+import com.isometricgame.core.ui.InventoryItemFactory;
+import com.isometricgame.core.ui.InventoryUI;
+import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
 import com.isometricgame.core.GameEND;
 import com.isometricgame.core.GameMAIN;
 import com.isometricgame.core.Player;
@@ -68,6 +74,26 @@ public class GameManager {
 			game.setScreen(currentState);
 		}
 	}
+
+	//Pass in the game inventory. 
+	public void checkPassedState(InventoryItemFactory factory, InventoryUI currentInventory){
+		for(String key: gameStates.keySet()){
+			System.out.println("Key == " + key);
+			System.out.println("Passed? == " + gameStates.get(key).passed);
+
+			if(gameStates.get(key).passed == true){
+				System.out.println("HELLO WORLD"); 
+				System.out.println("HELLO WORLD"); 
+				System.out.println("HELLO WORLD"); 
+				System.out.println("HELLO WORLD"); 
+				System.out.println("HELLO WORLD"); 
+				System.out.println("HELLO WORLD"); 
+				InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);	
+				currentInventory.addItemToInventory(item, "COIN");
+			}
+		}
+	}
+
 
 	public Player getPlayer() {
 		return player;
