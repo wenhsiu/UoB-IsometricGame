@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -589,6 +590,8 @@ public class GameMAIN extends GameState {
 
 					//Comment out the trigger 
 					//playerHUD.DialogOn();
+
+					removeItemInInventory();
 				}
 			}
 	}
@@ -661,6 +664,18 @@ public class GameMAIN extends GameState {
 		InventoryItem item = factory.getInventoryItem(ItemTypeID.MEDAL);			
 		inventoryUI.addItemToInventory(item, "MEDAL");
 	}
+
+	public void removeItemInInventory(){
+
+		//InventoryItemFactory factory = InventoryItemFactory.getInstance();
+
+		Table inventoryTable  =  inventoryUI.getInventorySlotTable(); 
+		
+		inventoryUI.removeInventoryItems("COIN", inventoryTable); 
+
+	}
+
+
 
 }
 
