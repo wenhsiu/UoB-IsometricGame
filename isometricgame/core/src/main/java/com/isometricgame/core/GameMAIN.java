@@ -18,6 +18,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+<<<<<<< HEAD
+import com.isometricgame.core.gamemanager.GameManager;
+import com.isometricgame.core.gamemanager.GameState;
+
+=======
+>>>>>>> b78fdd332e304cb621bfebfb582ee8868f68fbf6
 import com.isometricgame.core.charactermanager.People;
 import com.isometricgame.core.charactermanager.Property;
 import com.isometricgame.core.charactermanager.TriggerPoint;
@@ -42,28 +48,28 @@ public class GameMAIN extends GameState {
 
 	// private int testmedal;
 
-	// Map
+	//-------- Map --------
 	private TiledMap map;
 	private IsometricTiledMapRenderer mapRenderer;
 
-	// Inventory
+	//-------- Inventory --------
 	public final OrthographicCamera hudcam;
 	private PlayerHUD playerHUD;
 	private InventoryUI inventoryUI;
 
-	// Layers	
+	//-------- Layers --------
 	private TiledMapTileLayer transparentBlockedLayer;
 	private TiledMapTileLayer baseObjLayer;
 
-	// Tiles -- transparent
+	//-------- Tiles (transparent) --------
 	private float TileEdge;
 	private float TileW;
 	private float TileH;	
 
-	// Player
+	//-------- Player --------
 	private Player player;
 
-	// Characters
+	//-------- Characters --------
 	private ArrayList<People> people;
 	// Naming rule: <type>_<alias>
 	private final String[] peopleName = {"Boss_org", "Boss_drop", 
@@ -79,10 +85,10 @@ public class GameMAIN extends GameState {
 								  -20, 0, 20,
 								  -690, -670, -650, -630, -610}; 
 	
-	// Object to collect
+	//-------- Objects-to-collect --------
 	private ArrayList<Property> property;
 
-	// Mini-game trigger points
+	//-------- Mini-game Trigger Points --------
 	private ArrayList<TriggerPoint> tgp;
     private final float[] tgpX = {1170, 5162, 6292, 3030, 
     							  5433, 7971,
@@ -97,10 +103,10 @@ public class GameMAIN extends GameState {
 										   "pb_AVOIDGAME", "pb_DROPGAME2",
 										   "fb_FINALGAME"};
 
-	// Isometric parameters
+	//-------- Isometric Parameters --------
 	private final double theta = Math.toDegrees(Math.atan(0.5));
 
-	// Testing fonts
+	//-------- Testing Fonts --------
 	private BitmapFont bfont;
 	private SpriteBatch textbatch;
 	private Label labeltest;
@@ -111,12 +117,16 @@ public class GameMAIN extends GameState {
 	public List<GameDialogue> dialogueList;
 
 	private ShapeRenderer shapeRenderer;
+<<<<<<< HEAD
+	private ShapeRenderer helpRenderer;
+=======
 
 	//Sound Effects 
 	private Music coinSound; 
 	private Music thud; 
 	private Music scream; 
 
+>>>>>>> b78fdd332e304cb621bfebfb582ee8868f68fbf6
 	
 	public GameMAIN(GameManager gm) {
 		super();
@@ -151,6 +161,12 @@ public class GameMAIN extends GameState {
 		thud = Gdx.audio.newMusic(Gdx.files.internal("thud.mp3")); 
 		scream = Gdx.audio.newMusic(Gdx.files.internal("scream1.mp3")); 
 
+<<<<<<< HEAD
+        labeltest = new Label("Hi please work", labelstyle);
+        labeltest.setPosition(300, 50);
+
+=======
+>>>>>>> b78fdd332e304cb621bfebfb582ee8868f68fbf6
 	}
 
 	@Override
@@ -262,7 +278,7 @@ public class GameMAIN extends GameState {
 			testbatch.end();
 		} */
 
-		shapeRenderer = new ShapeRenderer(); 
+		shapeRenderer = new ShapeRenderer();
 
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		for (int i = 0; i < dialogueList.size(); i++) {
