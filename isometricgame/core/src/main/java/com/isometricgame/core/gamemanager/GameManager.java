@@ -19,6 +19,7 @@ import com.isometricgame.core.clickdrag.GameLevel1;
 import com.isometricgame.core.clickdrag.GameLevel2;
 import com.isometricgame.core.clickdrag.GameLevel3;
 import com.isometricgame.core.GameAvoid;
+import com.isometricgame.core.GameDrop;
 import com.isometricgame.core.maze.GameMaze;
 
 public class GameManager {
@@ -26,16 +27,8 @@ public class GameManager {
 	private String[] stateName = {
 			"MENU",
 			"MAINGAME",
-//			"MINIGAME1",
-//			"MINIGAME2",
 			"END",
 			"PRESENTATION", 
-//			"GAMELEVEL1",
-//			"START2",
-//			"GAMELEVEL2",
-//			"START3",
-//			"GAMELEVEL3",
-//			"COMPLETE",
 	};
 	private GameState currentState;
 	private Game game;
@@ -102,6 +95,8 @@ public class GameManager {
 		//Added new gameState or replaced the failed state with a newly-created one
 		if(gsName.equals("DROPGAME1")) {
 			newGS = new GameDropEasy(this);
+		}else if(gsName.equals("DROPGAME2")) {
+			newGS = new GameDrop(this);
 		}else if(gsName.equals("DRAGGAME1")) {
 			newGS = new GameLevel1(this);
 		}else if(gsName.equals("DRAGGAME2")) {

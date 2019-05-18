@@ -83,17 +83,17 @@ public class GameMAIN extends GameState {
 
 	// Mini-game trigger points
 	private ArrayList<TriggerPoint> tgp;
-    private final float[] tgpX = {1170, 5349, 1930, 3030, 
-    							  5433, /*8183*/
+    private final float[] tgpX = {1170, 5162, 6292, 3030, 
+    							  5433, 7971,
     							  3000};
-	private final float[] tgpY = {50, -914, 840, 390,
-								  -25, /*-1887*/
+	private final float[] tgpY = {50, -1012, -649, 390,
+								  -25, -2065,
 								  1100};
 	// Naming rule: <type>_<GAMENAME>
 	//pb: PhoneBox, fb: FinalBoss
 
 	private final String[] allStateName = {"pb_DRAGGAME1", "pb_DRAGGAME2", "pb_DRAGGAME3", "pb_DROPGAME1", 
-										   "pb_AVOIDGAME", /*"pb_DROPGAME2"*/
+										   "pb_AVOIDGAME", "pb_DROPGAME2",
 										   "fb_FINALGAME"};
 
 	// Isometric parameters
