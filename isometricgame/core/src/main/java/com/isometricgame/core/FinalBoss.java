@@ -49,7 +49,7 @@ public class FinalBoss extends TriggerPoint{
 
 	@Override
 	public void triggerGame() {
-		if(gm.inventoryGetItemNumber(ItemTypeID.COIN) == cost.get(ItemTypeID.COIN)) {
+		if(gm.inventoryGetItemNumber(ItemTypeID.COIN) >= cost.get(ItemTypeID.COIN)) {
 			super.triggerGame();
 		}
 	}
