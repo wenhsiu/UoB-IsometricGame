@@ -31,10 +31,11 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 
 public class GameDrop extends GameState {
 	private GameManager gm;
-	private Sound dropSound;
-	private Music rainMusic;
+	// load the drop sound effect and the rain background "music"
+	private Sound dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
+	private Music rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
+
 	private SpriteBatch batch;
-	private Sprite background;
 	private Rectangle bucket;
 	private Array<Rectangle> raindrops0;
 	private Array<Rectangle> raindrops1;
@@ -44,22 +45,21 @@ public class GameDrop extends GameState {
 	private int num;
 	private String myDropScore;
 	private Player player;
-	private int pos = 0;
-	// private double oldx, oldy;
 	private int right = 0;
 	private int wrong = 0;
 	private boolean change = true;
 	private boolean medal;
 
 	// Background images.
-	public static Texture backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
+	public Texture background = new Texture("window_0011_Vector-Smart-Object.png");
 	// drops
 	private Texture dropImage0 = new Texture("drop0.png");
 	private Texture dropImage1 = new Texture("drop1.png");
 	private Texture bucketImage = new Texture("yellowbucket.png");
 	private Texture failure = new Texture("failure_image.jpeg");
+	// intro
+	private Texture intro = new Texture("drop_intro2.png");
 
-	public static Sprite backgroundSprite;
 	private List<Integer> Score = new ArrayList<Integer>();
 
 	public GameDrop(GameManager gm) {
@@ -79,9 +79,7 @@ public class GameDrop extends GameState {
 		scoreFont.setColor(25 / 255f, 35 / 255f, 76 / 255f, 1f);
 		scoreFont.setScale(2);
 
-		// load the drop sound effect and the rain background "music"
-		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
-		rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
+		
 
 		// start the playback of the background music immediately
 		rainMusic.setLooping(true);
@@ -123,12 +121,12 @@ public class GameDrop extends GameState {
 			raindrop1.x = MathUtils.random(0, 1200 - 128);
 		}
 
-		raindrop0.y = 480;
+		raindrop0.y = 400;
 		raindrop0.width = 128;
 		raindrop0.height = 128;
 		raindrops0.add(raindrop0);
 
-		raindrop1.y = 480;
+		raindrop1.y = 400;
 		raindrop1.width = 128;
 		raindrop1.height = 128;
 		raindrops1.add(raindrop1);
@@ -142,12 +140,6 @@ public class GameDrop extends GameState {
 
 	@Override
 	public void render(float delta) {
-
-		// if (pos == 0) {
-		// 	oldx = player.getPositionX();
-		// 	oldy = player.getPositionY();
-		// }
-		// pos++;
 
 		// clear the screen with a dark blue color. The
 		// arguments to glClearColor are the red, green
@@ -164,15 +156,16 @@ public class GameDrop extends GameState {
 
 		if(right != 1 && wrong != 1) {
 			batch.begin();
-			batch.draw(backgroundTexture, 0, 0, 1200, 750);
+			batch.draw(background, 0, 0, 1200, 750);
+			batch.draw(intro, 30, 500, 1100, 250);
 
 			batch.draw(bucketImage, bucket.x, bucket.y);
 
-			scoreFont.draw(batch, myDropScore, 200, 700);
-			scoreFont.draw(batch, target, 0, 700);
+			scoreFont.draw(batch, myDropScore, 200, 500);
+			scoreFont.draw(batch, target, 0, 500);
 
-			scoreFont.draw(batch, "number correct  " + String.valueOf(right), 650, 700);
-			scoreFont.draw(batch, "number incorrect  " + String.valueOf(wrong), 950, 700);
+			scoreFont.draw(batch, "number correct  " + String.valueOf(right), 650, 500);
+			scoreFont.draw(batch, "number incorrect  " + String.valueOf(wrong), 950, 500);
 
 			for (Rectangle raindrop0 : raindrops0) {
 				batch.draw(dropImage0, raindrop0.x, raindrop0.y);
@@ -187,7 +180,6 @@ public class GameDrop extends GameState {
 			gm.inventoryAddMedals();
 			passed = true;
 			gm.setCurrGameState("MAINGAME");
-			//medal = true;
 		} else if (wrong == 1) {
 			dropSound.stop();
 			rainMusic.stop();
@@ -270,15 +262,7 @@ public class GameDrop extends GameState {
 			target = "target  " + RandNum(0, 15);
 			change = true;						
 		}
-
-	/*	if(change) {
-			try {
-				Thread.sleep((long) 10000);
-				} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} */
+		
         change = false;
 	}
     
@@ -349,7 +333,7 @@ public class GameDrop extends GameState {
 		rainMusic.dispose();
 		batch.dispose();
 		scoreFont.dispose();
-		backgroundTexture.dispose();
+		background.dispose();
 		// generator.dispose();
 	}
 

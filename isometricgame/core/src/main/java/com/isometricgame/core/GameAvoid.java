@@ -19,17 +19,17 @@ import com.badlogic.gdx.Input.Keys;
 
 public class GameAvoid extends GameState {
 
-    private final int BOX_TOP = 97;
-    private final int BOX_BOTTOM = -94;
+    private final int BOX_TOP = -32;
+    private final int BOX_BOTTOM = -205;
 
-    private final int BOX1_LEFT = 5014;
-    private final int BOX1_RIGHT = 5301;
+    private final int BOX1_LEFT = 5010;
+    private final int BOX1_RIGHT = 5307;
 
-    private final int BOX2_LEFT = 5359;
-    private final int BOX2_RIGHT = 5696;
+    private final int BOX2_LEFT = 5356;
+    private final int BOX2_RIGHT = 5632;
 
-    private final int BOX3_LEFT = 5752;
-    private final int BOX3_RIGHT = 6053;
+    private final int BOX3_LEFT = 5708;
+    private final int BOX3_RIGHT = 6012;
 
     private GameManager gm; 
     private SpriteBatch batch;
@@ -56,6 +56,7 @@ public class GameAvoid extends GameState {
     private Texture backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
     private Texture box = new Texture("avoid_button.png");
     private Texture failure = new Texture("failure_image.jpeg");
+    private Texture intro = new Texture("avoid_intro.png");
 
     public GameAvoid(GameManager gm){
         super();
@@ -72,8 +73,6 @@ public class GameAvoid extends GameState {
         timer = new BitmapFont(); 
         timer.setColor(25/255f, 35/255f, 76/255f, 1f);
         timer.setScale(4,4);
-
-        // backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
 
         target =generatebinarynumber();
         targetstring = "What is " + target;
@@ -118,7 +117,7 @@ public class GameAvoid extends GameState {
 
         settimeremaining(timeleft);
 
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        Gdx.gl.glClearColor(255/255f, 234/255f, 188/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); 
 
         super.render(delta);
@@ -126,22 +125,22 @@ public class GameAvoid extends GameState {
         // begin a new batch and draw the background and box
         if(cnt != 3 && timeremaining > 0) {
             batch.begin();
-            batch.draw(backgroundTexture, 0, 0, 1200, 750);
-            batch.draw(box, 110, 260, 300, 200);
-            batch.draw(box, 460, 260, 300, 200);
-            batch.draw(box, 810, 260, 300, 200);
+            batch.draw(intro, 30, 550, 1000, 150);
+            batch.draw(box, 110, 160, 300, 200);
+            batch.draw(box, 460, 160, 300, 200);
+            batch.draw(box, 810, 160, 300, 200);
             batch.end();  
-            // drawRectangles();
+
             setTimer(elapsedTime); 
 
             batch.begin();
-            timer.draw(batch,String.valueOf(elapsedSeconds), 600 , 600);
-            scoreFont.draw(batch,targetstring, 520 , 500);
-            scoreFont.draw(batch,"current score  " + String.valueOf(cnt),950 , 700);
-            scoreFont.draw(batch,"time remaining  " + String.valueOf(timeremaining),50 , 700);
-            scoreFont.draw(batch,String.valueOf(scorearray[0]), 260 , 400); 
-            scoreFont.draw(batch,String.valueOf(scorearray[1]), 610 , 400); 
-            scoreFont.draw(batch,String.valueOf(scorearray[2]), 960 , 400);
+            timer.draw(batch,String.valueOf(elapsedSeconds), 600 , 470);
+            scoreFont.draw(batch,targetstring, 520 , 550);
+            scoreFont.draw(batch,"current score  " + String.valueOf(cnt),950 , 550);
+            scoreFont.draw(batch,"time remaining  " + String.valueOf(timeremaining),50 , 550);
+            scoreFont.draw(batch,String.valueOf(scorearray[0]), 250 , 300); 
+            scoreFont.draw(batch,String.valueOf(scorearray[1]), 600 , 300); 
+            scoreFont.draw(batch,String.valueOf(scorearray[2]), 950 , 300);
             batch.end();
 
             player.render(); 
@@ -189,9 +188,6 @@ public class GameAvoid extends GameState {
 
     //checking to see if the player is in the correct position when the timer reaches zero
     private boolean correctposition() {
-    // /**/System.out.println(player.getPositionX());
-    // /**/System.out.println(player.getPositionY());
-
         if(pos1 == 0) {
             if( BOX1_LEFT <= player.getPositionX() && player.getPositionX() <= BOX1_RIGHT) {
                 if( BOX_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX_TOP) {
@@ -256,7 +252,6 @@ public class GameAvoid extends GameState {
         t3 = RandNum(1, 15);
 
         pos1 = RandNum(0,2);
-        System.out.println(pos1);
 
         while(pos1 == pos2) {
             pos2 = RandNum(0,2);
