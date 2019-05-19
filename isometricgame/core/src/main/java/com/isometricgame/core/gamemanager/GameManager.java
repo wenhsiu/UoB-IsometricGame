@@ -105,7 +105,7 @@ public class GameManager {
 		}
 	}
 
-	//Pass in the game inventory. 
+	// Add a medal to the inventory if the pass condition is true
 	public void checkPassedState(InventoryUI currentInventory){
 		for(String key: gameStates.keySet()){
 			if(gameStates.get(key).passed == true){
