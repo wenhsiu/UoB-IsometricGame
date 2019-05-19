@@ -13,152 +13,141 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 
 
 public class GameAvoid extends GameState {
 
-   private final int BOX_TOP = 97;
-   private final int BOX_BOTTOM = -94;
+    private final int BOX_TOP = 97;
+    private final int BOX_BOTTOM = -94;
 
-   private final int BOX1_LEFT = 5014;
-   private final int BOX1_RIGHT = 5301;
-   
-   private final int BOX2_LEFT = 5359;
-   private final int BOX2_RIGHT = 5696;
+    private final int BOX1_LEFT = 5014;
+    private final int BOX1_RIGHT = 5301;
 
-   private final int BOX3_LEFT = 5752;
-   private final int BOX3_RIGHT = 6053;
+    private final int BOX2_LEFT = 5359;
+    private final int BOX2_RIGHT = 5696;
 
-   private GameManager gm; 
-   private SpriteBatch batch;
-   private BitmapFont scoreFont; 
-   private BitmapFont timer; 
-   private String target = ""; 
-   private String targetstring = ""; 
-   private int num;
-   private ShapeRenderer shapeRenderer;
-   private Player player;
-   private int elapsedSeconds = 0;
-   private int timeremaining = 0;
-   private int pos1;
-   private int times = 0;
-   private int cnt = 0;
-   private Music backgroundMusic; 
-   long startTime = 0;
-   int scorearray[] = new int[3];
-   int pos = 0;
-   double oldx, oldy;
-   long time= 0;
-   
+    private final int BOX3_LEFT = 5752;
+    private final int BOX3_RIGHT = 6053;
 
-   // public static Texture backgroundTexture;
-   private Texture backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
-   private Texture box = new Texture("avoid_button.png");
+    private GameManager gm; 
+    private SpriteBatch batch;
+    private BitmapFont scoreFont; 
+    private BitmapFont timer; 
+    private String target = ""; 
+    private String targetstring = ""; 
+    private int num;
+    private ShapeRenderer shapeRenderer;
+    private Player player;
+    private int elapsedSeconds = 0;
+    private int timeremaining = 0;
+    private int pos1;
+    private int times = 0;
+    private int cnt = 0;
+    private Music backgroundMusic; 
+    long startTime = 0;
+    int scorearray[] = new int[3];
+    int pos = 0;
+    double oldx, oldy;
+    long time= 0;
+
+    // public static Texture backgroundTexture;
+    private Texture backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
+    private Texture box = new Texture("avoid_button.png");
+    private Texture failure = new Texture("failure_image.jpeg");
+
+    public GameAvoid(GameManager gm){
+        super();
+        this.gm = gm;
+
+        startTime = System.currentTimeMillis();
+        time = System.currentTimeMillis();
+
+        scoreFont = new BitmapFont(); 
+        scoreFont.setColor(25/255f, 35/255f, 76/255f, 1f);
+        scoreFont.setScale(2,2);
 
 
-   public GameAvoid(GameManager gm){
-       
-	    super();
-      this.gm = gm;
-      
-      startTime = System.currentTimeMillis();
-      time = System.currentTimeMillis();
-      
-      scoreFont = new BitmapFont(); 
-      scoreFont.setColor(25/255f, 35/255f, 76/255f, 1f);
-		  scoreFont.setScale(2,2);
-      
+        timer = new BitmapFont(); 
+        timer.setColor(25/255f, 35/255f, 76/255f, 1f);
+        timer.setScale(4,4);
 
-      timer = new BitmapFont(); 
-      timer.setColor(25/255f, 35/255f, 76/255f, 1f);
-      timer.setScale(4,4);
-    
-      // backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
+        // backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
 
-      target =generatebinarynumber();
-      targetstring = "What is " + target;
-      generatetargets();
-          
-      batch = new SpriteBatch();
-      player = gm.getPlayer();
-      shapeRenderer = new ShapeRenderer();
-      
-   }
+        target =generatebinarynumber();
+        targetstring = "What is " + target;
+        generatetargets();
+
+        batch = new SpriteBatch();
+        player = gm.getPlayer();
+        shapeRenderer = new ShapeRenderer();
+    }
       
 	@Override
 	public void render(float delta) {
-    
-       if(pos == 0) {
-          oldx = player.getPositionX();
-          oldy = player.getPositionY();
+        if(pos == 0) {
+            oldx = player.getPositionX();
+            oldy = player.getPositionY();
         }
         pos++;
         times++;
-        long elapsedTime = System.currentTimeMillis() - startTime; //creating a time that counts down
+        //creating a time that counts down
+        long elapsedTime = System.currentTimeMillis() - startTime; 
         long timeleft = System.currentTimeMillis() - time;
-        
+
         if(times == 1) {
-          backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("10secondcountdown.mp3")); 
-          backgroundMusic.setLooping(true);
-          backgroundMusic.play();
+            backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("10secondcountdown.mp3")); 
+            backgroundMusic.setLooping(true);
+            backgroundMusic.play();
         }
        
         if(times == 1 || elapsedSeconds == 0) {
             if(correctposition() && times != 0) {
                 cnt++;
                 /**/System.out.println("conut: " + cnt);       
-              }
-              else {
+            } else {
                 cnt = 0;
-              }          
-          target = "";
-          target = generatebinarynumber();
-          targetstring = "What is " + target;
-          generatetargets();
-          startTime = System.currentTimeMillis();
-          
-        }
-       settimeremaining(timeleft);
-        
-        if (timeremaining == 0) {
-            backgroundMusic.stop();
-            player.setPositionX((int)oldx);
-            player.setPositionY((int)oldy);
-            gm.setCurrGameState("MAINGAME");
+            }       
+            target = "";
+            target = generatebinarynumber();
+            targetstring = "What is " + target;
+            generatetargets();
+            startTime = System.currentTimeMillis();
         }
 
-	   Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-	   Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); 
-     
-	   super.render(delta);
-	   
-	   // begin a new batch and draw the background and box
-       
-       batch.begin();
-       batch.draw(backgroundTexture, 0, 0, 1200, 750);
-       batch.draw(box, 110, 260, 300, 200);
-       batch.draw(box, 460, 260, 300, 200);
-       batch.draw(box, 810, 260, 300, 200);
-       batch.end();  
-       // drawRectangles();
-       setTimer(elapsedTime); 
-       
-       
+        settimeremaining(timeleft);
 
-       batch.begin();
-       timer.draw(batch,String.valueOf(elapsedSeconds), 600 , 600);
-       
-       scoreFont.draw(batch,targetstring, 520 , 500);
-       scoreFont.draw(batch,"current score  " + String.valueOf(cnt),950 , 700);
-       scoreFont.draw(batch,"time remaining  " + String.valueOf(timeremaining),50 , 700);
-       scoreFont.draw(batch,String.valueOf(scorearray[0]), 260 , 400/*360*/); 
-       scoreFont.draw(batch,String.valueOf(scorearray[1]), 610 , 400/*360*/); 
-       scoreFont.draw(batch,String.valueOf(scorearray[2]), 960 , 400/*360*/);
-       batch.end();
+        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); 
 
-       player.render(); 
+        super.render(delta);
 
-         if(cnt == 3) {
+        // begin a new batch and draw the background and box
+        if(cnt != 3 && timeremaining > 0) {
+            batch.begin();
+            batch.draw(backgroundTexture, 0, 0, 1200, 750);
+            batch.draw(box, 110, 260, 300, 200);
+            batch.draw(box, 460, 260, 300, 200);
+            batch.draw(box, 810, 260, 300, 200);
+            batch.end();  
+            // drawRectangles();
+            setTimer(elapsedTime); 
+
+            batch.begin();
+            timer.draw(batch,String.valueOf(elapsedSeconds), 600 , 600);
+            scoreFont.draw(batch,targetstring, 520 , 500);
+            scoreFont.draw(batch,"current score  " + String.valueOf(cnt),950 , 700);
+            scoreFont.draw(batch,"time remaining  " + String.valueOf(timeremaining),50 , 700);
+            scoreFont.draw(batch,String.valueOf(scorearray[0]), 260 , 400); 
+            scoreFont.draw(batch,String.valueOf(scorearray[1]), 610 , 400); 
+            scoreFont.draw(batch,String.valueOf(scorearray[2]), 960 , 400);
+            batch.end();
+
+            player.render(); 
+        }
+
+        if(cnt == 3) {
             backgroundMusic.stop();
             player.setPositionX((int)oldx);
             player.setPositionY((int)oldy);
@@ -167,129 +156,122 @@ public class GameAvoid extends GameState {
             passed = true;
             // back to main game
             gm.setCurrGameState("MAINGAME");
-         }
+        } else if (timeremaining <= 0) {
+            backgroundMusic.stop();
+            batch.begin();
+            batch.draw(failure, 0, 0, 1200, 750);
+            batch.end();
+            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) { 
+                player.setPositionX((int)oldx);
+                player.setPositionY((int)oldy);
+                gm.setCurrGameState("MAINGAME");
+            }
+        }
   
-      // System.out.println("X"+player.getPositionX());
-      // System.out.println("Y"+player.getPositionY());
-     }
+        // System.out.println("X"+player.getPositionX());
+        // System.out.println("Y"+player.getPositionY());
+    }
      
-     private void drawRectangles() {
-        shapeRenderer.begin(ShapeType.Filled);
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.rect(110, 260, 300, 200);
-        shapeRenderer.rect(460, 260, 300, 200);
-        shapeRenderer.rect(810, 260, 300, 200);
-        shapeRenderer.end(); 
-     }
-     
-     // setting timer reducing time as the players score increases making it harder.
-     private void setTimer(long elapsedTime) {
+    // setting timer reducing time as the players score increases making it harder.
+    private void setTimer(long elapsedTime) {
         if (cnt == 0) {
             elapsedSeconds = 10 - (int)elapsedTime / 1000; 
-            }
-         else if ( cnt == 1) {
+        } else if ( cnt == 1) {
             elapsedSeconds = 7 - (int)elapsedTime / 1000; 
-            }   
-         else if ( cnt == 2) {
+        } else if ( cnt == 2) {
             elapsedSeconds = 5 - (int)elapsedTime / 1000; 
-            } 
-     }
+        } 
+    }
 
-     private void settimeremaining(long elapsedTime) {
-       timeremaining = 60 - (int)elapsedTime / 1000;
-     }   
-     //checking to see if the player is in the correct position when the timer reaches zero
-     private boolean correctposition() {
-        // /**/System.out.println(player.getPositionX());
-        // /**/System.out.println(player.getPositionY());
+    private void settimeremaining(long elapsedTime) {
+        timeremaining = 60 - (int)elapsedTime / 1000;
+    }
+
+    //checking to see if the player is in the correct position when the timer reaches zero
+    private boolean correctposition() {
+    // /**/System.out.println(player.getPositionX());
+    // /**/System.out.println(player.getPositionY());
 
         if(pos1 == 0) {
-         if( BOX1_LEFT <= player.getPositionX() && player.getPositionX() <= BOX1_RIGHT) {
-           if( BOX_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX_TOP) {
-               return true;
+            if( BOX1_LEFT <= player.getPositionX() && player.getPositionX() <= BOX1_RIGHT) {
+                if( BOX_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX_TOP) {
+                    return true;
                 }
-              }
             }
-    
-        else if(pos1 == 1) {
-               if( BOX2_LEFT <= player.getPositionX() && player.getPositionX() <= BOX2_RIGHT) {
-                 if( BOX_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX_TOP) {
-                  return true;
-                    }
-                  }
+        } else if(pos1 == 1) {
+            if( BOX2_LEFT <= player.getPositionX() && player.getPositionX() <= BOX2_RIGHT) {
+                if( BOX_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX_TOP) {
+                    return true;
                 }
-        else if(pos1 == 2) {
-               if(BOX3_LEFT <= player.getPositionX() && player.getPositionX() <= BOX3_RIGHT) {
-                 if( BOX_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX_TOP) {
-                   return true;
-                   }
-                  }
+            }
+        } else if(pos1 == 2) {
+            if(BOX3_LEFT <= player.getPositionX() && player.getPositionX() <= BOX3_RIGHT) {
+                if( BOX_BOTTOM <= player.getPositionY() && player.getPositionY() <= BOX_TOP) {
+                    return true;
                 }
+            }
+        }
+
         return false;
+    }
 
-     }
-
-
-     private String generatebinarynumber() {
-        
+    private String generatebinarynumber() {
         for(int i=0; i < 4; i++) {
-             if(RandNum(1,100)%2 == 0) {
-                 target += "1";
-             } 
-             else {
-                 target += "0";
-             }
-            }     
-        
+            if(RandNum(1,100)%2 == 0) {
+                target += "1";
+            } else {
+                target += "0";
+            }
+        }     
+
         return target ;
-     }
+    }
 
         
- private int RandNum(double min, double max){
-	double n;
-	n = (Math.random()*((max-min)+1))+min;
-	num = (int)n;
-	return num;
+    private int RandNum(double min, double max){
+        double n;
+        n = (Math.random()*((max-min)+1))+min;
+        num = (int)n;
+        return num;
     }
     
- // generates the target and 2 random numbers then inserts these 3 numbers into an array randomly so that the position of
- // the correct number moves between the 3 places
-
- private void generatetargets() {
-    int t1, t2, t3, pos2=0;
-    int  pos3 = 0;
-    t1 = CheckScore();
-    t2 = t1;
-    t3 = t1;
+    // generates the target and 2 random numbers then inserts these 3 numbers 
+    // into an array randomly so that the position of
+    // the correct number moves between the 3 places
+    private void generatetargets() {
+        int t1, t2, t3, pos2=0;
+        int  pos3 = 0;
+        t1 = CheckScore();
+        t2 = t1;
+        t3 = t1;
     
-    while( t1 == t2) {
-      t2 = RandNum(1, 15);
-      }
+        while( t1 == t2) {
+            t2 = RandNum(1, 15);
+        }
     
-    while( t1 == t3) {
-      t3 = RandNum(1, 15);
-      }
+        while( t1 == t3) {
+            t3 = RandNum(1, 15);
+        }
     
-    t3 = RandNum(1, 15);
+        t3 = RandNum(1, 15);
 
-     pos1 = RandNum(0,2);
-     System.out.println(pos1);
-     
-     while(pos1 == pos2) {
-        pos2 = RandNum(0,2);
-     }
+        pos1 = RandNum(0,2);
+        System.out.println(pos1);
 
-     while(pos3 == pos1 || pos3 == pos2) {
-         pos3 = RandNum(0,2); 
+        while(pos1 == pos2) {
+            pos2 = RandNum(0,2);
+        }
 
-     }
+        while(pos3 == pos1 || pos3 == pos2) {
+            pos3 = RandNum(0,2); 
+        }
 
-    scorearray[pos1] = t1;
-    scorearray[pos2] = t2;
-    scorearray[pos3] = t3;
+        scorearray[pos1] = t1;
+        scorearray[pos2] = t2;
+        scorearray[pos3] = t3;
     }
     
-     /*this function checks to see if the binary matches the target */
+    // this function checks to see if the binary matches the target 
 	public int CheckScore() {
 		int Total = 0;
 
@@ -315,11 +297,11 @@ public class GameAvoid extends GameState {
 
 	@Override
 	public void dispose() {
-	   // dispose of all the native resources
-	     batch.dispose();
-       scoreFont.dispose();
-       timer.dispose();
-       shapeRenderer.dispose();
-       backgroundTexture.dispose();
+        // dispose of all the native resources
+        batch.dispose();
+        scoreFont.dispose();
+        timer.dispose();
+        shapeRenderer.dispose();
+        backgroundTexture.dispose();
 	}
 }

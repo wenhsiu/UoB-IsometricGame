@@ -85,7 +85,7 @@ public class Puzzles implements ApplicationListener {
 					// LibGDX is funny about iterators - hence refactoring
 					puzzles.get(i).removeFromTarget();
 				}
-				resetSource();
+				setSourceImages();
 				targetAnswer = new String[5];
             }
         } else {
@@ -110,7 +110,6 @@ public class Puzzles implements ApplicationListener {
 
 	public boolean checkTagetAnswer() {
 		float temp;
-		// String ans = "";
 
 		for(int i = 0; i <  8; i++) {
 			if(puzzles.get(i).isLocated()) {
@@ -142,19 +141,6 @@ public class Puzzles implements ApplicationListener {
 			for(int j = 0 ; j < 5; j++) {
 				puzzles.get(i).setDragTarget(targets.get(j).getImage(), 290 + j * 110);
 			}
-			
-		}
-	}
-
-	private void resetSource() {
-		for(int i = 0; i < 8; i++) {
-			puzzles.get(i).setBounds(180 + i * 110, 50, 100, 100);
-			puzzles.get(i).setActor(stage);
-			puzzles.get(i).setDragSource();
-			for(int j = 0 ; j < 5; j++) {
-				puzzles.get(i).setDragTarget(targets.get(j).getImage(), 290 + j * 110);
-			}
-			
 		}
 	}
 
