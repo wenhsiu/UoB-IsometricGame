@@ -199,8 +199,6 @@ public class GameDrop extends GameState {
             }
 		}
 
-		
-
 		// Process user input
 		if (Gdx.input.isTouched()) {
 			Vector3 touchPos = new Vector3();
@@ -272,17 +270,6 @@ public class GameDrop extends GameState {
 			target = "target  " + RandNum(0, 15);
 			change = true;						
 		}
-
-		// if (right == 1) {
-		// 	gm.inventoryAddMedals();
-		// 	passed = true;
-		// 	gm.setCurrGameState("MAINGAME");
-		// 	//medal = true;
-		// }
-
-		// if (wrong == 1) {
-		// 	gm.setCurrGameState("MAINGAME");
-		// }
 
 	/*	if(change) {
 			try {

@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Input;
 
 
 import java.util.ArrayList; 
@@ -34,10 +36,11 @@ public class GameMaze extends GameState {
 
 	private SpriteBatch batch;
 
-	private Texture digit0;
-	private Texture digit1;
-	private Texture noexit;
-	private Texture exit;
+	private Texture digit0 = new Texture("0 (1).png"); 
+	private Texture digit1 = new Texture("1 (1).png");
+	private Texture noexit = new Texture("entry_blue.png");
+	private Texture exit = new Texture("entry_yellow.png");
+	private Texture failure = new Texture("failure_image.jpeg");
 
 
 	private BitmapFont scoreFont; 
@@ -71,11 +74,6 @@ public class GameMaze extends GameState {
 		timer = new BitmapFont(); 
 		timer.setColor(Color.GREEN);
 		timer.setScale(5,5);
-
-		digit0 = new Texture(Gdx.files.internal("0 (1).png")); 
-		digit1 = new Texture(Gdx.files.internal("1 (1).png"));
-		noexit = new Texture(Gdx.files.internal("entry_blue.png"));
-		exit = new Texture(Gdx.files.internal("entry_yellow.png"));
 
 		myScore = "COLLECTED"; 
 		num = options[RandNum()];
@@ -121,38 +119,60 @@ public class GameMaze extends GameState {
 			
 		renderer.render();
 
-		batch.begin();
+		if(score.size() != 4 && timeReamining > 0) {
+			batch.begin();
 
-		timer.draw(batch,String.valueOf(timeReamining), 1000 , 700);
+			timer.draw(batch,String.valueOf(timeReamining), 1000 , 700);
+			player.draw(batch);
 
-		player.draw(batch);
+			checkDigitsHit();
 
-		checkDigitsHit();
+			if(cnt1 == 0){
+				batch.draw(digit1, 309, 93, 22, 22);
+			}
+			if(cnt2 == 0){
+				batch.draw(digit0, 309, 487, 22, 22);
+			}
+			if(cnt3 == 0){
+				batch.draw(digit0, 544, 551, 22, 22);
+			}
+			if(cnt4 == 0){
+				batch.draw(digit1, 885, 381, 22, 22);
+			}
 
-		if(cnt1 == 0){
-			batch.draw(digit1, 309, 93, 22, 22);
+			if(score.size() == 4 && checkScore()){
+				batch.draw(exit, 890, 650, 50, 50);
+			}
+			else{
+				batch.draw(noexit, 890, 650, 50, 50);
+			}
+
+			scoreFont.draw(batch, myScore, 0, 700); 
+			scoreFont.draw(batch, target, 0, 500);
+
+			batch.end();
+		} else if(score.size() == 4) {
+			if(checkScore()){
+				//set the first game state passed to true so that the trigger point can detect correctly
+				gm.inventoryAddMedals();
+				passed = true;
+				gm.setCurrGameState("MAINGAME");
+			} else {
+				batch.begin();
+	            batch.draw(failure, 0, 0, 1200, 750);
+	            batch.end();
+	            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) { 
+	                gm.setCurrGameState("MAINGAME");
+	            }
+			}
+		} else if(timeReamining <= 0){
+			batch.begin();
+            batch.draw(failure, 0, 0, 1200, 750);
+            batch.end();
+            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) { 
+                gm.setCurrGameState("MAINGAME");
+            }
 		}
-		if(cnt2 == 0){
-			batch.draw(digit0, 309, 487, 22, 22);
-		}
-		if(cnt3 == 0){
-			batch.draw(digit0, 544, 551, 22, 22);
-		}
-		if(cnt4 == 0){
-			batch.draw(digit1, 885, 381, 22, 22);
-		}
-
-		if(score.size() == 4 && checkScore()){
-			batch.draw(exit, 890, 650, 50, 50);
-		}
-		else{
-			batch.draw(noexit, 890, 650, 50, 50);
-		}
-
-		scoreFont.draw(batch, myScore, 0, 700); 
-		scoreFont.draw(batch, target, 0, 500);
-
-		batch.end();
 
 		//System.out.println(player.getX());
 		//System.out.println(player.getY());
@@ -161,15 +181,6 @@ public class GameMaze extends GameState {
 		if(score.size() > 0){
 			System.out.println(score.get(0));
 		}
-
-		if(score.size() == 4){
-			endGame();
-		}
-
-		if(timeReamining == 0){
-       		gm.setCurrGameState("MAINGAME");
-		}
-
 
 		/*renderer.getSpriteBatch().begin();
 		player.draw(renderer.getSpriteBatch());
