@@ -122,7 +122,8 @@ public class Presentation extends GameState{
             cnt = 0;
         }
 
-        if(cnt == 24){
+        if(cnt > 23){
+            cnt = 0; 
             gm.setCurrGameState("MENU");
         }
 

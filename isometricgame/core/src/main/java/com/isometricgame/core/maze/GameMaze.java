@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Input;
+import com.isometricgame.core.ui.InventoryUI;
 
 
 import java.util.ArrayList; 
@@ -52,7 +53,7 @@ public class GameMaze extends GameState {
 
 	private int cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0;
 	
-	private List<Integer> score = new ArrayList<Integer>();
+	private List<Integer> score = new ArrayList<>();
 	private int num;
 
 	private BitmapFont timer; 
@@ -90,7 +91,7 @@ public class GameMaze extends GameState {
 		//camera = new OrthographicCamera();
 		player = new Character(new Sprite(new Texture("reddot.png")), (TiledMapTileLayer) map.getLayers().get("Walls"));
 		 //maybe change cordinates as they may start from diff origin
-		player.setPosition(275, 60);
+		player.setPosition(300, 60);
 		player.setScale((float)0.3);
 		// player.setSize(8, 8);
 
@@ -222,7 +223,8 @@ public class GameMaze extends GameState {
 	}
 
 	private void setTimeRemaining(long elaspedTime){
-		timeReamining = 200 - (int)elaspedTime / 1000;
+		int time = gm.getMazeTime();
+		timeReamining = time - (int)elaspedTime / 1000;
 	}
 
 	private int RandNum(){
