@@ -30,12 +30,7 @@ import java.util.Iterator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 public class GameDrop extends GameState {
-
 	private GameManager gm;
-
-	private Texture dropImage0;
-	private Texture dropImage1;
-	private Texture bucketImage;
 	private Sound dropSound;
 	private Music rainMusic;
 	private SpriteBatch batch;
@@ -50,19 +45,20 @@ public class GameDrop extends GameState {
 	private String myDropScore;
 	private Player player;
 	private int pos = 0;
-	private double oldx, oldy;
+	// private double oldx, oldy;
 	private int right = 0;
-	private int Wrong = 0;
+	private int wrong = 0;
 	private boolean change = true;
-
 	private boolean medal;
 
-	// private FreeTypeFontGenerator generator;
-	// private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-	// private BitmapFont testFont;
-
 	// Background images.
-	public static Texture backgroundTexture;
+	public static Texture backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
+	// drops
+	private Texture dropImage0 = new Texture("drop0.png");
+	private Texture dropImage1 = new Texture("drop1.png");
+	private Texture bucketImage = new Texture("yellowbucket.png");
+	private Texture failure = new Texture("failure_image.jpeg");
+
 	public static Sprite backgroundSprite;
 	private List<Integer> Score = new ArrayList<Integer>();
 
@@ -82,22 +78,6 @@ public class GameDrop extends GameState {
 		scoreFont = new BitmapFont();
 		scoreFont.setColor(25 / 255f, 35 / 255f, 76 / 255f, 1f);
 		scoreFont.setScale(2);
-
-		// generator = new
-		// FreeTypeFontGenerator(Gdx.files.internal("font/slkscre.ttf"));
-		// parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		// parameter.size = 12;
-		// testFont = generator.generateFont(parameter);
-
-		// scoreFont.getData().setScale(2, 2);
-
-		backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
-
-		// load the images for the droplet and the bucket, 64x64 pixels each
-
-		dropImage0 = new Texture(Gdx.files.internal("drop0.png"));
-		dropImage1 = new Texture(Gdx.files.internal("drop1.png"));
-		bucketImage = new Texture(Gdx.files.internal("yellowbucket.png"));
 
 		// load the drop sound effect and the rain background "music"
 		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
@@ -163,17 +143,16 @@ public class GameDrop extends GameState {
 	@Override
 	public void render(float delta) {
 
-		if (pos == 0) {
-			oldx = player.getPositionX();
-			oldy = player.getPositionY();
-		}
-		pos++;
+		// if (pos == 0) {
+		// 	oldx = player.getPositionX();
+		// 	oldy = player.getPositionY();
+		// }
+		// pos++;
 
 		// clear the screen with a dark blue color. The
 		// arguments to glClearColor are the red, green
 		// blue and alpha component in the range [0,1]
 		// of the color to be used to clear the screen.
-
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -183,31 +162,44 @@ public class GameDrop extends GameState {
 		// begin a new batch and draw the bucket and
 		// all drops
 
-		batch.begin();
-		// batch.draw(backgroundTexture, 0, 0);
+		if(right != 1 && wrong != 1) {
+			batch.begin();
+			batch.draw(backgroundTexture, 0, 0, 1200, 750);
 
-		// batch.draw(backgroundTexture, 0, 0);
-		batch.draw(backgroundTexture, 0, 0, 1200, 750);
+			batch.draw(bucketImage, bucket.x, bucket.y);
 
-		batch.draw(bucketImage, bucket.x, bucket.y);
+			scoreFont.draw(batch, myDropScore, 200, 700);
+			scoreFont.draw(batch, target, 0, 700);
 
-		scoreFont.draw(batch, myDropScore, 200, 700);
-		scoreFont.draw(batch, target, 0, 700);
+			scoreFont.draw(batch, "number correct  " + String.valueOf(right), 650, 700);
+			scoreFont.draw(batch, "number incorrect  " + String.valueOf(wrong), 950, 700);
 
-		scoreFont.draw(batch, "number correct  " + String.valueOf(right), 650, 700);
-		scoreFont.draw(batch, "number incorrect  " + String.valueOf(Wrong), 950, 700);
+			for (Rectangle raindrop0 : raindrops0) {
+				batch.draw(dropImage0, raindrop0.x, raindrop0.y);
+			}
+
+			for (Rectangle raindrop1 : raindrops1) {
+				batch.draw(dropImage1, raindrop1.x, raindrop1.y);
+			}
+
+			batch.end();
+		} else if (right == 1) {
+			gm.inventoryAddMedals();
+			passed = true;
+			gm.setCurrGameState("MAINGAME");
+			//medal = true;
+		} else if (wrong == 1) {
+			dropSound.stop();
+			rainMusic.stop();
+			batch.begin();
+            batch.draw(failure, 0, 0, 1200, 750);
+            batch.end();
+            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) { 
+                gm.setCurrGameState("MAINGAME");
+            }
+		}
 
 		
-
-		for (Rectangle raindrop0 : raindrops0) {
-			batch.draw(dropImage0, raindrop0.x, raindrop0.y);
-		}
-
-		for (Rectangle raindrop1 : raindrops1) {
-			batch.draw(dropImage1, raindrop1.x, raindrop1.y);
-		}
-
-		batch.end();
 
 		// Process user input
 		if (Gdx.input.isTouched()) {
@@ -273,7 +265,7 @@ public class GameDrop extends GameState {
 			if (CheckScore()) {
 				right++;
 			} else {
-				Wrong++;
+				wrong++;
 			}
 
 			Score.clear();
@@ -281,20 +273,16 @@ public class GameDrop extends GameState {
 			change = true;						
 		}
 
-		if (right == 1) {
-//			player.setPositionX((int) oldx - 100); // will need to change these when moving post box around
-//			player.setPositionY((int) oldy - 50);
-			gm.inventoryAddMedals();
-			passed = true;
-			gm.setCurrGameState("MAINGAME");
-			//medal = true;
-		}
+		// if (right == 1) {
+		// 	gm.inventoryAddMedals();
+		// 	passed = true;
+		// 	gm.setCurrGameState("MAINGAME");
+		// 	//medal = true;
+		// }
 
-		if (Wrong == 1) {
-//			player.setPositionX((int)oldx-100); // will need to change these when moving post box around
-//			player.setPositionY((int)oldy-50);
-			gm.setCurrGameState("MAINGAME");
-		}
+		// if (wrong == 1) {
+		// 	gm.setCurrGameState("MAINGAME");
+		// }
 
 	/*	if(change) {
 			try {
