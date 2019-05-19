@@ -163,7 +163,7 @@ public class InventoryUI extends Window {
     public void addItemToInventory(InventoryItem item, String itemName) {
         Array<Cell> sourceCells = inventorySlotTable.getCells();
 
-        if((itemName.equals("COIN") && noCoins == 0) || (itemName.equals("MEDAL") && noMedals == 0)) {
+        if((itemName.equals("COIN") && noCoins == 0) || (itemName.equals("MEDAL"))) {
             for(int index = 0; index < sourceCells.size; index++) {
                 InventorySlot inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
                 if(!(inventorySlot == null)) {
@@ -197,4 +197,26 @@ public class InventoryUI extends Window {
     public Array<Actor> getInventoryActors() {
         return inventoryActors;
     }
+
+    public int getInventoryTime() {
+        int time = (noCoins * 2) + (noMedals * 20);
+        return time;
+    }
+
+    public int getNoCoins() {
+        return noCoins;
+    }
+
+    public void setNoCoins(int noCoins) {
+        this.noCoins = noCoins;
+    }
+
+    public int getNoMedals() {
+        return noMedals;
+    }
+
+    public void setNoMedals(int noMedals) {
+        this.noMedals = noMedals;
+    }
+
 }

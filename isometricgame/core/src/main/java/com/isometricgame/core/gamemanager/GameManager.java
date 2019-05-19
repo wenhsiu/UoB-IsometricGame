@@ -139,9 +139,9 @@ public class GameManager {
 			newGS = new GameAvoid(this);
 		}else if(gsName.contains("FINALGAME")) {
 			newGS = new GameMaze(this);
-		} else if(gsName.contains("PRESENTATION")) {//why new Presentation here?
+		} /* else if(gsName.contains("PRESENTATION")) {//why new Presentation here?
 			newGS = new Presentation(this);
-		};  
+		} */;  
 		
 		if(newGS != null) {
 			gameStates.put(gsName, newGS);
@@ -162,5 +162,13 @@ public class GameManager {
 				gameStates.put("GUIDE", new GameGuide(this));
 			}
 		}
+	}
+
+	public int getMazeTime() {
+		return inventoryUI.getInventoryTime();
+	}
+
+	public int getNumCoins() {
+		return inventoryUI.getNoCoins();
 	}
 }
