@@ -1,11 +1,15 @@
 package com.isometricgame.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.isometricgame.core.charactermanager.TriggerPoint;
 import com.isometricgame.core.gamemanager.GameManager;
+import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
 
 public class FinalBoss extends TriggerPoint{
 	
@@ -17,6 +21,7 @@ public class FinalBoss extends TriggerPoint{
 	private float updatedSizeX;
 	private float updatedSizeY;
 	
+	
 //	private Animation breath;
 
 	public FinalBoss(float x, float y, float scale, GameManager gm, String gameName, String triggerText) {
@@ -24,6 +29,8 @@ public class FinalBoss extends TriggerPoint{
 		super.initTriggerPoint("finalBoss_right.png", 0, 0, 333, 394);
 		this.scale = scale;
 		dt = Gdx.graphics.getDeltaTime();
+		cost = new HashMap<ItemTypeID, Integer>();
+		cost.put(ItemTypeID.COIN, 5);
 	}
 	
 	@Override
@@ -40,4 +47,10 @@ public class FinalBoss extends TriggerPoint{
 		batch.end();
 	}
 
+	@Override
+	public void triggerGame() {
+		if(gm.inventoryGetItemNumber(ItemTypeID.COIN) == cost.get(ItemTypeID.COIN)) {
+			super.triggerGame();
+		}
+	}
 }

@@ -163,6 +163,7 @@ public class GameAvoid extends GameState {
             player.setPositionX((int)oldx);
             player.setPositionY((int)oldy);
             //set the first game state passed to true so that the trigger point can detect correctly
+            gm.inventoryAddMedals();
             passed = true;
             // back to main game
             gm.setCurrGameState("MAINGAME");

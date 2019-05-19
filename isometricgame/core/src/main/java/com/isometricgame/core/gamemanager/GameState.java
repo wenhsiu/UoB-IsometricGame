@@ -25,7 +25,7 @@ public abstract class GameState implements Screen {
 		return passed;
 	}
 	
-	public void setPassState(boolean pass) {
+	public void setPassState(boolean pass) {		
 		passed = pass;
 	}
 	

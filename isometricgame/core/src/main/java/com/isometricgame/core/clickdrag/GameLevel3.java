@@ -54,7 +54,8 @@ public class GameLevel3 extends GameState {
 	            batch.draw(nextActive, NEXT_X, NEXT_Y, NEXT_WIDTH, NEXT_HEIGHT);
 	            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {                
 	                // set the first game state passed to true so that the trigger point can detect correctly
-					passed = true;               
+					passed = true;
+					gm.inventoryAddMedals();
 	                // go back to GAMEMAIN
 					gm.setCurrGameState("MAINGAME");
 	            }

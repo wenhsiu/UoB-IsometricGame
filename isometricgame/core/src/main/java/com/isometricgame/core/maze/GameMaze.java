@@ -323,7 +323,8 @@ public class GameMaze extends GameState {
 			if((player.getY() >= 650) && (player.getY() < 650 + 50)){
 				if(checkScore()){
 					//set the first game state passed to true so that the trigger point can detect correctly
-            		passed = true;
+					gm.inventoryAddMedals();
+					passed = true;
 					gm.setCurrGameState("MAINGAME");
 				}
 			}

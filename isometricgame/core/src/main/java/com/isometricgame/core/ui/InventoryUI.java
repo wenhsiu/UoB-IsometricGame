@@ -68,15 +68,40 @@ public class InventoryUI extends Window {
     public static Array<InventoryItemLocation> removeInventoryItems(String name, Table inventoryTable) {
         Array<Cell> cells = inventoryTable.getCells();
         Array<InventoryItemLocation> items = new Array<InventoryItemLocation>();
+        
         for(int i = 0; i < cells.size; i++) {
             InventorySlot inventorySlot = (InventorySlot) cells.get(i).getActor();
             if(!(inventorySlot == null)) {
                 inventorySlot.removeAllInventoryItemsWithName(name);
             }
         }
-        return items;
+        return items;//item should be empty?
+    }
+    
+    public void removeOneItemFromInventory(ItemTypeID itemID) {
+    	switch(itemID) {
+    	case COIN:
+    		if(noCoins > 0) {
+    			noCoins--;
+    			/**/System.out.println("Number of coins is " + noCoins);
+    		}
+    		break;
+    	case MEDAL:
+    		if(noMedals > 0) {
+    			noMedals--;
+    		}
+    		break;
+    	default:
+    	}
+    	
     }
 
+    public int getItemNumber(ItemTypeID itemID) {
+    	if(itemID == ItemTypeID.COIN) {return noCoins;}
+    	else if(itemID == ItemTypeID.MEDAL) {return noMedals;}
+    	return -1;//no type matches.
+    }
+    
     public static void populateInventory(Table targetTable, Array<InventoryItemLocation> inventoryItems,
                                          String defaultName, boolean disableNonDefaultItems) {
         clearInventoryItems(targetTable);
@@ -138,7 +163,7 @@ public class InventoryUI extends Window {
     public void addItemToInventory(InventoryItem item, String itemName) {
         Array<Cell> sourceCells = inventorySlotTable.getCells();
 
-        if(itemName.equals("COIN") && noCoins == 0 || itemName.equals("MEDAL") && noMedals == 0) {
+        if((itemName.equals("COIN") && noCoins == 0) || (itemName.equals("MEDAL") && noMedals == 0)) {
             for(int index = 0; index < sourceCells.size; index++) {
                 InventorySlot inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
                 if(!(inventorySlot == null)) {

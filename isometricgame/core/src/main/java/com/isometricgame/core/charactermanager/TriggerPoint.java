@@ -1,14 +1,19 @@
 package com.isometricgame.core.charactermanager;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
+import com.isometricgame.core.Boss;
+import com.isometricgame.core.Penguin;
+import com.isometricgame.core.Villager;
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
+import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
 
 public class TriggerPoint {
 	
@@ -24,13 +29,15 @@ public class TriggerPoint {
 	protected SpriteBatch batch;
 	protected TextureRegion region;
 	private float scale;
-	private GameManager gm;
+	protected GameManager gm;
 	private String gsName;
-	
+		
 	private boolean triggerred;
 	
-	private Map<String, Integer> cost; //the properties player has to collect to trigger this game
+	protected Map<ItemTypeID, Integer> cost; //the properties player has to collect to trigger this game
 	private String triggerText;
+	
+	private Map<String, People> guards;
 	
 	public TriggerPoint(float x, float y, float scale, GameManager gm, String gameName, String triggerText) {
 		posX = x;
@@ -40,6 +47,35 @@ public class TriggerPoint {
 		this.gm = gm;
 		gsName = gameName;
 		this.triggerText = triggerText;
+		guards = new HashMap<String, People>();
+	}
+	
+	public void initGuards(String pplName, float x, float y) {
+		if(!guards.containsKey(pplName)) {
+			People p = null;
+			String type;
+			type = pplName.split("_")[0].toLowerCase();			
+			if(type.equals("boss")) {
+				p = new Boss(x, y);
+			} else if(type.equals("villager")) {
+				p = new Villager(x, y);
+			} else if(type.equals("penguin")) {
+				p = new Penguin(x, y);
+			}
+			
+			p.create();			
+			if(p != null) {
+				guards.put(pplName, p);				
+			}
+		}	
+	}
+	
+	public People getGuardByName(String pplName) {
+		return guards.get(pplName);
+	}
+	
+	public void removeGuardByName(String pplName) {
+		guards.remove(pplName);
 	}
 	
 	public void initTriggerPoint(String materials, int sx, int sy, int ex, int ey) {
@@ -59,9 +95,13 @@ public class TriggerPoint {
 	}
 	
 	public void updateTriggerPoint() {
+		if(gm.getGameState(gsName) != null && gm.getGameState(gsName).getPassState()) {
+			//if this gameState has been created and passed, remove guards
+			
+		}
 		batch.begin();
-		batch.draw(region, posX, posY, sizeX, sizeY);
-		batch.end();
+		batch.draw(region, posX, posY, sizeX, sizeY);		
+		batch.end();		
 	}
 	
 	public SpriteBatch getBatch() {
