@@ -47,10 +47,10 @@ public class GameMAIN extends GameState {
 	private IsometricTiledMapRenderer mapRenderer;
 
 	//-------- Inventory --------
-	public final OrthographicCamera hudcam;
+/*	public final OrthographicCamera hudcam;
 	private PlayerHUD playerHUD;
 	private InventoryUI inventoryUI;
-
+*/
 	//-------- Layers --------
 	private TiledMapTileLayer transparentBlockedLayer;
 	private TiledMapTileLayer baseObjLayer;
@@ -132,13 +132,13 @@ public class GameMAIN extends GameState {
 		initMapAndLayer();
 
 		// PlayerHUD
-		hudcam = new OrthographicCamera(width, height);
+/*		hudcam = new OrthographicCamera(width, height);
 		hudcam.translate(width / 2, height / 2);
 		hudcam.setToOrtho(true);
 		playerHUD = new PlayerHUD(hudcam);
-		
+*/		
 		// Import inventory
-		inventoryUI = playerHUD.getInventoryUI();
+//		inventoryUI = playerHUD.getInventoryUI();
 		
 		initProperties();
 		initPeople();
@@ -176,19 +176,21 @@ public class GameMAIN extends GameState {
 		//show the trigger text if there is any to show. 
 		/* showTriggerText(x, y); */
 
-		System.out.println("Values of X and Y = " + x + " , " + y);
+//		System.out.println("Values of X and Y = " + x + " , " + y);
 
 		cam.position.set(x, y, 0);
 
-		playerHUD.render(delta);
-		hudcam.update();	
+		gm.renderInventory(delta);
+//		playerHUD.render(delta);
+//		hudcam.update();	
 		
 		// Add coins to inventory
 		if(checkPropertyCollisions(x, y)) {
-			InventoryItemFactory factory = InventoryItemFactory.getInstance();
+/*			InventoryItemFactory factory = InventoryItemFactory.getInstance();
 			InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);			
 			inventoryUI.addItemToInventory(item, "COIN");
 			System.out.println("Got here COIN.");
+*/			gm.inventoryAddCoin();
 		}		
 
 		checkVillagerCollisions(x, y);
@@ -280,7 +282,7 @@ public class GameMAIN extends GameState {
 		player.setFrozen(false);
 
 		// Check the passed state of everything in the game state manager, if its true, add a coin.
-		gm.checkPassedState(inventoryUI);
+		//gm.checkPassedState(inventoryUI);
 	}
 
 	@Override
@@ -314,7 +316,7 @@ public class GameMAIN extends GameState {
 		mapRenderer.dispose();
 		map.dispose();
 		player.dispose();
-		playerHUD.dispose();
+		//playerHUD.dispose();
 		
 		disposeProperty();
 		disposeTriggerPoint();
@@ -633,7 +635,9 @@ public class GameMAIN extends GameState {
 			if(people.get(i).containPoint(x, y)) {
 				scream.play();
 				scream.setVolume(50);
-				removeItemInInventory();
+				if(people.get(i).isBumpingInto()) {
+					gm.inventoryRemoveOneCoin();
+				}
 			}
 		}
 	}
@@ -701,14 +705,14 @@ public class GameMAIN extends GameState {
 		return (cell != null && cell.getTile() != null);
 	}
 
-	public void putMedalInInventory() {
+/*	public void putMedalInInventory() {
 		InventoryItemFactory factory = InventoryItemFactory.getInstance();
 		InventoryItem item = factory.getInventoryItem(ItemTypeID.MEDAL);			
 		inventoryUI.addItemToInventory(item, "MEDAL");
 	}
-
+*/
 	// TODO: Lizzie look at this
-	public void removeItemInInventory(){
+/*	public void removeItemInInventory(){
 
 		//InventoryItemFactory factory = InventoryItemFactory.getInstance();
 
@@ -716,7 +720,7 @@ public class GameMAIN extends GameState {
 		inventoryUI.removeInventoryItems("COIN", inventoryTable); 
 
 	}
-
+*/
 }
 
 

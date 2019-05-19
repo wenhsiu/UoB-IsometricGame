@@ -21,6 +21,8 @@ public abstract class People implements ApplicationListener{
 	protected TextureRegion region;
 	private float scale;
 	
+	private boolean[] collision = {false, false};
+	
 	public People(float x, float y, float scale) {
 		pos_x = x;
 		pos_y = y;
@@ -74,13 +76,21 @@ public abstract class People implements ApplicationListener{
 	}
 	
 	public boolean containPoint(float x, float y) {
+		collision[0] = collision[1];
+		
 		if(x > getPositionX() - bound_left &&
 		   x < getPositionX() + bound_right &&
 		   y > getPositionY() - bound_bottom &&
 		   y < getPositionY() + bound_top) {
-			    return true;
+				collision[1] = true;
+				return true;
 			}
+		collision[1] = false;
 		return false;
+	}
+	
+	public boolean isBumpingInto() {
+		return (collision[0] == false && collision[1] == true);
 	}
 	
 	public TextureRegion initTextureReg(String matName, int startX, int startY, int stopX, int stopY) {

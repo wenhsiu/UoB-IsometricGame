@@ -284,9 +284,10 @@ public class GameDrop extends GameState {
 		if (right == 1) {
 //			player.setPositionX((int) oldx - 100); // will need to change these when moving post box around
 //			player.setPositionY((int) oldy - 50);
+			gm.inventoryAddMedals();
 			passed = true;
 			gm.setCurrGameState("MAINGAME");
-			medal = true;
+			//medal = true;
 		}
 
 		if (Wrong == 1) {

@@ -204,6 +204,7 @@ public class GameDropEasy extends GameState{
 		getRainDrop();
 		if(isCompleted()) {
 			passed = (checkScore() == target);
+			if(passed) {gm.inventoryAddMedals();}
 			//TODO: show fail/pass image.
 			gm.setCurrGameState("MAINGAME");
 		}

@@ -5,9 +5,12 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.isometricgame.core.ui.InventoryItem;
 import com.isometricgame.core.ui.InventoryItemFactory;
 import com.isometricgame.core.ui.InventoryUI;
+import com.isometricgame.core.ui.PlayerHUD;
 import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
 import com.isometricgame.core.GameEND;
 import com.isometricgame.core.GameMAIN;
@@ -33,6 +36,11 @@ public class GameManager {
 	private GameState currentState;
 	private Game game;
 	private Player player;
+
+	public OrthographicCamera hudcam;
+	private PlayerHUD playerHUD;
+	private InventoryUI inventoryUI;
+	private InventoryItemFactory factory;
 	
 	public GameManager(Game game) {		
 		this.game = game;
@@ -42,7 +50,38 @@ public class GameManager {
 		
 		player = new Player(200, -50);
 		player.create();
+		
+		hudcam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		hudcam.translate(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		hudcam.setToOrtho(true);		
+		playerHUD = playerHUD = new PlayerHUD(hudcam);
+		inventoryUI = playerHUD.getInventoryUI();
+		factory = InventoryItemFactory.getInstance();		
+		
 		initAllState();
+	}
+	
+	public void inventoryAddCoin() {
+		InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);			
+		inventoryUI.addItemToInventory(item, "COIN");
+	}
+	
+	public void inventoryAddMedals() {
+		InventoryItem item = factory.getInventoryItem(ItemTypeID.MEDAL);			
+		inventoryUI.addItemToInventory(item, "MEDAL");
+	}
+	
+	public void renderInventory(float delta) {
+		playerHUD.render(delta);
+		hudcam.update();
+	}
+	
+	public void inventoryRemoveOneCoin() {
+		inventoryUI.removeOneItemFromInventory(ItemTypeID.COIN);
+	}
+	
+	public int inventoryGetItemNumber(ItemTypeID typeID) {
+		return inventoryUI.getItemNumber(typeID);
 	}
 	
 	public String[] getAllGameNames() {
@@ -67,18 +106,7 @@ public class GameManager {
 	//Pass in the game inventory. 
 	public void checkPassedState(InventoryUI currentInventory){
 		for(String key: gameStates.keySet()){
-			//System.out.println("Key == " + key);
-			//System.out.println("Passed? == " + gameStates.get(key).passed);
-
 			if(gameStates.get(key).passed == true){
-				/* System.out.println("HELLO WORLD"); 
-				System.out.println("HELLO WORLD"); 
-				System.out.println("HELLO WORLD"); 
-				System.out.println("HELLO WORLD"); 
-				System.out.println("HELLO WORLD"); 
-				System.out.println("HELLO WORLD"); 
-				System.out.println("HELLO WORLD"); 
-				*/ 
 				InventoryItemFactory factory = InventoryItemFactory.getInstance();
 				InventoryItem item = factory.getInventoryItem(ItemTypeID.MEDAL);	
 				currentInventory.addItemToInventory(item, "MEDAL");
@@ -109,7 +137,7 @@ public class GameManager {
 			newGS = new GameAvoid(this);
 		}else if(gsName.contains("FINALGAME")) {
 			newGS = new GameMaze(this);
-		} else if(gsName.contains("PRESENTATION")) {
+		} else if(gsName.contains("PRESENTATION")) {//why new Presentation here?
 			newGS = new Presentation(this);
 		};  
 		

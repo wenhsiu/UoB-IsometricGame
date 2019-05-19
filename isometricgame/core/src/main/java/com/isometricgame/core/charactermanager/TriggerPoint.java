@@ -13,6 +13,7 @@ import com.isometricgame.core.Penguin;
 import com.isometricgame.core.Villager;
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
+import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
 
 public class TriggerPoint {
 	
@@ -28,12 +29,12 @@ public class TriggerPoint {
 	protected SpriteBatch batch;
 	protected TextureRegion region;
 	private float scale;
-	private GameManager gm;
+	protected GameManager gm;
 	private String gsName;
 		
 	private boolean triggerred;
 	
-	private Map<String, Integer> cost; //the properties player has to collect to trigger this game
+	protected Map<ItemTypeID, Integer> cost; //the properties player has to collect to trigger this game
 	private String triggerText;
 	
 	private Map<String, People> guards;
@@ -64,8 +65,7 @@ public class TriggerPoint {
 			
 			p.create();			
 			if(p != null) {
-				guards.put(pplName, p);
-				/**/System.out.println(pplName + " " + gsName);
+				guards.put(pplName, p);				
 			}
 		}	
 	}
