@@ -13,6 +13,7 @@ import com.isometricgame.core.ui.InventoryUI;
 import com.isometricgame.core.ui.PlayerHUD;
 import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
 import com.isometricgame.core.GameEND;
+import com.isometricgame.core.GameGuide;
 import com.isometricgame.core.GameMAIN;
 import com.isometricgame.core.Player;
 import com.isometricgame.core.Presentation;
@@ -31,7 +32,8 @@ public class GameManager {
 			"MENU",
 			"MAINGAME",
 			"END",
-			"PRESENTATION", 
+			"PRESENTATION",
+			"GUIDE",
 	};
 	private GameState currentState;
 	private Game game;
@@ -156,6 +158,8 @@ public class GameManager {
 				gameStates.put("END", new GameEND(this));
 			} else if(stateName[i].equals("PRESENTATION")) {
 				gameStates.put("PRESENTATION", new Presentation(this));
+			 } else if(stateName[i].equals("GUIDE")) {
+				gameStates.put("GUIDE", new GameGuide(this));
 			}
 		}
 	}
