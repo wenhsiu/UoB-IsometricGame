@@ -9,8 +9,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
+
 
 public class GameDropEasy extends GameState{
 	
@@ -21,24 +24,24 @@ public class GameDropEasy extends GameState{
 	private final int lineW = 300;
 	private final int lineH = 75;
 	
-	private Texture bkgTexture;
+	private Texture bkgTexture, failure;
 	private Cloud cloud0;
 	private Cloud cloud1;
 	private float cloudW = 256*1f;
 	private float cloudH = 256*1f;
-	private float dogW = 585*0.2f;
-	private float dogH = 670*0.2f;
+	private float umbrellaW = 585*0.2f;
+	private float umbrellaH = 670*0.2f;
 	
 	private ArrayList<RainDrop> drop0;
 	private ArrayList<RainDrop> drop1;
 	//Use rectangles to detect if rain drop and characters are overlap.
 	private Rectangle rectDrop0;
 	private Rectangle rectDrop1;
-	private Rectangle rectdog;
+	private Rectangle rectUmbrella;
 	
 	private SpriteBatch batch;
 	
-	private Dog dog;
+	private Umbrella umbrella;
 	private ArrayList<Integer> collectedScore;
 	
 	private int target;
@@ -55,6 +58,8 @@ public class GameDropEasy extends GameState{
 		
 		//init background
 		bkgTexture = new Texture(Gdx.files.internal("background_pink.png"));
+		// init failure image
+		failure = new Texture(Gdx.files.internal("failure_image.jpeg"));
 		//init clouds
 		cloud0 = new Cloud(windowW/4 - cloudW/2, windowH*3/4 - cloudH/2);
 		cloud0.create();
@@ -68,13 +73,13 @@ public class GameDropEasy extends GameState{
 		
 		batch = new SpriteBatch();
 		
-		dog = new Dog(windowW/2-dogW/2, 25);
-		dog.create();
-		rectdog = new Rectangle();
-		rectdog.x = windowW/2-dogW/2;
-		rectdog.y = 20;
-		rectdog.width = dogW;
-		rectdog.height = dogH;
+		umbrella = new Umbrella(windowW/2-umbrellaW/2, 25);
+		umbrella.create();
+		rectUmbrella = new Rectangle();
+		rectUmbrella.x = windowW/2-umbrellaW/2;
+		rectUmbrella.y = 20;
+		rectUmbrella.width = umbrellaW;
+		rectUmbrella.height = umbrellaH;
 		
 		collectedScore = new ArrayList<Integer>();
 		
@@ -136,8 +141,8 @@ public class GameDropEasy extends GameState{
 		}
 	}
 	
-	private void updatedogPosX() {
-		rectdog.x = dog.getPositionX();
+	private void updateUmbrellaPosX() {
+		rectUmbrella.x = umbrella.getPositionX();
 	}
 	
 	private void renderRainDrop() {
@@ -155,11 +160,11 @@ public class GameDropEasy extends GameState{
 	}
 	
 	private RainDrop getRainDrop() {
-		if(rectDrop0.overlaps(rectdog)) {
+		if(rectDrop0.overlaps(rectUmbrella)) {
 			collectedScore.add(0);
 			score += Integer.toString(0);
 			return drop0.remove(0);
-		}else if(rectDrop1.overlaps(rectdog)) {
+		}else if(rectDrop1.overlaps(rectUmbrella)) {
 			collectedScore.add(1);
 			score += Integer.toString(1);
 			return drop1.remove(0);
@@ -168,7 +173,8 @@ public class GameDropEasy extends GameState{
 	}
 	
 	private boolean isCompleted() {
-		return (collectedScore.size() == 4);
+		if(collectedScore.size() == 4) {return true;}
+		return false;/* (collectedScore.size() == 4);*/
 	}
 	
 	private int checkScore() {
@@ -183,30 +189,39 @@ public class GameDropEasy extends GameState{
 	public void render(float delta) {
 		Gdx.gl.glClearColor(192/255f, 192/255f, 192/255f, 0xff/255.0f);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-		
-		generateRainDrop();
-		removeRainDrop();
-		updateRainDropPosY();
-		updatedogPosX();
-		
-		//render background
-		batch.begin();		
-		batch.draw(bkgTexture, 0, 0, 1200, 2133);
-		scoreFont.draw(batch, info, windowW/2-lineW/2, windowH*3/4);
-		scoreFont.draw(batch, score, windowW/2-lineW/2, windowH*3/4 + lineH);
-		scoreFont.draw(batch, score, windowW/2 - lineW/2, windowH*3/4 + lineH);
-		batch.end();
-		
-		renderCloud();
-		renderRainDrop();
-		dog.render();
-		
-		getRainDrop();
+
 		if(isCompleted()) {
 			passed = (checkScore() == target);
-			if(passed) {gm.inventoryAddMedals();}
-			//TODO: show fail/pass image.
-			gm.setCurrGameState("MAINGAME");
+			if(passed) {
+				gm.inventoryAddMedals();
+				gm.setCurrGameState("MAINGAME");
+			} else {
+				batch.begin();
+				batch.draw(failure, 0, 0, 1200, 750);
+				batch.end();
+				if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) { 
+					gm.setCurrGameState("MAINGAME");
+				}
+			}
+		} else {
+			generateRainDrop();
+			removeRainDrop();
+			updateRainDropPosY();
+			updateUmbrellaPosX();
+			
+			//render background
+			batch.begin();		
+			batch.draw(bkgTexture, 0, 0, 1200, 2133);
+			scoreFont.draw(batch, info, windowW/2-lineW/2, windowH*3/4);
+			scoreFont.draw(batch, score, windowW/2-lineW/2, windowH*3/4 + lineH);
+			scoreFont.draw(batch, score, windowW/2 - lineW/2, windowH*3/4 + lineH);
+			batch.end();
+			
+			renderCloud();
+			renderRainDrop();
+			umbrella.render();
+			
+			getRainDrop();
 		}
 	}
 
