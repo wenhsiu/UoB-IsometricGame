@@ -19,10 +19,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.audio.Music;
 
-
-
-
-
 public class Presentation extends GameState{
 
    private GameManager gm; 

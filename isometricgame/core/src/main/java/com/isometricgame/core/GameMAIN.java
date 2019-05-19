@@ -90,7 +90,7 @@ public class GameMAIN extends GameState {
 	// Naming rule: <type>_<GAMENAME>
 	// pb: PhoneBox, fb: FinalBoss
 	private final String[] allStateName = {"pb_DRAGGAME1", "pb_DRAGGAME2", "pb_DRAGGAME3", "pb_DROPGAME1", 
-										   "pb_AVOIDGAME", "pb_DROPGAME2-2",
+										   "pb_AVOIDGAME", "pb_DROPGAME2",
 										   "fb_FINALGAME"};
 	//Define characters for each trigger point
 	private final String[] guards = {"", "", "Penguin_4/Penguin_5/Penguin_6/Penguin_7/Penguin_8","",
