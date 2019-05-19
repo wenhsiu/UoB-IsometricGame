@@ -29,7 +29,7 @@ public class GameLevel1 extends GameState {
 	private Puzzles puzzles;
 	private boolean isRead = false;
 
-	private Texture intro = new Texture("clickanddrag/game_intro.png");
+	private Texture intro = new Texture("clickanddrag/game_intro1.png");
     
 	public GameLevel1(GameManager gm) {
 		super();	
@@ -48,6 +48,7 @@ public class GameLevel1 extends GameState {
 		
 		batch.begin();
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		batch.draw(intro, 30, 550, 1000, 150);
 		batch.end();
 		
 		puzzles.render();
@@ -55,14 +56,14 @@ public class GameLevel1 extends GameState {
 
 		// TODO: change the game intro
 
-		if(!isRead) {
-			batch.begin();
-			batch.draw(intro, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-			if(Gdx.input.isKeyPressed(Keys.SPACE)) {
-				isRead = true;
-			}
-			batch.end();
-		}
+		// if(!isRead) {
+		// 	batch.begin();
+		// 	batch.draw(intro, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		// 	if(Gdx.input.isKeyPressed(Keys.SPACE)) {
+		// 		isRead = true;
+		// 	}
+		// 	batch.end();
+		// }
 		
 		if(puzzles.checkTagetAnswer()){
 			batch.begin();

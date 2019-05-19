@@ -50,6 +50,8 @@ public class GameDropEasy extends GameState{
 	private String info;
 	private String score;
 
+	private Texture intro = new Texture("drop_intro1.png");
+
 	public GameDropEasy(GameManager gm) {
 		this.gm = gm;
 		
@@ -61,9 +63,9 @@ public class GameDropEasy extends GameState{
 		// init failure image
 		failure = new Texture("failure_image.jpeg");
 		//init clouds
-		cloud0 = new Cloud(windowW/4 - cloudW/2, windowH*3/4 - cloudH/2);
+		cloud0 = new Cloud(windowW/4 - cloudW/2, windowH*3/4 - cloudH*3/4);
 		cloud0.create();
-		cloud1 = new Cloud(windowW*3/4 - cloudW/2, windowH*3/4 - cloudH/2);
+		cloud1 = new Cloud(windowW*3/4 - cloudW/2, windowH*3/4 - cloudH*3/4);
 		cloud1.create();
 		//init raindrops
 		drop0 = new ArrayList<RainDrop>();
@@ -96,7 +98,7 @@ public class GameDropEasy extends GameState{
 	private void generateRainDrop() {
 		if(drop0.size() == 0) {
 			float x0 = MathUtils.random(windowW/4-cloudW/2, windowW/4+cloudW/2);
-			float y0 = windowH*3/4 - cloudH/2;			
+			float y0 = windowH*3/4 - cloudH;			
 			RainDrop d0 = new RainDrop(x0, y0, 0);
 			rectDrop0.x = x0;
 			rectDrop0.y = y0;
@@ -108,7 +110,7 @@ public class GameDropEasy extends GameState{
 		
 		if(drop1.size() == 0) {
 			float x1 = MathUtils.random(windowW*3/4-cloudW/2, windowW*3/4+cloudW/2);
-			float y1 = windowH*3/4 - cloudH/2;
+			float y1 = windowH*3/4 - cloudH;
 			RainDrop d1 = new RainDrop(x1, y1, 1);
 			rectDrop1.x = x1;
 			rectDrop1.y = y1;
@@ -212,9 +214,10 @@ public class GameDropEasy extends GameState{
 			//render background
 			batch.begin();		
 			batch.draw(bkgTexture, 0, 0, 1200, 2133);
-			scoreFont.draw(batch, info, windowW/2-lineW/2, windowH*3/4);
-			scoreFont.draw(batch, score, windowW/2-lineW/2, windowH*3/4 + lineH);
-			scoreFont.draw(batch, score, windowW/2 - lineW/2, windowH*3/4 + lineH);
+			batch.draw(intro, 30, 550, 1000, 150);
+			scoreFont.draw(batch, info, windowW/2-lineW/2, windowH*3/4 - lineH);
+			scoreFont.draw(batch, score, windowW/2-lineW/2, windowH*3/4);
+			scoreFont.draw(batch, score, windowW/2 - lineW/2, windowH*3/4);
 			batch.end();
 			
 			renderCloud();

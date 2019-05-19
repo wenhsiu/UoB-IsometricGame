@@ -12,7 +12,7 @@ public class RainDrop extends Property{
 	private int speed = 100;
 	
 	public RainDrop(float x, float y, int digit) {
-		super(x, y, 0.5f);
+		super(x, y, 0.4f);
 		if(digit == 0) {imgPath = "./weather/raindrop0.png";}
 		else {imgPath = "./weather/raindrop1.png";}
 		

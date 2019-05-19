@@ -84,17 +84,11 @@ public class GameMaze extends GameState {
 		scoreFont.setScale(2);
 
 		batch = new SpriteBatch();
-		//player = gm.getPlayer();
 
-
-		//camera = new OrthographicCamera();
 		player = new Character(new Sprite(new Texture("reddot.png")), (TiledMapTileLayer) map.getLayers().get("Walls"));
 		 //maybe change cordinates as they may start from diff origin
 		player.setPosition(275, 60);
 		player.setScale((float)0.3);
-		// player.setSize(8, 8);
-
-
 	}
 
 	@Override
@@ -182,17 +176,7 @@ public class GameMaze extends GameState {
 			System.out.println(score.get(0));
 		}
 
-		/*renderer.getSpriteBatch().begin();
-		player.draw(renderer.getSpriteBatch());
-		renderer.getSpriteBatch().end();*/
-
-		/*batch.begin();
-		player.render();
-		batch.end();*/
-
 		cam.update();
-
-
 	}
 
 	@Override
@@ -327,20 +311,5 @@ public class GameMaze extends GameState {
 		}
 		return s;
 	}
-
-	//Need to change values not right yet
-	private void endGame(){
-		if((player.getX() >= 890) && (player.getX() < 890 + 50)){
-			if((player.getY() >= 650) && (player.getY() < 650 + 50)){
-				if(checkScore()){
-					//set the first game state passed to true so that the trigger point can detect correctly
-					gm.inventoryAddMedals();
-					passed = true;
-					gm.setCurrGameState("MAINGAME");
-				}
-			}
-		}
-	}
-
 }
 

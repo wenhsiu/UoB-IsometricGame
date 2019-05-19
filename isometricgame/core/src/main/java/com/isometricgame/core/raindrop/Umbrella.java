@@ -18,7 +18,7 @@ public class Umbrella extends People{
 	private final int windowW;
 	
 	public Umbrella(float x, float y) {
-		super(x, y, 0.7f);
+		super(x, y, 0.6f);
 		timer = 0;
 		windowW = Gdx.graphics.getWidth();
 	}

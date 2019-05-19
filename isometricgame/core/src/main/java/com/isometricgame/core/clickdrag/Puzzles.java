@@ -150,18 +150,18 @@ public class Puzzles implements ApplicationListener {
 
 		for(int i = 0; i < 5; i++) {
 			targets.add(new Piece(new Image(answer), Character.toString(temp[i])));
-			targets.get(i).setBounds(290 + i * 110, 300, 100, 100);
+			targets.get(i).setBounds(290 + i * 110, 200, 100, 100);
 			targets.get(i).setActor(stage);
 		}
 	}
 
 	private void setQuestionImages() {
 		line = new Image(new Texture("clickanddrag/line.png"));
-		line.setBounds(280, 410, 560, 6);
+		line.setBounds(280, 310, 560, 6);
 		stage.addActor(line);
 
 		addition = new Image(new Texture("clickanddrag/addition.png"));
-		addition.setBounds(290, 420, 100, 100);
+		addition.setBounds(290, 320, 100, 100);
 		stage.addActor(addition);
 
 		// for line one
@@ -172,7 +172,7 @@ public class Puzzles implements ApplicationListener {
 				quesOne.add(new Piece(new Image(Qone), "1"));
 			}
 
-			quesOne.get(i).setBounds(400 + i * 110, 530, 100, 100);
+			quesOne.get(i).setBounds(400 + i * 110, 430, 100, 100);
 			quesOne.get(i).setActor(stage);
 			bineryOne += quesOne.get(i).getProperty();
 		}
@@ -185,7 +185,7 @@ public class Puzzles implements ApplicationListener {
 				quesTwo.add(new Piece(new Image(Qone), "1"));
 			}
 
-			quesTwo.get(i).setBounds(400 + i * 110, 420, 100, 100);
+			quesTwo.get(i).setBounds(400 + i * 110, 320, 100, 100);
 			quesTwo.get(i).setActor(stage);
 			bineryTwo += quesTwo.get(i).getProperty();
 		}

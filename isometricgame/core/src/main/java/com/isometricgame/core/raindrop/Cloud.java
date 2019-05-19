@@ -16,7 +16,7 @@ public class Cloud extends Property {
 	private float timer;
 
 	public Cloud(float x, float y) {
-		super(x, y, 1f);
+		super(x, y, 0.8f);
 		animationInit();
 	}
 	

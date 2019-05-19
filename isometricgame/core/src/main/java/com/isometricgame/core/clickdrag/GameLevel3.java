@@ -27,6 +27,8 @@ public class GameLevel3 extends GameState {
 	private SpriteBatch batch;
 	private Puzzles puzzles;
 	private boolean complete = false;
+
+	private Texture intro = new Texture("clickanddrag/game_intro3.png");
     
 	public GameLevel3(GameManager gm) {
 		super();	
@@ -44,6 +46,7 @@ public class GameLevel3 extends GameState {
 
 		batch.begin();
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		batch.draw(intro, 30, 550, 1000, 150);
 		batch.end();
 
 		puzzles.render();
