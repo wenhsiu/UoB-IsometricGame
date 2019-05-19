@@ -57,9 +57,9 @@ public class GameDropEasy extends GameState{
 		windowH = Gdx.graphics.getHeight();
 		
 		//init background
-		bkgTexture = new Texture(Gdx.files.internal("background_pink.png"));
+		bkgTexture = new Texture("background_pink.png");
 		// init failure image
-		failure = new Texture(Gdx.files.internal("failure_image.jpeg"));
+		failure = new Texture("failure_image.jpeg");
 		//init clouds
 		cloud0 = new Cloud(windowW/4 - cloudW/2, windowH*3/4 - cloudH/2);
 		cloud0.create();
