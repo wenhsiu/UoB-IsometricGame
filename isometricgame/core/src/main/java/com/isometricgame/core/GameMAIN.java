@@ -651,6 +651,11 @@ public class GameMAIN extends GameState {
 				scream.setVolume(50);
 				if(people.get(i).isBumpingInto()) {
 					gm.inventoryRemoveOneCoin();
+					if(gm.getNumCoins() == 0){
+						InventoryUI inventoryUI = gm.getInventoryUI();
+						Table inventoryTable  =  inventoryUI.getInventorySlotTable(); 
+						inventoryUI.removeInventoryItems("COIN", inventoryTable); 
+					}
 				}
 			}
 		}

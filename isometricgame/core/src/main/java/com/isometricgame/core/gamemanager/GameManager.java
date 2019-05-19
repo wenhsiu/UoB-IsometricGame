@@ -56,7 +56,7 @@ public class GameManager {
 		hudcam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		hudcam.translate(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		hudcam.setToOrtho(true);		
-		playerHUD = playerHUD = new PlayerHUD(hudcam);
+		playerHUD = new PlayerHUD(hudcam);
 		inventoryUI = playerHUD.getInventoryUI();
 		factory = InventoryItemFactory.getInstance();		
 		
@@ -170,5 +170,13 @@ public class GameManager {
 
 	public int getNumCoins() {
 		return inventoryUI.getNoCoins();
+	}
+
+	public InventoryUI getInventoryUI() {
+		return inventoryUI;
+	}
+
+	public void setInventoryUI(InventoryUI inventoryUI) {
+		this.inventoryUI = inventoryUI;
 	}
 }
