@@ -68,16 +68,13 @@ public class GameMAIN extends GameState {
 	// Naming rule: <type>_<alias>
 	private final String[] peopleName = {"Boss_org", "Boss_drop", 
 										 "Villager_1", "Villager_2", "Villager_3", "Villager_4", "Villager_5", "Villager_6",
-										 /*"Penguin_1", "Penguin_2", "Penguin_3",*/
-										 /*"Penguin_4", "Penguin_5", "Penguin_6", "Penguin_7", "Penguin_8"*/};						
+										 };						
 	private final float[] pplX = {500, 1954, 
 								  3000, 4000, 4065, 4517, 5065, 5398,
-								  /*5680, 5620, 5560,*/
-								  /*6630, 6570, 6510, 6450, 6390*/}; 
+								  }; 
 	private final float[] pplY = {500, -38, 
 								  -1000, -1500, -1514, 1821, -2095, -2329,
-								  /*-20, 0, 20,*/
-								  /*-690, -670, -650, -630, -610*/}; 
+								  }; 
 	
 	//-------- Objects-to-collect --------
 	private ArrayList<Property> property;
@@ -93,18 +90,18 @@ public class GameMAIN extends GameState {
 	// Naming rule: <type>_<GAMENAME>
 	// pb: PhoneBox, fb: FinalBoss
 	private final String[] allStateName = {"pb_DRAGGAME1", "pb_DRAGGAME2", "pb_DRAGGAME3", "pb_DROPGAME1", 
-										   "pb_AVOIDGAME", "pb_DROPGAME2",
+										   "pb_AVOIDGAME", "pb_DROPGAME2-2",
 										   "fb_FINALGAME"};
 	//Define characters for each trigger point
-	private final String[] guards = {"", "", "","",
-									 "Penguin_1/Penguin_2/Penguin_3", "Penguin_4/Penguin_5/Penguin_6/Penguin_7/Penguin_8",
+	private final String[] guards = {"", "", "Penguin_4/Penguin_5/Penguin_6/Penguin_7/Penguin_8","",
+									 "Penguin_1/Penguin_2/Penguin_3", "",
 									 ""			
 	};
-	private final String[] grdX = {"", "", "", "",
-								   "5680/5620/5560", "6630/6570/6510/6450/6390",								   
+	private final String[] grdX = {"", "", "6630/6570/6510/6450/6390", "",
+								   "5680/5620/5560", "",								   
 								   ""};
-	private final String[] grdY = {"", "", "", "",
-								   "-20/0/20", "-690/-670/-650/-630/-610",								   
+	private final String[] grdY = {"", "", "-690/-670/-650/-630/-610", "",
+								   "-20/0/20", "",								   
 								   ""};
 	// Isometric parameters
 	private final double theta = Math.toDegrees(Math.atan(0.5));

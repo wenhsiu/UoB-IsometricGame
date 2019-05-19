@@ -64,7 +64,8 @@ public class TriggerPoint {
 			
 			p.create();			
 			if(p != null) {
-				guards.put(pplName, p);				
+				guards.put(pplName, p);
+				/**/System.out.println(pplName + " " + gsName);
 			}
 		}	
 	}
