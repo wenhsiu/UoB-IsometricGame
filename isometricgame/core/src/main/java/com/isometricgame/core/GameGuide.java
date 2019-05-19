@@ -20,7 +20,7 @@ public class GameGuide extends GameState{
 	public GameGuide(GameManager gm) {
 		super();
 		this.gm = gm;
-		mapGuide = new Texture("mapguide.png");		
+		mapGuide = new Texture("mapGuide.png");		
 		batch = new SpriteBatch();
 	}
 	
