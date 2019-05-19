@@ -90,7 +90,7 @@ public class Piece {
 			}
 
 			public void drop (Source source, Payload payload, float x, float y, int pointer) {
-				image.setPosition(posX, 300);
+				image.setPosition(posX, 200);
 				located = true;
 				locationX = posX;
 				dragAndDrop.removeSource(source);
