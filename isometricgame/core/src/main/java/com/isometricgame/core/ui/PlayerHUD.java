@@ -26,7 +26,7 @@ public class PlayerHUD implements Screen {
         viewport = new ScreenViewport(camera);
         stage = new Stage(viewport);
         UIPosition = new Vector2();
-        UIPosition.x = 50;
+        UIPosition.x = 960;
         UIPosition.y = 50;
         inventoryUI = new InventoryUI();
         inventoryUI.setVisible(true);

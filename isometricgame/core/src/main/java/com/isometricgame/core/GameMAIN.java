@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -54,15 +55,15 @@ public class GameMAIN extends GameState {
 	// Naming rule: <type>_<alias>
 	private final String[] peopleName = {"Boss_org", //"Boss_drop", 
 										 "Villager_1", "Villager_2", "Villager_3", "Villager_4",
-										 "Monkey_1", "Monkey_2",
+										 "Monkey_1", "Monkey_2", "Monkey_3", "Monkey_4", "Villager_5", "Villager_6", "Monkey_5", "Monkey_6"
 										 };						
 	private final float[] pplX = {500, //1954, 
 								  3000, 4000, 4065, 4517, 
-								  5065, 5398,
+								  5065, 5398, 4872, 6709, 6774, 5569, 8000, 4690
 								  }; 
 	private final float[] pplY = {500, //-38, 
 								  -1000, -1500, -1514, 1821, 
-								  -2095, -2329,
+								  -2095, -2329, -168, -2472, -1990, -1210, -1300, 538
 								  }; 
 	
 	//-------- Objects-to-collect --------
@@ -70,10 +71,10 @@ public class GameMAIN extends GameState {
 
 	//-------- Mini-game Trigger Points --------
 	private ArrayList<TriggerPoint> tgp;
-    private final float[] tgpX = {1170, 5162, 6292, 3030, 
+    private final float[] tgpX = {1957, 5162, 6292, 3030, 
     							  5433, 7971,
     							  3000};
-	private final float[] tgpY = {50, -1012, -649, 390,
+	private final float[] tgpY = {-324, -1012, -649, 390,
 								  -25, -2065,
 								  1100};
 	// Naming rule: <type>_<GAMENAME>
@@ -113,6 +114,14 @@ public class GameMAIN extends GameState {
 	//Medal font and string
 	private String noMedals;
 	private BitmapFont medalCount;
+
+
+	//Dragon flying 
+
+	private Texture dragon = new Texture("Isometria/dragon7869.png"); 
+	private int dragonCnt = 0;
+	private int flyIn = 5;
+	private int flyOut = 5;
 
 	
 	public GameMAIN(GameManager gm) {
@@ -164,7 +173,7 @@ public class GameMAIN extends GameState {
 		// Trigger mini games with phone boxes
 		checkTriggerGame(x, y); 		
 
-		//System.out.println("Values of X and Y = " + x + " , " + y);
+		System.out.println("Values of X and Y = " + x + " , " + y);
 
 		cam.position.set(x, y, 0);
 
@@ -217,22 +226,36 @@ public class GameMAIN extends GameState {
 			noCoins = "" + gm.inventoryGetItemNumber(ItemTypeID.COIN);
 			if(!noCoins.equals("0") && !noCoins.equals("1")){
 				if(gm.inventoryGetItemNumber(ItemTypeID.COIN) < 10){
-					coinCount.draw(textbatch, noCoins, 80, 700); 
+					coinCount.draw(textbatch, noCoins, 992, 700); 
 				}
 				else {
-					coinCount.draw(textbatch, noCoins, 76, 700); 
+					coinCount.draw(textbatch, noCoins, 984, 700); 
 				}
 			}
-
+/* 
 			noMedals = "" + gm.inventoryGetItemNumber(ItemTypeID.MEDAL);
 				if(!noMedals.equals("0") && !noMedals.equals("1")){
 					if(gm.inventoryGetItemNumber(ItemTypeID.MEDAL) < 10){
 						medalCount.draw(textbatch, noMedals, 132, 700); 
 			} else {
 				medalCount.draw(textbatch, noMedals, 128, 700); 
-			}
+			} */
+		//}
+
+
+		dragonIntro();
+
+		if(dragonCnt == 0){
+			textbatch.draw(dragon, 544, 551, 70, 70);
+		}
+		else {
+			flyOut += 5;
+			textbatch.draw(dragon, 544 + flyOut, 551 + flyOut, 70, 70);
 		}
 
+		if(dragonCnt == 2){
+			textbatch.draw(dragon, 554, 551, 70, 70);
+		}
 
 
 		textbatch.end();
@@ -484,7 +507,7 @@ public class GameMAIN extends GameState {
 
 		addDialogue(1040, -33, 902 , -182, "Hmm, but since you're not an elected official, you're going to need to gain special access to the Town Hall...");
 
-		addDialogue(1375, 33, 1058 , -222, "This means you'll need to make some calls to officials for access badges... hey, use the town's red telephone boxes!");
+		addDialogue(1375, 33, 1058 , -222, "This means you'll need to make some calls to officials for access badges...");
 
 		addDialogue(1479, -55, 1376 , -249, "You might need to prove you know your binary, but I know you can do it! Get to the Town Hall, flip the switch and save Isometria!");
 
@@ -543,7 +566,7 @@ public class GameMAIN extends GameState {
 		addDialogue(3860, 870, 3430, 655, "Are you sure you have enough badges to access the Town Hall? Make sure you do!");
 
 		//--------  --------
-		addDialogue(3530, 1109, 3276, 978, "YA'LL READY FOR THIS");
+		addDialogue(3530, 1109, 3276, 978, "WELCOME TO THE TOWN HALL");
 
 	}
 
@@ -681,4 +704,19 @@ public class GameMAIN extends GameState {
 			p.CollisionAction(checkVillagerMapCollision(p.getPositionX(), p.getPositionY(), TileEdge, TileEdge));	
 		}
 	}
+
+	private void dragonIntro() {
+		if(player.getPositionX() >= 1575){
+			dragonCnt = 1;
+		}
+		if(player.getPositionX() <= 3900 && player.getPositionX() >= 3489){
+			if(player.getPositionY() >= 564 && player.getPositionY() <= 881){
+				dragonCnt = 2;
+			}
+		}
+	}
+
+
+
+
 }

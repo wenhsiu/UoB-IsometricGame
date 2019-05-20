@@ -100,10 +100,10 @@ public class InventoryUI extends Window {
                 }
             }
         }
-        else if(itemName.equals("MEDAL") && noMedals == 0) {
+        else if(itemName.equals("MEDAL") /*&& noMedals == 0*/) {
             for(int index = 0; index < sourceCells.size; index++) {
                 InventorySlot inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
-                if(!(inventorySlot == null) && inventorySlot.getNumber() == 6) {
+                if(!(inventorySlot == null) /*&& inventorySlot.getNumber() == 6*/) {
                     int numItems = inventorySlot.getNumItems();
                     if(numItems == 0) {
                         item.setName(itemName);

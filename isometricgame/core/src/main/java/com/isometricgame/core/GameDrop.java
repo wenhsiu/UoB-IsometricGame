@@ -49,6 +49,7 @@ public class GameDrop extends GameState {
 	private int wrong = 0;
 	private boolean change = true;
 	private boolean medal;
+	private boolean start = false;
 
 	// Background images.
 	public Texture background = new Texture("window_0011_Vector-Smart-Object.png");
@@ -70,7 +71,6 @@ public class GameDrop extends GameState {
 		// Set player score = 0
 
 		medal = true;
-
 		myDropScore = "Binary collected";
 		target = "Target  " + RandNum(0, 15);
 
@@ -78,8 +78,6 @@ public class GameDrop extends GameState {
 		scoreFont = new BitmapFont();
 		scoreFont.setColor(25 / 255f, 35 / 255f, 76 / 255f, 1f);
 		scoreFont.setScale(2);
-
-		
 
 		// start the playback of the background music immediately
 		rainMusic.setLooping(true);
@@ -93,7 +91,7 @@ public class GameDrop extends GameState {
 		bucket.x = 1200 / 2 - 128 / 2;
 		// bottom left corner of the bucket is 20 pixels above the bottom screen edge
 		bucket.y = 20;
-		bucket.width = 128;
+		bucket.width = 50;
 		bucket.height = 128;
 
 		// create the raindrops array and spawn the first raindrop
@@ -126,7 +124,7 @@ public class GameDrop extends GameState {
 		raindrop0.height = 128;
 		raindrops0.add(raindrop0);
 
-		raindrop1.y = 400;
+		raindrop1.y = 450;
 		raindrop1.width = 128;
 		raindrop1.height = 128;
 		raindrops1.add(raindrop1);
@@ -140,7 +138,12 @@ public class GameDrop extends GameState {
 
 	@Override
 	public void render(float delta) {
-
+	   
+		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) { 
+			start = true;
+		}
+		
+		
 		// clear the screen with a dark blue color. The
 		// arguments to glClearColor are the red, green
 		// blue and alpha component in the range [0,1]
@@ -154,7 +157,7 @@ public class GameDrop extends GameState {
 		// begin a new batch and draw the bucket and
 		// all drops
 
-		if(right != 1 && wrong != 1) {
+		if(right != 3 && wrong !=3) {
 			batch.begin();
 			batch.draw(background, 0, 0, 1200, 750);
 			batch.draw(intro, 30, 500, 1100, 250);
@@ -166,7 +169,10 @@ public class GameDrop extends GameState {
 
 			scoreFont.draw(batch, "number correct  " + String.valueOf(right), 650, 500);
 			scoreFont.draw(batch, "number incorrect  " + String.valueOf(wrong), 950, 500);
+            batch.end();
 
+			if (start) {
+			batch.begin();
 			for (Rectangle raindrop0 : raindrops0) {
 				batch.draw(dropImage0, raindrop0.x, raindrop0.y);
 			}
@@ -174,15 +180,16 @@ public class GameDrop extends GameState {
 			for (Rectangle raindrop1 : raindrops1) {
 				batch.draw(dropImage1, raindrop1.x, raindrop1.y);
 			}
-
 			batch.end();
-		} else if (right == 1) {
+			}
+			
+		} else if (right == 3) {
 			gm.inventoryAddMedals();
 			passed = true;
 			gm.setCurrGameState("MAINGAME");
-		} else if (wrong == 1) {
+		} else if (wrong == 3) {
 			dropSound.stop();
-			rainMusic.stop();
+			rainMusic.stop(); 
 			batch.begin();
             batch.draw(failure, 0, 0, 1200, 750);
             batch.end();
@@ -192,15 +199,17 @@ public class GameDrop extends GameState {
 		}
 
 		// Process user input
+		
+		if(start) {
 		if (Gdx.input.isTouched()) {
 			Vector3 touchPos = new Vector3();
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			cam.unproject(touchPos);
 			bucket.x = touchPos.x - 128 / 2;
 		}
-		if (Gdx.input.isKeyPressed(Keys.LEFT))
+		if (Gdx.input.isKeyPressed(Keys.LEFT) && start)
 			bucket.x -= 200 * Gdx.graphics.getDeltaTime();
-		if (Gdx.input.isKeyPressed(Keys.RIGHT))
+		if (Gdx.input.isKeyPressed(Keys.RIGHT) && start)
 			bucket.x += 200 * Gdx.graphics.getDeltaTime();
 
 		// Ensure the bucket stays within the screen bounds
@@ -223,7 +232,7 @@ public class GameDrop extends GameState {
 		for (Iterator<Rectangle> iter = raindrops0.iterator(); iter.hasNext();) {
 			Rectangle raindrop = iter.next();
 			raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
-			if (raindrop.y + 128 < 0) {
+			if (raindrop.y /*+ 128*/ < 0) {
 				iter.remove();
 			}
 
@@ -249,7 +258,8 @@ public class GameDrop extends GameState {
 				iter.remove();
 			}
 		}
-
+		}
+       
 		if (Score.size() == 4) {
 			rainMusic.pause();
 			if (CheckScore()) {
@@ -263,7 +273,8 @@ public class GameDrop extends GameState {
 			change = true;						
 		}
 		
-        change = false;
+		change = false;
+	  
 	}
     
     // Checks to see if user input matches the target
