@@ -46,15 +46,6 @@ public class GameMAIN extends GameState {
 	private TiledMap map;
 	private IsometricTiledMapRenderer mapRenderer;
 
-	//-------- Inventory --------
-/*	public final OrthographicCamera hudcam;
-	private PlayerHUD playerHUD;
-	private InventoryUI inventoryUI;
-*/
-
-	private String noCoins;
-	private BitmapFont coinCount; 
-
 	//-------- Layers --------
 	private TiledMapTileLayer transparentBlockedLayer;
 	private TiledMapTileLayer baseObjLayer;
@@ -71,13 +62,16 @@ public class GameMAIN extends GameState {
 	private ArrayList<People> people;
 	// Naming rule: <type>_<alias>
 	private final String[] peopleName = {"Boss_org", "Boss_drop", 
-										 "Villager_1", "Villager_2", "Villager_3", "Villager_4", "Villager_5", "Villager_6",
+										 "Villager_1", "Villager_2", "Villager_3", "Villager_4",
+										 "Monkey_1", "Monkey_2",
 										 };						
 	private final float[] pplX = {500, 1954, 
-								  3000, 4000, 4065, 4517, 5065, 5398,
+								  3000, 4000, 4065, 4517, 
+								  5065, 5398,
 								  }; 
 	private final float[] pplY = {500, -38, 
-								  -1000, -1500, -1514, 1821, -2095, -2329,
+								  -1000, -1500, -1514, 1821, 
+								  -2095, -2329,
 								  }; 
 	
 	//-------- Objects-to-collect --------
@@ -131,19 +125,10 @@ public class GameMAIN extends GameState {
 	public GameMAIN(GameManager gm) {
 		super();
 		this.gm = gm;
-		dialogueList =  new ArrayList<>();
+		dialogueList =  new ArrayList<GameDialogue>();
 		
 		initMapAndLayer();
 
-		// PlayerHUD
-/*		hudcam = new OrthographicCamera(width, height);
-		hudcam.translate(width / 2, height / 2);
-		hudcam.setToOrtho(true);
-		playerHUD = new PlayerHUD(hudcam);
-*/		
-		// Import inventory
-//		inventoryUI = playerHUD.getInventoryUI();
-		
 		initProperties();
 		initPeople();
 		initTriggerPoint();
@@ -161,10 +146,6 @@ public class GameMAIN extends GameState {
 		thud = Gdx.audio.newMusic(Gdx.files.internal("thud.mp3")); 
 		scream = Gdx.audio.newMusic(Gdx.files.internal("scream1.mp3")); 
 
-		coinCount = new BitmapFont(); 
-		coinCount.setColor(Color.BLACK);
-		coinCount.setScale((float) 1.75);
-
 	}
 
 	@Override
@@ -181,25 +162,13 @@ public class GameMAIN extends GameState {
 		
 		// Trigger mini games with phone boxes
 		checkTriggerGame(x, y); 		
-		//show the trigger text if there is any to show. 
-		/* showTriggerText(x, y); */
-
-//		System.out.println("Values of X and Y = " + x + " , " + y);
 
 		cam.position.set(x, y, 0);
 
 		gm.renderInventory(delta);
-//		playerHUD.render(delta);
-//		hudcam.update();	
-		
+
 		// Add coins to inventory
-		if(checkPropertyCollisions(x, y)) {
-/*			InventoryItemFactory factory = InventoryItemFactory.getInstance();
-			InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);			
-			inventoryUI.addItemToInventory(item, "COIN");
-			System.out.println("Got here COIN.");
-*/			gm.inventoryAddCoin();
-		}		
+		if(checkPropertyCollisions(x, y)) {gm.inventoryAddCoin();}		
 
 		checkVillagerCollisions(x, y);
 		
@@ -208,10 +177,12 @@ public class GameMAIN extends GameState {
 		}else if(checkMapCollision(playerNextPosition.x, playerNextPosition.y)) {
 			player.setSpeedFactor(-75);
 			thud.play();
-		}		
+		}
+		
+		checkPeopleCollision();
 
 		//Probably should iterate through this. 
-		getPeopleByName("Villager_1").CollisionAction(
+/*		getPeopleByName("Villager_1").CollisionAction(
 			checkVillagerMapCollision(
 				getPeopleByName("Villager_1").getPositionX(),
 				getPeopleByName("Villager_1").getPositionY(), 
@@ -246,7 +217,7 @@ public class GameMAIN extends GameState {
 				getPeopleByName("Villager_6").getPositionX(),
 				getPeopleByName("Villager_6").getPositionY(), 
 				TileEdge, TileEdge));
-
+*/
 
 		player.getBatch().setProjectionMatrix(cam.combined);
 		
@@ -255,14 +226,6 @@ public class GameMAIN extends GameState {
 		renderTriggerPoint();
 
 		player.render();
-
-		//Repeat this infront of all of the objects. 
-		/* if(x < 230 && x > 228 && y < -35){
-			testbatch.begin();
-			bfont.draw(testbatch, message, 300, 300);
-			labeltest.draw(testbatch, 100);
-			testbatch.end();
-		} */
 
 		shapeRenderer = new ShapeRenderer();
 
@@ -278,25 +241,15 @@ public class GameMAIN extends GameState {
         shapeRenderer.end();
 
 		textbatch.begin();
-			// dialogueTriggerCheck(testbatch, x, y);
-			for (int i = 0; i < dialogueList.size(); i++) {
-				if(dialogueTriggerCheck(x, y, i) == true){
-					bfont.draw(textbatch, dialogueList.get(i).getTextmessage(), 150, 150); 
-				}
+		for (int i = 0; i < dialogueList.size(); i++) {
+			if(dialogueTriggerCheck(x, y, i) == true){
+				bfont.draw(textbatch, dialogueList.get(i).getTextmessage(), 150, 150); 
 			}
-
-			noCoins = "" + gm.getNumCoins();
-			if(!noCoins.equals("0") && !noCoins.equals("1")){
-				coinCount.draw(textbatch, noCoins, 68, 643); 
-			}
-
+		}		
 		textbatch.end();
 		
 		cam.update();
 		player.setFrozen(false);
-
-		// Check the passed state of everything in the game state manager, if its true, add a coin.
-		//gm.checkPassedState(inventoryUI);
 	}
 
 	@Override
@@ -330,12 +283,12 @@ public class GameMAIN extends GameState {
 		mapRenderer.dispose();
 		map.dispose();
 		player.dispose();
-		//playerHUD.dispose();
 		
 		disposeProperty();
 		disposeTriggerPoint();
 		disposePeople();
 	}
+	
 	
 	private void initMapAndLayer() {
 
@@ -375,6 +328,8 @@ public class GameMAIN extends GameState {
 				p = new Villager(x, y);
 			} else if(type.equals("penguin")) {
 				p = new Penguin(x, y);
+			} else if(type.equals("monkey")) {
+				p = new Monkey(x, y);
 			}
 			
 			p.create();			
@@ -407,6 +362,14 @@ public class GameMAIN extends GameState {
 			if(peopleName[i].equals(name)) {return people.get(i);}
 		}
 		return null;
+	}
+	
+	private void checkPeopleCollision() {
+		for(People p : people) {
+			p.CollisionAction(checkVillagerMapCollision(p.getPositionX(), p.getPositionY(), 
+						TileEdge, TileEdge)
+					);
+		}
 	}
 	
 	private void removePeopleByName(String name) {
@@ -587,14 +550,10 @@ public class GameMAIN extends GameState {
 	}
 
 	private Boolean dialogueTriggerCheck(double currentX, double currentY, int i) {
-
-			// System.out.println("HELLO TRIGGER CHECK " + dialogueList.get(i).getMinx());
-
-			if(dialogueList.get(i).getMinx() < currentX  && dialogueList.get(i).getMiny() < currentY && dialogueList.get(i).getMaxx() > currentX && dialogueList.get(i).getMaxy() > currentY){
-				// System.out.println("true"); 
-				return true; 
-			}
-			return false; 
+		if(dialogueList.get(i).getMinx() < currentX  && dialogueList.get(i).getMiny() < currentY && dialogueList.get(i).getMaxx() > currentX && dialogueList.get(i).getMaxy() > currentY){
+			return true; 
+		}
+		return false; 
 	}
 
 	//Handle Property
@@ -671,16 +630,16 @@ public class GameMAIN extends GameState {
 	}
 	
 	//check if on the BaseObjects layer
-		private boolean isOnTheGround(float x, float y) {
-			if(x < 0) return false;
-			
-			Vector2 v = rotateCoord(x, y);
-			int iso_x = (int)(v.x/ TileEdge);
-			int iso_y = (int)(v.y/ TileEdge);
+	private boolean isOnTheGround(float x, float y) {
+		if(x < 0) return false;
+		
+		Vector2 v = rotateCoord(x, y);
+		int iso_x = (int)(v.x/ TileEdge);
+		int iso_y = (int)(v.y/ TileEdge);
 
-			Cell c = baseObjLayer.getCell(iso_x, iso_y);
-			return (c != null && c.getTile() != null);
-		}
+		Cell c = baseObjLayer.getCell(iso_x, iso_y);
+		return (c != null && c.getTile() != null);
+	}
 
 	private Vector2 rotateCoord(float x, float y) {
 		float tmp_x ;
@@ -723,23 +682,6 @@ public class GameMAIN extends GameState {
 		Cell cell = transparentBlockedLayer.getCell(iso_x, iso_y);		
 		return (cell != null && cell.getTile() != null);
 	}
-
-/*	public void putMedalInInventory() {
-		InventoryItemFactory factory = InventoryItemFactory.getInstance();
-		InventoryItem item = factory.getInventoryItem(ItemTypeID.MEDAL);			
-		inventoryUI.addItemToInventory(item, "MEDAL");
-	}
-*/
-	// TODO: Lizzie look at this
-/*	public void removeItemInInventory(){
-
-		//InventoryItemFactory factory = InventoryItemFactory.getInstance();
-
-		Table inventoryTable  =  inventoryUI.getInventorySlotTable(); 
-		inventoryUI.removeInventoryItems("COIN", inventoryTable); 
-
-	}
-*/
 }
 
 

@@ -1,8 +1,6 @@
 package com.isometricgame.core.gamemanager;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -81,11 +79,7 @@ public class GameManager {
 	public void inventoryRemoveOneCoin() {
 		inventoryUI.removeOneItemFromInventory(ItemTypeID.COIN);
 	}
-	
-	public int inventoryGetItemNumber(ItemTypeID typeID) {
-		return inventoryUI.getItemNumber(typeID);
-	}
-	
+		
 	public String[] getAllGameNames() {
 		return stateName;
 	}
@@ -139,9 +133,7 @@ public class GameManager {
 			newGS = new GameAvoid(this);
 		}else if(gsName.contains("FINALGAME")) {
 			newGS = new GameMaze(this);
-		} /* else if(gsName.contains("PRESENTATION")) {//why new Presentation here?
-			newGS = new Presentation(this);
-		} */;  
+		};  
 		
 		if(newGS != null) {
 			gameStates.put(gsName, newGS);

@@ -3,6 +3,7 @@ package com.isometricgame.core.ui;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 
@@ -26,7 +27,7 @@ public class InventoryUI extends Window {
 
     private int noCoins;
     private int noMedals;
-
+    
     public InventoryUI() {
         super("Inventory", Utility.STATUSUI_SKIN, "default");
 
@@ -44,14 +45,20 @@ public class InventoryUI extends Window {
             if(i % lengthSlotRow == 0 && i < numSlots) {
                 inventorySlotTable.row();
             }
-        }
-        
+        }      
         this.add(inventorySlotTable);
         this.pack();
     }
 
     public Table getInventorySlotTable() {
         return inventorySlotTable;
+    }
+    
+    public Vector2 getSlotSize() {
+    	Vector2 size = new Vector2();
+    	size.x = slotWidth;
+    	size.y = slotHeight;
+    	return size;
     }
 
     public static void clearInventoryItems(Table targetTable) {
@@ -62,7 +69,6 @@ public class InventoryUI extends Window {
                 inventorySlot.clearAllInventoryItems(false);
             }
         }
-
     }
 
     public static Array<InventoryItemLocation> removeInventoryItems(String name, Table inventoryTable) {
@@ -75,7 +81,7 @@ public class InventoryUI extends Window {
                 inventorySlot.removeAllInventoryItemsWithName(name);
             }
         }
-        return items;//item should be empty?
+        return items;
     }
     
     public void removeOneItemFromInventory(ItemTypeID itemID) {
@@ -83,25 +89,17 @@ public class InventoryUI extends Window {
     	case COIN:
     		if(noCoins > 0) {
     			noCoins--;
-    			/**/System.out.println("Number of coins is " + noCoins);
-    		}
+    			System.out.println("Number of coins is " + noCoins);
+    			}
     		break;
     	case MEDAL:
-    		if(noMedals > 0) {
-    			noMedals--;
-    		}
+    		if(noMedals > 0) {noMedals--;}
     		break;
     	default:
     	}
     	
     }
-
-    public int getItemNumber(ItemTypeID itemID) {
-    	if(itemID == ItemTypeID.COIN) {return noCoins;}
-    	else if(itemID == ItemTypeID.MEDAL) {return noMedals;}
-    	return -1;//no type matches.
-    }
-    
+      
     public static void populateInventory(Table targetTable, Array<InventoryItemLocation> inventoryItems,
                                          String defaultName, boolean disableNonDefaultItems) {
         clearInventoryItems(targetTable);
@@ -162,8 +160,32 @@ public class InventoryUI extends Window {
 
     public void addItemToInventory(InventoryItem item, String itemName) {
         Array<Cell> sourceCells = inventorySlotTable.getCells();
+        InventorySlot inventorySlot;
+        int index = 0;
+        for(int i = 0; i < sourceCells.size; i++) {
+        	inventorySlot = (InventorySlot) sourceCells.get(i).getActor();
+        	if(!inventorySlot.getAllInventoryItems().contains(item, true)) {
+        		index = i; break;
+        	}
+        }
+        
+        if(itemName.equals("COIN")) {
+        	if(noCoins == 0) {        		
+        		inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
+        		inventorySlot.add(item);
+//        		inventorySlot.add(coinCountLabel);        				
+        	}        	
+        	noCoins++;
+//        	drawCoinCount();
+        	System.out.println("Number of coins is " + noCoins);
+        }else if(itemName.equals("MEDAL")) {//Medal not stackable    		
+    		inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
+    		inventorySlot.add(item);    	        	
+        	noMedals++;
+        	System.out.println("Number of medals is " + noMedals);
+        }
 
-        if((itemName.equals("COIN") && noCoins == 0) || (itemName.equals("MEDAL"))) {
+/*        if((itemName.equals("COIN") && noCoins == 0) || (itemName.equals("MEDAL"))) {
             for(int index = 0; index < sourceCells.size; index++) {
                 InventorySlot inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
                 if(!(inventorySlot == null)) {
@@ -192,6 +214,7 @@ public class InventoryUI extends Window {
             noCoins++;
             System.out.println("Number of medals is " + noMedals);
         }
+*/
     }
 
     public Array<Actor> getInventoryActors() {

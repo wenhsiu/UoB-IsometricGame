@@ -19,9 +19,9 @@ public class Villager extends People {
 	private int direction;
 
 	public Villager(float x, float y) {
-		super(x, y, (float) 0.35);
-		frameSizeX = 302;
-		frameSizeY = 344;
+		super(x, y, (float) 0.3);
+		frameSizeX = 309;
+		frameSizeY = 424;
 		direction = 1;
         move_x = 2;
         move_y = 1;
@@ -31,7 +31,7 @@ public class Villager extends People {
 
 	@Override
 	public void create() {
-		characterInit("boss_down.png", 0, 0, frameSizeX, frameSizeY);
+		characterInit("bunny_down.png", 0, 0, frameSizeX, frameSizeY);
 		animationInit();
 		setBoundary(getSizeY() / 2, getSizeY() / 2, getSizeX() / 2, getSizeX() / 2);
 	}
@@ -66,7 +66,7 @@ public class Villager extends People {
 	@Override
 	public void animationInit() {
 		Array<TextureRegion> frames = new Array<TextureRegion>();
-		String[] frameName = {"boss_up.png", "boss_left.png", "boss_down.png", "boss_right.png"};
+		String[] frameName = {"bunny_up.png", "bunny_left.png", "bunny_down.png", "bunny_right.png"};
 		for(int i = 0; i < frameNumber; i++) {
 			frames.add(initTextureReg(frameName[i], 0, 0, frameSizeX, frameSizeY));
 		}
