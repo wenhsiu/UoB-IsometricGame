@@ -40,21 +40,16 @@ public class GameMAIN extends GameState {
 
 	private GameManager gm;
 
-	// private int testmedal;
+	//private int testmedal;
 
 	//-------- Map --------
 	private TiledMap map;
 	private IsometricTiledMapRenderer mapRenderer;
 
 	//-------- Inventory --------
-/*	public final OrthographicCamera hudcam;
+	/* public final OrthographicCamera hudcam;
 	private PlayerHUD playerHUD;
-	private InventoryUI inventoryUI;
-*/
-
-	private String noCoins;
-	private BitmapFont coinCount; 
-
+	private InventoryUI inventoryUI; */
 	//-------- Layers --------
 	private TiledMapTileLayer transparentBlockedLayer;
 	private TiledMapTileLayer baseObjLayer;
@@ -91,12 +86,12 @@ public class GameMAIN extends GameState {
 	private final float[] tgpY = {50, -1012, -649, 390,
 								  -25, -2065,
 								  1100};
-	// Naming rule: <type>_<GAMENAME>
-	// pb: PhoneBox, fb: FinalBoss
+	//-------- NOTE: Naming convention: <type>_<GAMENAME> --------
+	//-------- NOTE: Naming convention: pb = PhoneBox, fb = FinalBoss --------
 	private final String[] allStateName = {"pb_DRAGGAME1", "pb_DRAGGAME2", "pb_DRAGGAME3", "pb_DROPGAME1", 
 										   "pb_AVOIDGAME", "pb_DROPGAME2",
 										   "fb_FINALGAME"};
-	//Define characters for each trigger point
+	//-------- Define characters for each trigger point --------
 	private final String[] guards = {"", "", "Penguin_4/Penguin_5/Penguin_6/Penguin_7/Penguin_8","",
 									 "Penguin_1/Penguin_2/Penguin_3", "",
 									 ""			
@@ -107,7 +102,7 @@ public class GameMAIN extends GameState {
 	private final String[] grdY = {"", "", "-690/-670/-650/-630/-610", "",
 								   "-20/0/20", "",								   
 								   ""};
-	// Isometric parameters
+	//-------- Isometric parameters --------
 	private final double theta = Math.toDegrees(Math.atan(0.5));
 
 	//-------- Testing Fonts --------
@@ -123,7 +118,7 @@ public class GameMAIN extends GameState {
 	private ShapeRenderer shapeRenderer;
 	private ShapeRenderer helpRenderer;
 
-	//Sound Effects 
+	//-------- Sound Effects --------
 	private Music coinSound; 
 	private Music thud; 
 	private Music scream; 
@@ -131,18 +126,18 @@ public class GameMAIN extends GameState {
 	public GameMAIN(GameManager gm) {
 		super();
 		this.gm = gm;
-		dialogueList =  new ArrayList<>();
+		dialogueList =  new ArrayList<GameDialogue>();
 		
 		initMapAndLayer();
 
-		// PlayerHUD
-/*		hudcam = new OrthographicCamera(width, height);
+		//-------- PlayerHUD --------
+		/* hudcam = new OrthographicCamera(width, height);
 		hudcam.translate(width / 2, height / 2);
 		hudcam.setToOrtho(true);
-		playerHUD = new PlayerHUD(hudcam);
-*/		
-		// Import inventory
-//		inventoryUI = playerHUD.getInventoryUI();
+		playerHUD = new PlayerHUD(hudcam); */
+
+		//-------- Import inventory --------
+		//inventoryUI = playerHUD.getInventoryUI();
 		
 		initProperties();
 		initPeople();
@@ -161,10 +156,6 @@ public class GameMAIN extends GameState {
 		thud = Gdx.audio.newMusic(Gdx.files.internal("thud.mp3")); 
 		scream = Gdx.audio.newMusic(Gdx.files.internal("scream1.mp3")); 
 
-		coinCount = new BitmapFont(); 
-		coinCount.setColor(Color.BLACK);
-		coinCount.setScale((float) 1.75);
-
 	}
 
 	@Override
@@ -179,38 +170,38 @@ public class GameMAIN extends GameState {
 		float y = player.getPositionY();
 		Vector2 playerNextPosition = player.getNextPosition();
 		
-		// Trigger mini games with phone boxes
+		//-------- Trigger mini games with phone boxes --------
 		checkTriggerGame(x, y); 		
-		//show the trigger text if there is any to show. 
-		/* showTriggerText(x, y); */
+		//-------- Show the trigger text, if any --------
+		//showTriggerText(x, y);
 
-//		System.out.println("Values of X and Y = " + x + " , " + y);
+		//System.out.println("Values of X and Y = " + x + " , " + y);
 
 		cam.position.set(x, y, 0);
 
 		gm.renderInventory(delta);
-//		playerHUD.render(delta);
-//		hudcam.update();	
+		//playerHUD.render(delta);
+		//hudcam.update();	
 		
-		// Add coins to inventory
-		if(checkPropertyCollisions(x, y)) {
-/*			InventoryItemFactory factory = InventoryItemFactory.getInstance();
+		//-------- Add coins to inventory --------
+		if (checkPropertyCollisions(x, y)) {
+			/* InventoryItemFactory factory = InventoryItemFactory.getInstance();
 			InventoryItem item = factory.getInventoryItem(ItemTypeID.COIN);			
 			inventoryUI.addItemToInventory(item, "COIN");
-			System.out.println("Got here COIN.");
-*/			gm.inventoryAddCoin();
+			System.out.println("Got here COIN."); */
+			gm.inventoryAddCoin();
 		}		
 
 		checkVillagerCollisions(x, y);
 		
-		if(!isOnTheGround(playerNextPosition.x, playerNextPosition.y)) {			
+		if (!isOnTheGround(playerNextPosition.x, playerNextPosition.y)) {
 			player.setFrozen(true);
-		}else if(checkMapCollision(playerNextPosition.x, playerNextPosition.y)) {
+		} else if (checkMapCollision(playerNextPosition.x, playerNextPosition.y)) {
 			player.setSpeedFactor(-75);
 			thud.play();
 		}		
 
-		//Probably should iterate through this. 
+		//-------- NOTE: Probably should iterate through this --------
 		getPeopleByName("Villager_1").CollisionAction(
 			checkVillagerMapCollision(
 				getPeopleByName("Villager_1").getPositionX(),
@@ -256,8 +247,8 @@ public class GameMAIN extends GameState {
 
 		player.render();
 
-		//Repeat this infront of all of the objects. 
-		/* if(x < 230 && x > 228 && y < -35){
+		//-------- Repeat this infront of all of the objects --------
+		/* if (x < 230 && x > 228 && y < -35){
 			testbatch.begin();
 			bfont.draw(testbatch, message, 300, 300);
 			labeltest.draw(testbatch, 100);
@@ -268,7 +259,7 @@ public class GameMAIN extends GameState {
 
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		for (int i = 0; i < dialogueList.size(); i++) {
-			if(dialogueTriggerCheck(x, y, i) == true){
+			if (dialogueTriggerCheck(x, y, i) == true){
 				shapeRenderer.setColor(Color.DARK_GRAY);
 				shapeRenderer.rect(100, 110, 970, 70);
 				shapeRenderer.setColor(Color.LIGHT_GRAY);
@@ -278,24 +269,18 @@ public class GameMAIN extends GameState {
         shapeRenderer.end();
 
 		textbatch.begin();
-			// dialogueTriggerCheck(testbatch, x, y);
+			//dialogueTriggerCheck(testbatch, x, y);
 			for (int i = 0; i < dialogueList.size(); i++) {
-				if(dialogueTriggerCheck(x, y, i) == true){
+				if (dialogueTriggerCheck(x, y, i) == true){
 					bfont.draw(textbatch, dialogueList.get(i).getTextmessage(), 150, 150); 
 				}
 			}
-
-			noCoins = "" + gm.getNumCoins();
-			if(!noCoins.equals("0") && !noCoins.equals("1")){
-				coinCount.draw(textbatch, noCoins, 68, 643); 
-			}
-
 		textbatch.end();
 		
 		cam.update();
 		player.setFrozen(false);
 
-		// Check the passed state of everything in the game state manager, if its true, add a coin.
+		//-------- Check the passed state of everything in the game state manager, if its true, add a coin --------
 		//gm.checkPassedState(inventoryUI);
 	}
 
@@ -339,18 +324,18 @@ public class GameMAIN extends GameState {
 	
 	private void initMapAndLayer() {
 
-		// Map
+		//-------- Map --------
 		map = new TmxMapLoader().load("./Isometria/isometria.tmx");
 		mapRenderer = new IsometricTiledMapRenderer(map);
 		mapRenderer.setView(cam);
 
-		// Transparent edge blocking layer
+		//-------- Transparent edge blocking layer --------
 		transparentBlockedLayer = (TiledMapTileLayer) map.getLayers().get("Transparent");
 
-		// Edge blocking later is not visible
+		//-------- Edge blocking later is not visible --------
 		transparentBlockedLayer.setVisible(false);
 
-		// BaseObjects
+		//-------- BaseObjects --------
 		baseObjLayer = (TiledMapTileLayer)map.getLayers().get("BaseObjects");
 
 		TileW = transparentBlockedLayer.getTileWidth();
@@ -358,7 +343,7 @@ public class GameMAIN extends GameState {
 		TileEdge = (float) Math.sqrt(Math.pow(TileH / 2, 2) + Math.pow(TileW / 2, 2));			
 	}
 	
-	// Handle People
+	//-------- Handle People --------
 	private void initPeople() {
 		people = new ArrayList<People>();
 		People p = null;
@@ -369,16 +354,16 @@ public class GameMAIN extends GameState {
 			float y = pplY[i];
 			type = peopleName[i].split("_")[0].toLowerCase();
 			
-			if(type.equals("boss")) {
+			if (type.equals("boss")) {
 				p = new Boss(x, y);
-			} else if(type.equals("villager")) {
+			} else if (type.equals("villager")) {
 				p = new Villager(x, y);
-			} else if(type.equals("penguin")) {
+			} else if (type.equals("penguin")) {
 				p = new Penguin(x, y);
 			}
 			
 			p.create();			
-			if(p != null) {
+			if (p != null) {
 				people.add(p);
 			}
 		}		
@@ -387,10 +372,10 @@ public class GameMAIN extends GameState {
 	private void playerBounce(Player player) {
 		player.setSpeedFactor(-50);
 		Vector2 nextPos = player.getNextPosition();
-		if(!checkMapCollision(nextPos.x, nextPos.y) && isOnTheGround(nextPos.x, nextPos.y) ) {
+		if (!checkMapCollision(nextPos.x, nextPos.y) && isOnTheGround(nextPos.x, nextPos.y) ) {
 			player.animationUpdate(Gdx.graphics.getDeltaTime());
 			return;
-		}else {
+		} else {
 			playerBounce(player);
 		}
 	}
@@ -403,22 +388,22 @@ public class GameMAIN extends GameState {
 	}
 	
 	private People getPeopleByName(String name) {
-		for(int i = 0; i < people.size(); i++) {
-			if(peopleName[i].equals(name)) {return people.get(i);}
+		for (int i = 0; i < people.size(); i++) {
+			if (peopleName[i].equals(name)) {return people.get(i);}
 		}
 		return null;
 	}
 	
 	private void removePeopleByName(String name) {
-		for(int i = 0; i < people.size(); i++) {
-			if(peopleName[i].equals(name)) {
+		for (int i = 0; i < people.size(); i++) {
+			if (peopleName[i].equals(name)) {
 				people.remove(i);				
 			}
 		}
 	}
 	
 	private void disposePeople() {
-		for(int i = 0; i < people.size(); i++) {
+		for (int i = 0; i < people.size(); i++) {
 			people.get(i).dispose();
 		}
 	}
@@ -426,7 +411,7 @@ public class GameMAIN extends GameState {
 	//Handle TriggerPoint
 	private void initTriggerPoint() {
 		tgp = new ArrayList<TriggerPoint>();
-		for(int i = 0; i < tgpX.length; i++) {
+		for (int i = 0; i < tgpX.length; i++) {
 			String type = allStateName[i].split("_")[0].toLowerCase();
 			String name = allStateName[i].split("_")[1];			
 			String[] grds = null;
@@ -434,22 +419,22 @@ public class GameMAIN extends GameState {
 			String[] y = null;
 			int grdNumber = 0;
 			
-			if(!guards[i].isEmpty() && !grdX[i].isEmpty() && !grdY[i].isEmpty()) {
+			if (!guards[i].isEmpty() && !grdX[i].isEmpty() && !grdY[i].isEmpty()) {
 				grds = guards[i].split("/");
 				x = grdX[i].split("/");
 				y = grdY[i].split("/");			
 				grdNumber = Math.min(grds.length, Math.min(x.length, y.length));
 			}
 			
-			if(type.equals("pb")) {
+			if (type.equals("pb")) {
 				PhoneBox pb = new PhoneBox(tgpX[i], tgpY[i], 1, gm, name, triggerText);
 				for(int j = 0; j < grdNumber; j++) {
 					pb.initGuards(grds[j].trim(), Float.parseFloat(x[j].trim()), Float.parseFloat(y[j].trim()));
 				}
 				tgp.add(pb);
-			}else if(type.equals("fb")) {
+			} else if (type.equals("fb")) {
 				FinalBoss fb = new FinalBoss(tgpX[i], tgpY[i], 1, gm, name, triggerText);
-				for(int j = 0; j < grdNumber; j++) {
+				for (int j = 0; j < grdNumber; j++) {
 					fb.initGuards(grds[j].trim(), Float.parseFloat(x[j].trim()), Float.parseFloat(y[j].trim()));
 				}				
 				tgp.add(fb);
@@ -458,25 +443,25 @@ public class GameMAIN extends GameState {
 	}
 	
 	private void renderTriggerPoint() {
-		for(int i = 0; i < tgp.size(); i++) {
+		for (int i = 0; i < tgp.size(); i++) {
 			tgp.get(i).updateTriggerPoint();
 			tgp.get(i).getBatch().setProjectionMatrix(cam.combined);
-			if(tgp.get(i).getTriggeredGame() == null || !tgp.get(i).getTriggeredGame().getPassState()) {
+			if (tgp.get(i).getTriggeredGame() == null || !tgp.get(i).getTriggeredGame().getPassState()) {
 				renderTGPGuards(i);//Don't render guards if player passed this game
 			}
 		}
 	}
 	
 	private void disposeTriggerPoint() {
-		for(int i = 0; i < tgp.size(); i++) {
+		for (int i = 0; i < tgp.size(); i++) {
 			tgp.get(i).dispose();
 		}
 	}
 	
 	private void renderTGPGuards(int index) {
-		if(!guards[index].isEmpty()) {
+		if (!guards[index].isEmpty()) {
 			String[] gdNames = guards[index].split("/");
-			for(int i = 0; i < gdNames.length; i++) {
+			for (int i = 0; i < gdNames.length; i++) {
 				tgp.get(index).getGuardByName(gdNames[i]).render();
 				tgp.get(index).getGuardByName(gdNames[i]).getBatch().setProjectionMatrix(cam.combined);
 			}
@@ -484,9 +469,9 @@ public class GameMAIN extends GameState {
 	}
 	
 	private void checkTriggerGame(float x, float y) {
-		for(int i = 0; i < tgp.size(); i++) {	
-			if(tgp.get(i).containPoint(x, y)) {
-				if(!tgp.get(i).getTriggerred()) {
+		for (int i = 0; i < tgp.size(); i++) {	
+			if (tgp.get(i).containPoint(x, y)) {
+				if (!tgp.get(i).getTriggerred()) {
 					tgp.get(i).triggerGame();
 				}
 			} else {
@@ -497,7 +482,7 @@ public class GameMAIN extends GameState {
 
 	private void showTriggerText(float x, float y){
 		for (int i = 0; i < tgp.size(); i++) {
-			if(tgp.get(i).containPoint(x, y)){
+			if (tgp.get(i).containPoint(x, y)){
 				SpriteBatch textBatch; 
 				BitmapFont screenText; 
 				screenText = new BitmapFont(); 
@@ -518,94 +503,99 @@ public class GameMAIN extends GameState {
 		dialogueList.add(newdialogue); 
 	}
 
+	//-------- Add dialogue --------
 	private void initDialogueArray(){
-		// Add dialogue into the array through this function. 
-		addDialogue(300, 300, -300 , -300, "Narrator: Welcome to Isometria!!");
 
-		//Entrance Dragon
-		addDialogue(469, 0, 347, -50, "Dragon: You've arrived! Thanks goodness.. 100010001001001, Something is wrong with the people of Isometria...");
+		//-------- INTRO --------
+		addDialogue(373, 20, 230 , -50, "Welcome to Isometria! And just in time, because the residents of the island are in trouble...");
 
-		//Entrance Robin
-		addDialogue(700, -16, 539, -77, "Robins: 100011000, Tweet tweet! Solve the puzzles, save the our friends!");
-		
-		// Triple Dragons Entrance. 
+		addDialogue(485, 21, 374, -95, "For some reason, they can't stop speaking in 1s and 0s - nobody can understand each other!");
 
-		addDialogue(892, -3, 705, -92, "Dragons: Use the phoneboxes, solve the puzzles, 100100100101 avoid the penguins... ");
+		addDialogue(702, -9, 519 , -109, "But this has happened before, remember? At that time, all the mayor had to do was flip the town's switch on and off...");
 
-		//Triple Chickens before Forest 
+		addDialogue(901, -10, 703 , -148, "The town was reset and everything went back to normal. Unfortunately, the mayor's away on a trip... you're our only hope!");
 
-		addDialogue(2773, -478, 2372, -680 , "Chickens: Squawk, squawk! 100010100100101 Be careful! The forest is dark... And full of terrors.");
+		addDialogue(1040, -33, 902 , -182, "Hmm, but since you're not an elected official, you're going to need to gain special access to the Town Hall...");
 
+		addDialogue(1375, 33, 1058 , -222, "This means you'll need to make some calls to officials for access badges... hey, use the town's red telephone boxes!");
 
-		addDialogue(2041, -461, -1826, -616, "HELLO WORLD");
+		addDialogue(1479, -55, 1376 , -249, "You might need to prove you know your binary, but I know you can do it! Get to the Town Hall, flip the switch and save Isometria!");
 
-		// Deters player from final boss if not enough badges are collected
-		// TODO: only add dialogue if badge count is < 3
-		// TODO: Lizzie will do this
-		addDialogue(3860, 870, 3430 , 655, "Narrator: The boss ahead is hard... Make sure you're prepared!!! ");
-		
-		// NPC #1
-		// Unpassed
-		//addDialogue(maxx, maxy, minx, miny, "Groundskeeper Nystrom�� 0011 0101�� tile puzzle��1111 1101�� anyone� solved it yet�� 1010�� reward�� 0101 0010�� Wilhelm Place.");
-		// Passed
-		//addDialogue(maxx, maxy, minx, miny, "1100 1010! 0000 0010 1010 1101!");
+		//-------- ENTRANCE: One Dragon --------
+		addDialogue(1718, -229, 1578, -320, "TOWNSPERSON: Help us! We... 100010001001001... can't... 1101010111...");
 
-		// Pre-Mini Game #1 Dialogue (should appear once the player has triggered NPC #1 dialogue)
-		// addDialogue(maxx, maxy, minx, miny, "All right, so it looks like you have to solve tile puzzles at Wilhelm Place. The groundskeeper, Mr. Nystrom, has been known to quiz people for entrance to the grounds. Now that everyone� speaking in binary, maybe his infamous tile puzzles will be easier to solve�� All you have to do is drag the tiles to the correct boxes that form the solution to the puzzles. There are three questions, so take your time and try to answer them correctly on the first go. Give it a go!");
+		//-------- ENTRANCE: Two Robins --------
+		addDialogue(2327, -264, 2177, -361, "TOWNSPEOPLE: 100011000... collect the coins... 10101100111... money can... 00011111... buy you extra time...");
 
-		// NPC #2
-		// Unpassed
-		//addDialogue(maxx, maxy, minx, miny, "1101 0101 1011 1111�� special items at Gottfried Gardens�� 0000 1011 1010 1011�� keep an eye out for rain drops��");
-		// Passed
-		//addDialogue(maxx, maxy, minx, miny, "0010 1010 0100 0000! 1111 0100 0101 0100!");
+		//-------- NEAR PHONEBOX: Two Chickens --------
+		addDialogue(2688, 188, 2423, 41, "11101101... keep going... 10101010101... save us... 1111... get to the Town Hall...");
 
-		// Pre-Mini Game #2 Dialogue (should appear once the player has triggered NPC #2 dialogue)
-		// addDialogue(maxx, maxy, minx, miny, "Hmm, so this one might be a little trickier�� I think we need collect raindrops that represent the chosen binary number. Then we�� water the plants? I� not really a gardener so I don� fully understand it, but let� try it out. Be careful, though, it looks like there� a certain time limit for how long it rains. Try not to make too many mistakes, three strikes and you�e out!");
+		//-------- BEFORE FOREST: Three Chickens --------
+		addDialogue(2773, -478, 2372, -680 , "TOWNSPEOPLE: 100101001... avoid the roaming guards... 101110111... hurry, save Isometria!");
 
-		// NPC #3
-		// Unpassed
-		//addDialogue(maxx, maxy, minx, miny, "1111 0011 1100�� watch out for the guards�� 1110 1011�� save the chickens�� 0101 0001 1000... Leibniz Square.");
-		// Passed
-		//addDialogue(maxx, maxy, minx, miny, "0001 0000 0001!");
+		//--------  --------
+		addDialogue(6237, -2237, 5667, -2537, "1110101010010111!!!!");
 
-		// Pre-Mini Game #3 Dialogue (should appear once the player has triggered NPC #3 dialogue)
-		// addDialogue(maxx, maxy, minx, miny, "Oh no, it� getting worse�� people are becoming more and more incomprehensible! We have to hurry to Leibniz Square. Okay, so there are guards we need to watch out for�� and a treasure�� It� risky, but let� just try avoiding the guards for now and see if we can find this so-called treasure. It also looks like there� a certain time limit for how long the guards patrol a certain aisle. I�l keep a look-out and let you know which aisle they�l check next, so just avoid that aisle so they can� see you.");
+		//--------  --------
+		addDialogue(7071, -2290, 6606, -2595, "11101010101??!");
 
-		// Post-Mini Game #3 Dialogue (should appear once the player has successfully finished Mini Game #3 and returned to the map)
-		// addDialogue(maxx, maxy, minx, miny, "Amazing! We�e collected all the Binary Badges we need. Now we can go to the Town Square and flip the switch. Let� go!");
+		//--------  --------
+		addDialogue(6527, -1638, 6162, -1813, "1110101001011!?");
 
-		// Pre-Final Boss Dialogue #1 (should appear once the player hits the bounds of the entrance of the last area)
-		// addDialogue(maxx, maxy, minx, miny, "The mayor� here! But why hasn� he flipped the switch? I think you should go up and speak to him��");
+		//-------- NEAR BIG CAMPFIRE: Two Dragons --------
+		addDialogue(5886, -1327, 5569, -1474, "11101110?! Phonebox? 00100001... over there!");
 
-		// Boss
-		//addDialogue(maxx, maxy, minx, miny, "0001! 1101 0101 1011 1111? 1010 1111 1110 0011��");
+		//--------  --------
+		addDialogue(5775, -751, 5563, -886, "Go... 110110110... left... 0000... right... 1111... straight...");
 
-		// Pre-Final Boss Battle Dialogue #2 (should appear after the Boss dialogue)
-		// TODO: Decide if we want this to be in a dialogue box or a separate screen that ties up the story - either works
-		// addDialogue(maxx,maxx maxy, minx, miny, "Oh no, I think the mayor� forgotten how to access the switch! It� okay, you�e done something similar before. Find your way through the maze and collect the numbers that represent the binary number. Try to do this quickly, we don� have much time!");
+		//--------  --------
+		addDialogue(6559, -650, 6234, -822, "Hey you! 110110110! Are you authorised? 11110000!");
 
+		//--------  --------
+		addDialogue(6925, -1112, 6644, -1237, "Phone box? 00010000... I think... 1110! Inside the maze! 11111111!");
+
+		//--------  --------
+		addDialogue(7428, -1351, 7221, -1471, "Be careful! 11010101... maze,,,0001!");
+
+		//--------  --------
+		addDialogue(5558, -395, 5242, -561, "Watch out... 101010111... spikes... 11010011...");
+
+		//--------  --------
+		addDialogue(5580, -54, 5508, -126, "0011? 11110000? 101010100!");
+
+		//--------  --------
+		addDialogue(4340, -43, 4012, -205, "0000! 1111! Town Square? 0011011... it's up ahead... 11101111?");
+
+		//--------  --------
+		addDialogue(4225, 148, 4007, 24, "00101010... I couldn't get access... 11101011?!");
+
+		//--------  --------
+		addDialogue(3967, 496, 3712, 373, "111010010101111? 11110111!");
+
+		//-------- Pre-Boss Check --------
+		addDialogue(3860, 870, 3430, 655, "Are you sure you have enough badges to access the Town Hall? Make sure you do!");
+
+		//--------  --------
+		addDialogue(3530, 1109, 3276, 978, "YA'LL READY FOR THIS");
 	}
 
 	private Boolean dialogueTriggerCheck(double currentX, double currentY, int i) {
-
-			// System.out.println("HELLO TRIGGER CHECK " + dialogueList.get(i).getMinx());
-
-			if(dialogueList.get(i).getMinx() < currentX  && dialogueList.get(i).getMiny() < currentY && dialogueList.get(i).getMaxx() > currentX && dialogueList.get(i).getMaxy() > currentY){
-				// System.out.println("true"); 
-				return true; 
-			}
-			return false; 
+		//System.out.println("HELLO TRIGGER CHECK " + dialogueList.get(i).getMinx());
+		if (dialogueList.get(i).getMinx() < currentX && dialogueList.get(i).getMiny() < currentY && dialogueList.get(i).getMaxx() > currentX && dialogueList.get(i).getMaxy() > currentY) {
+			//System.out.println("true"); 
+			return true; 
+		}
+		return false; 
 	}
 
-	//Handle Property
+	//-------- Handle Property --------
 	private void initProperties() {
 		property = new ArrayList<Property>();		
 		initCoins();
 	}
 	
-	private void initCoins(){
-		
-		// Add the X and Y Coordinates to the following arrays. The coin will then be created. 
+	private void initCoins() {
+		// -------- Add the X and Y Coordinates to the following arrays. The coin will then be created --------
 		int[] xCoordCoins = new int[]{813, 1337, 1702, 2250, 2582, 2630, 2822, 2664, 2988, 3012, 3760, 4497, 5251, 5579, 3836, 4311, 3977, 4750, 5699, 6232, 6401, 7031, 6647, 5781, 5514, 7449, 8209, 8699, 7849, 7868, 5334, 4943, 5082}; 
 		int[] yCooordCoins = new int[]{-94, -152, -335, -356, -130, 87, 294, -667, -881, -1245, -1619, -1769, -1832, -2239, 421, 600, 15, -344, -596, -2531, -2615, -2300, -1887, -1454, -917, -1445, -1418, -1846, -1681, -1975, -481, 0, 568}; 
 
@@ -618,22 +608,22 @@ public class GameMAIN extends GameState {
 	}
 
 	private void renderProperty() {
-		for(int i = 0; i < property.size(); i++) {
+		for (int i = 0; i < property.size(); i++) {
 			property.get(i).render();
 			property.get(i).getBatch().setProjectionMatrix(cam.combined);
 		}
 	}
 
 	private void disposeProperty() {
-		for(int i = 0; i < property.size(); i++) {
+		for (int i = 0; i < property.size(); i++) {
 			property.get(i).dispose();
 		}
 	} 
 
-	// Collisions with inventory, boolean for later checking
+	//-------- Collisions with inventory, boolean for later checking --------
 	private boolean checkPropertyCollisions(float x, float y) {
-		for(int i = 0; i < property.size(); i++) {
-			if(property.get(i).containPoint(x, y)) {
+		for (int i = 0; i < property.size(); i++) {
+			if (property.get(i).containPoint(x, y)) {
 				property.remove(i);
 				coinSound.play();
 				return true;
@@ -642,20 +632,15 @@ public class GameMAIN extends GameState {
 		return false;
 	}
 
-	// Remove the coins if the villagers are collided with. 
+	//-------- Remove the coins if the villagers are collided with --------
 	// TODO: Ask what this means???
 	private void checkVillagerCollisions(float x, float y) {
-		for(int i = 0; i < people.size(); i++) {
-			if(people.get(i).containPoint(x, y)) {
+		for (int i = 0; i < people.size(); i++) {
+			if (people.get(i).containPoint(x, y)) {
 				scream.play();
 				scream.setVolume(50);
-				if(people.get(i).isBumpingInto()) {
+				if (people.get(i).isBumpingInto()) {
 					gm.inventoryRemoveOneCoin();
-					if(gm.getNumCoins() == 0){
-						InventoryUI inventoryUI = gm.getInventoryUI();
-						Table inventoryTable  =  inventoryUI.getInventorySlotTable(); 
-						inventoryUI.removeInventoryItems("COIN", inventoryTable); 
-					}
 				}
 			}
 		}
@@ -670,9 +655,9 @@ public class GameMAIN extends GameState {
 		return (blockedCell != null && blockedCell.getTile() != null);
 	}
 	
-	//check if on the BaseObjects layer
+	//-------- Check if on the BaseObjects layer --------
 		private boolean isOnTheGround(float x, float y) {
-			if(x < 0) return false;
+			if (x < 0) {return false;}
 			
 			Vector2 v = rotateCoord(x, y);
 			int iso_x = (int)(v.x/ TileEdge);
@@ -690,7 +675,7 @@ public class GameMAIN extends GameState {
 		
 		double len = Math.sqrt(x * x + y * y);
 		double alpha = Math.toDegrees(Math.atan(Math.abs(y) / x)); // Map: down is positive
-		if(y > 0) {alpha *= -1;}
+		if (y > 0) {alpha *= -1;}
 		double beta = 90 - 2*theta;
 		
 		Vector2 v = new Vector2();
@@ -714,7 +699,7 @@ public class GameMAIN extends GameState {
 		iso_x = (int) (v.x / tilewidth);
 		iso_y = (int) (v.y / tileheight);
 		
-		// Changed this from IsCellBlocked
+		//-------- NOTE: Changed this from IsCellBlocked --------
 		return isCellBlockedForVillager(iso_x, iso_y);
 	}
 
@@ -723,23 +708,19 @@ public class GameMAIN extends GameState {
 		Cell cell = transparentBlockedLayer.getCell(iso_x, iso_y);		
 		return (cell != null && cell.getTile() != null);
 	}
-
-/*	public void putMedalInInventory() {
+	
+	/* public void putMedalInInventory() {
 		InventoryItemFactory factory = InventoryItemFactory.getInstance();
 		InventoryItem item = factory.getInventoryItem(ItemTypeID.MEDAL);			
 		inventoryUI.addItemToInventory(item, "MEDAL");
-	}
-*/
+	} */
+
 	// TODO: Lizzie look at this
-/*	public void removeItemInInventory(){
-
-		//InventoryItemFactory factory = InventoryItemFactory.getInstance();
-
+	/*public void removeItemInInventory() {
+		InventoryItemFactory factory = InventoryItemFactory.getInstance();
 		Table inventoryTable  =  inventoryUI.getInventorySlotTable(); 
 		inventoryUI.removeInventoryItems("COIN", inventoryTable); 
-
-	}
-*/
+	} */
 }
 
 
