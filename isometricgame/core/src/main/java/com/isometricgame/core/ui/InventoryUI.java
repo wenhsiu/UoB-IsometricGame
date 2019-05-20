@@ -14,10 +14,10 @@ import com.isometricgame.core.Utility;
 
 public class InventoryUI extends Window {
 
-    public final static int numSlots = 10;
+    public final static int numSlots = 8;
     public static final String PLAYER_INVENTORY = "Player_Inventory";
     
-    private int lengthSlotRow = 5;
+    private int lengthSlotRow = 4;
     private Table inventorySlotTable;
     private Array<Actor> inventoryActors;
 
