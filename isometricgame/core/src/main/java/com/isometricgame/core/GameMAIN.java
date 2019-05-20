@@ -118,7 +118,7 @@ public class GameMAIN extends GameState {
 	public GameMAIN(GameManager gm) {
 		super();
 		this.gm = gm;
-		dialogueList =  new ArrayList<GameDialogue>();
+		dialogueList =  new ArrayList<>();
 		
 		initMapAndLayer();
 		
@@ -138,6 +138,10 @@ public class GameMAIN extends GameState {
 		coinSound = Gdx.audio.newMusic(Gdx.files.internal("coinSound.mp3")); 
 		thud = Gdx.audio.newMusic(Gdx.files.internal("thud.mp3")); 
 		scream = Gdx.audio.newMusic(Gdx.files.internal("scream1.mp3")); 
+
+		coinCount = new BitmapFont(); 
+		coinCount.setColor(Color.BLACK);
+		coinCount.setScale((float) 1.75);
 
 	}
 
@@ -176,8 +180,6 @@ public class GameMAIN extends GameState {
 			thud.play();
 		}
 		
-		checkPeopleCollision();
-
 		checkPeopleCollision();
 
 		/* // TODO: Iterate
@@ -244,11 +246,12 @@ public class GameMAIN extends GameState {
 			if(dialogueTriggerCheck(x, y, i) == true){
 				bfont.draw(textbatch, dialogueList.get(i).getTextmessage(), 150, 150); 
 			}
+		}
 
 			// TODO: Fix slot problem
 			noCoins = "" + gm.inventoryGetItemNumber(ItemTypeID.COIN);
 			if(!noCoins.equals("0") && !noCoins.equals("1")){
-				if(gm.getNumCoins() < 10){
+				if(gm.inventoryGetItemNumber(ItemTypeID.COIN) < 10){
 					coinCount.draw(textbatch, noCoins, 68, 643); 
 				}
 				else {
@@ -375,13 +378,13 @@ public class GameMAIN extends GameState {
 		return null;
 	}
 	
-	private void checkPeopleCollision() {
+	/* private void checkPeopleCollision() {
 		for(People p : people) {
 			p.CollisionAction(checkVillagerMapCollision(p.getPositionX(), p.getPositionY(), 
 						TileEdge, TileEdge)
 					);
 		}
-	}
+	} */
 	
 	private void removePeopleByName(String name) {
 		for(int i = 0; i < people.size(); i++) {

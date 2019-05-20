@@ -164,6 +164,10 @@ public class GameManager {
 		return inventoryUI;
 	}
 
+	public int inventoryGetItemNumber(ItemTypeID typeID){
+		return inventoryUI.getItemNumber(typeID); 
+	}
+
 	public void setInventoryUI(InventoryUI inventoryUI) {
 		this.inventoryUI = inventoryUI;
 	}
