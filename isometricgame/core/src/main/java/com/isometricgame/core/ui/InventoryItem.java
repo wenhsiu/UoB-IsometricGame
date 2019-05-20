@@ -4,8 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class InventoryItem extends Image {
 
-    // TODO: BADDIES TAKE COINS? COOL BUT THEN YOU CANNOT PICK ANY MORE UP ATM
-
     public enum ItemTypeID {
         COIN, MEDAL, NONE;
     }
