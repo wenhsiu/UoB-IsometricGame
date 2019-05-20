@@ -114,6 +114,11 @@ public class GameMAIN extends GameState {
 	private Music coinSound; 
 	private Music thud; 
 	private Music scream; 
+
+	//Medal font and string
+	private String noMedals;
+	private BitmapFont medalCount;
+
 	
 	public GameMAIN(GameManager gm) {
 		super();
@@ -143,6 +148,10 @@ public class GameMAIN extends GameState {
 		coinCount.setColor(Color.BLACK);
 		coinCount.setScale((float) 1.2);
 
+		medalCount = new BitmapFont(); 
+		medalCount.setColor(Color.BLACK);
+		medalCount.setScale((float) 1.75);
+
 	}
 
 	@Override
@@ -160,7 +169,7 @@ public class GameMAIN extends GameState {
 		// Trigger mini games with phone boxes
 		checkTriggerGame(x, y); 		
 
-		System.out.println("Values of X and Y = " + x + " , " + y);
+		//System.out.println("Values of X and Y = " + x + " , " + y);
 
 		cam.position.set(x, y, 0);
 
@@ -217,9 +226,20 @@ public class GameMAIN extends GameState {
 					coinCount.draw(textbatch, noCoins, 80, 700 ); 
 				}
 				else {
-					coinCount.draw(textbatch, noCoins, 61, 643); 
+					coinCount.draw(textbatch, noCoins, 80, 643); 
 				}
 			}
+
+			noMedals = "" + gm.inventoryGetItemNumber(ItemTypeID.MEDAL);
+				if(!noMedals.equals("0") && !noMedals.equals("1")){
+					if(gm.inventoryGetItemNumber(ItemTypeID.MEDAL) < 10){
+						medalCount.draw(textbatch, noMedals, 108, 683); 
+			} else {
+				medalCount.draw(textbatch, noMedals, 101, 683); 
+			}
+		}
+
+
 
 		textbatch.end();
 		

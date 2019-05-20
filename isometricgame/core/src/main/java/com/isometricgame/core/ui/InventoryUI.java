@@ -216,7 +216,7 @@ public class InventoryUI extends Window {
             System.out.println("Number of coins is " + noCoins);
         }
         else if(itemName.equals("MEDAL") && noMedals > 0) {
-            noCoins++;
+            noMedals++;
             System.out.println("Number of medals is " + noMedals);
         }
     }
@@ -246,10 +246,10 @@ public class InventoryUI extends Window {
     	case MEDAL:
     		if(noMedals > 0 && noMedals - amount >= 0) {
                 noMedals -= amount;
-                //System.out.println("Number of coins is " + noMedals);
+                System.out.println("Number of medals is " + noMedals);
             }
             else if(noMedals > 0 && noMedals - amount == 0) {
-                noCoins -= amount;
+                noMedals -= amount;
                 removeInventoryItems("MEDAL", inventorySlotTable);
             }
     		break;
