@@ -20,18 +20,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
-
+import com.isometricgame.core.ui.InventoryUI;
 import com.isometricgame.core.charactermanager.People;
 import com.isometricgame.core.charactermanager.Property;
 import com.isometricgame.core.charactermanager.TriggerPoint;
 
 import com.isometricgame.core.dialogue.GameDialogue;
-
-import com.isometricgame.core.ui.InventoryItem;
-import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
-import com.isometricgame.core.ui.InventoryItemFactory;
-import com.isometricgame.core.ui.InventoryUI;
-import com.isometricgame.core.ui.PlayerHUD;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +34,12 @@ public class GameMAIN extends GameState {
 
 	private GameManager gm;
 
-	// private int testmedal;
-
 	//-------- Map --------
 	private TiledMap map;
 	private IsometricTiledMapRenderer mapRenderer;
+
+	private String noCoins;
+	private BitmapFont coinCount; 
 
 	//-------- Layers --------
 	private TiledMapTileLayer transparentBlockedLayer;
@@ -107,15 +102,12 @@ public class GameMAIN extends GameState {
 	//-------- Testing Fonts --------
 	private BitmapFont bfont;
 	private SpriteBatch textbatch;
-	private Label labeltest;
-	private LabelStyle labelstyle;
 
 	private String triggerText;
 
 	public List<GameDialogue> dialogueList;
 
 	private ShapeRenderer shapeRenderer;
-	private ShapeRenderer helpRenderer;
 
 	//Sound Effects 
 	private Music coinSound; 
@@ -128,7 +120,7 @@ public class GameMAIN extends GameState {
 		dialogueList =  new ArrayList<GameDialogue>();
 		
 		initMapAndLayer();
-
+		
 		initProperties();
 		initPeople();
 		initTriggerPoint();
@@ -174,7 +166,7 @@ public class GameMAIN extends GameState {
 		
 		if(!isOnTheGround(playerNextPosition.x, playerNextPosition.y)) {			
 			player.setFrozen(true);
-		}else if(checkMapCollision(playerNextPosition.x, playerNextPosition.y)) {
+		} else if (checkMapCollision(playerNextPosition.x, playerNextPosition.y)) {
 			player.setSpeedFactor(-75);
 			thud.play();
 		}
@@ -245,7 +237,13 @@ public class GameMAIN extends GameState {
 			if(dialogueTriggerCheck(x, y, i) == true){
 				bfont.draw(textbatch, dialogueList.get(i).getTextmessage(), 150, 150); 
 			}
-		}		
+
+			// TODO: Fix slot problem
+			noCoins = "" + gm.getNumCoins();
+			if(!noCoins.equals("0") && !noCoins.equals("1")){
+				coinCount.draw(textbatch, noCoins, 68, 643); 
+			}
+
 		textbatch.end();
 		
 		cam.update();
@@ -339,6 +337,7 @@ public class GameMAIN extends GameState {
 		}		
 	}
 	
+	// TODO: Do we need this?
 	private void playerBounce(Player player) {
 		player.setSpeedFactor(-50);
 		Vector2 nextPos = player.getNextPosition();
@@ -425,7 +424,7 @@ public class GameMAIN extends GameState {
 			tgp.get(i).updateTriggerPoint();
 			tgp.get(i).getBatch().setProjectionMatrix(cam.combined);
 			if(tgp.get(i).getTriggeredGame() == null || !tgp.get(i).getTriggeredGame().getPassState()) {
-				renderTGPGuards(i);//Don't render guards if player passed this game
+				renderTGPGuards(i); // Don't render guards if player passed this game
 			}
 		}
 	}
@@ -458,6 +457,7 @@ public class GameMAIN extends GameState {
 		}
 	}
 
+	// TODO: Do we need this?
 	private void showTriggerText(float x, float y){
 		for (int i = 0; i < tgp.size(); i++) {
 			if(tgp.get(i).containPoint(x, y)){
@@ -491,14 +491,11 @@ public class GameMAIN extends GameState {
 		//Entrance Robin
 		addDialogue(700, -16, 539, -77, "Robins: 100011000, Tweet tweet! Solve the puzzles, save the our friends!");
 		
-		// Triple Dragons Entrance. 
-
+		// Triple Dragons Entrance
 		addDialogue(892, -3, 705, -92, "Dragons: Use the phoneboxes, solve the puzzles, 100100100101 avoid the penguins... ");
 
 		//Triple Chickens before Forest 
-
 		addDialogue(2773, -478, 2372, -680 , "Chickens: Squawk, squawk! 100010100100101 Be careful! The forest is dark... And full of terrors.");
-
 
 		addDialogue(2041, -461, -1826, -616, "HELLO WORLD");
 
@@ -556,7 +553,7 @@ public class GameMAIN extends GameState {
 		return false; 
 	}
 
-	//Handle Property
+	// Handle Property
 	private void initProperties() {
 		property = new ArrayList<Property>();		
 		initCoins();
@@ -565,8 +562,8 @@ public class GameMAIN extends GameState {
 	private void initCoins(){
 		
 		// Add the X and Y Coordinates to the following arrays. The coin will then be created. 
-		int[] xCoordCoins = new int[]{813, 1337, 1702, 2250, 2582, 2630, 2822, 2664, 2988, 3012, 3760, 4497, 5251, 5579, 3836, 4311, 3977, 4750, 5699, 6232, 6401, 7031, 6647, 5781, 5514, 7449, 8209, 8699, 7849, 7868, 5334, 4943, 5082}; 
-		int[] yCooordCoins = new int[]{-94, -152, -335, -356, -130, 87, 294, -667, -881, -1245, -1619, -1769, -1832, -2239, 421, 600, 15, -344, -596, -2531, -2615, -2300, -1887, -1454, -917, -1445, -1418, -1846, -1681, -1975, -481, 0, 568}; 
+		int[] xCoordCoins = new int[] {813, 1337, 1702, 2250, 2582, 2630, 2822, 2664, 2988, 3012, 3760, 4497, 5251, 5579, 3836, 4311, 3977, 4750, 5699, 6232, 6401, 7031, 6647, 5781, 5514, 7449, 8209, 8699, 7849, 7868, 5334, 4943, 5082}; 
+		int[] yCooordCoins = new int[] {-94, -152, -335, -356, -130, 87, 294, -667, -881, -1245, -1619, -1769, -1832, -2239, 421, 600, 15, -344, -596, -2531, -2615, -2300, -1887, -1454, -917, -1445, -1418, -1846, -1681, -1975, -481, 0, 568}; 
 
 		for (int i = 0; i < xCoordCoins.length; i++) {
 			Coin coin = new Coin(xCoordCoins[i], yCooordCoins[i]); 
@@ -602,7 +599,7 @@ public class GameMAIN extends GameState {
 	}
 
 	// Remove the coins if the villagers are collided with. 
-	// TODO: Ask what this means???
+	// TODO: Lizzie will fix this
 	private void checkVillagerCollisions(float x, float y) {
 		for(int i = 0; i < people.size(); i++) {
 			if(people.get(i).containPoint(x, y)) {
@@ -683,14 +680,3 @@ public class GameMAIN extends GameState {
 		return (cell != null && cell.getTile() != null);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-

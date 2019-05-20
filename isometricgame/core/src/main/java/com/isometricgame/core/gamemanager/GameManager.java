@@ -77,7 +77,7 @@ public class GameManager {
 	}
 	
 	public void inventoryRemoveOneCoin() {
-		inventoryUI.removeOneItemFromInventory(ItemTypeID.COIN);
+		inventoryUI.removeBulkItems(ItemTypeID.COIN, 1);
 	}
 		
 	public String[] getAllGameNames() {
@@ -99,8 +99,9 @@ public class GameManager {
 		}
 	}
 
-	//Pass in the game inventory. 
+	// Add a medal to the inventory if the pass condition is true
 	public void checkPassedState(InventoryUI currentInventory){
+		// TODO: LibGDX doesn't like the use of iterators, doesn't always compile
 		for(String key: gameStates.keySet()){
 			if(gameStates.get(key).passed == true){
 				InventoryItemFactory factory = InventoryItemFactory.getInstance();
@@ -110,7 +111,6 @@ public class GameManager {
 		}
 	}
 
-
 	public Player getPlayer() {
 		return player;
 	}
@@ -118,7 +118,7 @@ public class GameManager {
 	public void newGameStateByName(String gsName) {
 		GameState newGS = null;
 		
-		//Added new gameState or replaced the failed state with a newly-created one
+		// Add new GameState or replace the failed state with a newly-created one
 		if(gsName.contains("DROPGAME1")) {
 			newGS = new GameDropEasy(this);
 		}else if(gsName.contains("DROPGAME2")) {
@@ -150,7 +150,7 @@ public class GameManager {
 				gameStates.put("END", new GameEND(this));
 			} else if(stateName[i].equals("PRESENTATION")) {
 				gameStates.put("PRESENTATION", new Presentation(this));
-			 } else if(stateName[i].equals("GUIDE")) {
+			} else if(stateName[i].equals("GUIDE")) {
 				gameStates.put("GUIDE", new GameGuide(this));
 			}
 		}
@@ -158,10 +158,6 @@ public class GameManager {
 
 	public int getMazeTime() {
 		return inventoryUI.getInventoryTime();
-	}
-
-	public int getNumCoins() {
-		return inventoryUI.getNoCoins();
 	}
 
 	public InventoryUI getInventoryUI() {
