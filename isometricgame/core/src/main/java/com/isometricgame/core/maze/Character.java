@@ -49,7 +49,7 @@ public class Character extends Sprite /*implements InputProcessor*/ {
 
 
 		// calculate the increment for step in #collidesLeft() and #collidesRight()
-		increment = (float) 10.625;
+		increment = 5;
 
 		if(Gdx.input.isKeyPressed(Keys.LEFT)) // going left
 			collisionX = collidesLeft();

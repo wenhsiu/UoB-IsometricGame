@@ -86,7 +86,7 @@ public class InventoryUI extends Window {
     public void removeBulkItems(ItemTypeID itemID, int amount) {
     	switch(itemID) {
     	case COIN:
-    		if(noCoins > 0 && noCoins - amount > 0) {
+    		if(noCoins - amount >= 0) {
     			noCoins -= amount;
     			//System.out.println("Number of coins is " + noCoins);
             }

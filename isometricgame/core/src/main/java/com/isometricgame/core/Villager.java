@@ -19,7 +19,7 @@ public class Villager extends People {
 	private int direction;
 
 	public Villager(float x, float y) {
-		super(x, y, (float) 0.3);
+		super(x, y, (float) 0.35);
 		frameSizeX = 309;
 		frameSizeY = 424;
 		direction = 1;

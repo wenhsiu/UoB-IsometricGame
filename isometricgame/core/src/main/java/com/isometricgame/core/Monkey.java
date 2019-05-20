@@ -4,9 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+
 import com.isometricgame.core.charactermanager.People;
 
-public class Monkey extends People{
+public class Monkey extends People {
 
 	private Animation spin;
 	private float timer;
@@ -18,7 +19,7 @@ public class Monkey extends People{
 	private int direction;
 
 	public Monkey(float x, float y) {
-		super(x, y, (float) 0.3);
+		super(x, y, (float) 0.35);
 		frameSizeX = 309;
 		frameSizeY = 399;
 		direction = 1;
@@ -120,4 +121,5 @@ public class Monkey extends People{
     public float initial_y() {
 		return init_y;
 	}
+
 }

@@ -167,4 +167,6 @@ public class GameManager {
 	public void setInventoryUI(InventoryUI inventoryUI) {
 		this.inventoryUI = inventoryUI;
 	}
+
+	
 }

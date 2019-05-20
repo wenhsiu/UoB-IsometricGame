@@ -298,5 +298,5 @@ public class GameAvoid extends GameState {
         timer.dispose();
         shapeRenderer.dispose();
         backgroundTexture.dispose();
-	}
+    }    
 }
