@@ -56,13 +56,13 @@ public class GameMAIN extends GameState {
 	//-------- Characters --------
 	private ArrayList<People> people;
 	// Naming rule: <type>_<alias>
-	private final String[] peopleName = {"Boss_org", "Boss_drop", 
-										 "Villager_1", "Villager_2", "Villager_3", "Villager_4", "Villager_5", "Villager_6",
+	private final String[] peopleName = {"Boss_org", //"Boss_drop", 
+										 "Villager_1", "Villager_2", "Villager_3", "Villager_4", "Monkey_1", "Monkey_6",
 										 };						
-	private final float[] pplX = {500, 1954, 
+	private final float[] pplX = {500, //1954, 
 								  3000, 4000, 4065, 4517, 5065, 5398,
 								  }; 
-	private final float[] pplY = {500, -38, 
+	private final float[] pplY = {500, //-38, 
 								  -1000, -1500, -1514, 1821, -2095, -2329,
 								  }; 
 	
@@ -158,14 +158,14 @@ public class GameMAIN extends GameState {
 		// Show the trigger text if there is any to show. 
 		// showTriggerText(x, y);
 
-		// System.out.println("Values of X and Y = " + x + " , " + y);
+		System.out.println("Values of X and Y = " + x + " , " + y);
 
 		cam.position.set(x, y, 0);
 
 		gm.renderInventory(delta);
 		
 		// Add coins to inventory
-		if(checkPropertyCollisions(x, y)) {
+		if(checkCoinCollisions(x, y)) {
 			gm.inventoryAddCoin();
 		}		
 
@@ -178,7 +178,9 @@ public class GameMAIN extends GameState {
 			thud.play();
 		}		
 
-		// TODO: Iterate
+		checkPeopleCollision();
+
+		/* // TODO: Iterate
 		getPeopleByName("Villager_1").CollisionAction(
 			checkVillagerMapCollision(
 				getPeopleByName("Villager_1").getPositionX(),
@@ -203,18 +205,18 @@ public class GameMAIN extends GameState {
 				getPeopleByName("Villager_4").getPositionY(), 
 				TileEdge, TileEdge));
 
-		getPeopleByName("Villager_5").CollisionAction(
+		getPeopleByName("Monkey_1").CollisionAction(
 			checkVillagerMapCollision(
-				getPeopleByName("Villager_5").getPositionX(),
-				getPeopleByName("Villager_5").getPositionY(), 
+				getPeopleByName("Monkey_1").getPositionX(),
+				getPeopleByName("Monkey_1").getPositionY(), 
 				TileEdge, TileEdge));
 
-		getPeopleByName("Villager_6").CollisionAction(
+		getPeopleByName("Monkey_2").CollisionAction(
 			checkVillagerMapCollision(
-				getPeopleByName("Villager_6").getPositionX(),
-				getPeopleByName("Villager_6").getPositionY(), 
+				getPeopleByName("Monkey_2").getPositionX(),
+				getPeopleByName("Monkey_2").getPositionY(), 
 				TileEdge, TileEdge));
-
+ */
 
 		player.getBatch().setProjectionMatrix(cam.combined);
 		
@@ -256,7 +258,12 @@ public class GameMAIN extends GameState {
 			// TODO: Fix slot problem
 			noCoins = "" + gm.getNumCoins();
 			if(!noCoins.equals("0") && !noCoins.equals("1")){
-				coinCount.draw(textbatch, noCoins, 68, 643); 
+				if(gm.getNumCoins() < 10){
+					coinCount.draw(textbatch, noCoins, 68, 643); 
+				}
+				else {
+					coinCount.draw(textbatch, noCoins, 61, 643); 
+				}
 			}
 
 		textbatch.end();
@@ -343,6 +350,8 @@ public class GameMAIN extends GameState {
 				p = new Villager(x, y);
 			} else if(type.equals("penguin")) {
 				p = new Penguin(x, y);
+			} else if(type.equals("monkey")){
+				p = new Monkey(x, y); 
 			}
 			
 			p.create();			
@@ -490,67 +499,77 @@ public class GameMAIN extends GameState {
 	}
 
 	private void initDialogueArray(){
-		// Add dialogue into the array through this function. 
-		addDialogue(300, 300, -300 , -300, "Narrator: Welcome to Isometria!!");
+		//-------- INTRO --------
+		addDialogue(373, 20, 230 , -50, "Welcome to Isometria! And just in time, because the residents of the island are in trouble...");
 
-		//Entrance Dragon
-		addDialogue(469, 0, 347, -50, "Dragon: You've arrived! Thanks goodness.. 100010001001001, Something is wrong with the people of Isometria...");
+		addDialogue(485, 21, 374, -95, "For some reason, they can't stop speaking in 1s and 0s - nobody can understand each other!");
 
-		//Entrance Robin
-		addDialogue(700, -16, 539, -77, "Robins: 100011000, Tweet tweet! Solve the puzzles, save the our friends!");
-		
-		// Triple Dragons Entrance
-		addDialogue(892, -3, 705, -92, "Dragons: Use the phoneboxes, solve the puzzles, 100100100101 avoid the penguins... ");
+		addDialogue(702, -9, 519 , -109, "But this has happened before, remember? At that time, all the mayor had to do was flip the town's switch on and off...");
 
-		//Triple Chickens before Forest 
-		addDialogue(2773, -478, 2372, -680 , "Chickens: Squawk, squawk! 100010100100101 Be careful! The forest is dark... And full of terrors.");
+		addDialogue(901, -10, 703 , -148, "The town was reset and everything went back to normal. Unfortunately, the mayor's away on a trip... you're our only hope!");
 
-		addDialogue(2041, -461, -1826, -616, "HELLO WORLD");
+		addDialogue(1040, -33, 902 , -182, "Hmm, but since you're not an elected official, you're going to need to gain special access to the Town Hall...");
 
-		// Deters player from final boss if not enough badges are collected
-		// TODO: only add dialogue if badge count is < 3
-		// TODO: Lizzie will do this
-		addDialogue(3860, 870, 3430 , 655, "Narrator: The boss ahead is hard... Make sure you're prepared!!! ");
-		
-		// NPC #1
-		// Unpassed
-		//addDialogue(maxx, maxy, minx, miny, "Groundskeeper Nystrom�� 0011 0101�� tile puzzle��1111 1101�� anyone� solved it yet�� 1010�� reward�� 0101 0010�� Wilhelm Place.");
-		// Passed
-		//addDialogue(maxx, maxy, minx, miny, "1100 1010! 0000 0010 1010 1101!");
+		addDialogue(1375, 33, 1058 , -222, "This means you'll need to make some calls to officials for access badges... hey, use the town's red telephone boxes!");
 
-		// Pre-Mini Game #1 Dialogue (should appear once the player has triggered NPC #1 dialogue)
-		// addDialogue(maxx, maxy, minx, miny, "All right, so it looks like you have to solve tile puzzles at Wilhelm Place. The groundskeeper, Mr. Nystrom, has been known to quiz people for entrance to the grounds. Now that everyone� speaking in binary, maybe his infamous tile puzzles will be easier to solve�� All you have to do is drag the tiles to the correct boxes that form the solution to the puzzles. There are three questions, so take your time and try to answer them correctly on the first go. Give it a go!");
+		addDialogue(1479, -55, 1376 , -249, "You might need to prove you know your binary, but I know you can do it! Get to the Town Hall, flip the switch and save Isometria!");
 
-		// NPC #2
-		// Unpassed
-		//addDialogue(maxx, maxy, minx, miny, "1101 0101 1011 1111�� special items at Gottfried Gardens�� 0000 1011 1010 1011�� keep an eye out for rain drops��");
-		// Passed
-		//addDialogue(maxx, maxy, minx, miny, "0010 1010 0100 0000! 1111 0100 0101 0100!");
+		//-------- ENTRANCE: One Dragon --------
+		addDialogue(1718, -229, 1578, -320, "TOWNSPERSON: Help us! We... 100010001001001... can't... 1101010111...");
 
-		// Pre-Mini Game #2 Dialogue (should appear once the player has triggered NPC #2 dialogue)
-		// addDialogue(maxx, maxy, minx, miny, "Hmm, so this one might be a little trickier�� I think we need collect raindrops that represent the chosen binary number. Then we�� water the plants? I� not really a gardener so I don� fully understand it, but let� try it out. Be careful, though, it looks like there� a certain time limit for how long it rains. Try not to make too many mistakes, three strikes and you�e out!");
+		//-------- ENTRANCE: Two Robins --------
+		addDialogue(2327, -264, 2177, -361, "TOWNSPEOPLE: 100011000... collect the coins... 10101100111... money can... 00011111... buy you extra time...");
 
-		// NPC #3
-		// Unpassed
-		//addDialogue(maxx, maxy, minx, miny, "1111 0011 1100�� watch out for the guards�� 1110 1011�� save the chickens�� 0101 0001 1000... Leibniz Square.");
-		// Passed
-		//addDialogue(maxx, maxy, minx, miny, "0001 0000 0001!");
+		//-------- NEAR PHONEBOX: Two Chickens --------
+		addDialogue(2688, 188, 2423, 41, "11101101... keep going... 10101010101... save us... 1111... get to the Town Hall...");
 
-		// Pre-Mini Game #3 Dialogue (should appear once the player has triggered NPC #3 dialogue)
-		// addDialogue(maxx, maxy, minx, miny, "Oh no, it� getting worse�� people are becoming more and more incomprehensible! We have to hurry to Leibniz Square. Okay, so there are guards we need to watch out for�� and a treasure�� It� risky, but let� just try avoiding the guards for now and see if we can find this so-called treasure. It also looks like there� a certain time limit for how long the guards patrol a certain aisle. I�l keep a look-out and let you know which aisle they�l check next, so just avoid that aisle so they can� see you.");
+		//-------- BEFORE FOREST: Three Chickens --------
+		addDialogue(2773, -478, 2372, -680 , "TOWNSPEOPLE: 100101001... avoid the roaming guards... 101110111... hurry, save Isometria!");
 
-		// Post-Mini Game #3 Dialogue (should appear once the player has successfully finished Mini Game #3 and returned to the map)
-		// addDialogue(maxx, maxy, minx, miny, "Amazing! We�e collected all the Binary Badges we need. Now we can go to the Town Square and flip the switch. Let� go!");
+		//--------  --------
+		addDialogue(6237, -2237, 5667, -2537, "1110101010010111!!!!");
 
-		// Pre-Final Boss Dialogue #1 (should appear once the player hits the bounds of the entrance of the last area)
-		// addDialogue(maxx, maxy, minx, miny, "The mayor� here! But why hasn� he flipped the switch? I think you should go up and speak to him��");
+		//--------  --------
+		addDialogue(7071, -2290, 6606, -2595, "11101010101??!");
 
-		// Boss
-		//addDialogue(maxx, maxy, minx, miny, "0001! 1101 0101 1011 1111? 1010 1111 1110 0011��");
+		//--------  --------
+		addDialogue(6527, -1638, 6162, -1813, "1110101001011!?");
 
-		// Pre-Final Boss Battle Dialogue #2 (should appear after the Boss dialogue)
-		// TODO: Decide if we want this to be in a dialogue box or a separate screen that ties up the story - either works
-		// addDialogue(maxx,maxx maxy, minx, miny, "Oh no, I think the mayor� forgotten how to access the switch! It� okay, you�e done something similar before. Find your way through the maze and collect the numbers that represent the binary number. Try to do this quickly, we don� have much time!");
+		//-------- NEAR BIG CAMPFIRE: Two Dragons --------
+		addDialogue(5886, -1327, 5569, -1474, "11101110?! Phonebox? 00100001... over there!");
+
+		//--------  --------
+		addDialogue(5775, -751, 5563, -886, "Go... 110110110... left... 0000... right... 1111... straight...");
+
+		//--------  --------
+		addDialogue(6559, -650, 6234, -822, "Hey you! 110110110! Are you authorised? 11110000!");
+
+		//--------  --------
+		addDialogue(6925, -1112, 6644, -1237, "Phone box? 00010000... I think... 1110! Inside the maze! 11111111!");
+
+		//--------  --------
+		addDialogue(7428, -1351, 7221, -1471, "Be careful! 11010101... maze,,,0001!");
+
+		//--------  --------
+		addDialogue(5558, -395, 5242, -561, "Watch out... 101010111... spikes... 11010011...");
+
+		//--------  --------
+		addDialogue(5580, -54, 5508, -126, "0011? 11110000? 101010100!");
+
+		//--------  --------
+		addDialogue(4340, -43, 4012, -205, "0000! 1111! Town Square? 0011011... it's up ahead... 11101111?");
+
+		//--------  --------
+		addDialogue(4225, 148, 4007, 24, "00101010... I couldn't get access... 11101011?!");
+
+		//--------  --------
+		addDialogue(3967, 496, 3712, 373, "111010010101111? 11110111!");
+
+		//-------- Pre-Boss Check --------
+		addDialogue(3860, 870, 3430, 655, "Are you sure you have enough badges to access the Town Hall? Make sure you do!");
+
+		//--------  --------
+		addDialogue(3530, 1109, 3276, 978, "YA'LL READY FOR THIS");
 
 	}
 
@@ -599,7 +618,7 @@ public class GameMAIN extends GameState {
 	} 
 
 	// Collisions with inventory, boolean for later checking
-	private boolean checkPropertyCollisions(float x, float y) {
+	private boolean checkCoinCollisions(float x, float y) {
 		for(int i = 0; i < property.size(); i++) {
 			if(property.get(i).containPoint(x, y)) {
 				property.remove(i);
@@ -692,4 +711,10 @@ public class GameMAIN extends GameState {
 		return (cell != null && cell.getTile() != null);
 	}
 
+	private void checkPeopleCollision(){
+		for (int i = 0; i < people.size(); i++) {
+			People p = people.get(i); 
+			p.CollisionAction(checkVillagerMapCollision(p.getPositionX(), p.getPositionY(), TileEdge, TileEdge));	
+		}
+	}
 }

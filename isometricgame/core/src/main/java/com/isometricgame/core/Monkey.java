@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 
 import com.isometricgame.core.charactermanager.People;
 
-public class Villager extends People {
+public class Monkey extends People {
 
 	private Animation spin;
 	private float timer;
@@ -18,10 +18,10 @@ public class Villager extends People {
 	private float init_x, init_y;
 	private int direction;
 
-	public Villager(float x, float y) {
+	public Monkey(float x, float y) {
 		super(x, y, (float) 0.35);
 		frameSizeX = 309;
-		frameSizeY = 424;
+		frameSizeY = 399;
 		direction = 1;
         move_x = 2;
         move_y = 1;
@@ -31,7 +31,7 @@ public class Villager extends People {
 
 	@Override
 	public void create() {
-		characterInit("bunny_down.png", 0, 0, frameSizeX, frameSizeY);
+		characterInit("monkey_down.png", 0, 0, frameSizeX, frameSizeY);
 		animationInit();
 		setBoundary(getSizeY() / 2, getSizeY() / 2, getSizeX() / 2, getSizeX() / 2);
 	}
@@ -66,7 +66,7 @@ public class Villager extends People {
 	@Override
 	public void animationInit() {
 		Array<TextureRegion> frames = new Array<TextureRegion>();
-		String[] frameName = {"bunny_up.png", "bunny_left.png", "bunny_down.png", "bunny_up.png"};
+		String[] frameName = {"monkey_up.png", "monkey_left.png", "monkey_down.png", "monkey_right.png"};
 		for(int i = 0; i < frameNumber; i++) {
 			frames.add(initTextureReg(frameName[i], 0, 0, frameSizeX, frameSizeY));
 		}
