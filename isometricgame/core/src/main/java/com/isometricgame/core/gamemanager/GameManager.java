@@ -1,8 +1,6 @@
 package com.isometricgame.core.gamemanager;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;

@@ -57,7 +57,6 @@ public class InventoryUI extends Window {
         return inventorySlotTable;
     }
     
-    //TODO: REFACTOR
     public static Array<InventoryItemLocation> removeInventoryItems(String name, Table inventoryTable) {
         Array<Cell> cells = inventoryTable.getCells();
         Array<InventoryItemLocation> items = new Array<InventoryItemLocation>();
@@ -97,7 +96,8 @@ public class InventoryUI extends Window {
     			//System.out.println("Number of coins is " + noCoins);
             }
             else if(noCoins > 0 && noCoins - amount == 0) {
-                // TODO: REMOVE INVENTORY SLOT
+                noCoins -= amount;
+                removeInventoryItems("COIN", inventorySlotTable);
             }
     		break;
     	case MEDAL:
@@ -106,7 +106,8 @@ public class InventoryUI extends Window {
                 //System.out.println("Number of coins is " + noMedals);
             }
             else if(noMedals > 0 && noMedals - amount == 0) {
-                // TODO: REMOVE INVENTORY SLOT
+                noCoins -= amount;
+                removeInventoryItems("MEDAL", inventorySlotTable);
             }
     		break;
     	default:
