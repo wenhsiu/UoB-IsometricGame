@@ -166,7 +166,7 @@ public class GameMAIN extends GameState {
 		gm.renderInventory(delta);
 		
 		// Add coins to inventory
-		if(checkPropertyCollisions(x, y)) {
+		if(checkCoinCollisions(x, y)) {
 			gm.inventoryAddCoin();
 		}		
 
@@ -600,7 +600,7 @@ public class GameMAIN extends GameState {
 	} 
 
 	// Collisions with inventory, boolean for later checking
-	private boolean checkPropertyCollisions(float x, float y) {
+	private boolean checkCoinCollisions(float x, float y) {
 		for(int i = 0; i < property.size(); i++) {
 			if(property.get(i).containPoint(x, y)) {
 				property.remove(i);
