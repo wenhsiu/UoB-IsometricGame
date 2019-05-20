@@ -59,6 +59,7 @@ public class Puzzles implements ApplicationListener {
 		
 		setQuestionImages();
 		setTargetImages();
+		setAddition();
 		setSourceImages();
 
 		ans = "";	
@@ -156,14 +157,6 @@ public class Puzzles implements ApplicationListener {
 	}
 
 	private void setQuestionImages() {
-		line = new Image(new Texture("clickanddrag/line.png"));
-		line.setBounds(280, 310, 560, 6);
-		stage.addActor(line);
-
-		addition = new Image(new Texture("clickanddrag/addition.png"));
-		addition.setBounds(290, 320, 100, 100);
-		stage.addActor(addition);
-
 		// for line one
 		for(int i = 0; i < 4; i++) {
 			if(Math.random() < 0.5) {
@@ -192,7 +185,11 @@ public class Puzzles implements ApplicationListener {
 
 		bineryAnswer = bineryAddition(bineryOne, bineryTwo);
 
-		if(bineryAnswer.equals("00000")) {setQuestionImages();}
+		if(bineryAnswer.equals("0")) {
+			quesOne.clear();
+			quesTwo.clear();
+			setQuestionImages();
+		}
 
 		checkAnswerLength();
 
@@ -200,6 +197,16 @@ public class Puzzles implements ApplicationListener {
 		System.out.println(bineryTwo);
 		System.out.println(bineryAnswer);
 
+	}
+
+	private void setAddition() {
+		line = new Image(new Texture("clickanddrag/line.png"));
+		line.setBounds(280, 310, 560, 6);
+		stage.addActor(line);
+
+		addition = new Image(new Texture("clickanddrag/addition.png"));
+		addition.setBounds(290, 320, 100, 100);
+		stage.addActor(addition);
 	}
 
 	private String bineryAddition(String one, String two) {
