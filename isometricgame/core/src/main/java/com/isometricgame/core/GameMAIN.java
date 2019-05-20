@@ -57,15 +57,15 @@ public class GameMAIN extends GameState {
 	//-------- Characters --------
 	private ArrayList<People> people;
 	// Naming rule: <type>_<alias>
-	private final String[] peopleName = {"Boss_org", "Boss_drop", 
+	private final String[] peopleName = {"Boss_org", //"Boss_drop", 
 										 "Villager_1", "Villager_2", "Villager_3", "Villager_4",
 										 "Monkey_1", "Monkey_2",
 										 };						
-	private final float[] pplX = {500, 1954, 
+	private final float[] pplX = {500, //1954, 
 								  3000, 4000, 4065, 4517, 
 								  5065, 5398,
 								  }; 
-	private final float[] pplY = {500, -38, 
+	private final float[] pplY = {500, //-38, 
 								  -1000, -1500, -1514, 1821, 
 								  -2095, -2329,
 								  }; 
@@ -141,7 +141,7 @@ public class GameMAIN extends GameState {
 
 		coinCount = new BitmapFont(); 
 		coinCount.setColor(Color.BLACK);
-		coinCount.setScale((float) 1.75);
+		coinCount.setScale((float) 1.2);
 
 	}
 
@@ -182,44 +182,6 @@ public class GameMAIN extends GameState {
 		
 		checkPeopleCollision();
 
-		/* // TODO: Iterate
-		getPeopleByName("Villager_1").CollisionAction(
-			checkVillagerMapCollision(
-				getPeopleByName("Villager_1").getPositionX(),
-				getPeopleByName("Villager_1").getPositionY(), 
-				TileEdge, TileEdge));
-		
-		getPeopleByName("Villager_2").CollisionAction(
-			checkVillagerMapCollision(
-				getPeopleByName("Villager_2").getPositionX(),
-				getPeopleByName("Villager_2").getPositionY(), 
-				TileEdge, TileEdge));
-
-		getPeopleByName("Villager_3").CollisionAction(
-			checkVillagerMapCollision(
-				getPeopleByName("Villager_3").getPositionX(),
-				getPeopleByName("Villager_3").getPositionY(), 
-				TileEdge, TileEdge));
-
-		getPeopleByName("Villager_4").CollisionAction(
-			checkVillagerMapCollision(
-				getPeopleByName("Villager_4").getPositionX(),
-				getPeopleByName("Villager_4").getPositionY(), 
-				TileEdge, TileEdge));
-
-		getPeopleByName("Monkey_1").CollisionAction(
-			checkVillagerMapCollision(
-				getPeopleByName("Monkey_1").getPositionX(),
-				getPeopleByName("Monkey_1").getPositionY(), 
-				TileEdge, TileEdge));
-
-		getPeopleByName("Monkey_2").CollisionAction(
-			checkVillagerMapCollision(
-				getPeopleByName("Monkey_2").getPositionX(),
-				getPeopleByName("Monkey_2").getPositionY(), 
-				TileEdge, TileEdge));
- */
-
 		player.getBatch().setProjectionMatrix(cam.combined);
 		
 		renderPeople();
@@ -252,7 +214,7 @@ public class GameMAIN extends GameState {
 			noCoins = "" + gm.inventoryGetItemNumber(ItemTypeID.COIN);
 			if(!noCoins.equals("0") && !noCoins.equals("1")){
 				if(gm.inventoryGetItemNumber(ItemTypeID.COIN) < 10){
-					coinCount.draw(textbatch, noCoins, 68, 643); 
+					coinCount.draw(textbatch, noCoins, 80, 700 ); 
 				}
 				else {
 					coinCount.draw(textbatch, noCoins, 61, 643); 
