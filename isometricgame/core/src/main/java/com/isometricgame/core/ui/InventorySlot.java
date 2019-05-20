@@ -17,6 +17,7 @@ public class InventorySlot extends Stack {
     private Image customBackgroundDecal;
     private Label numItemsLabel;
     private int numItemsVal = 0;
+    private int number; 
 
     public InventorySlot() {
 
@@ -185,5 +186,15 @@ public class InventorySlot extends Stack {
             }
         }
     }
+
+    public int getNumber(){
+        return number; 
+    }
+
+    public void setNumber(int number){
+        this.number = number; 
+    }
+
+
 
 }
