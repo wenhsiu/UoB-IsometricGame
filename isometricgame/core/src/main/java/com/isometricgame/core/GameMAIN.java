@@ -9,18 +9,13 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
-import com.isometricgame.core.ui.InventoryUI;
 import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
 import com.isometricgame.core.charactermanager.People;
 import com.isometricgame.core.charactermanager.Property;
@@ -150,7 +145,7 @@ public class GameMAIN extends GameState {
 
 		medalCount = new BitmapFont(); 
 		medalCount.setColor(Color.BLACK);
-		medalCount.setScale((float) 1.75);
+		medalCount.setScale((float) 1.2);
 
 	}
 
@@ -219,23 +214,22 @@ public class GameMAIN extends GameState {
 			}
 		}
 
-			// TODO: Fix slot problem
 			noCoins = "" + gm.inventoryGetItemNumber(ItemTypeID.COIN);
 			if(!noCoins.equals("0") && !noCoins.equals("1")){
 				if(gm.inventoryGetItemNumber(ItemTypeID.COIN) < 10){
-					coinCount.draw(textbatch, noCoins, 80, 700 ); 
+					coinCount.draw(textbatch, noCoins, 80, 700); 
 				}
 				else {
-					coinCount.draw(textbatch, noCoins, 80, 643); 
+					coinCount.draw(textbatch, noCoins, 76, 700); 
 				}
 			}
 
 			noMedals = "" + gm.inventoryGetItemNumber(ItemTypeID.MEDAL);
 				if(!noMedals.equals("0") && !noMedals.equals("1")){
 					if(gm.inventoryGetItemNumber(ItemTypeID.MEDAL) < 10){
-						medalCount.draw(textbatch, noMedals, 108, 683); 
+						medalCount.draw(textbatch, noMedals, 132, 700); 
 			} else {
-				medalCount.draw(textbatch, noMedals, 101, 683); 
+				medalCount.draw(textbatch, noMedals, 128, 700); 
 			}
 		}
 

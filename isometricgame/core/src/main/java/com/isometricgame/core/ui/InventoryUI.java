@@ -66,117 +66,22 @@ public class InventoryUI extends Window {
     }
     
     // N.B. Only works when noCoins or noMedals is greater than 0
+    // Otherwise use addItemstoInventory
     public void addBulkItems(ItemTypeID itemID, int amount) {
     	switch(itemID) {
     	case COIN:
     		if(noCoins > 0) {
     			noCoins += amount;
-    			//System.out.println("Number of coins is " + noCoins);
     		}
     		break;
     	case MEDAL:
     		if(noMedals > 0) {
                 noMedals += amount;
-                //System.out.println("Number of coins is " + noMedals);
     		}
     		break;
     	default:
     	}
     }
-
-    /* public void removeBulkItems(ItemTypeID itemID, int amount) {
-    	switch(itemID) {
-    	case COIN:
-    		if(noCoins - amount >= 0) {
-    			noCoins -= amount;
-    			//System.out.println("Number of coins is " + noCoins);
-            }
-            else if(noCoins > 0 && noCoins - amount == 0) {
-                noCoins -= amount;
-                removeInventoryItems("COIN", inventorySlotTable);
-            }
-    		break;
-    	case MEDAL:
-    		if(noMedals > 0 && noMedals - amount >= 0) {
-                noMedals -= amount;
-                //System.out.println("Number of coins is " + noMedals);
-            }
-            else if(noMedals > 0 && noMedals - amount == 0) {
-                noCoins -= amount;
-                removeInventoryItems("MEDAL", inventorySlotTable);
-            }
-    		break;
-    	default:
-    	}	
-    } */
-
-    public int getItemNumber(ItemTypeID itemID) {
-    	if(itemID == ItemTypeID.COIN) {
-            return noCoins;
-        }
-    	else if(itemID == ItemTypeID.MEDAL) {
-            return noMedals;
-        }
-    	return -1;
-    }
-
-    /* public void addItemToInventory(InventoryItem item, String itemName) {
-        Array<Cell> sourceCells = inventorySlotTable.getCells(); */
-        /* InventorySlot inventorySlot;
-        int index = 0;
-        for(int i = 0; i < sourceCells.size; i++) {
-        	inventorySlot = (InventorySlot) sourceCells.get(i).getActor();
-        	if(!inventorySlot.getAllInventoryItems().contains(item, true)) {
-        		index = i; break;
-        	}
-        }
-        
-        if(itemName.equals("COIN")) {
-        	if(noCoins == 0) {        		
-        		inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
-        		inventorySlot.add(item);
-//        		inventorySlot.add(coinCountLabel);        				
-        	}        	
-        	noCoins++;
-//        	drawCoinCount();
-        	System.out.println("Number of coins is " + noCoins);
-        }else if(itemName.equals("MEDAL")) {//Medal not stackable    		
-    		inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
-    		inventorySlot.add(item);    	        	
-        	noMedals++;
-        	System.out.println("Number of medals is " + noMedals);
-        } */
-
-       /*  if((itemName.equals("COIN") && noCoins == 0) || (itemName.equals("MEDAL"))) {
-            for(int index = 0; index < sourceCells.size; index++) {
-                InventorySlot inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
-                if(!(inventorySlot == null)) {
-                    int numItems = inventorySlot.getNumItems();
-                    if(numItems == 0) {
-                        item.setName(itemName);
-                        inventorySlot.add(item);
-                        if(itemName.equals("COIN")) {
-                            noCoins++;
-                            System.out.println("Number of coins is " + noCoins);
-                        }
-                        else {
-                            noMedals++;
-                            System.out.println("Number of medals is " + noMedals);
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-        else if(itemName.equals("COIN") && noCoins > 0) {
-            noCoins++;
-            System.out.println("Number of coins is " + noCoins);
-        }
-        else if(itemName.equals("MEDAL") && noMedals > 0) {
-            noCoins++;
-            System.out.println("Number of medals is " + noMedals);
-        }
-    } */
 
     public void addItemToInventory(InventoryItem item, String itemName) {
         Array<Cell> sourceCells = inventorySlotTable.getCells();
@@ -190,7 +95,6 @@ public class InventoryUI extends Window {
                         item.setName(itemName);
                         inventorySlot.add(item);
                         noCoins++;
-                        System.out.println("Number of coins is " + noCoins);
                         break;
                     }
                 }
@@ -205,7 +109,6 @@ public class InventoryUI extends Window {
                         item.setName(itemName);
                         inventorySlot.add(item);
                         noMedals++;
-                        System.out.println("Number of coins is " + noCoins);
                         break;
                     }
                 }
@@ -221,6 +124,15 @@ public class InventoryUI extends Window {
         }
     }
 
+    public int getItemNumber(ItemTypeID itemID) {
+    	if(itemID == ItemTypeID.COIN) {
+            return noCoins;
+        }
+    	else if(itemID == ItemTypeID.MEDAL) {
+            return noMedals;
+        }
+    	return -1;
+    }
 
     public Array<Actor> getInventoryActors() {
         return inventoryActors;
@@ -236,7 +148,6 @@ public class InventoryUI extends Window {
     	case COIN:
     		if(noCoins > 0 && noCoins - amount > 0) {
     			noCoins -= amount;
-    			//System.out.println("Number of coins is " + noCoins);
             }
             else if(noCoins > 0 && noCoins - amount == 0) {
                 noCoins -= amount;
@@ -244,7 +155,7 @@ public class InventoryUI extends Window {
             }
     		break;
     	case MEDAL:
-    		if(noMedals > 0 && noMedals - amount >= 0) {
+    		if(noMedals > 0 && noMedals - amount > 0) {
                 noMedals -= amount;
                 System.out.println("Number of medals is " + noMedals);
             }
@@ -255,8 +166,5 @@ public class InventoryUI extends Window {
     		break;
     	}	
     }
-
-
-
 
 }
