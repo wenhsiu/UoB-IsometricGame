@@ -191,6 +191,9 @@ public class Puzzles implements ApplicationListener {
 		}
 
 		bineryAnswer = bineryAddition(bineryOne, bineryTwo);
+
+		if(bineryAnswer.equals("00000")) {setQuestionImages();}
+
 		checkAnswerLength();
 
 		System.out.println(bineryOne);
