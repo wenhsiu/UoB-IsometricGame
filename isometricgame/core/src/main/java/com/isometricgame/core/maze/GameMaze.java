@@ -152,7 +152,7 @@ public class GameMaze extends GameState {
             batch.end();
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) { 
                 gm.setCurrGameState("MAINGAME");
-            }
+						}
 		}
 
 		if(score.size() == 4){
@@ -160,7 +160,7 @@ public class GameMaze extends GameState {
 			  if(foundExit()){
 				gm.inventoryAddMedals();
 				passed = true;
-				gm.setCurrGameState("MAINGAME");
+				gm.setCurrGameState("SUCCESS");
 			  }
 			}
 		}
