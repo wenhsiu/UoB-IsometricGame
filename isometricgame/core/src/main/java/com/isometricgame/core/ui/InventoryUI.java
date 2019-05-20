@@ -14,10 +14,10 @@ import com.isometricgame.core.Utility;
 
 public class InventoryUI extends Window {
 
-    public final static int numSlots = 10;
+    public final static int numSlots = 8;
     public static final String PLAYER_INVENTORY = "Player_Inventory";
     
-    private int lengthSlotRow = 5;
+    private int lengthSlotRow = 4;
     private Table inventorySlotTable;
     private Array<Actor> inventoryActors;
 
@@ -26,6 +26,9 @@ public class InventoryUI extends Window {
 
     private int noCoins;
     private int noMedals;
+
+    private InventoryItemLocation coins;
+    private InventoryItemLocation medals;
 
     public InventoryUI() {
         super("Inventory", Utility.STATUSUI_SKIN, "default");
@@ -54,7 +57,6 @@ public class InventoryUI extends Window {
         return inventorySlotTable;
     }
     
-    //TODO: REFACTOR
     public static Array<InventoryItemLocation> removeInventoryItems(String name, Table inventoryTable) {
         Array<Cell> cells = inventoryTable.getCells();
         Array<InventoryItemLocation> items = new Array<InventoryItemLocation>();
@@ -93,11 +95,19 @@ public class InventoryUI extends Window {
     			noCoins -= amount;
     			//System.out.println("Number of coins is " + noCoins);
             }
+            else if(noCoins > 0 && noCoins - amount == 0) {
+                noCoins -= amount;
+                removeInventoryItems("COIN", inventorySlotTable);
+            }
     		break;
     	case MEDAL:
     		if(noMedals > 0 && noMedals - amount >= 0) {
                 noMedals -= amount;
                 //System.out.println("Number of coins is " + noMedals);
+            }
+            else if(noMedals > 0 && noMedals - amount == 0) {
+                noCoins -= amount;
+                removeInventoryItems("MEDAL", inventorySlotTable);
             }
     		break;
     	default:
@@ -158,16 +168,8 @@ public class InventoryUI extends Window {
         return time;
     }
 
-    public int getNoCoins() {
-        return noCoins;
-    }
-
     public void setNoCoins(int noCoins) {
         this.noCoins = noCoins;
-    }
-
-    public int getNoMedals() {
-        return noMedals;
     }
 
     public void setNoMedals(int noMedals) {
