@@ -3,11 +3,11 @@ package com.isometricgame.core.ui;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 
 import com.isometricgame.core.ui.InventoryItem;
-import com.isometricgame.core.ui.InventoryItemFactory;
 import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
 import com.isometricgame.core.ui.InventoryItemLocation;
 import com.isometricgame.core.Utility;
@@ -15,7 +15,6 @@ import com.isometricgame.core.Utility;
 public class InventoryUI extends Window {
 
     public final static int numSlots = 8;
-    public static final String PLAYER_INVENTORY = "Player_Inventory";
     
     private int lengthSlotRow = 4;
     private Table inventorySlotTable;
@@ -27,9 +26,6 @@ public class InventoryUI extends Window {
     private int noCoins;
     private int noMedals;
 
-    private InventoryItemLocation coins;
-    private InventoryItemLocation medals;
-
     public InventoryUI() {
         super("Inventory", Utility.STATUSUI_SKIN, "default");
 
@@ -37,7 +33,6 @@ public class InventoryUI extends Window {
 
         inventorySlotTable = new Table(Utility.STATUSUI_SKIN);
 
-        inventorySlotTable.setName("Inventory_Slot_Table");
         inventorySlotTable.row();
 
         for(int i = 1; i <= numSlots; i++) {
@@ -47,8 +42,7 @@ public class InventoryUI extends Window {
             if(i % lengthSlotRow == 0 && i < numSlots) {
                 inventorySlotTable.row();
             }
-        }
-        
+        }      
         this.add(inventorySlotTable);
         this.pack();
     }
@@ -69,7 +63,8 @@ public class InventoryUI extends Window {
         }
         return items;
     }
-      
+    
+    // N.B. Only works when noCoins or noMedals is greater than 0
     public void addBulkItems(ItemTypeID itemID, int amount) {
     	switch(itemID) {
     	case COIN:
@@ -114,7 +109,6 @@ public class InventoryUI extends Window {
     	}	
     }
 
-    // TODO: Why do we have this and then separate getters for coin and medal?
     public int getItemNumber(ItemTypeID itemID) {
     	if(itemID == ItemTypeID.COIN) {
             return noCoins;
@@ -122,13 +116,37 @@ public class InventoryUI extends Window {
     	else if(itemID == ItemTypeID.MEDAL) {
             return noMedals;
         }
-    	return -1; // if no type matches
+    	return -1;
     }
 
     public void addItemToInventory(InventoryItem item, String itemName) {
         Array<Cell> sourceCells = inventorySlotTable.getCells();
+        InventorySlot inventorySlot;
+        int index = 0;
+        for(int i = 0; i < sourceCells.size; i++) {
+        	inventorySlot = (InventorySlot) sourceCells.get(i).getActor();
+        	if(!inventorySlot.getAllInventoryItems().contains(item, true)) {
+        		index = i; break;
+        	}
+        }
+        
+        if(itemName.equals("COIN")) {
+        	if(noCoins == 0) {        		
+        		inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
+        		inventorySlot.add(item);
+//        		inventorySlot.add(coinCountLabel);        				
+        	}        	
+        	noCoins++;
+//        	drawCoinCount();
+        	System.out.println("Number of coins is " + noCoins);
+        }else if(itemName.equals("MEDAL")) {//Medal not stackable    		
+    		inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
+    		inventorySlot.add(item);    	        	
+        	noMedals++;
+        	System.out.println("Number of medals is " + noMedals);
+        }
 
-        if((itemName.equals("COIN") && noCoins == 0) || (itemName.equals("MEDAL"))) {
+/*        if((itemName.equals("COIN") && noCoins == 0) || (itemName.equals("MEDAL"))) {
             for(int index = 0; index < sourceCells.size; index++) {
                 InventorySlot inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
                 if(!(inventorySlot == null)) {
@@ -157,6 +175,7 @@ public class InventoryUI extends Window {
             noCoins++;
             System.out.println("Number of medals is " + noMedals);
         }
+*/
     }
 
     public Array<Actor> getInventoryActors() {
@@ -166,14 +185,6 @@ public class InventoryUI extends Window {
     public int getInventoryTime() {
         int time = (noCoins * 2) + (noMedals * 20);
         return time;
-    }
-
-    public void setNoCoins(int noCoins) {
-        this.noCoins = noCoins;
-    }
-
-    public void setNoMedals(int noMedals) {
-        this.noMedals = noMedals;
     }
 
 }

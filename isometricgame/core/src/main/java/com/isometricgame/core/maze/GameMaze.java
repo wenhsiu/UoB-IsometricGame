@@ -53,7 +53,7 @@ public class GameMaze extends GameState {
 
 	private int cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0;
 	
-	private List<Integer> score = new ArrayList<>();
+	private List<Integer> score = new ArrayList<Integer>();
 	private int num;
 
 	private BitmapFont timer; 

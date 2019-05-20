@@ -66,7 +66,7 @@ public class Villager extends People {
 	@Override
 	public void animationInit() {
 		Array<TextureRegion> frames = new Array<TextureRegion>();
-		String[] frameName = {"bunny_up.png", "bunny_left.png", "bunny_down.png", "bunny_up.png"};
+		String[] frameName = {"bunny_up.png", "bunny_left.png", "bunny_down.png", "bunny_right.png"};
 		for(int i = 0; i < frameNumber; i++) {
 			frames.add(initTextureReg(frameName[i], 0, 0, frameSizeX, frameSizeY));
 		}

@@ -79,19 +79,7 @@ public class GameManager {
 	public void inventoryRemoveOneCoin() {
 		inventoryUI.removeBulkItems(ItemTypeID.COIN, 1);
 	}
-	
-	public int inventoryGetItemNumber(ItemTypeID typeID) {
-		return inventoryUI.getItemNumber(typeID);
-	}
-
-	public int getNumCoins() {
-		return inventoryUI.getItemNumber(ItemTypeID.COIN);
-	}
-
-	public int getNumMedals() {
-		return inventoryUI.getItemNumber(ItemTypeID.MEDAL);
-	}
-	
+		
 	public String[] getAllGameNames() {
 		return stateName;
 	}
@@ -145,9 +133,7 @@ public class GameManager {
 			newGS = new GameAvoid(this);
 		}else if(gsName.contains("FINALGAME")) {
 			newGS = new GameMaze(this);
-		} /* else if(gsName.contains("PRESENTATION")) {//why new Presentation here?
-			newGS = new Presentation(this);
-		} */;  
+		};  
 		
 		if(newGS != null) {
 			gameStates.put(gsName, newGS);

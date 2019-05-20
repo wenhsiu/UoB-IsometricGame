@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Array;
 import com.isometricgame.core.charactermanager.TriggerPoint;
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
@@ -49,7 +46,7 @@ public class FinalBoss extends TriggerPoint{
 
 	@Override
 	public void triggerGame() {
-		if(gm.inventoryGetItemNumber(ItemTypeID.COIN) >= cost.get(ItemTypeID.COIN)) {
+		if(gm.getNumCoins() >= cost.get(ItemTypeID.COIN)) {
 			super.triggerGame();
 		}
 	}

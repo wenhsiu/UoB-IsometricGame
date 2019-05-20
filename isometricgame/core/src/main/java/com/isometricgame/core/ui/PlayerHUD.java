@@ -2,6 +2,7 @@ package com.isometricgame.core.ui;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
@@ -17,15 +18,19 @@ public class PlayerHUD implements Screen {
     private InventoryUI inventoryUI;
 
     private Dialog dialog;
+    
+    private Vector2 UIPosition;
 
     public PlayerHUD(Camera camera) {
 
         viewport = new ScreenViewport(camera);
         stage = new Stage(viewport);
-
+        UIPosition = new Vector2();
+        UIPosition.x = 50;
+        UIPosition.y = 50;
         inventoryUI = new InventoryUI();
         inventoryUI.setVisible(true);
-        inventoryUI.setPosition(50, 50);
+        inventoryUI.setPosition(UIPosition.x, UIPosition.y);
         inventoryUI.setKeepWithinStage(false);
         inventoryUI.setMovable(true);
 
@@ -36,33 +41,11 @@ public class PlayerHUD implements Screen {
         Array<Actor> actors = inventoryUI.getInventoryActors();
         for(Actor actor: actors) {
             stage.addActor(actor);
-        }
-
-        //dialogUI = new DialogUI(Utility.DIALOGUI_SKIN);
-        //dialog = dialogUI.getDialog();
-
-        //dialog.setVisible(false);
-        //dialog.setPosition(300, 500);
-        //dialog.setKeepWithinStage(false);
-        // dialog.setMovable(true);
-        // dialog.setSize(667, 200);
-
-        //dialog.getContentTable().row().colspan(1).center();
-        //dialog.getContentTable().add(message);
-        //dialog.getContentTable().setVisible(true);
-        //dialog.getContentTable().setPosition(50, 50);
-
-        //dialog.row().colspan(1);
-
-        //next = new TextButton("next", Utility.DIALOGUI_SKIN);
-        //dialog.button(next);
-
-        // dialog.pack();
-
-        // stage.addActor(dialog);
-
-        // dialog.validate();
-        
+        }        
+    }
+    
+    public Vector2 getInventoryUIPosition() {
+    	return UIPosition;
     }
 
     public Stage getStage() {

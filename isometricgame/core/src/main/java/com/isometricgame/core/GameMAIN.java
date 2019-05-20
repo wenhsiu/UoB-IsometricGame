@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
 import com.isometricgame.core.ui.InventoryUI;
+import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
 import com.isometricgame.core.charactermanager.People;
 import com.isometricgame.core.charactermanager.Property;
 import com.isometricgame.core.charactermanager.TriggerPoint;
@@ -56,14 +57,17 @@ public class GameMAIN extends GameState {
 	//-------- Characters --------
 	private ArrayList<People> people;
 	// Naming rule: <type>_<alias>
-	private final String[] peopleName = {"Boss_org", //"Boss_drop", 
-										 "Villager_1", "Villager_2", "Villager_3", "Villager_4", "Monkey_1", "Monkey_6",
+	private final String[] peopleName = {"Boss_org", "Boss_drop", 
+										 "Villager_1", "Villager_2", "Villager_3", "Villager_4",
+										 "Monkey_1", "Monkey_2",
 										 };						
-	private final float[] pplX = {500, //1954, 
-								  3000, 4000, 4065, 4517, 5065, 5398,
+	private final float[] pplX = {500, 1954, 
+								  3000, 4000, 4065, 4517, 
+								  5065, 5398,
 								  }; 
-	private final float[] pplY = {500, //-38, 
-								  -1000, -1500, -1514, 1821, -2095, -2329,
+	private final float[] pplY = {500, -38, 
+								  -1000, -1500, -1514, 1821, 
+								  -2095, -2329,
 								  }; 
 	
 	//-------- Objects-to-collect --------
@@ -114,7 +118,7 @@ public class GameMAIN extends GameState {
 	public GameMAIN(GameManager gm) {
 		super();
 		this.gm = gm;
-		dialogueList =  new ArrayList<>();
+		dialogueList =  new ArrayList<GameDialogue>();
 		
 		initMapAndLayer();
 		
@@ -135,10 +139,6 @@ public class GameMAIN extends GameState {
 		thud = Gdx.audio.newMusic(Gdx.files.internal("thud.mp3")); 
 		scream = Gdx.audio.newMusic(Gdx.files.internal("scream1.mp3")); 
 
-		coinCount = new BitmapFont(); 
-		coinCount.setColor(Color.BLACK);
-		coinCount.setScale((float) 1.75);
-
 	}
 
 	@Override
@@ -155,15 +155,13 @@ public class GameMAIN extends GameState {
 		
 		// Trigger mini games with phone boxes
 		checkTriggerGame(x, y); 		
-		// Show the trigger text if there is any to show. 
-		// showTriggerText(x, y);
 
 		System.out.println("Values of X and Y = " + x + " , " + y);
 
 		cam.position.set(x, y, 0);
 
 		gm.renderInventory(delta);
-		
+
 		// Add coins to inventory
 		if(checkCoinCollisions(x, y)) {
 			gm.inventoryAddCoin();
@@ -176,7 +174,9 @@ public class GameMAIN extends GameState {
 		} else if (checkMapCollision(playerNextPosition.x, playerNextPosition.y)) {
 			player.setSpeedFactor(-75);
 			thud.play();
-		}		
+		}
+		
+		checkPeopleCollision();
 
 		checkPeopleCollision();
 
@@ -226,14 +226,6 @@ public class GameMAIN extends GameState {
 
 		player.render();
 
-		// Repeat this infront of all of the objects. 
-		/* if(x < 230 && x > 228 && y < -35){
-			testbatch.begin();
-			bfont.draw(testbatch, message, 300, 300);
-			labeltest.draw(testbatch, 100);
-			testbatch.end();
-		} */
-
 		shapeRenderer = new ShapeRenderer();
 
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -248,15 +240,13 @@ public class GameMAIN extends GameState {
         shapeRenderer.end();
 
 		textbatch.begin();
-			// dialogueTriggerCheck(testbatch, x, y);
-			for (int i = 0; i < dialogueList.size(); i++) {
-				if(dialogueTriggerCheck(x, y, i) == true){
-					bfont.draw(textbatch, dialogueList.get(i).getTextmessage(), 150, 150); 
-				}
+		for (int i = 0; i < dialogueList.size(); i++) {
+			if(dialogueTriggerCheck(x, y, i) == true){
+				bfont.draw(textbatch, dialogueList.get(i).getTextmessage(), 150, 150); 
 			}
 
 			// TODO: Fix slot problem
-			noCoins = "" + gm.getNumCoins();
+			noCoins = "" + gm.inventoryGetItemNumber(ItemTypeID.COIN);
 			if(!noCoins.equals("0") && !noCoins.equals("1")){
 				if(gm.getNumCoins() < 10){
 					coinCount.draw(textbatch, noCoins, 68, 643); 
@@ -270,9 +260,6 @@ public class GameMAIN extends GameState {
 		
 		cam.update();
 		player.setFrozen(false);
-
-		// Check the passed state of everything in the game state manager, if its true, add a coin.
-		// gm.checkPassedState(inventoryUI);
 	}
 
 	@Override
@@ -311,6 +298,7 @@ public class GameMAIN extends GameState {
 		disposeTriggerPoint();
 		disposePeople();
 	}
+	
 	
 	private void initMapAndLayer() {
 
@@ -387,7 +375,14 @@ public class GameMAIN extends GameState {
 		return null;
 	}
 	
-	// TODO: Do we need this?
+	private void checkPeopleCollision() {
+		for(People p : people) {
+			p.CollisionAction(checkVillagerMapCollision(p.getPositionX(), p.getPositionY(), 
+						TileEdge, TileEdge)
+					);
+		}
+	}
+	
 	private void removePeopleByName(String name) {
 		for(int i = 0; i < people.size(); i++) {
 			if(peopleName[i].equals(name)) {
@@ -574,14 +569,10 @@ public class GameMAIN extends GameState {
 	}
 
 	private Boolean dialogueTriggerCheck(double currentX, double currentY, int i) {
-
-			// System.out.println("HELLO TRIGGER CHECK " + dialogueList.get(i).getMinx());
-
-			if(dialogueList.get(i).getMinx() < currentX  && dialogueList.get(i).getMiny() < currentY && dialogueList.get(i).getMaxx() > currentX && dialogueList.get(i).getMaxy() > currentY){
-				// System.out.println("true"); 
-				return true; 
-			}
-			return false; 
+		if(dialogueList.get(i).getMinx() < currentX  && dialogueList.get(i).getMiny() < currentY && dialogueList.get(i).getMaxx() > currentX && dialogueList.get(i).getMaxy() > currentY){
+			return true; 
+		}
+		return false; 
 	}
 
 	// Handle Property
@@ -630,7 +621,6 @@ public class GameMAIN extends GameState {
 	}
 
 	// Remove the coins if the villagers are collided with. 
-	// TODO: Lizzie will fix this
 	private void checkVillagerCollisions(float x, float y) {
 		for(int i = 0; i < people.size(); i++) {
 			if(people.get(i).containPoint(x, y)) {
@@ -638,11 +628,6 @@ public class GameMAIN extends GameState {
 				scream.setVolume(50);
 				if(people.get(i).isBumpingInto()) {
 					gm.inventoryRemoveOneCoin();
-					if(gm.getNumCoins() == 0){
-						InventoryUI inventoryUI = gm.getInventoryUI();
-						Table inventoryTable  =  inventoryUI.getInventorySlotTable(); 
-						inventoryUI.removeInventoryItems("COIN", inventoryTable); 
-					}
 				}
 			}
 		}
@@ -657,17 +642,17 @@ public class GameMAIN extends GameState {
 		return (blockedCell != null && blockedCell.getTile() != null);
 	}
 	
-	// Check if on the BaseObjects layer
-		private boolean isOnTheGround(float x, float y) {
-			if(x < 0) return false;
-			
-			Vector2 v = rotateCoord(x, y);
-			int iso_x = (int)(v.x/ TileEdge);
-			int iso_y = (int)(v.y/ TileEdge);
+	//check if on the BaseObjects layer
+	private boolean isOnTheGround(float x, float y) {
+		if(x < 0) return false;
+		
+		Vector2 v = rotateCoord(x, y);
+		int iso_x = (int)(v.x/ TileEdge);
+		int iso_y = (int)(v.y/ TileEdge);
 
-			Cell c = baseObjLayer.getCell(iso_x, iso_y);
-			return (c != null && c.getTile() != null);
-		}
+		Cell c = baseObjLayer.getCell(iso_x, iso_y);
+		return (c != null && c.getTile() != null);
+	}
 
 	private Vector2 rotateCoord(float x, float y) {
 		float tmp_x ;
