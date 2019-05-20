@@ -85,6 +85,14 @@ public class GameManager {
 	public int inventoryGetItemNumber(ItemTypeID typeID) {
 		return inventoryUI.getItemNumber(typeID);
 	}
+
+	public int getNumCoins() {
+		return inventoryUI.getItemNumber(ItemTypeID.COIN);
+	}
+
+	public int getNumMedals() {
+		return inventoryUI.getItemNumber(ItemTypeID.MEDAL);
+	}
 	
 	public String[] getAllGameNames() {
 		return stateName;
@@ -158,7 +166,7 @@ public class GameManager {
 				gameStates.put("END", new GameEND(this));
 			} else if(stateName[i].equals("PRESENTATION")) {
 				gameStates.put("PRESENTATION", new Presentation(this));
-			 } else if(stateName[i].equals("GUIDE")) {
+			} else if(stateName[i].equals("GUIDE")) {
 				gameStates.put("GUIDE", new GameGuide(this));
 			}
 		}
@@ -166,14 +174,6 @@ public class GameManager {
 
 	public int getMazeTime() {
 		return inventoryUI.getInventoryTime();
-	}
-
-	public int getNumCoins() {
-		return inventoryUI.getNoCoins();
-	}
-
-	public int getNumMedals() {
-		return inventoryUI.getNoMedals();
 	}
 
 	public InventoryUI getInventoryUI() {

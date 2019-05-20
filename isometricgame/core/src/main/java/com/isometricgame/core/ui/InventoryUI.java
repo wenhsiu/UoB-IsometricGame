@@ -27,6 +27,9 @@ public class InventoryUI extends Window {
     private int noCoins;
     private int noMedals;
 
+    private InventoryItemLocation coins;
+    private InventoryItemLocation medals;
+
     public InventoryUI() {
         super("Inventory", Utility.STATUSUI_SKIN, "default");
 
@@ -164,16 +167,8 @@ public class InventoryUI extends Window {
         return time;
     }
 
-    public int getNoCoins() {
-        return noCoins;
-    }
-
     public void setNoCoins(int noCoins) {
         this.noCoins = noCoins;
-    }
-
-    public int getNoMedals() {
-        return noMedals;
     }
 
     public void setNoMedals(int noMedals) {
