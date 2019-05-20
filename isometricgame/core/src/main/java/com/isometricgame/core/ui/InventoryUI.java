@@ -53,18 +53,8 @@ public class InventoryUI extends Window {
     public Table getInventorySlotTable() {
         return inventorySlotTable;
     }
-
-    public static void clearInventoryItems(Table targetTable) {
-        Array<Cell> cells = targetTable.getCells();
-        for(int i = 0; i < cells.size; i++) {
-            InventorySlot inventorySlot = (InventorySlot) cells.get(i).getActor();
-            if(!(inventorySlot == null)) {
-                inventorySlot.clearAllInventoryItems(false);
-            }
-        }
-
-    }
-
+    
+    //TODO: REFACTOR
     public static Array<InventoryItemLocation> removeInventoryItems(String name, Table inventoryTable) {
         Array<Cell> cells = inventoryTable.getCells();
         Array<InventoryItemLocation> items = new Array<InventoryItemLocation>();
@@ -75,89 +65,60 @@ public class InventoryUI extends Window {
                 inventorySlot.removeAllInventoryItemsWithName(name);
             }
         }
-        return items;//item should be empty?
+        return items;
     }
-    
-    public void removeOneItemFromInventory(ItemTypeID itemID) {
+      
+    public void addBulkItems(ItemTypeID itemID, int amount) {
     	switch(itemID) {
     	case COIN:
     		if(noCoins > 0) {
-    			noCoins--;
-    			/**/System.out.println("Number of coins is " + noCoins);
+    			noCoins += amount;
+    			//System.out.println("Number of coins is " + noCoins);
     		}
     		break;
     	case MEDAL:
     		if(noMedals > 0) {
-    			noMedals--;
+                noMedals += amount;
+                //System.out.println("Number of coins is " + noMedals);
     		}
     		break;
     	default:
     	}
-    	
     }
 
+    public void removeBulkItems(ItemTypeID itemID, int amount) {
+    	switch(itemID) {
+    	case COIN:
+    		if(noCoins > 0 && noCoins - amount > 0) {
+    			noCoins -= amount;
+    			//System.out.println("Number of coins is " + noCoins);
+            }
+            else if(noCoins > 0 && noCoins - amount == 0) {
+                // TODO: REMOVE INVENTORY SLOT
+            }
+    		break;
+    	case MEDAL:
+    		if(noMedals > 0 && noMedals - amount >= 0) {
+                noMedals -= amount;
+                //System.out.println("Number of coins is " + noMedals);
+            }
+            else if(noMedals > 0 && noMedals - amount == 0) {
+                // TODO: REMOVE INVENTORY SLOT
+            }
+    		break;
+    	default:
+    	}	
+    }
+
+    // TODO: Why do we have this and then separate getters for coin and medal?
     public int getItemNumber(ItemTypeID itemID) {
-    	if(itemID == ItemTypeID.COIN) {return noCoins;}
-    	else if(itemID == ItemTypeID.MEDAL) {return noMedals;}
-    	return -1;//no type matches.
-    }
-    
-    public static void populateInventory(Table targetTable, Array<InventoryItemLocation> inventoryItems,
-                                         String defaultName, boolean disableNonDefaultItems) {
-        clearInventoryItems(targetTable);
-        Array<Cell> cells = targetTable.getCells();
-
-        for(int i = 0; i < inventoryItems.size; i++) {
-            InventoryItemLocation itemLocation = inventoryItems.get(i);
-            ItemTypeID itemTypeID = ItemTypeID.valueOf(itemLocation.getItemTypeAtLocation());
-            InventorySlot inventorySlot = (InventorySlot) cells.get(itemLocation.getLocationIndex()).getActor();
-            
-            for(int index = 0; index < itemLocation.getNumberItemsAtLocation(); index++) {
-                InventoryItem item = InventoryItemFactory.getInstance().getInventoryItem(itemTypeID);
-                String itemName = itemLocation.getItemNameProperty();
-                if(itemName == null || itemName.isEmpty()) {
-                    item.setName(defaultName);
-                }
-                else {
-                    item.setName(itemName);
-                }
-                inventorySlot.add(item);
-            }
+    	if(itemID == ItemTypeID.COIN) {
+            return noCoins;
         }
-    }
-
-    public static Array<InventoryItemLocation> getInventory(Table targetTable) {
-        Array<Cell> cells = targetTable.getCells();
-        Array<InventoryItemLocation> items = new Array<InventoryItemLocation>();
-        for(int i = 0; i < cells.size; i++) {
-            InventorySlot inventorySlot = (InventorySlot) cells.get(i).getActor();
-            if(!(inventorySlot == null)) {
-                int numItems = inventorySlot.getNumItems();
-                if(numItems > 0) {
-                    items.add(new InventoryItemLocation(i, inventorySlot.getTopInventoryItem().toString(),
-                                                numItems, inventorySlot.getTopInventoryItem().getName()));
-                }
-            }
+    	else if(itemID == ItemTypeID.MEDAL) {
+            return noMedals;
         }
-        return items;
-    }
-
-    public boolean doesInventoryHaveSpace() {
-        Array<Cell> sourceCells = inventorySlotTable.getCells();
-        int index = 0;
-        for(; index < sourceCells.size; index++) {
-            InventorySlot inventorySlot = (InventorySlot) sourceCells.get(index).getActor();
-            if(!(inventorySlot == null)) {
-                int numItems = inventorySlot.getNumItems();
-                if(numItems == 0) {
-                    return true;
-                }
-                else {
-                    index++;
-                }
-            }
-        }
-        return false;
+    	return -1; // if no type matches
     }
 
     public void addItemToInventory(InventoryItem item, String itemName) {

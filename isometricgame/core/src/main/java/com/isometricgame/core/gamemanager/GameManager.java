@@ -79,7 +79,7 @@ public class GameManager {
 	}
 	
 	public void inventoryRemoveOneCoin() {
-		inventoryUI.removeOneItemFromInventory(ItemTypeID.COIN);
+		inventoryUI.removeBulkItems(ItemTypeID.COIN, 1);
 	}
 	
 	public int inventoryGetItemNumber(ItemTypeID typeID) {
@@ -107,6 +107,7 @@ public class GameManager {
 
 	// Add a medal to the inventory if the pass condition is true
 	public void checkPassedState(InventoryUI currentInventory){
+		// TODO: LibGDX doesn't like the use of iterators, doesn't always compile
 		for(String key: gameStates.keySet()){
 			if(gameStates.get(key).passed == true){
 				InventoryItemFactory factory = InventoryItemFactory.getInstance();
@@ -116,7 +117,6 @@ public class GameManager {
 		}
 	}
 
-
 	public Player getPlayer() {
 		return player;
 	}
@@ -124,7 +124,7 @@ public class GameManager {
 	public void newGameStateByName(String gsName) {
 		GameState newGS = null;
 		
-		//Added new gameState or replaced the failed state with a newly-created one
+		// Add new GameState or replace the failed state with a newly-created one
 		if(gsName.contains("DROPGAME1")) {
 			newGS = new GameDropEasy(this);
 		}else if(gsName.contains("DROPGAME2")) {
@@ -170,6 +170,10 @@ public class GameManager {
 
 	public int getNumCoins() {
 		return inventoryUI.getNoCoins();
+	}
+
+	public int getNumMedals() {
+		return inventoryUI.getNoMedals();
 	}
 
 	public InventoryUI getInventoryUI() {
