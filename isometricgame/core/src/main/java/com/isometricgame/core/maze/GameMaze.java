@@ -114,7 +114,7 @@ public class GameMaze extends GameState {
 			
 		renderer.render();
 
-		if(score.size() != 4 && timeReamining > 0) {
+		if(timeReamining > 0) {
 			batch.begin();
 
 			timer.draw(batch,String.valueOf(timeReamining), 1000 , 700);
@@ -146,21 +146,7 @@ public class GameMaze extends GameState {
 			scoreFont.draw(batch, target, 0, 500);
 
 			batch.end();
-		} else if(score.size() == 4) {
-			if(checkScore()){
-				//set the first game state passed to true so that the trigger point can detect correctly
-				gm.inventoryAddMedals();
-				passed = true;
-				gm.setCurrGameState("MAINGAME");
-			} else {
-				batch.begin();
-	            batch.draw(failure, 0, 0, 1200, 750);
-	            batch.end();
-	            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) { 
-	                gm.setCurrGameState("MAINGAME");
-	            }
-			}
-		} else if(timeReamining <= 0){
+		} else {
 			batch.begin();
             batch.draw(failure, 0, 0, 1200, 750);
             batch.end();
@@ -168,6 +154,25 @@ public class GameMaze extends GameState {
                 gm.setCurrGameState("MAINGAME");
             }
 		}
+
+		if(score.size() == 4){
+		  if(checkScore()) {
+			  if(foundExit()){
+				gm.inventoryAddMedals();
+				passed = true;
+				gm.setCurrGameState("MAINGAME");
+			  }
+			}
+		}
+			//set the first game state passed to true so that the trigger point can detect correctly
+		// } else {
+		// 	batch.begin();
+		// 	batch.draw(failure, 0, 0, 1200, 750);
+		// 	batch.end();
+		// 	if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) { 
+		// 		gm.setCurrGameState("MAINGAME");
+		// 	}
+		// }
 
 		//System.out.println(player.getX());
 		//System.out.println(player.getY());
@@ -179,6 +184,7 @@ public class GameMaze extends GameState {
 
 		cam.update();
 	}
+
 
 	@Override
 	public void show() {
@@ -312,6 +318,16 @@ public class GameMaze extends GameState {
 			s += score.get(i);
 		}
 		return s;
+	}
+
+
+	private boolean foundExit() {
+		if((player.getX() >= 890) && (player.getX() < 890 + 50)){
+			if((player.getY() >= 650) && (player.getY() < 650 + 50)){
+				return true;
+			}
+		}
+		return false;
 	}
 }
 

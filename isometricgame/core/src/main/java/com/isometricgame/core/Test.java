@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.isometricgame.core.Villager;
 import com.isometricgame.core.charactermanager.People;
 import com.isometricgame.core.gamemanager.GameManager;
+import com.isometricgame.core.gamemanager.GameState;
 
 
 /* 
@@ -32,7 +33,7 @@ public class Test {
 
         rigorousTest(); 
         
-        testVillager(); 
+        testVillager();
 
         testCoin(); 
 
@@ -57,10 +58,13 @@ public class Test {
             @Override
             public void create() {
 
+                GameState currentState; 
+
                 GameAvoid testGameAvoid = new GameAvoid(gm);
-
                 gm.newGameStateByName("AVOIDGAME");
+                gm.setCurrGameState("AVOIDGAME");
 
+                currentState = gm.getGameState(); 
             }
         }; 
     }
@@ -94,7 +98,6 @@ public class Test {
         assert(testVillager.initial_y() == 10); 
         assert(testVillager.getPositionX() == 10); 
         assert(testVillager.getPositionY() == 10); 
-
         System.out.println("villagerTest - Status: Passed");
 
     }

@@ -89,21 +89,15 @@ public class InventoryUI extends Window {
     public void removeBulkItems(ItemTypeID itemID, int amount) {
     	switch(itemID) {
     	case COIN:
-    		if(noCoins > 0 && noCoins - amount > 0) {
+    		if(noCoins - amount >= 0) {
     			noCoins -= amount;
     			//System.out.println("Number of coins is " + noCoins);
-            }
-            else if(noCoins > 0 && noCoins - amount == 0) {
-                // TODO: REMOVE INVENTORY SLOT
             }
     		break;
     	case MEDAL:
     		if(noMedals > 0 && noMedals - amount >= 0) {
                 noMedals -= amount;
                 //System.out.println("Number of coins is " + noMedals);
-            }
-            else if(noMedals > 0 && noMedals - amount == 0) {
-                // TODO: REMOVE INVENTORY SLOT
             }
     		break;
     	default:
