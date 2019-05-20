@@ -83,14 +83,6 @@ public class GameManager {
 	public int inventoryGetItemNumber(ItemTypeID typeID) {
 		return inventoryUI.getItemNumber(typeID);
 	}
-
-	public int getNumCoins() {
-		return inventoryUI.getItemNumber(ItemTypeID.COIN);
-	}
-
-	public int getNumMedals() {
-		return inventoryUI.getItemNumber(ItemTypeID.MEDAL);
-	}
 	
 	public String[] getAllGameNames() {
 		return stateName;

@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
 import com.isometricgame.core.ui.InventoryUI;
+import com.isometricgame.core.ui.InventoryItem.ItemTypeID;
 import com.isometricgame.core.charactermanager.People;
 import com.isometricgame.core.charactermanager.Property;
 import com.isometricgame.core.charactermanager.TriggerPoint;
@@ -254,7 +255,7 @@ public class GameMAIN extends GameState {
 			}
 
 			// TODO: Fix slot problem
-			noCoins = "" + gm.getNumCoins();
+			noCoins = "" + gm.inventoryGetItemNumber(ItemTypeID.COIN);
 			if(!noCoins.equals("0") && !noCoins.equals("1")){
 				coinCount.draw(textbatch, noCoins, 68, 643); 
 			}
@@ -611,7 +612,6 @@ public class GameMAIN extends GameState {
 	}
 
 	// Remove the coins if the villagers are collided with. 
-	// TODO: Lizzie will fix this
 	private void checkVillagerCollisions(float x, float y) {
 		for(int i = 0; i < people.size(); i++) {
 			if(people.get(i).containPoint(x, y)) {
@@ -619,11 +619,6 @@ public class GameMAIN extends GameState {
 				scream.setVolume(50);
 				if(people.get(i).isBumpingInto()) {
 					gm.inventoryRemoveOneCoin();
-					if(gm.getNumCoins() == 0){
-						InventoryUI inventoryUI = gm.getInventoryUI();
-						Table inventoryTable  =  inventoryUI.getInventorySlotTable(); 
-						inventoryUI.removeInventoryItems("COIN", inventoryTable); 
-					}
 				}
 			}
 		}
