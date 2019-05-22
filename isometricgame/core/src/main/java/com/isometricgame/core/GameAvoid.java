@@ -37,7 +37,7 @@ public class GameAvoid extends GameState {
     private BitmapFont timer; 
     private String target = ""; 
     private String targetstring = ""; 
-    private int num;
+    private static int num;
     private ShapeRenderer shapeRenderer;
     private Player player;
     private int elapsedSeconds = 0;
@@ -224,7 +224,7 @@ public class GameAvoid extends GameState {
     }
 
         
-    private int RandNum(double min, double max){
+    public static int RandNum(double min, double max){
         double n;
         n = (Math.random()*((max-min)+1))+min;
         num = (int)n;

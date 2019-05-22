@@ -6,6 +6,8 @@ import com.isometricgame.core.Villager;
 import com.isometricgame.core.charactermanager.People;
 import com.isometricgame.core.gamemanager.GameManager;
 import com.isometricgame.core.gamemanager.GameState;
+import com.isometricgame.core.clickdrag.Puzzles;
+import com.isometricgame.core.GameAvoid;
 
 
 /* 
@@ -16,6 +18,9 @@ javac -d . -cp ~/.m2/repository/com/badlogicgames/gdx/gdx/1.9.9/gdx-1.9.9.jar:/h
 
 java -ea -cp ~/.m2/repository/com/badlogicgames/gdx/gdx/1.9.9/gdx-1.9.9.jar:/home/dev1/GitProjects/IsometricGame/isometricgame/core/target/isometricgame-core-1.0-SNAPSHOT.jar com.isometricgame.core.Test
 
+javac -d . -cp ~/.m2/repository/com/badlogicgames/gdx/gdx/1.9.9/gdx-1.9.9.jar:/Users/wenhsiuhsu/Desktop/UoB\ computer\ science/Group\ project/IsometricGame/isometricgame/core/target/isometricgame-core-1.0-SNAPSHOT.jar Test.java
+
+java -ea -cp ~/.m2/repository/com/badlogicgames/gdx/gdx/1.9.9/gdx-1.9.9.jar:/Users/wenhsiuhsu/Desktop/UoB\ computer\ science/Group\ project/IsometricGame/isometricgame/core/target/isometricgame-core-1.0-SNAPSHOT.jar com/isometricgame/core/Test
 
 */
 
@@ -53,20 +58,8 @@ public class Test {
 
     private static void testGameAvoid(){
 
-        Game testGame = new Game(){
-        
-            @Override
-            public void create() {
-
-                GameState currentState; 
-
-                GameAvoid testGameAvoid = new GameAvoid(gm);
-                gm.newGameStateByName("AVOIDGAME");
-                gm.setCurrGameState("AVOIDGAME");
-
-                currentState = gm.getGameState(); 
-            }
-        }; 
+        int number = GameAvoid.RandNum(1, 15);
+        assert(number >= 1 && number <= 15);
     }
 
     private static void testPenguin(){
@@ -85,10 +78,6 @@ public class Test {
 
     }
 
-    
-
-
-
     //Villager inhereits all of the functionality of people 
     private static void testVillager(){
         Villager testVillager = new Villager(10, 10); 
@@ -102,7 +91,24 @@ public class Test {
 
     }
 
+    // click and drag
+    private static void testClickPuzzles() {
+        Puzzles game = new Puzzles();
+        
+        game.bineryAnswer = game.bineryAddition("01", "100");
+        assert(game.bineryAnswer.equals("101"));
 
+        game.checkAnswerLength();
+        assert(game.bineryAnswer.equals("0101"));
+
+        assert(game.index(290) == 0);
+        assert(game.index(400) == 1);
+        assert(game.index(800) == -1);
+        assert(game.mouseHovering(950, 250) == true);
+        assert(game.mouseHovering(800, 250) == false);
+        assert(game.mouseHovering(950, 100) == false);
+        assert(game.mouseHovering(800, 100) == false);
+    }
 
     
 }
