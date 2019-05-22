@@ -44,7 +44,8 @@ public class Puzzles implements ApplicationListener {
 	private List<Piece> puzzles = new ArrayList<Piece>();
 	private List<Piece> targets = new ArrayList<Piece>();
 
-	private String bineryOne = "", bineryTwo = "", bineryAnswer = "";
+	private String bineryOne = "", bineryTwo = "";
+	public String bineryAnswer = "";
 	private Image testImage;
 	private String[] targetAnswer = new String[5];
 
@@ -209,7 +210,7 @@ public class Puzzles implements ApplicationListener {
 		stage.addActor(addition);
 	}
 
-	private String bineryAddition(String one, String two) {
+	public String bineryAddition(String one, String two) {
 		int a = Integer.parseInt(one, 2);
 		int b = Integer.parseInt(two, 2);
 		int sum = a + b;
@@ -217,7 +218,7 @@ public class Puzzles implements ApplicationListener {
 		return Integer.toBinaryString(sum);
 	}
 
-	private void checkAnswerLength() {
+	public void checkAnswerLength() {
 		switch (bineryAnswer.length()) {
 			case 1:
 				bineryAnswer = "0000" + bineryAnswer;
@@ -234,7 +235,7 @@ public class Puzzles implements ApplicationListener {
 		}
 	}
 
-	private int index(float x) {
+	public int index(float x) {
 		switch((int) x) {
 			case 290:
 				return 0;
@@ -251,7 +252,7 @@ public class Puzzles implements ApplicationListener {
 		return -1;
 	}
 
-	private boolean mouseHovering(int x, int y) {
+	public boolean mouseHovering(int x, int y) {
 		if(x > TRYAGAIN_X && 
 		   x < TRYAGAIN_X + TRYAGAIN_WIDTH &&
 		   y > TRYAGAIN_Y &&
