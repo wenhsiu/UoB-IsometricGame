@@ -9,16 +9,13 @@ import com.isometricgame.core.gamemanager.GameManager;
 public class IsoGame extends Game {
 
 	private GameManager gm;
-	private Music backgroundMusic;	
-	
+		
 	@Override
 	public void create () {
 		gm = new GameManager(this);
 		gm.setCurrGameState("MENU");		
 
-		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Hypnotic-Puzzle3.mp3")); 
-		backgroundMusic.setLooping(true);
-		//backgroundMusic.play(); 
+		
 	}
 
 	@Override

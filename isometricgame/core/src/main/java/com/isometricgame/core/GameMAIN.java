@@ -115,6 +115,7 @@ public class GameMAIN extends GameState {
 	private String noMedals;
 	private BitmapFont medalCount;
 
+	private Music backgroundMusic;	
 
 	//Dragon flying 
 
@@ -173,7 +174,7 @@ public class GameMAIN extends GameState {
 		// Trigger mini games with phone boxes
 		checkTriggerGame(x, y); 		
 
-		System.out.println("Values of X and Y = " + x + " , " + y);
+		//System.out.println("Values of X and Y = " + x + " , " + y);
 
 		cam.position.set(x, y, 0);
 
@@ -273,6 +274,9 @@ public class GameMAIN extends GameState {
 	public void show() {
 		super.show();
 		mapRenderer.setView(cam);
+		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Hypnotic-Puzzle3.mp3")); 
+		backgroundMusic.setLooping(true);
+		backgroundMusic.play(); 
 	}
 
 	@Override
@@ -463,7 +467,8 @@ public class GameMAIN extends GameState {
 		for(int i = 0; i < tgp.size(); i++) {	
 			if(tgp.get(i).containPoint(x, y)) {
 				if(!tgp.get(i).getTriggerred()) {
-					tgp.get(i).triggerGame();
+					backgroundMusic.pause();
+					tgp.get(i).triggerGame();					
 				}
 			} else {
 				tgp.get(i).setTriggerred(false);

@@ -261,7 +261,7 @@ public class GameDrop extends GameState {
 		}
        
 		if (Score.size() == 4) {
-			rainMusic.pause();
+			//rainMusic.pause();
 			if (CheckScore()) {
 				right++;
 			} else {
