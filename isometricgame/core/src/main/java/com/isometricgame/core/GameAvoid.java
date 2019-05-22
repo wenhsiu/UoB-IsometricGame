@@ -35,22 +35,23 @@ public class GameAvoid extends GameState {
     private SpriteBatch batch;
     private BitmapFont scoreFont; 
     private BitmapFont timer; 
-    private String target = ""; 
+    public static String target = ""; 
     private String targetstring = ""; 
-    private static int num;
+    public static int num;
     private ShapeRenderer shapeRenderer;
     private Player player;
     private int elapsedSeconds = 0;
     private int timeremaining = 0;
-    private int pos1;
+    public static int pos1;
     private int times = 0;
     private int cnt = 0;
     private Music backgroundMusic; 
     long startTime = 0;
-    int scorearray[] = new int[3];
+    public static int scorearray[] = new int[3];
     int pos = 0;
     double oldx, oldy;
     long time= 0;
+    public static int t1, t2, t3;
 
     // public static Texture backgroundTexture;
     private Texture backgroundTexture = new Texture("window_0011_Vector-Smart-Object.png");
@@ -207,11 +208,10 @@ public class GameAvoid extends GameState {
                 }
             }
         }
-
         return false;
     }
 
-    private String generatebinarynumber() {
+    public static String generatebinarynumber() {
         for(int i=0; i < 4; i++) {
             if(RandNum(1,100)%2 == 0) {
                 target += "1";
@@ -232,10 +232,10 @@ public class GameAvoid extends GameState {
     }
     
     // generates the target and 2 random numbers then inserts these 3 numbers 
-    // into an array randomly so that the position of
+    // into an array randt1, t2, t3,omly so that the position of
     // the correct number moves between the 3 places
-    private void generatetargets() {
-        int t1, t2, t3, pos2=0;
+    public static void generatetargets() {
+        int pos2=0;
         int  pos3 = 0;
         t1 = CheckScore();
         t2 = t1;
@@ -267,7 +267,7 @@ public class GameAvoid extends GameState {
     }
     
     // this function checks to see if the binary matches the target 
-	public int CheckScore() {
+	public static int CheckScore() {
 		int Total = 0;
 
 		if(target.charAt(0) == '1') {

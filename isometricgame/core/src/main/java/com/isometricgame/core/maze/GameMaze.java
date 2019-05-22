@@ -53,8 +53,8 @@ public class GameMaze extends GameState {
 
 	private int cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0;
 	
-	private List<Integer> score = new ArrayList<>();
-	private int num;
+	public static List<Integer> score = new ArrayList<>();
+	public static int num;
 
 	private BitmapFont timer; 
 	private long startTime = 0;
@@ -121,6 +121,7 @@ public class GameMaze extends GameState {
 			player.draw(batch);
 
 			checkDigitsHit();
+       //Final Maze Game
 
 			if(cnt1 == 0){
 				batch.draw(digit1, 309, 93, 22, 22);
@@ -134,6 +135,7 @@ public class GameMaze extends GameState {
 			if(cnt4 == 0){
 				batch.draw(digit1, 885, 381, 22, 22);
 			}
+       //Final Maze Game
 
 			if(score.size() == 4 && checkScore()){
 				batch.draw(exit, 890, 650, 50, 50);
@@ -149,7 +151,8 @@ public class GameMaze extends GameState {
 		} else {
 			batch.begin();
             batch.draw(failure, 0, 0, 1200, 750);
-            batch.end();
+                  //Final Maze Game
+ batch.end();
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) { 
                 gm.setCurrGameState("MAINGAME");
 						}
@@ -162,8 +165,10 @@ public class GameMaze extends GameState {
 				passed = true;
 				gm.setCurrGameState("SUCCESS");
 			  }
-			}
-		}
+		       //Final Maze Game
+
+		}       //Final Maze Game
+
 			//set the first game state passed to true so that the trigger point can detect correctly
 		// } else {
 		// 	batch.begin();
@@ -183,6 +188,7 @@ public class GameMaze extends GameState {
 		}
 
 		cam.update();
+	}
 	}
 
 
@@ -286,7 +292,7 @@ public class GameMaze extends GameState {
 		}
 	}
 
-	public boolean checkScore() {
+	public static boolean checkScore() {
 		double Total = 0;
 
 		if(score.get(0) == 1) {

@@ -61,7 +61,7 @@ public class GameDrop extends GameState {
 	// intro
 	private Texture intro = new Texture("drop_intro2.png");
 
-	private List<Integer> Score = new ArrayList<Integer>();
+	public static List<Integer> Score = new ArrayList<Integer>();
 
 	public GameDrop(GameManager gm) {
 		super();
@@ -306,7 +306,7 @@ public class GameDrop extends GameState {
 		return false;
 	}
 	
-	public String CurrentScore(){
+	public static String CurrentScore(){
 		String s = " ";
 		for(int i =0; i < Score.size(); i++) {
 			s += Score.get(i);

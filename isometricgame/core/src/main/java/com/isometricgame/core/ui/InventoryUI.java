@@ -23,8 +23,8 @@ public class InventoryUI extends Window {
     private final int slotWidth = 48;
     private final int slotHeight = 48;
 
-    private int noCoins;
-    private int noMedals;
+    public static int noCoins;
+    public static int noMedals;
 
     public InventoryUI() {
         super("Inventory", Utility.STATUSUI_SKIN, "default");
@@ -138,7 +138,7 @@ public class InventoryUI extends Window {
         return inventoryActors;
     }
 
-    public int getInventoryTime() {
+    public static int getInventoryTime() {
         int time = (noCoins * 2) + (noMedals * 20);
         return time;
     }
